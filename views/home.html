@@ -1,0 +1,87 @@
+{{> navigation}}
+
+  <!-- ======= Hero Section ======= -->
+  <section id="hero">
+
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6 pt-5 pt-lg-0 order-2 order-lg-1 d-flex flex-column justify-content-center" data-aos="fade-up">
+          <div>
+            <h1><span id="teamColor"></span></h1>
+            <h2>ענו על החידה שלמטה ובידקו אם הוקטור שקיבלתם נכון לפני שאתם יוצאים לדרך</h2>
+            <!-- <a href="#about" class="btn-get-started scrollto">Get Started</a> -->
+          </div>
+        </div>
+        <div class="col-lg-6 order-1 order-lg-2 hero-img" data-aos="fade-left">
+          <img src="./img/th/treasurehunt.jpg" class="img-fluid" alt="">
+        </div>
+      </div>
+    </div>
+
+  </section><!-- End Hero -->
+
+  <main id="main">
+
+    <!-- ======= About Section ======= -->
+    <section id="about" class="about">
+      <div class="container" id="aboutContainer">
+
+        <div class="row">
+          <div class="col-lg-6 img-center" data-aos="zoom-in">
+            <img src="./img/about.jpg" class="img-fluid" alt="" id="riddleImg">
+          </div>
+          <div class="col-lg-6 d-flex flex-column justify-contents-center" data-aos="fade-left">
+            <div class="content pt-4 pt-lg-0">
+              <h3>חידה מספר <label id="riddleIndex"></label></h3>
+              <div id="theRiddle"></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section><!-- End About Section -->
+
+    <!-- ======= Cta Section ======= -->
+    <section id="cta" class="cta">
+      <div class="container">
+
+        <div class="row" data-aos="zoom-in">
+          <div class="col-lg-5 text-center text-lg-start">
+            <h3>בידקו אם הוקטור שקיבלתם נכון</h3>
+            <div class="checker">
+              <form id="checkForm" action="#">
+                <input type="hidden" value="" id="rIndex"/>
+                <input type="hidden" value="" id="team"/>
+                <div class="form-group">
+                  <label for="vectorSize">כיתבו את גודל הוקטור שקיבלתם:</label>
+                  <input value="" type="number" class="form-control" id="vectorSize" placeholder="גודל הוקטור...">
+                </div>
+                <div class="form-group">
+                  <label for="vectorAngle">כיתבו את הזווית שקיבלתם:</label>
+                  <input value="" type="number" class="form-control" id="vectorAngle" placeholder="כיוון הוקטור...">
+                </div>
+                <br/>
+                <div class="form-group">
+                  <div class="col-lg-3 cta-btn-container text-center">
+                    <button type="submit" class="cta-btn align-middle" id="checker">בדיקה</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+          
+          <div class="col-lg-5 text-center text-lg-start">
+            <h3>&nbsp;</h3>
+            <p><label id="errorMsg" class="errorMsg"></label></p>
+            <p><label id="instructions" class="instructions"></label></p>
+          </div>
+        </div>
+
+      </div>
+    </section><!-- End Cta Section -->
+
+    
+
+  </main><!-- End #main -->
+
+{{> footer}}
