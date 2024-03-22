@@ -1,9 +1,16 @@
 /**
+ * --------------------------
+ * Treasure Hunt Application
+ * --------------------------
+ * 
  * @desc Logger functions that provide access to the console
  * 
+ * Org: Mashar / Kfar-Sava
  * By: Oded Cnaan
- * April 2019
+ * Date: March 2024
  */
+"use strict";
+//================ IMPORTS =================
 import colors from 'colors';
 import conf from "../config/config.js";
 var padding = 100;

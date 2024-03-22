@@ -1,10 +1,15 @@
 /**
- * Config file
+ * --------------------------
+ * Treasure Hunt Application
+ * --------------------------
  * 
+ * @desc Cםמכןעורשאןםמ גשאש
+ * 
+ * Org: Mashar / Kfar-Sava
  * By: Oded Cnaan
- * April 2019
+ * Date: March 2024
  */
-'use strict';
+"use strict";
 
 
 const config = {

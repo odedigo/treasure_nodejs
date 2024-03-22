@@ -1,4 +1,16 @@
-//db.js
+/**
+ * --------------------------
+ * Treasure Hunt Application
+ * --------------------------
+ * 
+ * @desc connect to a remote MongoDB database
+ * 
+ * Org: Mashar / Kfar-Sava
+ * By: Oded Cnaan
+ * Date: March 2024
+ */
+"use strict";
+//================ IMPORTS =================
 import config from "../config/config.js";
 import { connect } from 'mongoose';
 
@@ -14,7 +26,10 @@ function getDbUri(conf) {
     return `${conf.protocol}://${process.env.DBUSER}:${process.env.DBPASS}@${conf.clusterURI}/${conf.dbname}?${conf.path}`
 }
   
-
+/**
+ * Connect to DB
+ * @param {*} callback 
+ */
 export function connectDB(callback) {
     var url = getDbUri(config.config.mongodb)
     connect(url,connectionParams)

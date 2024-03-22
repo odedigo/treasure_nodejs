@@ -1,12 +1,16 @@
 /**
- * Status Model
+ * --------------------------
+ * Treasure Hunt Application
+ * --------------------------
  * 
+ * @desc Status model
+ * 
+ * Org: Mashar / Kfar-Sava
  * By: Oded Cnaan
- * March 2024
+ * Date: March 2024
  */
-
-'use strict';
-
+"use strict";
+//================ IMPORTS =================
 import { Schema, model } from 'mongoose';
 
 const TeamStatus = new Schema({

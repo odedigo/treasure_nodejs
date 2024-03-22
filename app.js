@@ -1,15 +1,26 @@
+/**
+ * --------------------------
+ * Treasure Hunt Application
+ * --------------------------
+ * 
+ * @desc Main NodeJS application 
+ * 
+ * Org: Mashar / Kfar-Sava
+ * By: Oded Cnaan
+ * Date: March 2024
+ */
 "use strict";
+//================ IMPORTS =================
 import express from 'express'; //https://expressjs.com/ 
-import { engine } from 'express-handlebars'; //engine MUSS engine heissen... https://www.npmjs.com/package/express-handlebars?activeTab=readme 
+import { engine } from 'express-handlebars'; //engine MUST be called engine... https://www.npmjs.com/package/express-handlebars?activeTab=readme 
 import * as hbs_helpers from './public/js/helpers.js'
 import pkg from 'body-parser';
 const { urlencoded } = pkg;
 import http from 'http';
 import { connectDB } from './db/db.js';
-
 import routing from './routes/index.js'; 
 
-//Zusätzliche
+//Additional
 import { HTTPS } from 'express-sslify'; //https://www.npmjs.com/package/express-sslify 
 import { config } from 'dotenv'; //https://www.npmjs.com/package/dotenv
 config({ path: './config.env' });
@@ -21,25 +32,22 @@ if (process.env.ENVIROMENT != "local") {
 }
 
 //Middlewares
-app.use(express.static('./public')); //Statische Inhalte direkt ausliefern. /public/ in den Sites-Pfaden nicht angeben!
-app.use(urlencoded({ extended: false })); //Formulardaten parsen
+app.use(express.static('./public')); //Deliver static content directly. Do not specify /public/ in the sites paths!
+app.use(urlencoded({ extended: false }));
 
 //Handlebars Config
 app.engine('.html', engine({ 
     extname: '.html',
-    helpers: hbs_helpers, 
-})); //Achtung .html mit PUNKT
+    helpers: hbs_helpers, // these are the delper functions for generating the page content
+})); 
 
 app.set('view engine', '.html');
 app.set('views', './views');
 
 //Routing
 app.use('/', routing); // routing module with all routes, which in turn points to controllers
-/*app.get('*',function (req, res) {
-    res.redirect('/err');
-});*/
 
-// Status
+// DB Status
 app.set('db_connected', false); 
 
 //Express-Server

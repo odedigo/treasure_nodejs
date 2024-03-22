@@ -1,10 +1,16 @@
 /**
- * Game Model
+ * --------------------------
+ * Treasure Hunt Application
+ * --------------------------
  * 
+ * @desc Game model
+ * 
+ * Org: Mashar / Kfar-Sava
  * By: Oded Cnaan
- * March 2024
+ * Date: March 2024
  */
-'use strict';
+"use strict";
+//================ IMPORTS =================
 
 import { Schema , model } from 'mongoose';
 
