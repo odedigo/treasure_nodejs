@@ -11,15 +11,7 @@
  * Event handler - page loaded
  */
 window.addEventListener('load', () => {
-    // Validate URL params.
-    // 2 params are required: team (red/green/blue) and index (1 to 5)
-    team = getParameterValues('team')
-    rindex = getParameterValues('index')
-    if (!isValidParams(team,rindex)) {
-        //window.location = "err.html" // redirect to an error page
-        //return;
-    }
-    loadRiddles(populateData); // Load the riddle data from Json file
+    //populateData(); // Load the riddle data from Json file
     loadStrings();
 
     // Register for form submission events (checking vector correctness)
@@ -31,47 +23,14 @@ window.addEventListener('load', () => {
 });
 
 /**
- * Populate page data based on URL params and riddles json
- */
-function populateData() {
-    let data = riddles[team]; // this team's data
-
-    debugLog(team,rindex)
-    debugLog(data)    
-
-    //updateTeamStatus(team,rindex)
-
-    // Colors
-    var el = findElement('teamColor');
-    el.innerHTML = data.team;
-    el.style.color = data.color;
-
-    el = findElement('aboutContainer');
-    el.style.backgroundColor = data.bgColor;
-
-    // Form hidden fields
-    el = findElement('team');
-    el.value = team
-
-    el = findElement('rIndex');
-    el.value = rindex
-    
-    // Riddle related texts
-    el = findElement('theRiddle');
-    el.innerHTML = generateRiddleHtml(data)
-
-    el = findElement('riddleIndex');
-    el.innerHTML = rindex
-}
-
-/**
  * Validates if the queried vector (size and angle) are correct
  * @param {*} form 
  * @returns boolean
  */
 function checkVector(form) {
     clearMsgs();
-    var data = riddles[team];
+    //var data = riddles[team];
+    let data = getTeamData();
 
     // form data
     var vs = form.vectorSize.value
@@ -147,29 +106,3 @@ function clearMsgs() {
     el.innerHTML = ""
 }
 
-/**
- * Generates the HTML of the riddle itself
- * @param {*} data 
- * @returns string
- */
-function generateRiddleHtml(data) {
-    const rdl = data.riddles.filter((rdl) => (rdl.index == rindex) )[0]
-    var str = `<p class="fst-italic">
-      ${rdl.riddle[0]}
-    </p>
-    <ul>`;
-
-    var i=1
-    for (; i < rdl.riddle.length -1 ; i++) {
-            str += `<li><i class="bi bi-check-circle"> ${rdl.riddle[i]}</i></li>`;
-    }
-      
-    str += `</ul>
-    <p class="final-inst">
-      ${rdl.riddle[i]}
-    </p>`
-
-    el = findElement("riddleImg")
-    el.src = `./img/rdl/${rdl.img}`
-    return str;
-}

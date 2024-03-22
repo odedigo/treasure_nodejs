@@ -1,6 +1,7 @@
 "use strict";
 import express from 'express'; //https://expressjs.com/ 
 import { engine } from 'express-handlebars'; //engine MUSS engine heissen... https://www.npmjs.com/package/express-handlebars?activeTab=readme 
+import * as hbs_helpers from './public/js/helpers.js'
 import pkg from 'body-parser';
 const { urlencoded } = pkg;
 import http from 'http';
@@ -24,7 +25,11 @@ app.use(express.static('./public')); //Statische Inhalte direkt ausliefern. /pub
 app.use(urlencoded({ extended: false })); //Formulardaten parsen
 
 //Handlebars Config
-app.engine('.html', engine({ extname: '.html' })); //Achtung .html mit PUNKT
+app.engine('.html', engine({ 
+    extname: '.html',
+    helpers: hbs_helpers, 
+})); //Achtung .html mit PUNKT
+
 app.set('view engine', '.html');
 app.set('views', './views');
 
@@ -39,7 +44,6 @@ app.set('db_connected', false);
 
 //Express-Server
 const port = process.env.PORT || 5500;
-console.log(process.env.NODE_ENV)
 
 connectDB(function(status) {
     // Start server (listen)

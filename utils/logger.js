@@ -22,7 +22,7 @@ export function info(str) {
         if (typeof str === "object") {
             str = JSON.stringify(str, null, 4)+ "\n";
         }
-        console.log(getTime().gray+" INFO: ".bold.green  + str.green.padEnd(padding)+ "[".gray+debugLine().gray+"] ".gray);
+        console.log(getTime().gray+" INFO: ".green  + str.green.padEnd(padding)+ "[".gray+debugLine().gray+"] ".gray);
     }
 }
 
@@ -44,7 +44,7 @@ export function debug(str) {
         if (typeof str === "object") {
             str = JSON.stringify(str, null, 4) + "\n";
         }
-        console.debug(getTime().gray+" DEBUG: ".bold.yellow  + str.yellow.padEnd(padding)+ " [".gray+debugLine().gray+"] ".gray);
+        console.debug(getTime().gray+" DEBUG: ".yellow  + str.yellow.padEnd(padding)+ " [".gray+debugLine().gray+"] ".gray);
     }
 }
 
@@ -65,7 +65,7 @@ export function error(str) {
     if (typeof str === "object") {
         str = JSON.stringify(str, null, 4)+ "\n";
     }
-    console.log(getTime().gray+" ERROR: ".bold.bgRed.white + str.red.padEnd(padding) + " [".gray+debugLine().gray+"] ".gray );
+    console.log(getTime().gray+" ERROR: ".bgRed.white + str.red.padEnd(padding) + " [".gray+debugLine().gray+"] ".gray );
 }
 
 export function errorM() {
