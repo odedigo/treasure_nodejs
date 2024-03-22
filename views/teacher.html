@@ -5,9 +5,9 @@
     <div class="container d-flex align-items-center">
 
       <div class="logo me-right">
-        <h1><a href="index.html"><img src="./img/th/header.png" /></a></h1>
+        <h1><a href="index.html"><img src="/img/th/header.png" /></a></h1>
         <!-- Uncomment below if you prefer to use an image logo -->
-        <!-- <a href="index.html"><img src="./img/logo.png" alt="" class="img-fluid"></a>-->
+        <!-- <a href="index.html"><img src="/img/logo.png" alt="" class="img-fluid"></a>-->
       </div>
 
       <nav id="navbar" class="navbar order-last order-lg-0">
@@ -60,7 +60,7 @@
           </div>
         </div>
         <div class="col-lg-6 order-1 order-lg-2 hero-img" data-aos="fade-left">
-          <img src="./img/th/treasurehunt.jpg" class="img-fluid" alt="">
+          <img src="/img/th/treasurehunt.jpg" class="img-fluid" alt="">
         </div>
       </div>
     </div>
@@ -82,7 +82,8 @@
 
         <div class="testimonials-slider swiper" data-aos="fade-up" data-aos-delay="100">
           <div class="swiper-wrapper" id="swiper-wrapper-blue">
-            
+              
+            {{{teacher_generateTeamRiddles teamData 'blue'}}}
 
           </div>
           <div class="swiper-pagination"></div>
@@ -102,7 +103,8 @@
   
           <div class="testimonials-slider swiper" data-aos="fade-up" data-aos-delay="100">
             <div class="swiper-wrapper" id="swiper-wrapper-green">
-              
+
+              {{{teacher_generateTeamRiddles teamData 'green'}}}
   
             </div>
             <div class="swiper-pagination"></div>
@@ -123,6 +125,7 @@
         <div class="testimonials-slider swiper" data-aos="fade-up" data-aos-delay="100">
           <div class="swiper-wrapper" id="swiper-wrapper-red">
             
+            {{{teacher_generateTeamRiddles teamData 'red'}}}
 
           </div>
           <div class="swiper-pagination"></div>
@@ -150,21 +153,21 @@
 
           <div class="col-lg-4 col-md-6">
             <div class="member" data-aos="zoom-in">
-              <div class="pic"><img id="bluemap" src="./img/th/bluemap.png" class="img-fluid imgSmall" alt=""></div>
+              <div class="pic"><img id="bluemap" src="/img/th/bluemap.png" class="img-fluid imgSmall" alt=""></div>
               
             </div>
           </div>
 
           <div class="col-lg-4 col-md-6">
             <div class="member" data-aos="zoom-in" data-aos-delay="100">
-              <div class="pic"><img id="greenmap" src="./img/th/greenmap.png" class="img-fluid imgSmall" alt=""></div>
+              <div class="pic"><img id="greenmap" src="/img/th/greenmap.png" class="img-fluid imgSmall" alt=""></div>
               
             </div>
           </div>
 
           <div class="col-lg-4 col-md-6">
             <div class="member" data-aos="zoom-in" data-aos-delay="200">
-              <div class="pic"><img id="redmap" src="./img/th/redmap.png" class="img-fluid imgSmall" alt=""></div>
+              <div class="pic"><img id="redmap" src="/img/th/redmap.png" class="img-fluid imgSmall" alt=""></div>
               
             </div>
           </div>
