@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Oded Cnaan",
   "main": "app.js",
+  "type": "module",
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js",
@@ -12,10 +13,12 @@
   "license": "None",
   "dependencies": {
     "body-parser": "^1.20.2",
+    "colors": "^1.4.0",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "express-handlebars": "^7.1.2",
     "express-sslify": "^1.2.0",
+    "mongoose": "^8.2.2",
     "nodemailer": "^6.9.6"
   }
 }

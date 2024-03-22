@@ -1,8 +1,5 @@
 "use strict";
-const renderErr = (req, res) => {
+export function renderErr(req, res) {
     res.render('err');
 }
 
-module.exports = {
-    renderErr
-};
