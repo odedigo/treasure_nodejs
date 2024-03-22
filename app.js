@@ -14,15 +14,14 @@
 import express from 'express'; //https://expressjs.com/ 
 import { engine } from 'express-handlebars'; //engine MUST be called engine... https://www.npmjs.com/package/express-handlebars?activeTab=readme 
 import * as hbs_helpers from './public/js/helpers.js'
-import pkg from 'body-parser';
-const { urlencoded } = pkg;
-import http from 'http';
+//import http from 'http';
 import { connectDB } from './db/db.js';
 import routing from './routes/index.js'; 
 
 //Additional
 import { HTTPS } from 'express-sslify'; //https://www.npmjs.com/package/express-sslify 
 import { config } from 'dotenv'; //https://www.npmjs.com/package/dotenv
+import bodyParser from 'body-parser';
 config({ path: './config.env' });
 
 //Start
@@ -33,7 +32,8 @@ if (process.env.ENVIROMENT != "local") {
 
 //Middlewares
 app.use(express.static('./public')); //Deliver static content directly. Do not specify /public/ in the sites paths!
-app.use(urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 //Handlebars Config
 app.engine('.html', engine({ 

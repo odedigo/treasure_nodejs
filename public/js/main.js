@@ -6,7 +6,16 @@
  * 
  * Template Name: Scaffold
  */
+let debugMode = false 
 
+/**
+ * Prints data only if in debug mode
+ * @param {*} msg 
+ */
+function debugLog(msg) {
+  if (debugMode) 
+      for (var i=0; i<arguments.length; i++) console.log(arguments[i]);
+}
 /**
  * Easy selector helper function
  */

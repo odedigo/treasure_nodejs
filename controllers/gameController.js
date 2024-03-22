@@ -13,7 +13,7 @@
 //================ IMPORTS =================
 import {GameModel} from "../db/models/GameModel.js";
 import * as logger from "../utils/logger.js"
-
+import strings from "../public/lang/strings.js"
 /**
  * Main rendering function
  * @param {*} req 
@@ -21,7 +21,7 @@ import * as logger from "../utils/logger.js"
  * @param {*} next 
  * @returns 
  */
-export function renderGame(req, res, next) {
+export function renderGame(req, res, obj) {
     // check if DB properly connected
     if(!req.app.get("db_connected")) {
         return res.status(500);
@@ -45,16 +45,34 @@ export function renderGame(req, res, next) {
         if (gameData) {
             // All good
             var gameJson = JSON.parse(JSON.stringify(gameData))
+            var errMsg = ''
+            var infoMsg = ''
+            var success = -1
+
+            var rdl = gameJson[team].riddles.filter((rdl) => (rdl.index == index) )[0]
+
+            if (obj.method == 'post') {
+                var {vectorSize, vectorAngle} = req.body
+                if (!isValidFormValue(vectorAngle) || !isValidFormValue(vectorSize)) {
+                    errMsg = strings.js.formEmpty
+                }
+                else {
+                    [success, errMsg, infoMsg] = checkVector(req.params, req.body, gameData[team])
+                }
+                
+            }
                                    
             // render game page with received content
             res.render('game' , { 
-                jsscript: '/js/student.js', 
+                jsscript: '/student.js', 
                 teamData: gameJson[team],   
-                rdl : gameJson[team].riddles.filter((rdl) => (rdl.index == index) )[0],
+                rdl,
                 team,
                 index,
                 branch,
-                teacher
+                teacher,
+                errMsg,
+                infoMsg
             });
         }
         else {
@@ -70,3 +88,71 @@ export function renderGame(req, res, next) {
     
 }
 
+function isValidFormValue(val) {
+    return (val !== undefined && val !== "")
+}
+
+/**
+ * Validates if the queried vector (size and angle) are correct
+ * @param {*} form 
+ * @returns boolean
+ */
+function checkVector(params, body, teamData) {
+    var errMsg = ''
+    var infoMsg = ''
+
+    // form data
+    var vs = body.vectorSize
+    var va = body.vectorAngle
+
+    // filter the riddle in the given index
+    const rdl = teamData.riddles.filter((rdl) => (rdl.index == params.index) )[0]
+    var i = 0
+
+    var success = -1; // may be -1 (error), 0 (success of a single vector) or 1-5 (success of multiple vectors)
+    if (rdl.vecSize.length == 1) {
+        // single vector 
+        success = checkAnswer(vs, va, rdl.vecSize[0], rdl.vecAngle[0], 1) ? 0 : -1
+    }
+    else {        
+        // multiple vectors in this riddle
+        for (; i < rdl.vecSize.length; i++) {
+            if (checkAnswer(vs,va,  rdl.vecSize[i], rdl.vecAngle[i], i+1)) {
+                success = i+1 // mark the index of this vector in the array
+            }
+        }
+    }
+
+    // Add message on the page    
+    if (success == -1) {
+        infoMsg = strings.js.badVector
+    }
+    else {
+        var num = 0
+        infoMsg = strings.js.goodVector
+        if (success > 0) {
+            num = success-1
+            infoMsg += `<p>שימו לב שזהו הוקטור ה ${success} ברשימה מתוך ${rdl.vecSize.length}</p>`
+        }
+        infoMsg += `<p class='vector' style='color:${teamData.color}'> (${rdl.vecSize[num]},${rdl.vecAngle[num]}°)</p>` 
+    }
+    return [success, errMsg, infoMsg];
+}
+ 
+/**
+ * Checks if the angle and size in the form match those in the json for this riddle
+ * @param {*} formSize 
+ * @param {*} formAngle 
+ * @param {*} jsonSize 
+ * @param {*} jsonAngle 
+ * @param {*} index 
+ * @returns boolean
+ */
+function checkAnswer(formSize, formAngle, jsonSize, jsonAngle, index) {
+    var deltaSize = 5
+    var deltaAngle = 5
+    if(Math.abs(formSize - jsonSize) > deltaSize || Math.abs(formAngle - jsonAngle) > deltaAngle) {
+        return false;
+    }
+    return true
+}

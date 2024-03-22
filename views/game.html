@@ -50,18 +50,18 @@
           <div class="col-lg-5 text-center text-lg-start">
             <h3>בידקו אם הוקטור שקיבלתם נכון</h3>
             <div class="checker">
-              <form id="checkForm" action="#">
-                <input type="hidden" value="{{index}}" id="rIndex"/>
-                <input type="hidden" value="{{team}}" id="team"/>
-                <input type="hidden" value="{{teacher}}" id="teacher"/>
-                <input type="hidden" value="{{branch}}" id="branch"/>
+              <form id="checkForm" action="?" method="POST" enctype='application/json'>
+                <input type="hidden" value="{{index}}" id="index" name="index"/>
+                <input type="hidden" value="{{team}}" id="team" name="team"/>
+                <input type="hidden" value="{{teacher}}" id="teacher" name="teacher"/>
+                <input type="hidden" value="{{branch}}" id="branch" name="branch"/>
                 <div class="form-group">
                   <label for="vectorSize">כיתבו את גודל הוקטור שקיבלתם:</label>
-                  <input value="" type="number" class="form-control" id="vectorSize" placeholder="גודל הוקטור...">
+                  <input value="" type="number" class="form-control" id="vectorSize" name="vectorSize" placeholder="גודל הוקטור...">
                 </div>
                 <div class="form-group">
                   <label for="vectorAngle">כיתבו את הזווית שקיבלתם:</label>
-                  <input value="" type="number" class="form-control" id="vectorAngle" placeholder="כיוון הוקטור...">
+                  <input value="" type="number" class="form-control" id="vectorAngle" name="vectorAngle" placeholder="כיוון הוקטור...">
                 </div>
                 <br/>
                 <div class="form-group">
@@ -75,8 +75,8 @@
           
           <div class="col-lg-5 text-center text-lg-start">
             <h3>&nbsp;</h3>
-            <p><label id="errorMsg" class="errorMsg"></label></p>
-            <p><label id="instructions" class="instructions"></label></p>
+            <p><label id="errorMsg" class="errorMsg">{{{errMsg}}}</label></p>
+            <p><label id="instructions" class="instructions">{{{infoMsg}}}</label></p>
           </div>
         </div>
 
