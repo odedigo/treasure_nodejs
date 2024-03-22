@@ -13,7 +13,7 @@
 //================ IMPORTS =================
 import { Router } from 'express';
 const router = Router();
-import { renderGame } from '../controllers/gameController.js'; 
+import { renderGame, validateVector } from '../controllers/gameController.js'; 
 import { renderTeacher } from '../controllers/teacherController.js';
 import { renderErr } from '../controllers/errController.js';
 
@@ -31,7 +31,7 @@ router.get('/game/:branch/:team/:index/:teacher?', (req, res) => { //Game Site
 });
 
 // Students game
-router.post('/game/:branch/:team/:index/:teacher?', (req, res) => { //Game Site 
+/*router.post('/game/:branch/:team/:index/:teacher?', (req, res) => { //Game Site 
     var {branch,team,index,teacher} = req.params
     if ((team === undefined || index === undefined || branch === undefined) ||
         (team != 'red' && team != 'green' && team != 'blue') ||
@@ -41,7 +41,7 @@ router.post('/game/:branch/:team/:index/:teacher?', (req, res) => { //Game Site
     else {
         renderGame(req, res, {method: 'post'});
     }
-});
+});*/
 
 // Teacher's site
 router.get('/teacher/:brnch/', (req, res) => { //Teacher Site
@@ -54,8 +54,7 @@ router.get('/err', (req, res) => { //Err Site
 });
 
 router.post('/vector', (req, res) => {
-    console.log(req.body)
-    res.status(200)
+    validateVector(req,res)
 });
 
 

@@ -64,7 +64,7 @@ export function renderGame(req, res, obj) {
                                    
             // render game page with received content
             res.render('game' , { 
-                jsscript: '/student.js', 
+                jsscript: '/js/student.js', 
                 teamData: gameJson[team],   
                 rdl,
                 team,
@@ -82,10 +82,53 @@ export function renderGame(req, res, obj) {
     .catch(err => {
         console.log(err)
         res.redirect('/err')
+    }) 
+}
+
+
+export function validateVector(req, res) {
+    // check if DB properly connected
+    if(!req.app.get("db_connected")) {
+        return res.status(500);
+    }
+
+    // Find relevant document in DB that describes the game
+    var {branch,team,index,teacher,vectorSize,vectorAngle} = req.body
+    var query = {
+        branch, 
+        active:true
+    }
+    if (isValidFormValue(teacher)) {
+        query["teacher"] = teacher
+    }
+
+    // Async Query
+    GameModel.findOne(query)
+    .then (gameData => {
+        if (gameData) {
+            // All good
+            var gameJson = JSON.parse(JSON.stringify(gameData))
+            var errMsg = ''
+            var infoMsg = ''
+            var success = -1
+
+            if (!isValidFormValue(vectorAngle) || !isValidFormValue(vectorSize)) {
+                errMsg = strings.js.formEmpty
+                res.status(200).json({result: {errMsg, infoMsg}})
+            }
+            else {
+                [success, errMsg, infoMsg] = checkVector(req.body, gameData[team])
+                res.status(200).json({result: {errMsg, infoMsg}})
+            }       
+        }
+        else {
+            res.status(500)
+        }                                           
     })
-
-
-    
+    .catch(err => {
+        console.log(err)
+        res.status(500)
+    }) 
 }
 
 function isValidFormValue(val) {
@@ -97,7 +140,7 @@ function isValidFormValue(val) {
  * @param {*} form 
  * @returns boolean
  */
-function checkVector(params, body, teamData) {
+function checkVector(body, teamData) {
     var errMsg = ''
     var infoMsg = ''
 
@@ -106,7 +149,7 @@ function checkVector(params, body, teamData) {
     var va = body.vectorAngle
 
     // filter the riddle in the given index
-    const rdl = teamData.riddles.filter((rdl) => (rdl.index == params.index) )[0]
+    const rdl = teamData.riddles.filter((rdl) => (rdl.index == body.index) )[0]
     var i = 0
 
     var success = -1; // may be -1 (error), 0 (success of a single vector) or 1-5 (success of multiple vectors)
