@@ -29,22 +29,13 @@ export function renderGame(req, res, obj) {
     }
 
     // Find relevant document in DB that describes the game
-    var {branch,team,index,teacher} = req.params
-    if (!util.isValidValue(branch) || !util.isValidValue(team) || !util.isValidValue(index)) {
-        res.redirect("/err")
-        return
-    }
+    var {team,index,gameName} = req.params
 
     var query = {
-        branch, 
-        active:true
-    }
-    if (teacher !== undefined) {
-        query["teacher"] = teacher
+        gameName,
+        active:true,
     }
     
-    logger.debugM("Get game data query:", query)
-
     // Async Query
     GameModel.findOne(query)
     .then (gameData => {
@@ -53,7 +44,6 @@ export function renderGame(req, res, obj) {
             var gameJson = JSON.parse(JSON.stringify(gameData))
             var errMsg = ''
             var infoMsg = ''
-            var success = -1
 
             var rdl = gameJson[team].riddles.filter((rdl) => (rdl.index == index) )[0]
 
@@ -64,8 +54,7 @@ export function renderGame(req, res, obj) {
                 rdl,
                 team,
                 index,
-                branch,
-                teacher,
+                gameName,
                 errMsg,
                 infoMsg
             });

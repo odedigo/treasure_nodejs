@@ -13,10 +13,17 @@
 //================ IMPORTS =================
 import { Schema, model } from 'mongoose';
 
+const StatusEvent = new Schema({
+    created: String,
+    stage: Number,
+    status: String,
+})
+
 const TeamStatus = new Schema({
     branch: String,
     teacher: String,    
     status: Number,
+    events: [StatusEvent],
     startTime: Date
 })
 

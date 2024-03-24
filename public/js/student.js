@@ -30,7 +30,6 @@ async function sendForm(form) {
         teacher: form.teacher.value,
         branch: form.branch.value
     }
-    console.log(body)
     const response = await fetch('/vector', {
         method: "POST", // *GET, POST, PUT, DELETE, etc.
         cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached

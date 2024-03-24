@@ -10,18 +10,11 @@ export function renderTeacher (req, res) {
     }
 
     // Find relevant document in DB that describes the game
-    var {branch,teacher} = req.params
-    if (!util.isValidValue(branch)) {
-        res.redirect("/err")
-        return
-    }
+    var {gameName} = req.params
 
     var query = {
-        branch, 
+        gameName, 
         active:true
-    }
-    if (teacher !== undefined) {
-        query["teacher"] = teacher
     }
     
     logger.debugM("Get game data query:", query)
@@ -36,9 +29,8 @@ export function renderTeacher (req, res) {
             // render teacher page with received content
             res.render('teacher' , { 
                 jsscript: '/js/teacher.js', 
-                teamData: gameJson,   
-                branch,
-                teacher
+                gameData,
+                gameName
             });
         }
         else {

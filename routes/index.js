@@ -20,9 +20,9 @@ import { renderErr } from '../controllers/errController.js';
 
 
 // Students game
-router.get('/game/:branch/:team/:index/:teacher?', (req, res) => { //Game Site 
-    var {branch,team,index,teacher} = req.params
-    if ((team === undefined || index === undefined || branch === undefined) ||
+router.get('/game/:gameName/:team/:index/', (req, res) => { //Game Site 
+    var {team,index,gameName} = req.params
+    if ((team === undefined || index === undefined || gameName === undefined) ||
         (team != 'red' && team != 'green' && team != 'blue') ||
         (index > 5 || index < 0)) {
         res.redirect('/err')
@@ -32,7 +32,7 @@ router.get('/game/:branch/:team/:index/:teacher?', (req, res) => { //Game Site
 });
 
 // Teacher's site
-router.get('/teacher/:branch/:teacher?', (req, res) => { //Teacher Site
+router.get('/teacher/:gameName', (req, res) => { //Teacher Site
     renderTeacher(req, res);
 });
 
