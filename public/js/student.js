@@ -27,8 +27,7 @@ async function sendForm(form) {
         vectorAngle: form.vectorAngle.value,
         index: form.index.value,
         team: form.team.value,
-        teacher: form.teacher.value,
-        branch: form.branch.value
+        gameName: form.gameName.value
     }
     const response = await fetch('/vector', {
         method: "POST", // *GET, POST, PUT, DELETE, etc.

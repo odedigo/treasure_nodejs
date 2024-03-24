@@ -14,7 +14,7 @@
 import { Router } from 'express';
 const router = Router();
 import { renderGame } from '../controllers/gameController.js'; 
-import { validateVector } from '../controllers/api.js';
+import { resetGame, validateVector, startGame, deleteGame } from '../controllers/api.js';
 import { renderTeacher } from '../controllers/teacherController.js';
 import { renderErr } from '../controllers/errController.js';
 
@@ -45,5 +45,21 @@ router.post('/vector', (req, res) => {
     validateVector(req,res)
 });
 
+router.post('/reset/:gameName', (req, res) => {
+    resetGame(req,res)
+});
+
+router.post('/start/:gameName', (req, res) => {
+    startGame(req,res)
+});
+
+
+router.post('/create/:gameName', (req, res) => {
+    createGame(req,res)
+});
+
+router.post('/remove/:gameName', (req, res) => {
+    deleteGame(req,res)
+});
 
 export default router;

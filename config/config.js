@@ -27,6 +27,7 @@ const config = {
         name: "Treasure Hunt - Masha",
         isProduction: process.env.NODE_ENV === 'production',
         logger_show_info: true,
+        report_status: true
     },
     roles: {},
     accounts: {},

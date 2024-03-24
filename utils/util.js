@@ -21,3 +21,12 @@ export function formatString() {
     }
   }
   
+  
+/**
+ * Formats local date and time in the IL timezone
+ * @returns 
+ */
+export function getCurrentDateTime() {
+    const now = new Date().toLocaleString('en', {timeZone: 'Asia/Jerusalem'})
+    return now.valueOf();
+}
