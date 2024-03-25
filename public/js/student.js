@@ -29,7 +29,7 @@ async function sendForm(form) {
         team: form.team.value,
         gameName: form.gameName.value
     }
-    const response = await fetch('/vector', {
+    const response = await fetch('/api/vector', {
         method: "POST", // *GET, POST, PUT, DELETE, etc.
         cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
         headers: {

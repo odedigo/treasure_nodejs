@@ -16,6 +16,20 @@ function debugLog(msg) {
   if (debugMode) 
       for (var i=0; i<arguments.length; i++) console.log(arguments[i]);
 }
+
+function saveTokens(tokens) {
+  console.log("saving",tokens)
+  var exp = new Date(tokens.tokenExp).toUTCString()
+  //localStorage.setItem('mashar.treasure.token', JSON.stringify(tokens));
+  document.cookie = `cred=${tokens.token}; expires=${exp}`
+  console.log(readTokens())
+}
+
+function readTokens() {
+  //const tokens = JSON.parse(localStorage.getItem('mashar.treasure.token'));
+  return document.cookie
+}
+
 /**
  * Easy selector helper function
  */

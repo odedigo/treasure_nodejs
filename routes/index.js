@@ -14,10 +14,12 @@
 import { Router } from 'express';
 const router = Router();
 import { renderGame } from '../controllers/gameController.js'; 
-import { resetGame, validateVector, startGame, deleteGame } from '../controllers/api.js';
+import * as api_user from '../controllers/api_user.js';
+import * as api_game from '../controllers/api_game.js';
 import { renderTeacher } from '../controllers/teacherController.js';
 import { renderErr } from '../controllers/errController.js';
-
+import { renderLogin } from '../controllers/loginController.js'
+import { renderAdmin } from '../controllers/adminController.js'
 
 // Students game
 router.get('/game/:gameName/:team/:index/', (req, res) => { //Game Site 
@@ -41,25 +43,48 @@ router.get('/err', (req, res) => { //Err Site
     renderErr(req, res);
 });
 
-router.post('/vector', (req, res) => {
-    validateVector(req,res)
+
+// Login page
+router.get('/login', (req, res) => { //Err Site
+    renderLogin(req, res);
 });
 
-router.post('/reset/:gameName', (req, res) => {
-    resetGame(req,res)
+// Login page
+router.get('/admin/:page?', (req, res) => { //Err Site
+    renderAdmin(req, res, req.params.page);
 });
 
-router.post('/start/:gameName', (req, res) => {
-    startGame(req,res)
+// ********* user **********
+
+router.post('/api/register', (req, res) => { //Err Site
+    api_user.registerUser(req, res)
+});
+
+router.post('/api/login', (req, res) => {
+    api_user.loginUser(req,res)
 });
 
 
-router.post('/create/:gameName', (req, res) => {
-    createGame(req,res)
+/** game */
+router.post('/api/vector', (req, res) => {
+    api_game.validateVector(req,res)
 });
 
-router.post('/remove/:gameName', (req, res) => {
-    deleteGame(req,res)
+router.post('/api/reset/:gameName', (req, res) => {
+    api_game.resetGame(req,res)
+});
+
+router.post('/api/start/:gameName', (req, res) => {
+    api_game.startGame(req,res)
+});
+
+
+router.post('/api/create/:gameName', (req, res) => {
+    api_game.createGame(req,res)
+});
+
+router.post('/api/remove/:gameName', (req, res) => {
+    api_game.deleteGame(req,res)
 });
 
 export default router;

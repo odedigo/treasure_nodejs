@@ -14,7 +14,7 @@
 import { Schema, model } from 'mongoose';
 
 const StatusEvent = new Schema({
-    created: String,
+    created: Date,
     stage: Number,
     status: String,
     success: Boolean
@@ -23,7 +23,7 @@ const StatusEvent = new Schema({
 var StatusSchema = new Schema({
     gameName: String,
     team: String,
-    startTime: String,
+    startTime: Date,
     stage: Number,
     events: [StatusEvent]
 });

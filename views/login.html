@@ -1,0 +1,41 @@
+{{> navigation}}
+
+  <main id="main">
+
+    <!-- ======= Breadcrumbs ======= -->
+    <section id="breadcrumbs" class="breadcrumbs">
+      <div class="container">
+
+        <h2>כניסה למורים ומנהלים</h2>
+
+      </div>
+    </section><!-- End Breadcrumbs -->
+
+    <section class="inner-page">
+      <div class="container">
+        <p>
+          <form id="login" action="/login" method="POST">
+            <ul class="wrapper">
+              <li class="form-row">
+                <label for="username">שם משתמש (אימייל)</label>
+                <input name="username" type="input" id="username" placeholder="שם משתמש" class="en"/>
+              </li>
+              <li class="form-row">
+                <label for="password">סיסמה</label>
+                <input name="password" type="password" id="password" placeholder="סיסמה" class="en"/>
+              </li>
+              <li class="form-row">
+                <button type="submit">כניסה</button>
+              </li>     
+              <li class="form-row">
+                <label id="errMsg" class="errMsg"></button>
+              </li> 
+            </ul>
+          </form> 
+        </p>
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+
+  {{> footer}}

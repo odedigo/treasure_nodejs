@@ -1,0 +1,40 @@
+
+/* form */
+.wrapper {
+    background-color: whitesmoke;
+    list-style-type: none;
+    padding: 0;
+    border-radius: 3px;
+  }
+  .form-row {
+    display: flex;
+    justify-content: flex-end;
+    padding: .5em;
+  }
+  .form-row > label {
+    padding: .5em 1em .5em 0;
+    flex: 1;
+  }
+  .form-row > input,
+  .form-row > select
+  {
+    flex: 2;
+  }
+  .form-row > input,
+  .form-row > select,
+  .form-row > button {
+    padding: .5em;
+  }
+  .form-row > button {
+   background: gray;
+   color: white;
+   border: 0;
+  }
+  .errMsg {
+    color: red;    
+  }
+  /* */
+  .en {
+    direction: ltr;
+    text-align: left;
+  }
