@@ -15,6 +15,12 @@ import {GameModel} from "../db/models/GameModel.js";
 import * as logger from "../utils/logger.js"
 import * as util from "../utils/util.js";
 import strings from "../public/lang/strings.js"
+
+export function renderHome(req, res) {
+    res.render('home');
+}
+
+
 /**
  * Main rendering function
  * @param {*} req 

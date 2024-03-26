@@ -17,12 +17,8 @@ function debugLog(msg) {
       for (var i=0; i<arguments.length; i++) console.log(arguments[i]);
 }
 
-function saveTokens(tokens) {
-  console.log("saving",tokens)
-  var exp = new Date(tokens.tokenExp).toUTCString()
-  //localStorage.setItem('mashar.treasure.token', JSON.stringify(tokens));
-  document.cookie = `cred=${tokens.token}; expires=${exp}`
-  console.log(readTokens())
+function saveTokens(jwt) {
+  document.cookie = `cred=${jwt.token}; expires=${jwt.expires}}`
 }
 
 function readTokens() {

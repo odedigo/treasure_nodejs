@@ -174,23 +174,3 @@ export async function _createTeamDoc(gameName, team) {
         logger.errorM("catch in statusReport",err)
     })
 }
-
-export async function _setUserToken(user) {
-    var filter = {
-        username: user.username
-    }
-    var token = {token:util.getOneTimeToken(), tokenExp: util.getTokenExpiration()}
-    
-    var update = {
-        $set: token
-    }
-
-    // Async Query
-    try {
-        const resp = await UserModel.updateOne(filter,update)
-        return token
-    }
-    catch(err) {
-        console.log(err)
-    }
-}

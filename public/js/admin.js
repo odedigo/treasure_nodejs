@@ -10,7 +10,7 @@
 window.addEventListener('load', () => {
     let el = findElement("login")
     if (el != null) {
-        saveTokens({}) // delete tokens
+        saveTokens("") // delete tokens
         el.addEventListener("submit", function(e){
             sendLoginForm(this)
             e.preventDefault();    //stop form from submitting
@@ -50,8 +50,6 @@ async function sendLoginForm(form) {
         errMsg.innerHTML = resp.msg
     }
     else {
-        console.log(resp)
-        saveTokens(resp.tokens)
         window.location = resp.redirect
     }
 }

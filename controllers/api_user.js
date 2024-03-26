@@ -16,6 +16,12 @@ import * as util from "../utils/util.js";
 import { StatusModel } from "../db/models/StatusModel.js";
 import { UserModel, Roles } from "../db/models/UserModel.js";
 import * as func from "../utils/func.js"
+import bcrypt from 'bcrypt'
+
+export async function logoutUser(req, res) {
+    res.cookie('cred', "", {maxAge: 9000000000, httpOnly: true, secure: true });
+    res.redirect("/")
+}
 
 export async function loginUser(req, res) {
     // Find relevant document in DB that describes the game
@@ -31,8 +37,9 @@ export async function loginUser(req, res) {
         if (user) {
             bcrypt.compare(password, user.password).then(async function (result) {
                 if (result) {
-                    var tokens = await func._setUserToken(user)
-                    res.status(200).json({msg: "", redirect:"/admin", tokens})
+                    var jwt = util.getOneTimeToken(user)
+                    res.cookie('cred', jwt.token , {maxAge: 9000000000, httpOnly: true, secure: true });
+                    res.status(200).json({msg: "", redirect:"/admin"})
                 }
                 else {
                     res.status(400).json({msg: "שם משתמש או סיסמה לא תקינים", redirect:"/login", name: user.name, branch: user.branch})
@@ -85,8 +92,7 @@ export async function registerUser(req, res) {
                 name,
                 branch,
                 role,
-                token: util.getOneTimeToken(),
-                tokenExp: util.getTokenExpiration(),
+                token: '',
                 created: util.getCurrentDateTime()
             })
             .then((user) =>

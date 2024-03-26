@@ -1,6 +1,7 @@
 import crypto from "crypto"
 import emailValidator from "email-validator"
 import config from "../config/config.js"
+import jwt from 'jsonwebtoken'
 
 export function isValidValue(val) {
     return (val !== undefined && val !== "")
@@ -49,13 +50,38 @@ export function validateEmail(email) {
     return emailValidator.validate(email)
 }
 
-export function getOneTimeToken() {
-    var token = crypto.randomBytes(64).toString('hex');
-    return token
+export function getOneTimeToken(user) {
+    const token = jwt.sign({ username: user.username, role: user.role, branch: user.branch, name: user.name }, process.env.JWTSECRET, {
+        expiresIn: '10h',
+    });    
+    return {token, expires: getTokenExpiration({hour: 10})}
 }
 
-export function getTokenExpiration() {
+export function getTokenExpiration(delta) {
     const now = new Date()
-    now.setDate(now.getDate() + config.config.app.expiration)
+    var advanced = null
+    if (delta.min !== undefined)
+        advanced = now.getMinutes() + delta.min
+    if (delta.hour !== undefined)
+        advanced = now.getHours() + delta.hour
+    if (delta.day !== undefined)
+        advanced = now.getDate() + delta.day
+    if (delta.month !== undefined)
+        advanced = now.getMonth() + delta.month
+    now.setDate(advanced)
     return now.toISOString();
+}
+
+export function validateToken(token) {
+    if (token === undefined || token == null)
+        return null
+    var s = token.substring(token.indexOf("=")+1)
+    try {
+        const decoded = jwt.verify(s, process.env.JWTSECRET);
+        return decoded
+    }
+    catch(error) {
+        console.log("Cannot decode token")
+        return null
+    }
 }

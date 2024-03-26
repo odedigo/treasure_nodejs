@@ -13,13 +13,18 @@
 //================ IMPORTS =================
 import { Router } from 'express';
 const router = Router();
-import { renderGame } from '../controllers/gameController.js'; 
+import { renderGame, renderHome } from '../controllers/gameController.js'; 
 import * as api_user from '../controllers/api_user.js';
 import * as api_game from '../controllers/api_game.js';
 import { renderTeacher } from '../controllers/teacherController.js';
 import { renderErr } from '../controllers/errController.js';
 import { renderLogin } from '../controllers/loginController.js'
 import { renderAdmin } from '../controllers/adminController.js'
+import * as util from "../utils/util.js";
+
+router.get('/', (req, res) => {
+    renderHome(req, res)
+})
 
 // Students game
 router.get('/game/:gameName/:team/:index/', (req, res) => { //Game Site 
@@ -43,15 +48,24 @@ router.get('/err', (req, res) => { //Err Site
     renderErr(req, res);
 });
 
-
 // Login page
 router.get('/login', (req, res) => { //Err Site
     renderLogin(req, res);
 });
 
-// Login page
+// Logout page
+router.get('/logout', (req, res) => { //Err Site
+    api_user.logoutUser(req, res);
+});
+
+// Admin pages
 router.get('/admin/:page?', (req, res) => { //Err Site
-    renderAdmin(req, res, req.params.page);
+    const jwtUser = util.validateToken(req.headers.cookie)
+    if (!jwtUser) {
+        res.redirect("/err")
+        return
+    }
+    renderAdmin(req, res, req.params.page, jwtUser);
 });
 
 // ********* user **********
@@ -64,6 +78,14 @@ router.post('/api/login', (req, res) => {
     api_user.loginUser(req,res)
 });
 
+router.post('/api/logout', (req, res) => {
+    const jwtUser = util.validateToken(req.headers.cookie)
+    if (!jwtUser) {
+        res.redirect("/")
+        return
+    }
+    api_user.logoutUser(req,res)
+});
 
 /** game */
 router.post('/api/vector', (req, res) => {

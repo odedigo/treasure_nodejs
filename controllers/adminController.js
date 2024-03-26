@@ -23,7 +23,7 @@ import bcrypt from "bcrypt"
  * @param {*} next 
  * @returns 
  */
-export function renderAdmin(req, res, partial) {
+export function renderAdmin(req, res, partial, jwtUser) {
     // check if DB properly connected
     if(!req.app.get("db_connected")) {
         return res.status(500);
@@ -35,6 +35,7 @@ export function renderAdmin(req, res, partial) {
 
     res.render('admin' , { 
         jsscript: '/js/admin.js',
+        jwtUser,
         helpers: {
             whichPartial: function() {
                 return partial

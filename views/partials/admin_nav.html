@@ -10,8 +10,8 @@
 
     <nav id="navbar" class="navbar order-last order-lg-0">
       <ul>
-        <li><a class="nav-link scrollto active" href="/admin">בית</a></li>
-         <li class="dropdown"><a href="#"><span>פעולות</span> <i class="bi bi-chevron-down"></i></a>
+        <li><span class="scrollto nav-link px-2 " href="/admin">שלום {{jwtUser.name}}</span></li>
+         <!-- <li class="dropdown"><a href="#"><span>פעולות</span> <i class="bi bi-chevron-down"></i></a>
           <ul>
             <li><a class="nav-link scrollto" href="#about"></a></li>
             <li class="dropdown"><a href="#"><span>משתמשים</span> <i class="bi bi-chevron-right"></i></a>
@@ -21,7 +21,8 @@
               </ul>
             </li>
             <li><a class="nav-link scrollto active" href="/admin/mygames">המשחקים שלי</a></li>
-          </ul>
+          </ul> -->
+          <li><a href="/logout"><img src="/img/logout.png" title="יציאה" data-toggle="tooltip"/></a></li>
         </li>
       </ul>
       <!-- <i class="bi bi-list mobile-nav-toggle"></i> -->
