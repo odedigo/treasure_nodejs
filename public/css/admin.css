@@ -1,4 +1,16 @@
+/* main */
+.main {
+  margin-top: 58px;
+  margin-right: 240px;
+}
 
+.navbar {
+  --mdb-navbar-box-shadow: 0 4px 12px 0 rgba(var(--mdb-box-shadow-color-rgb), 0.07), 0 2px 4px rgba(var(--mdb-box-shadow-color-rgb), 0.05);
+  --mdb-navbar-padding-top: 0.5625rem;
+  --mdb-navbar-brand-img-margin-right: 0.25rem;
+  box-shadow: var(--mdb-navbar-box-shadow);
+  padding-top: var(--mdb-navbar-padding-top);
+}
 /* form */
 .wrapper {
     background-color: whitesmoke;
@@ -38,3 +50,34 @@
     direction: ltr;
     text-align: left;
   }
+  /* sidebar */
+  /* Sidebar */
+.sidebar {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  padding: 58px 0 0; /* Height of navbar */
+  box-shadow: 0 2px 5px 0 rgb(0 0 0 / 5%), 0 2px 10px 0 rgb(0 0 0 / 5%);
+  width: 240px;
+  z-index: 500;
+}
+
+@media (max-width: 991.98px) {
+  .sidebar {
+    width: 100%;
+  }
+}
+.sidebar .active {
+  border-radius: 5px;
+  box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%);
+}
+
+.sidebar-sticky {
+  position: relative;
+  top: 0;
+  height: calc(100vh - 48px);
+  padding-top: 0.5rem;
+  overflow-x: hidden;
+  overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+}

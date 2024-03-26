@@ -2,31 +2,36 @@
 <header id="header" class="fixed-top d-flex align-items-center">
   <div class="container d-flex align-items-center">
 
-    <div class="logo me-right">
-      <h1><a href="admin.html"><img src="/img/th/header.png" /></a></h1>
-      <!-- Uncomment below if you prefer to use an image logo -->
-      <!-- <a href="index.html"><img src="/img/logo.png" alt="" class="img-fluid"></a>-->
+       <!-- Sidebar -->
+  <nav id="sidebarMenu" class="collapse d-lg-block sidebar collapse bg-white">
+    <div class="position-sticky">
+      <div class="list-group list-group-flush mx-3 mt-4">
+        <a
+          href="/admin/mygames"
+          class="list-group-item list-group-item-action py-2 ripple"
+          aria-current="true"
+        >
+          <i class="fas fa-tachometer-alt fa-fw me-3"></i><span>המשחקים שלי</span>
+        </a>
+        <a href="/admin/userlist" class="list-group-item list-group-item-action py-2 ripple active">
+          <i class="fas fa-chart-area fa-fw me-3"></i><span>רשימת משתמשים</span>
+        </a>
+        <a href="/admin/register" class="list-group-item list-group-item-action py-2 ripple"
+          ><i class="fas fa-lock fa-fw me-3"></i><span>רישום משתמש</span></a
+        >
+      </div>
     </div>
+  </nav>
+  <!-- Sidebar -->
 
-    <nav id="navbar" class="navbar order-last order-lg-0">
+    <nav id="navbar" class="navbar order-last fixed-top order-lg-0 navbar-light bg-white">
+      <a href="admin.html"><img src="/img/th/header.png" /></a>
       <ul>
         <li><span class="scrollto nav-link px-2 " href="/admin">שלום {{jwtUser.name}}</span></li>
-         <!-- <li class="dropdown"><a href="#"><span>פעולות</span> <i class="bi bi-chevron-down"></i></a>
-          <ul>
-            <li><a class="nav-link scrollto" href="#about"></a></li>
-            <li class="dropdown"><a href="#"><span>משתמשים</span> <i class="bi bi-chevron-right"></i></a>
-              <ul>
-                <li><a href="/admin/register">רישום משתמש חדש</a></li>
-                <li><a href="/admin/userlist">רשימת משתמשים</a></li>
-              </ul>
-            </li>
-            <li><a class="nav-link scrollto active" href="/admin/mygames">המשחקים שלי</a></li>
-          </ul> -->
-          <li><a href="/logout"><img src="/img/logout.png" title="יציאה" data-toggle="tooltip"/></a></li>
-        </li>
+        <li><a href="/logout"><img src="/img/logout.png" title="יציאה" data-toggle="tooltip"/></a></li>
       </ul>
-      <!-- <i class="bi bi-list mobile-nav-toggle"></i> -->
-    </nav><!-- .navbar -->
+    </nav>
+    <!-- .navbar -->
 
     <!-- <div class="header-social-links d-flex align-items-center">
       <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
