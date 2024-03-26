@@ -29,7 +29,7 @@
                 <tbody>
                 {{#each data as |user|}}
                 <tr>
-                  <td scope="row"><a href="/api/del/{{user.username}}">Del</a></td>
+                  <td scope="row"><img src="/img/ops/del.png" class="ops-icon" onclick="delUser('{{user.username}}')"/></td>
                   <td >{{user.name}}</td>
                   <td >{{user.username}}</td>
                   <td >{{user.branch}}</td>
@@ -41,7 +41,9 @@
                 </tbody>
               </table>
             </div>
-    
+            <div class="my-3">
+              <div class="errMsg" id="errMsg"></div>
+            </div>
           </div>
     
         </div>

@@ -91,3 +91,40 @@ function resetFormInputs() {
     var allInputs = document.querySelectorAll('input');
     allInputs.forEach(singleInput => singleInput.value = '');
 }
+
+function delUser(username) {
+    var errMsg = findElement('errMsg')
+    errMsg.innerHTML = ""
+
+    var body = {
+        username
+    }
+    
+    const response = fetch('/api/user/del', {
+        method: "POST", // *GET, POST, PUT, DELETE, etc.
+        cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+        headers: {
+          "Content-Type": "application/json",
+        },
+        redirect: "follow", // manual, *follow, error
+        referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+        body: JSON.stringify(body), // body data type must match "Content-Type" header
+    })
+    .then (response => {
+        response.json()
+        .then (resp => {
+            console.log(resp)
+            if (response.status != 200) { // failed        
+                errMsg.innerHTML = resp.msg        
+            }
+            else {
+                errMsg.innerHTML = resp.msg
+                setTimeout(window.location.reload(), 3000)
+            }    
+        })
+    })
+    .catch(err => {
+        console.log(err)
+    })
+
+}

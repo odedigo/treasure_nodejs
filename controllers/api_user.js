@@ -122,20 +122,19 @@ export function createUserList(users) {
     return res;
 }
 
-export function delteUser(req, res) {
+export function deleteUser(req, res) {
     var {username} = req.body
     if (username === undefined) {
         res.status(400).json({msg: "שם משתמש לא חוקי"} )
         return
     }
-
-    UserModel.find({ username }).remove()
+    UserModel.deleteOne({ username })
     .then(resp => {
-        res.redirect("/admin/userlist")
+            res.status(200).json({msg: "משתמש נמחק"})
     })
     .catch(err => {
         console.log(err)
-        res.redirect("/err")
+        res.status(500)
     })
 
 }
