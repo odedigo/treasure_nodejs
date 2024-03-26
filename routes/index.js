@@ -60,17 +60,21 @@ router.get('/logout', (req, res) => { //Err Site
 
 // Admin pages
 router.get('/admin/:page?', (req, res) => { //Err Site
-    const jwtUser = util.validateToken(req.headers.cookie)
-    if (!jwtUser) {
-        res.redirect("/err")
+    const isValid = util.validateAdminUser(req, true)
+    if (!isValid.valid) {
+        res.redirect("/login")
         return
     }
-    renderAdmin(req, res, req.params.page, jwtUser);
+    renderAdmin(req, res, req.params.page, isValid.jwtUser);
 });
 
 // ********* user **********
 
 router.post('/api/register', (req, res) => { //Err Site
+    if (!util.validateAdminUser(req, false).valid) {
+        res.redirect("/err")
+        return
+    }
     api_user.registerUser(req, res)
 });
 
@@ -79,12 +83,36 @@ router.post('/api/login', (req, res) => {
 });
 
 router.post('/api/logout', (req, res) => {
-    const jwtUser = util.validateToken(req.headers.cookie)
-    if (!jwtUser) {
-        res.redirect("/")
+    if (!util.validateAdminUser(req, false).valid) {
+        res.redirect("/err")
         return
     }
     api_user.logoutUser(req,res)
+});
+
+router.post('/api/user/del', (req, res) => {
+    if (!util.validateAdminUser(req, false).valid) {
+        res.redirect("/err")
+        return
+    }
+    if (req.body.username === undefined) {
+        res.status(400).json({msg: "שם משתמש לא חוקי"} )
+        return
+    }
+    api_user.deleteUser(req, res)
+});
+
+router.post('/api/user/role', (req, res) => {
+    if (!util.validateAdminUser(req, false).valid) {
+        res.redirect("/err")
+        return
+    }
+    const {username, role} = req.body
+    if (username === undefined || role === undefined) {
+        res.status(400).json({msg: "הפעולה נכשלה"} )
+        return
+    }
+    api_user.changeRole(req, res)
 });
 
 /** game */
@@ -108,5 +136,8 @@ router.post('/api/create/:gameName', (req, res) => {
 router.post('/api/remove/:gameName', (req, res) => {
     api_game.deleteGame(req,res)
 });
+
+
+
 
 export default router;

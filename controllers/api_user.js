@@ -109,4 +109,33 @@ export async function registerUser(req, res) {
     })
 }
 
-/***********************INTERNAL FUNCTIONS********************************/
+export async function getUserList() {
+    const users = await UserModel.find({})
+    return users
+}
+
+export function createUserList(users) {
+    var res = []
+    users.forEach(user => {
+        res.push({name:user.name, branch: user.branch, username: user.username, role: user.role, created: user.created})
+    });
+    return res;
+}
+
+export function delteUser(req, res) {
+    var {username} = req.body
+    if (username === undefined) {
+        res.status(400).json({msg: "שם משתמש לא חוקי"} )
+        return
+    }
+
+    UserModel.find({ username }).remove()
+    .then(resp => {
+        res.redirect("/admin/userlist")
+    })
+    .catch(err => {
+        console.log(err)
+        res.redirect("/err")
+    })
+
+}

@@ -1,0 +1,52 @@
+<main id="main">
+
+        <!-- ======= User List Section ======= -->
+        <section id="contact" class="contact section-bg">
+          <div class="container">
+    
+            <div class="section-title" data-aos="fade-up">
+              <h2>רשימת משתמשים רשומים</h2>
+            </div>
+    
+            <div class="row">
+    
+              <div class="col-lg-2 d-flex align-items-stretch" data-aos="fade-right">
+              <img src="/img/exp1.jpg" />
+    
+            </div>
+            <div class="col-lg-7 mt-5 mt-lg-0 d-flex align-items-stretch" data-aos="fade-left">
+              <table class="table">
+                <thead>
+                <tr>
+                  <th scope="col">פעולות</th>
+                  <th scope="col">שם</th>
+                  <th scope="col">סניף</th>
+                  <th scope="col">שם משתמש</th>
+                  <th scope="col">תפקיד</th>
+                  <th scope="col">תאריך הרשמה</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{#each data as |user|}}
+                <tr>
+                  <td scope="row"><a href="/api/del/{{user.username}}">Del</a></td>
+                  <td >{{user.name}}</td>
+                  <td >{{user.username}}</td>
+                  <td >{{user.branch}}</td>
+                  <td >{{user.role}}</td>
+                  <td >{{user.created}}</td>
+                  
+                </tr>
+                {{/each}}
+                </tbody>
+              </table>
+            </div>
+    
+          </div>
+    
+        </div>
+      </section><!-- End User List Section -->
+
+  
+
+  </main><!-- End #main -->

@@ -85,3 +85,20 @@ export function validateToken(token) {
         return null
     }
 }
+
+export function validateAdminUser(req, validatePage = false) {
+    const jwtUser = validateToken(req.headers.cookie)
+    if (!jwtUser) {
+        return {valid:false, jwt:null}
+    }
+    if (validatePage)
+        return {valid: validateAdminPage(req), jwtUser}
+    return {valid:true, jwt:jwtUser}
+}
+
+export function validateAdminPage(req) {
+    var pages = ['mygames','register','userlist']
+    if (req.params.page == undefined)
+        return true
+    return pages.includes(req.params.page)
+}

@@ -1,59 +1,72 @@
 <main id="main">
 
-    <!-- ======= Breadcrumbs ======= -->
-    <section id="breadcrumbs" class="breadcrumbs">
+    
+    <!-- ======= Registration Section ======= -->
+    <section id="contact" class="contact section-bg">
       <div class="container">
 
-        <h2>רישום משתמשים</h2>
+        <div class="section-title" data-aos="fade-up">
+          <h2>רישום משתמש חדש</h2>
+        </div>
 
-      </div>
-    </section><!-- End Breadcrumbs -->
+        <div class="row">
 
-    <section class="inner-page">
-      <div class="container">
-        <p>
-            <form id="register" action="#" method="POST">
-                <ul class="wrapper">
-                  <li class="form-row">
-                    <label for="name">שם פרטי ומשפחה</label>
-                    <input name="name" type="input" id="name" placeholder="שם פרטי ומשפחה" value="עודד כנען"/>
-                  </li>
-                  <li class="form-row">
-                    <label for="branch">סניף</label>
-                    <select name="branch" id="branch">
-                      <option value="כפר סבא">כפר סבא</option>
-                      <option value="רחובות">רחובות</option>
-                      <option value="עכו">עכו</option>
-                      <option value="נתיבות">נתיבות</option>
-                      <option value="ירושלים">ירושלים</option>
-                      <option value="ראשון לציון">ראשון לציון</option>
-                    </select>
-                  </li>
-                  <li class="form-row">
-                    <label for="username">שם משתמש (אימייל)</label>
-                    <input name="username" type="input" id="username" placeholder="שם משתמש" class="en" value="oded.cnaan@wise.org.il"/>
-                  </li>
-                  <li class="form-row">
-                    <label for="password">סיסמה</label>
-                    <input name="password" type="password" id="password" placeholder="סיסמה" class="en" value ="something"/>
-                  </li>
-                  <li class="form-row">
-                    <label for="role">סיסמה (לפחות 6 תווים)</label>
-                    <select name="role" id=""role>
+          <div class="col-lg-5 d-flex align-items-stretch" data-aos="fade-right">
+          <img src="/img/teacher.jpg" />
+
+        </div>
+        <!-- FORM -->
+        <div class="col-lg-7 mt-5 mt-lg-0 d-flex align-items-stretch" data-aos="fade-left">
+          <form action="#" method="post" role="form" class="php-email-form"  id="register" > 
+            <div class="row">
+              <div class="form-group col-md-6">
+                <label for="name">שם פרטי ומשפחה</label>
+                <input name="name" type="input" id="name" class="form-control" placeholder="שם פרטי ומשפחה" value="" required/>
+              </div>
+              <div class="form-group col-md-6 mt-3 mt-md-0">
+                <label for="branch">סניף</label>
+                  <select name="branch" id="branch" class="form-control">
+                    <option value="כפר סבא">כפר סבא</option>
+                    <option value="רחובות">רחובות</option>
+                    <option value="עכו">עכו</option>
+                    <option value="נתיבות">נתיבות</option>
+                    <option value="ירושלים">ירושלים</option>
+                    <option value="ראשון לציון">ראשון לציון</option>
+                  </select>
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-md-6">
+                <label for="username">שם משתמש (אימייל)</label>
+                <input name="username" type="input" id="username" class="form-control" placeholder="אימייל" class="en" value="" required/>
+              </div>
+              <div class="form-group col-md-6 mt-3 mt-md-0">
+                <label for="password">סיסמה</label>
+                <input name="password" type="password" id="password" class="form-control" placeholder="סיסמה" class="en" value ="" required/>
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-md-6">
+                <label for="role">תפקיד והרשאות</label>
+                    <select name="role" id="role" class="form-control">
                       <option value="TEACHER">מורה</option>
                       <option value="ADMIN">מנהל משחקים</option>
                     </select>
-                  </li>         
-                  <li class="form-row">
-                    <button type="submit">רישום</button>
-                  </li>     
-                  <li class="form-row">
-                    <label id="errMsg" class="errMsg"></button>
-                  </li> 
-                </ul>
-              </form> 
-        </p>>
-      </div>
-    </section>
+              </div>
+              <div class="form-group col-md-6 mt-3 mt-md-0">
+               
+              </div>
+            </div>
+            
+            <div class="my-3">
+              <div class="errMsg" id="errMsg"></div>
+            </div>
+            <div class="text-center"><button type="submit">רישום משתמש</button></div>
+          </form>
+        </div>
 
-  </main><!-- End #main -->
+      </div>
+
+    </div>
+  </section><!-- End Registration Section -->
+</main><!-- End #main -->

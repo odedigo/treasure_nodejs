@@ -11,10 +11,7 @@
  */
 "use strict";
 //================ IMPORTS =================
-import {UserModel} from "../db/models/UserModel.js";
-import * as logger from "../utils/logger.js"
-import * as util from "../utils/util.js";
-import bcrypt from "bcrypt"
+import * as api_user from '../controllers/api_user.js';
 
 /**
  * Main rendering function
@@ -23,7 +20,8 @@ import bcrypt from "bcrypt"
  * @param {*} next 
  * @returns 
  */
-export function renderAdmin(req, res, partial, jwtUser) {
+export async function renderAdmin(req, res, partial, jwtUser) {
+    
     // check if DB properly connected
     if(!req.app.get("db_connected")) {
         return res.status(500);
@@ -33,17 +31,36 @@ export function renderAdmin(req, res, partial, jwtUser) {
         partial = 'admin_main'
     }
 
-    res.render('admin' , { 
+    var data = { 
         jsscript: '/js/admin.js',
         jwtUser,
         section: partial,
+        data: {},
         helpers: {
             whichPartial: function() {
                 return partial
             }
         }
-    });
+    }
 
+    if (partial === 'userlist') {
+        renderAdminUserlist(req, res, data)
+        return
+    }
+
+    // main_admin
+    res.render('admin' , data);
+
+}
+
+export async function renderAdminUserlist(req, res, data) {
+    var extra = {}
+    const users = await api_user.getUserList()
+    if (users) {
+        data.data = api_user.createUserList(users)
+    }
+    // main_admin
+    res.render('admin' , data);
 }
 
 
