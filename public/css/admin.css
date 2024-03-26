@@ -1,7 +1,14 @@
+
 /* main */
 .main {
   margin-top: 58px;
   margin-right: 240px;
+  min-height: 800px;
+}
+
+.mainsection {
+  padding: 20px 0;
+  margin-right: initial;
 }
 
 .navbar {
@@ -10,6 +17,7 @@
   --mdb-navbar-brand-img-margin-right: 0.25rem;
   box-shadow: var(--mdb-navbar-box-shadow);
   padding-top: var(--mdb-navbar-padding-top);
+  box-shadow: 0 2px 5px 0 rgb(0 0 0 / 5%), 0 2px 10px 0 rgb(0 0 0 / 5%);
 }
 /* form */
 .wrapper {

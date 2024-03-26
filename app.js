@@ -17,6 +17,7 @@ import * as hbs_helpers from './public/js/helpers.js'
 //import http from 'http';
 import { connectDB } from './db/db.js';
 import routing from './routes/index.js'; 
+import __dirname from 'fs'
 
 //Additional
 import { HTTPS } from 'express-sslify'; //https://www.npmjs.com/package/express-sslify 
@@ -32,6 +33,9 @@ if (process.env.ENVIROMENT != "local") {
 
 //Middlewares
 app.use(express.static('./public')); //Deliver static content directly. Do not specify /public/ in the sites paths!
+app.use('/fa', express.static(__dirname + '/node_modules/font-awesome/css'));
+app.use('/fonts', express.static(__dirname + '/node_modules/font-awesome/fonts'));
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 

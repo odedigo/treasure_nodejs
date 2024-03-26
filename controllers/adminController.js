@@ -36,6 +36,7 @@ export function renderAdmin(req, res, partial, jwtUser) {
     res.render('admin' , { 
         jsscript: '/js/admin.js',
         jwtUser,
+        section: partial,
         helpers: {
             whichPartial: function() {
                 return partial

@@ -6,17 +6,31 @@
   <nav id="sidebarMenu" class="collapse d-lg-block sidebar collapse bg-white">
     <div class="position-sticky">
       <div class="list-group list-group-flush mx-3 mt-4">
+        <div><img src="/img/th/treasurehunt.jpg" class="img-fluid" alt=""></div>
+        <div style="height:20px"></div>
+        <a
+          href="/admin"
+          class="list-group-item list-group-item-action py-2 ripple {{#ifEquals section 'admin_main' }} active {{/ifEquals}}"
+          aria-current="true"
+        >
+        <i class="fas fa-tachometer-alt fa-fw me-3"></i><span>אזור הניהול</span>
+        </a>
+
         <a
           href="/admin/mygames"
-          class="list-group-item list-group-item-action py-2 ripple"
+          class="list-group-item list-group-item-action py-2 ripple {{#ifEquals section 'my_games' }} active {{/ifEquals}}"
           aria-current="true"
         >
           <i class="fas fa-tachometer-alt fa-fw me-3"></i><span>המשחקים שלי</span>
         </a>
-        <a href="/admin/userlist" class="list-group-item list-group-item-action py-2 ripple active">
+
+        <a href="/admin/userlist" 
+          class="list-group-item list-group-item-action py-2 ripple {{#ifEquals section 'user_list' }} active {{/ifEquals}}"
+        >
           <i class="fas fa-chart-area fa-fw me-3"></i><span>רשימת משתמשים</span>
         </a>
-        <a href="/admin/register" class="list-group-item list-group-item-action py-2 ripple"
+        <a href="/admin/register" 
+          class="list-group-item list-group-item-action py-2 ripple {{#ifEquals section 'register' }} active {{/ifEquals}}"
           ><i class="fas fa-lock fa-fw me-3"></i><span>רישום משתמש</span></a
         >
       </div>
@@ -24,6 +38,7 @@
   </nav>
   <!-- Sidebar -->
 
+  
     <nav id="navbar" class="navbar order-last fixed-top order-lg-0 navbar-light bg-white">
       <a href="admin.html"><img src="/img/th/header.png" /></a>
       <ul>
