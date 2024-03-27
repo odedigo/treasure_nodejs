@@ -7,6 +7,7 @@
  * Date: March 2024
  */
 
+
 window.addEventListener('load', () => {
     let el = findElement("login")
     if (el != null) {

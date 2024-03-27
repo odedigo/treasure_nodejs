@@ -34,11 +34,12 @@
                       &nbsp; 
                     {{else}} 
                       {{#compare user.role '===' 'SUPER-ADMIN'}} 
-                        &nbsp; 
+                      <img src="/img/ops/empty.png" class="ops-icon" />
                       {{else}}
                         <img src="/img/ops/del.png" class="ops-icon" onclick="delUser('{{user.username}}')"/>
                       {{/compare}}    
                     {{/compare}}
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#changePassModal" data-user-id="{{user.username}}" onclick="showModal(true,'oded')"><img src="/img/ops/pass.png" class="ops-icon" /></a>
                   </td>
                   <td >{{user.name}}</td>
                   <td >{{user.username}}</td>
@@ -60,6 +61,52 @@
         </div>
       </section><!-- End User List Section -->
 
-  
+      <!-- CHANGE PASSWORD MODAL -->
 
+      <!-- Modal -->
+      <div class="modal fade" id="changePassModal" tabindex="-1" aria-labelledby="changePassModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="changePassModalLabel">שינוי סיסמה</h5>              
+            </div>
+            <div class="modal-body">
+              <form action="#" method="post" role="form" class="php-email-form"  id="cngPass" > 
+                <div class="row">
+                  <label for="username">שם משתמש (אימייל)</label>
+                  <input name="username" type="input" id="username" class="form-control" placeholder="אימייל" class="en" value="" readonly/>
+                </div>
+                <div class="row">
+                  <label for="password">סיסמה</label>
+                  <input name="password" type="password" id="password" class="form-control" placeholder="סיסמה" class="en" value ="" required/>
+                </div>
+              </form> 
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">סגירה</button>
+              <button type="button" class="btn btn-primary">שמירה</button>
+            </div>
+          </div>
+        </div>
+      </div>
   </main><!-- End #main -->
+
+
+<script>
+  var exampleModal = document.getElementById('changePassModal')
+  exampleModal.addEventListener('show.bs.modal', function (event) {
+    // Button that triggered the modal
+    var link = event.relatedTarget
+    // Extract info from data-bs-* attributes
+    var recipient = link.getAttribute('data-user-id')
+    // If necessary, you could initiate an AJAX request here
+    // and then do the updating in a callback.
+    //
+    // Update the modal's content.
+    var modalTitle = exampleModal.querySelector('.modal-title')
+    var modalBodyInput = exampleModal.querySelector('.modal-body input')
+  
+    //modalTitle.textContent = 'New message to ' + recipient
+    modalBodyInput.value = recipient
+  })  
+</script>

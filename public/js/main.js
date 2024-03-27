@@ -26,6 +26,18 @@ function readTokens() {
   return document.cookie
 }
 
+
+function showModal(show, modal) {
+  el = findElement(modal)
+  if (el != null) {
+    var myModal = new bootstrap.Modal(el)
+    if (show)
+      myModal.show();
+    else
+      myModal.hide();
+  }
+}
+
 /**
  * Easy selector helper function
  */
