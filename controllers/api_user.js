@@ -136,5 +136,46 @@ export function deleteUser(req, res) {
         console.log(err)
         res.status(500)
     })
+}
 
+export async function changePassword(req, res) {
+    var {username, password} = req.body
+    if (username === undefined || password === undefined) {
+        res.status(400).json({msg: "נתונים לא חוקיים"} )
+        return
+    }
+    if (!util.validateEmail(username)) {
+        return res.status(400).json({ msg: "שם המשתמש אינו אימייל חוקי" })
+    }
+
+    if (password.length < 6) {
+        return res.status(400).json({ msg: "סיסמה צריכה להכיל לפחות 6 תווים" })
+    }
+
+    var filter = {
+        username
+    }       
+
+    const options = { 
+        upsert: true,
+        returnOriginal: false
+    };
+
+    bcrypt.hash(password, 10).then(async (hash) => {
+        await UserModel.findOneAndUpdate(
+            filter, 
+            {$set: {"password": hash}},
+            options
+        ).then(user => {
+            if (!user) {
+                res.status(400).json({ msg: "שגיאה בעדכון המשתמש" })
+                return
+            }
+            
+        })
+        .catch (err =>  {
+            console.log(err)
+            res.status(400).json({ msg: "עדכון הסיסמה נכשל" })
+        })   
+    })    
 }

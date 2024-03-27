@@ -29,11 +29,22 @@
                 <tbody>
                 {{#each data as |user|}}
                 <tr>
-                  <td scope="row"><img src="/img/ops/del.png" class="ops-icon" onclick="delUser('{{user.username}}')"/></td>
+                  <td scope="row">
+                    {{#compare ../data.length '===' 1}} 
+                      &nbsp; 
+                    {{else}} 
+                      {{#compare user.role '===' 'SUPER-ADMIN'}} 
+                        &nbsp; 
+                      {{else}}
+                        <img src="/img/ops/del.png" class="ops-icon" onclick="delUser('{{user.username}}')"/>
+                      {{/compare}}    
+                    {{/compare}}
+                  </td>
                   <td >{{user.name}}</td>
                   <td >{{user.username}}</td>
                   <td >{{user.branch}}</td>
-                  <td >{{user.role}}</td>
+                  {{#ifEquals user.role 'ADMIN'}}<td>מנהל משחקים</td>{{/ifEquals}}
+                  <td>{{#ifEquals user.role 'SUPER-ADMIN'}}אדמין{{else}}מורה{{/ifEquals}}</td>
                   <td >{{user.created}}</td>
                   
                 </tr>

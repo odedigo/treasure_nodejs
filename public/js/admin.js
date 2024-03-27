@@ -96,6 +96,10 @@ function delUser(username) {
     var errMsg = findElement('errMsg')
     errMsg.innerHTML = ""
 
+    if (!confirm("למחוק את המשתמש?")) 
+        return
+
+
     var body = {
         username
     }

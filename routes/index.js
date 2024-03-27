@@ -102,6 +102,14 @@ router.post('/api/user/del', (req, res) => {
     api_user.deleteUser(req, res)
 });
 
+router.post('/api/chgpass', (req, res) => {
+    if (!util.validateAdminUser(req, false).valid) {
+        res.redirect("/err")
+        return
+    }
+    api_user.changePassword(req, res)
+});
+
 router.post('/api/user/role', (req, res) => {
     if (!util.validateAdminUser(req, false).valid) {
         res.redirect("/err")

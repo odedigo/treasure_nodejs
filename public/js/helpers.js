@@ -64,3 +64,26 @@ function calcVectors(vecSize, vecAngle) {
 export function ifEquals(arg1, arg2, options) {
     return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
 }
+
+export function compare (v1, operator, v2, options) {
+    'use strict';
+    var operators = {
+      '==': v1 == v2 ? true : false,
+      '===': v1 === v2 ? true : false,
+      '!=': v1 != v2 ? true : false,
+      '!==': v1 !== v2 ? true : false,
+      '>': v1 > v2 ? true : false,
+      '>=': v1 >= v2 ? true : false,
+      '<': v1 < v2 ? true : false,
+      '<=': v1 <= v2 ? true : false,
+      '||': v1 || v2 ? true : false,
+      '&&': v1 && v2 ? true : false
+    }
+    if (operators.hasOwnProperty(operator)) {
+      if (operators[operator]) {
+        return options.fn(this);
+      }
+      return options.inverse(this);
+    }
+    return console.error('Error: Expression "' + operator + '" not found');
+  }
