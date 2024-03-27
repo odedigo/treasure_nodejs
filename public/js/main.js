@@ -26,6 +26,17 @@ function readTokens() {
   return document.cookie
 }
 
+function intermediateMsg(id, msg) {
+  var el = findElement(id)
+  intermediateMsgElem(el, msg)
+}
+
+function intermediateMsgElem(elem, msg) {
+  elem.innerHTML = msg
+  setTimeout(() => {
+    elem.innerHTML = ""
+  },5000)
+}
 
 function showModal(show, modal) {
   el = findElement(modal)

@@ -55,7 +55,8 @@ async function sendLoginForm(form) {
     
     const resp = await response.json()
     if (response.status != 200) { // failed        
-        errMsg.innerHTML = resp.msg
+        //errMsg.innerHTML = resp.msg
+        intermediateMsgElem(errMsg, resp.msg)
     }
     else {
         window.location = resp.redirect
@@ -87,10 +88,10 @@ async function sendRegisterForm(form) {
 
     const resp = await response.json()
     if (response.status != 200) { // failed        
-        errMsg.innerHTML = resp.msg        
+        intermediateMsgElem(errMsg,resp.msg)     
     }
     else {
-        errMsg.innerHTML = resp.msg
+        intermediateMsgElem(errMsg,resp.msg)
         resetFormInputs()
     }
 }
@@ -117,10 +118,10 @@ async function sendChangePassForm(form) {
     const resp = await response.json()
     var modalErrMsg = findElement('modalErrMsg')
     if (response.status != 200) { // failed        
-        modalErrMsg.innerHTML = resp.msg        
+        intermediateMsgElem(modalErrMsg,resp.msg)   
     }
     else {
-        errMsg.innerHTML = resp.msg
+        intermediateMsgElem(errMsg,resp.msg)
         showModal(false,'changePassModal')
     }
 }
@@ -157,10 +158,10 @@ function delUser(username) {
         .then (resp => {
             console.log(resp)
             if (response.status != 200) { // failed        
-                errMsg.innerHTML = resp.msg        
+                intermediateMsgElem(errMsg,resp.msg)
             }
             else {
-                errMsg.innerHTML = resp.msg
+                intermediateMsgElem(errMsg,resp.msg)
                 setTimeout(window.location.reload(), 3000)
             }    
         })
