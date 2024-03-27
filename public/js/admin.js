@@ -24,6 +24,13 @@ window.addEventListener('load', () => {
             e.preventDefault();    //stop form from submitting
         });    
     }
+    el = findElement("cngPass")
+    if (el != null) {
+        el.addEventListener("submit", function(e){
+            sendChangePassForm(this)
+            e.preventDefault();    //stop form from submitting
+        });    
+    }
 });
 
 async function sendLoginForm(form) {
@@ -85,6 +92,36 @@ async function sendRegisterForm(form) {
     else {
         errMsg.innerHTML = resp.msg
         resetFormInputs()
+    }
+}
+
+async function sendChangePassForm(form) {
+    var errMsg = findElement('errMsg')
+    errMsg.innerHTML = ""
+    var body = {
+        password: form.password.value,
+        username: form.username.value
+    }
+    const response = await fetch('/api/chgpass', {
+        method: "POST", // *GET, POST, PUT, DELETE, etc.
+        cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+        headers: {
+          "Content-Type": "application/json",
+          // 'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        redirect: "follow", // manual, *follow, error
+        referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+        body: JSON.stringify(body), // body data type must match "Content-Type" header
+    })
+
+    const resp = await response.json()
+    var modalErrMsg = findElement('modalErrMsg')
+    if (response.status != 200) { // failed        
+        modalErrMsg.innerHTML = resp.msg        
+    }
+    else {
+        errMsg.innerHTML = resp.msg
+        showModal(false,'changePassModal')
     }
 }
 

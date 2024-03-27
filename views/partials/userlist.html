@@ -71,22 +71,23 @@
               <h5 class="modal-title" id="changePassModalLabel">שינוי סיסמה</h5>              
             </div>
             <div class="modal-body">
-              <form action="#" method="post" role="form" class="php-email-form"  id="cngPass" > 
+              <form action="#" method="post" role="form" class=""  id="cngPass" > 
                 <div class="row">
                   <label for="username">שם משתמש (אימייל)</label>
-                  <input name="username" type="input" id="username" class="form-control" placeholder="אימייל" class="en" value="" readonly/>
+                  <input name="username" type="input" id="username" class="form-control username" placeholder="אימייל" class="en" value="" readonly/>
                 </div>
                 <div class="row">
                   <label for="password">סיסמה</label>
                   <input name="password" type="password" id="password" class="form-control" placeholder="סיסמה" class="en" value ="" required/>
                 </div>
-              </form> 
             </div>
+            <div id="modalErrMsg" class="errMsg">&nbsp;</div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">סגירה</button>
-              <button type="button" class="btn btn-primary">שמירה</button>
+              <button type="submit" class="btn btn-primary">שמירה</button>
             </div>
-          </div>
+          </form> 
+        </div>
         </div>
       </div>
   </main><!-- End #main -->
@@ -104,9 +105,11 @@
     //
     // Update the modal's content.
     var modalTitle = exampleModal.querySelector('.modal-title')
-    var modalBodyInput = exampleModal.querySelector('.modal-body input')
+    var modalBodyInput = exampleModal.querySelectorAll('.modal-body input')
+    //querySelector('.modal-body input')
   
     //modalTitle.textContent = 'New message to ' + recipient
-    modalBodyInput.value = recipient
+    modalBodyInput[0].value = recipient // username
+    modalBodyInput[1].value = "" // password
   })  
 </script>

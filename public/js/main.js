@@ -30,11 +30,18 @@ function readTokens() {
 function showModal(show, modal) {
   el = findElement(modal)
   if (el != null) {
-    var myModal = new bootstrap.Modal(el)
-    if (show)
+    
+    if (show) {
+      var myModal = new bootstrap.Modal(el)
       myModal.show();
-    else
+    }
+    else {
+      var myModal = bootstrap.Modal.getInstance(el);
       myModal.hide();
+      var backdrops = document.getElementsByClassName ('modal-backdrop')
+      for (var i = 0 ; i < backdrops.length; i++)
+        backdrops[i].style.display = "none"
+    }
   }
 }
 

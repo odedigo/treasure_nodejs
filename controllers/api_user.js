@@ -171,7 +171,7 @@ export async function changePassword(req, res) {
                 res.status(400).json({ msg: "שגיאה בעדכון המשתמש" })
                 return
             }
-            
+            res.status(200).json({ msg: "הסיסמה עודכנה בהצלחה" })
         })
         .catch (err =>  {
             console.log(err)
