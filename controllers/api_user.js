@@ -179,3 +179,39 @@ export async function changePassword(req, res) {
         })   
     })    
 }
+
+export function changeRole(req, res) {
+    var {username, role} = req.body
+    if (username === undefined || role === undefined) {
+        res.status(400).json({msg: "נתונים לא חוקיים"} )
+        return
+    }
+    if (!util.validateEmail(username)) {
+        return res.status(400).json({ msg: "שם המשתמש אינו אימייל חוקי" })
+    }
+
+    var filter = {
+        username
+    }       
+
+    const options = { 
+        upsert: true,
+        returnOriginal: false
+    };
+
+    UserModel.findOneAndUpdate(
+        filter, 
+        {$set: {"role": role}},
+        options
+    ).then(user => {
+        if (!user) {
+            res.status(400).json({ msg: "שגיאה בעדכון המשתמש" })
+            return
+        }
+        res.status(200).json({ msg: "התפקיד עודכן בהצלחה" })
+    })
+    .catch (err =>  {
+        console.log(err)
+        res.status(400).json({ msg: "עדכון התפקיד נכשל" })
+    })   
+}

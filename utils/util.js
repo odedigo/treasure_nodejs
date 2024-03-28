@@ -102,3 +102,4 @@ export function validateAdminPage(req) {
         return true
     return pages.includes(req.params.page)
 }
+

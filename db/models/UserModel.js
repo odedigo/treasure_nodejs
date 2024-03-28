@@ -14,6 +14,7 @@
 import { Schema, model } from 'mongoose';
 
 let Roles = {
+    SUPERADMIN: 'SUPER-ADMIN',
     ADMIN: 'ADMIN',
     TEACHER: 'TEACHER'
 }

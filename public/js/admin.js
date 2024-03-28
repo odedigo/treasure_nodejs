@@ -31,6 +31,13 @@ window.addEventListener('load', () => {
             e.preventDefault();    //stop form from submitting
         });    
     }
+    el = findElement("cngRole")
+    if (el != null) {
+        el.addEventListener("submit", function(e){
+            sendChangeRoleForm(this)
+            e.preventDefault();    //stop form from submitting
+        });    
+    }
 });
 
 async function sendLoginForm(form) {
@@ -103,7 +110,7 @@ async function sendChangePassForm(form) {
         password: form.password.value,
         username: form.username.value
     }
-    const response = await fetch('/api/chgpass', {
+    const response = await fetch('/api/user/chgpass', {
         method: "POST", // *GET, POST, PUT, DELETE, etc.
         cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
         headers: {
@@ -123,6 +130,37 @@ async function sendChangePassForm(form) {
     else {
         intermediateMsgElem(errMsg,resp.msg)
         showModal(false,'changePassModal')
+    }
+}
+
+async function sendChangeRoleForm(form) {
+    var errMsg = findElement('errMsg')
+    errMsg.innerHTML = ""
+    var body = {
+        role: form.role.value,
+        username: form.username.value
+    }
+    const response = await fetch('/api/user/role', {
+        method: "POST", // *GET, POST, PUT, DELETE, etc.
+        cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+        headers: {
+          "Content-Type": "application/json",
+          // 'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        redirect: "follow", // manual, *follow, error
+        referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+        body: JSON.stringify(body), // body data type must match "Content-Type" header
+    })
+
+    const resp = await response.json()
+    var modalErrMsg = findElement('modalErrRoleMsg')
+    if (response.status != 200) { // failed        
+        intermediateMsgElem(modalErrMsg,resp.msg)   
+    }
+    else {
+        intermediateMsgElem(errMsg,resp.msg)
+        showModal(false,'changeRoleModal')
+        setTimeout(window.location.reload(), 5000)
     }
 }
 

@@ -18,16 +18,23 @@
         <a
           href="/admin/mygames"
           class="list-group-item list-group-item-action py-2 ripple {{#ifEquals section 'mygames' }} active {{/ifEquals}}"
-          aria-current="true"
+          aria-current="true" 
         ><span>המשחקים שלי</span></a>
 
-        <a href="/admin/userlist" 
-          class="list-group-item list-group-item-action py-2 ripple {{#ifEquals section 'userlist' }} active {{/ifEquals}}"
-        ><span>רשימת משתמשים</span></a>
+        {{#compare jwtUser.role '===' 'TEACHER'}}
+        {{else}}
+          <a href="/admin/userlist" 
+            class="list-group-item list-group-item-action py-2 ripple {{#ifEquals section 'userlist' }} active {{/ifEquals}}"
+              onclick="return opsNotAllowed();"
+          ><span>רשימת משתמשים</span></a>
+        {{/compare}}
 
-        <a href="/admin/register" 
-          class="list-group-item list-group-item-action py-2 ripple {{#ifEquals section 'register' }} active {{/ifEquals}}"
-        ><span>רישום משתמש חדש</span></a>
+        {{#compare jwtUser.role '===' 'TEACHER'}}
+        {{else}}
+          <a href="/admin/register" 
+            class="list-group-item list-group-item-action py-2 ripple {{#ifEquals section 'register' }} active {{/ifEquals}}"
+          ><span>רישום משתמש חדש</span></a>
+        {{/compare}}
       </div>
     </div>
   </nav>

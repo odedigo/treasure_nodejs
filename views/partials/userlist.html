@@ -15,6 +15,7 @@
     
             </div>
             <div class="col-lg-7 mt-5 mt-lg-0 d-flex align-items-stretch" data-aos="fade-left">
+              
               <table class="table">
                 <thead>
                 <tr>
@@ -33,19 +34,39 @@
                     {{#compare ../data.length '===' 1}} 
                       &nbsp; 
                     {{else}} 
-                      {{#compare user.role '===' 'SUPER-ADMIN'}} 
-                      <img src="/img/ops/empty.png" class="ops-icon" />
+                      {{#compare ../jwtUser.role '===' 'SUPER-ADMIN'}} 
+                        {{#compare ../jwtUser.username '!==' user.username}} 
+                          <img src="/img/ops/del.png" class="ops-icon" onclick="delUser('{{user.username}}')" data-toggle="tooltip" data-placement="top" title="מחיקת משתמש"/>
+                        {{else}}
+                          <img src="/img/ops/empty.png" class="ops-icon" />
+                        {{/compare}}
                       {{else}}
-                        <img src="/img/ops/del.png" class="ops-icon" onclick="delUser('{{user.username}}')"/>
+                        <img src="/img/ops/empty.png" class="ops-icon" />
                       {{/compare}}    
                     {{/compare}}
-                        <a href="#" data-bs-toggle="modal" data-bs-target="#changePassModal" data-user-id="{{user.username}}" onclick="showModal(true,'oded')"><img src="/img/ops/pass.png" class="ops-icon" /></a>
+                    {{#compare ../jwtUser.role '===' 'SUPER-ADMIN'}} 
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#changePassModal" data-user-id="{{user.username}}"><img src="/img/ops/pass.png" class="ops-icon" data-toggle="tooltip" data-placement="top" title="שינוי סיסמה"/></a>
+                        {{#compare ../jwtUser.username '!==' user.username}} 
+                          <a href="#" data-bs-toggle="modal" data-bs-target="#changeRoleModal" data-user-id="{{user.username}}" data-role="{{user.role}}"><img src="/img/ops/role.png" class="ops-icon" data-toggle="tooltip" data-placement="top" title="שינוי תפקיד"/></a>
+                        {{else}}
+                          <img src="/img/ops/empty.png" class="ops-icon" />
+                        {{/compare}}
+                    {{else}}
+                        <img src="/img/ops/empty.png" class="ops-icon" />
+                    {{/compare}}
                   </td>
                   <td >{{user.name}}</td>
                   <td >{{user.username}}</td>
                   <td >{{user.branch}}</td>
-                  {{#ifEquals user.role 'ADMIN'}}<td>מנהל משחקים</td>{{/ifEquals}}
-                  <td>{{#ifEquals user.role 'SUPER-ADMIN'}}אדמין{{else}}מורה{{/ifEquals}}</td>
+                  {{#compare user.role '===' 'ADMIN'}}
+                    <td>מנהל משחקים</td>
+                  {{else}}
+                    {{#compare user.role '===' 'SUPER-ADMIN'}}
+                      <td>אדמין</td>
+                    {{else}}
+                      <td>מורה</td>
+                    {{/compare}}
+                  {{/compare}}
                   <td >{{user.created}}</td>
                   
                 </tr>
@@ -63,7 +84,7 @@
 
       <!-- CHANGE PASSWORD MODAL -->
 
-      <!-- Modal -->
+      <!-- Modal Change Pass -->
       <div class="modal fade" id="changePassModal" tabindex="-1" aria-labelledby="changePassModalLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
@@ -90,7 +111,42 @@
         </div>
         </div>
       </div>
-  </main><!-- End #main -->
+
+      <!-- Modal Change Role -->
+      <div class="modal fade" id="changeRoleModal" tabindex="-1" aria-labelledby="changeRoleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="changeRoleModalLabel">שינוי תפקיד</h5>              
+            </div>
+            <div class="modal-body">
+              <form action="#" method="post" role="form" class=""  id="cngRole" > 
+                <div class="row">
+                  <label for="username">שם משתמש (אימייל)</label>
+                  <input name="username" type="input" id="username-role" class="form-control username" placeholder="אימייל" class="en" value="" readonly/>
+                </div>
+                <div class="row">
+                  <label for="role">תפקיד</label>
+                  <select id="role" class="form-control">
+                    <option value="TEACHER">מורה</option>
+                    <option value="ADMIN">מנהל משחקים</option>
+                    {{#compare ../jwtUser.role '===' 'SUPER-ADMIN'}} 
+                    <option value="SUPER-ADMIN">אדמין</option>
+                    {{/compare}}
+                  </select>
+                </div>
+            </div>
+            <div id="modalErrRoleMsg" class="errMsg">&nbsp;</div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">סגירה</button>
+              <button type="submit" class="btn btn-primary">שמירה</button>
+            </div>
+          </form> 
+        </div>
+        </div>
+      </div>
+
+    </main><!-- End #main -->
 
 
 <script>
@@ -99,7 +155,7 @@
     // Button that triggered the modal
     var link = event.relatedTarget
     // Extract info from data-bs-* attributes
-    var recipient = link.getAttribute('data-user-id')
+    var user_id = link.getAttribute('data-user-id')
     // If necessary, you could initiate an AJAX request here
     // and then do the updating in a callback.
     //
@@ -107,9 +163,28 @@
     var modalTitle = exampleModal.querySelector('.modal-title')
     var modalBodyInput = exampleModal.querySelectorAll('.modal-body input')
     //querySelector('.modal-body input')
-  
     //modalTitle.textContent = 'New message to ' + recipient
-    modalBodyInput[0].value = recipient // username
+    modalBodyInput[0].value = user_id // username
     modalBodyInput[1].value = "" // password
+  })  
+  var exampleModal = document.getElementById('changeRoleModal')
+  exampleModal.addEventListener('show.bs.modal', function (event) {
+    // Button that triggered the modal
+    var link = event.relatedTarget
+    // Extract info from data-bs-* attributes
+    var user_id = link.getAttribute('data-user-id')
+    var user_role = link.getAttribute('data-role')
+    // If necessary, you could initiate an AJAX request here
+    // and then do the updating in a callback.
+    //
+    // Update the modal's content.
+    var modalTitle = exampleModal.querySelector('.modal-title')
+    var modalBodyInput = exampleModal.querySelectorAll('.modal-body input')
+    var modalSelect = exampleModal.querySelector('.modal-body select')
+    
+    //querySelector('.modal-body input')
+    //modalTitle.textContent = 'New message to ' + recipient
+    modalBodyInput[0].value = user_id // username
+    modalSelect.value = user_role
   })  
 </script>
