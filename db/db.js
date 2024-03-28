@@ -31,7 +31,7 @@ function getDbUri(conf) {
  * @param {*} callback 
  */
 export function connectDB(callback) {
-    var url = getDbUri(config.config.mongodb)
+    var url = getDbUri(config.mongodb)
     connect(url,connectionParams)
     .then( (aa) => {
         console.log('Connected to the database ')

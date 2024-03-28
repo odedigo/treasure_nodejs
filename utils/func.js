@@ -96,7 +96,7 @@ function _checkAnswer(formSize, formAngle, jsonSize, jsonAngle) {
  * @returns 
  */
 export function _reportStatus( data, team, body) {
-    if (!config.config.app.report_status)
+    if (!config.app.report_status)
         return
 
     var {gameName,index} = body

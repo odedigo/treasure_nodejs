@@ -290,7 +290,7 @@ export async function deleteGame(req, res, jwt) {
 export function createGameList(games) {
     var res = []
     games.forEach(game => {
-        var branch = config.config.data.branches[game.branch]
+        var branch = config.data.branches[game.branch]
         var active = game.active ? "כן" : "לא"
         res.push({gameName:game.gameName, branch , date: game.date, version:game.version, active})
     });
