@@ -5,13 +5,13 @@
           <div class="container">
     
             <div class="section-title" data-aos="fade-up">
-              <h2>רשימת משתמשים רשומים</h2>
+              <h2>רשימת משחקים</h2>
             </div>
     
             <div class="row">
     
               <div class="col-lg-2 d-flex align-items-stretch" data-aos="fade-right">
-              <img src="/img/exp1.jpg" />
+              <img src="/img/compass.png" />
     
             </div>
             <div class="col-lg-7 mt-5 mt-lg-0 d-flex align-items-stretch" data-aos="fade-left">
@@ -20,55 +20,22 @@
                 <thead>
                 <tr>
                   <th scope="col">פעולות</th>
-                  <th scope="col">שם</th>
+                  <th scope="col">שם המשחק</th>
                   <th scope="col">סניף</th>
-                  <th scope="col">שם משתמש</th>
-                  <th scope="col">תפקיד</th>
-                  <th scope="col">תאריך הרשמה</th>
+                  <th scope="col">פעיל</th>
+                  <th scope="col">גרסה</th>
+                  <th scope="col">תאריך עדכון</th>
                 </tr>
                 </thead>
                 <tbody>
-                {{#each data as |user|}}
+                {{#each data as |game|}}
                 <tr>
-                  <td >
-                    {{#compare ../data.length '===' 1}} 
-                      &nbsp; 
-                    {{else}} 
-                      {{#compare ../jwtUser.role '===' 'SUPER-ADMIN'}} 
-                        {{#compare ../jwtUser.username '!==' user.username}} 
-                          <img src="/img/ops/del.png" class="ops-icon" onclick="delUser('{{user.username}}')" data-toggle="tooltip" data-placement="top" title="מחיקת משתמש"/>
-                        {{else}}
-                          <img src="/img/ops/empty.png" class="ops-icon" />
-                        {{/compare}}
-                      {{else}}
-                        <img src="/img/ops/empty.png" class="ops-icon" />
-                      {{/compare}}    
-                    {{/compare}}
-                    {{#compare ../jwtUser.role '===' 'SUPER-ADMIN'}} 
-                        <a href="#" data-bs-toggle="modal" data-bs-target="#changePassModal" data-user-id="{{user.username}}"><img src="/img/ops/pass.png" class="ops-icon" data-toggle="tooltip" data-placement="top" title="שינוי סיסמה"/></a>
-                        {{#compare ../jwtUser.username '!==' user.username}} 
-                          <a href="#" data-bs-toggle="modal" data-bs-target="#changeRoleModal" data-user-id="{{user.username}}" data-role="{{user.role}}"><img src="/img/ops/role.png" class="ops-icon" data-toggle="tooltip" data-placement="top" title="שינוי תפקיד"/></a>
-                        {{else}}
-                          <img src="/img/ops/empty.png" class="ops-icon" />
-                        {{/compare}}
-                    {{else}}
-                        <img src="/img/ops/empty.png" class="ops-icon" />
-                    {{/compare}}
-                  </td>
-                  <td >{{user.name}}</td>
-                  <td >{{user.username}}</td>
-                  <td >{{user.branch}}</td>
-                  {{#compare user.role '===' 'ADMIN'}}
-                    <td>מנהל משחקים</td>
-                  {{else}}
-                    {{#compare user.role '===' 'SUPER-ADMIN'}}
-                      <td>אדמין</td>
-                    {{else}}
-                      <td>מורה</td>
-                    {{/compare}}
-                  {{/compare}}
-                  <td >{{user.created}}</td>
-                  
+                  <td ></td>
+                  <td >{{game.gameName}}</td>
+                  <td >{{game.branch}}</td>
+                  <td >{{game.active}}</td>
+                  <td >{{game.version}}</td>
+                  <td >{{game.date}}</td>                  
                 </tr>
                 {{/each}}
                 </tbody>

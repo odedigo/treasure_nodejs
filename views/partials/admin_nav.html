@@ -16,10 +16,10 @@
         ><span>אזור הניהול</span></a>
 
         <a
-          href="/admin/mygames"
-          class="list-group-item list-group-item-action py-2 ripple {{#ifEquals section 'mygames' }} active {{/ifEquals}}"
+          href="/admin/gamelist"
+          class="list-group-item list-group-item-action py-2 ripple {{#ifEquals section 'gamelist' }} active {{/ifEquals}}"
           aria-current="true" 
-        ><span>המשחקים שלי</span></a>
+        ><span>רשימת המשחקים</span></a>
 
         {{#compare jwtUser.role '===' 'TEACHER'}}
         {{else}}

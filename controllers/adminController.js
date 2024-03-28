@@ -12,6 +12,7 @@
 "use strict";
 //================ IMPORTS =================
 import * as api_user from '../controllers/api_user.js';
+import * as api_game from '../controllers/api_game.js';
 
 /**
  * Main rendering function
@@ -44,7 +45,11 @@ export async function renderAdmin(req, res, partial, jwtUser) {
     }
 
     if (partial === 'userlist') {
-        renderAdminUserlist(req, res, data)
+        renderAdminUserlist(req, res, jwtUser, data)
+        return
+    }
+    if (partial === 'gamelist') {
+        renderAdminGamelist(req, res, jwtUser, data)
         return
     }
 
@@ -53,11 +58,20 @@ export async function renderAdmin(req, res, partial, jwtUser) {
 
 }
 
-export async function renderAdminUserlist(req, res, data) {
-    var extra = {}
+export async function renderAdminUserlist(req, res, jwtUser, data) {
     const users = await api_user.getUserList()
     if (users) {
         data.data = api_user.createUserList(users)
+    }
+    // main_admin
+    res.render('admin' , data);
+}
+
+
+export async function renderAdminGamelist(req, res, jwtUser, data) {
+    const games = await api_game.getGameList(req, res, jwtUser)
+    if (games) {
+        data.data = api_game.createGameList(games)
     }
     // main_admin
     res.render('admin' , data);

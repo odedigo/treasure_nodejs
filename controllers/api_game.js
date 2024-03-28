@@ -12,7 +12,10 @@
 "use strict";
 //================ IMPORTS =================
 import {GameModel} from "../db/models/GameModel.js";
+import {StatusModel} from "../db/models/StatusModel.js"
+import {Roles} from "../db/models/UserModel.js";
 import strings from "../public/lang/strings.js"
+import config from "../config/config.js"
 import * as util from "../utils/util.js";
 import * as func from "../utils/func.js"
 
@@ -71,6 +74,42 @@ export function validateVector(req, res) {
     }) 
 }
 
+/**
+ * get game list
+ * 
+ * @param {*} req 
+ * @param {*} res 
+ * @returns 
+ */
+export async function getGameList(req, res, jwt) {
+    // check if DB properly connected
+    if(!req.app.get("db_connected")) {
+        return res.status(500);
+    }
+
+    var {branch, gameName} = req.body
+    var filter = {
+    }       
+
+    if (jwt.role === Roles.TEACHER || jwt.role === Roles.ADMIN) {
+        if (util.isValidValue(branch) && branch !== jwt.branch) {
+            res.status(400).json({msg: "פעולה לא חוקית"})
+            return 
+        }
+    }
+    else { // super admins can search for other branches
+        if (util.isValidValue(branch))
+            filter[branch] = branch
+    } 
+
+    if (util.isValidValue(gameName))
+        filter[gameName] = gameName
+
+    // send query
+    const games = await GameModel.find(filter)
+    return games
+}
+
 
 /**
  * Reset the game
@@ -79,7 +118,7 @@ export function validateVector(req, res) {
  * @param {*} res 
  * @returns 
  */
-export function resetGame(req, res) {
+export function resetGame(req, res, jwt) {
     // check if DB properly connected
     if(!req.app.get("db_connected")) {
         return res.status(500);
@@ -132,7 +171,7 @@ export function resetGame(req, res) {
  * @param {*} res 
  * @returns 
  */
-export function startGame(req, res) {
+export function startGame(req, res, jwt) {
     // check if DB properly connected
     if(!req.app.get("db_connected")) {
         return res.status(500);
@@ -185,7 +224,7 @@ export function startGame(req, res) {
  * @param {*} res 
  * @returns 
  */
-export async function createGame(req, res) {
+export async function createGame(req, res, jwt) {
     // check if DB properly connected
     if(!req.app.get("db_connected")) {
         return res.status(500);
@@ -212,7 +251,7 @@ export async function createGame(req, res) {
  * @param {*} res 
  * @returns 
  */
-export async function deleteGame(req, res) {
+export async function deleteGame(req, res, jwt) {
     // check if DB properly connected
     if(!req.app.get("db_connected")) {
         return res.status(500);
@@ -246,4 +285,14 @@ export async function deleteGame(req, res) {
         logger.errorM("catch in statusReport",err)
     })
     res.status(200)
+}
+
+export function createGameList(games) {
+    var res = []
+    games.forEach(game => {
+        var branch = config.config.data.branches[game.branch]
+        var active = game.active ? "כן" : "לא"
+        res.push({gameName:game.gameName, branch , date: game.date, version:game.version, active})
+    });
+    return res;
 }

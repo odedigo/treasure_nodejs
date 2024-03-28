@@ -23,9 +23,29 @@ import { renderAdmin } from '../controllers/adminController.js'
 import * as util from "../utils/util.js";
 import { UserModel, Roles } from '../db/models/UserModel.js';
 
+/********************** PAGES ****************************************/
+
 router.get('/', (req, res) => {
     renderHome(req, res)
 })
+
+// Error page
+router.get('/err', (req, res) => { //Err Site
+    renderErr(req, res);
+});
+
+// Login page
+router.get('/login', (req, res) => { //Err Site
+    renderLogin(req, res);
+});
+
+// Logout page
+router.get('/logout', (req, res) => { //Err Site
+    api_user.logoutUser(req, res);
+});
+
+
+/********************** PLAYER / TEACHER PAGES ****************************************/
 
 // Students game
 router.get('/game/:gameName/:team/:index/', (req, res) => { //Game Site 
@@ -48,39 +68,26 @@ router.get('/teacher/:gameName', (req, res) => { //Teacher Site
     renderTeacher(req, res);
 });
 
-// Error page
-router.get('/err', (req, res) => { //Err Site
-    renderErr(req, res);
-});
-
-// Login page
-router.get('/login', (req, res) => { //Err Site
-    renderLogin(req, res);
-});
-
-// Logout page
-router.get('/logout', (req, res) => { //Err Site
-    api_user.logoutUser(req, res);
-});
 
 // Admin pages
 router.get('/admin/:page?', (req, res) => { //Err Site
-    const isValid = util.validateAdminUser(req, true)
-    if (!isValid.valid || !validateRoleAllowed(req, [Roles.ADMIN, Roles.TEACHER])) {
+    const jwt = util.validateAdminUser(req, true)
+    if (!jwt.valid || !validateRoleAllowed(req, [Roles.ADMIN, Roles.TEACHER])) {
         res.redirect("/login")
         return
     }
-    renderAdmin(req, res, req.params.page, isValid.jwtUser);
+    renderAdmin(req, res, req.params.page, jwt.jwtUser);
 });
 
-// ********* user **********
+/********* API ********** LOGIN / LOGOUT / REGISTER ****************************************/
 
 router.post('/api/register', (req, res) => { //Err Site
-    if (!util.validateAdminUser(req, false).valid || !validateRoleAllowed(req, [Roles.ADMIN])) {
+    const jwt = util.validateAdminUser(req, true)
+    if (!jwt.valid || !validateRoleAllowed(req, [Roles.ADMIN])) {
         res.redirect("/err")
         return
     }
-    api_user.registerUser(req, res)
+    api_user.registerUser(req, res, jwt.jwtUser)
 });
 
 router.post('/api/login', (req, res) => {
@@ -95,8 +102,11 @@ router.post('/api/logout', (req, res) => {
     api_user.logoutUser(req,res)
 });
 
+/********* API ********** USER ACTIONS ****************************************/
+
 router.post('/api/user/del', (req, res) => {
-    if (!util.validateAdminUser(req, false).valid  || !validateRoleAllowed(req, [Roles.SUPERADMIN])) {
+    const jwt = util.validateAdminUser(req, true)
+    if (!jwt.valid  || !validateRoleAllowed(req, [Roles.SUPERADMIN])) {
         res.redirect("/err")
         return
     }
@@ -104,19 +114,21 @@ router.post('/api/user/del', (req, res) => {
         res.status(400).json({msg: "שם משתמש לא חוקי"} )
         return
     }
-    api_user.deleteUser(req, res)
+    api_user.deleteUser(req, res, jwt.jwtUser)
 });
 
 router.post('/api/user/chgpass', (req, res) => {
-    if (!util.validateAdminUser(req, false).valid || !validateRoleAllowed(req, [Roles.ADMIN])) {
+    const jwt = util.validateAdminUser(req, true)
+    if (!jwt.valid || !validateRoleAllowed(req, [Roles.ADMIN])) {
         res.redirect("/err")
         return
     }
-    api_user.changePassword(req, res)
+    api_user.changePassword(req, res, jwt.jwtUser)
 });
 
 router.post('/api/user/role', (req, res) => {
-    if (!util.validateAdminUser(req, false).valid || !validateRoleAllowed(req, [Roles.SUPERADMIN])) {
+    const jwt = util.validateAdminUser(req, true)
+    if (!jwt.valid || !validateRoleAllowed(req, [Roles.SUPERADMIN])) {
         res.redirect("/err")
         return
     }
@@ -125,44 +137,89 @@ router.post('/api/user/role', (req, res) => {
         res.status(400).json({msg: "הפעולה נכשלה"} )
         return
     }
-    api_user.changeRole(req, res)
+    api_user.changeRole(req, res, jwt.jwtUser)
 });
 
-/** game */
+/********* API ********** GAME ACTIONS ****************************************/
+
+/** 
+ * Player request to validate a vector 
+ */
 router.post('/api/vector', (req, res) => {
     api_game.validateVector(req,res)
 });
 
-router.post('/api/reset/:gameName', (req, res) => {
-    if (!validateRoleAllowed(req, [Roles.ADMIN, Roles.TEACHER])) {
+/**
+ * get game list
+ */
+router.post('/api/game/list', (req, res) => {
+    const jwt = util.validateAdminUser(req, true)
+    if (!jwt.valid || !validateRoleAllowed(req, [Roles.ADMIN, Roles.TEACHER])) {
         res.status(400).json({msg: "הפעולה נכשלה"} )
         return
     }
-    api_game.resetGame(req,res)
+    api_game.getGameList(req,res, jwt.jwtUser)
 });
 
-router.post('/api/start/:gameName', (req, res) => {
-    if (!validateRoleAllowed(req, [Roles.ADMIN, Roles.TEACHER])) {
+/**
+ * reset a game
+ */
+router.post('/api/game/reset', (req, res) => {
+    const jwt = util.validateAdminUser(req, true)
+    if (!jwt.valid || !validateRoleAllowed(req, [Roles.ADMIN, Roles.TEACHER])) {
         res.status(400).json({msg: "הפעולה נכשלה"} )
         return
     }
-    api_game.startGame(req,res)
+    api_game.resetGame(req,res, jwt.jwtUser)
 });
 
-
-router.post('/api/create/:gameName', (req, res) => {
-    api_game.createGame(req,res)
-});
-
-router.post('/api/remove/:gameName', (req, res) => {
-    if (!validateRoleAllowed(req, [Roles.ADMIN, Roles.TEACHER])) {
+/**
+ * start a game
+ */
+router.post('/api/game/start', (req, res) => {
+    const jwt = util.validateAdminUser(req, true)
+    if (!jwt.valid || !validateRoleAllowed(req, [Roles.ADMIN, Roles.TEACHER])) {
         res.status(400).json({msg: "הפעולה נכשלה"} )
         return
     }
-    api_game.deleteGame(req,res)
+    api_game.startGame(req,res, jwt.jwtUser)
+});
+
+/**
+ * Create a new game
+ */
+router.post('/api/game/create', (req, res) => {
+    const jwt = util.validateAdminUser(req, true)
+    if (!jwt.valid || !validateRoleAllowed(req, [Roles.ADMIN, Roles.TEACHER])) {
+        res.status(400).json({msg: "הפעולה נכשלה"} )
+        return
+    }
+    api_game.createGame(req,res, jwt.jwtUser)
+});
+
+/**
+ * Delete a game
+ */
+router.post('/api/game/remove', (req, res) => {
+    const jwt = util.validateAdminUser(req, true)
+    if (!jwt.valid || !validateRoleAllowed(req, [Roles.ADMIN, Roles.TEACHER])) {
+        res.status(400).json({msg: "הפעולה נכשלה"} )
+        return
+    }
+    api_game.deleteGame(req,res, jwt.jwtUser)
 });
 
 
+/********************** TOOLS ****************************************/
+
+/**
+ * Checks that the current user has the right to perform the action
+ * by his role
+ * 
+ * @param {*} req 
+ * @param {*} roles 
+ * @returns 
+ */
 export function validateRoleAllowed(req, roles) {
     const jwtUser = util.validateToken(req.headers.cookie)
     if (!jwtUser) {
