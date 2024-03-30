@@ -202,13 +202,24 @@ router.post('/api/game/create', (req, res) => {
  */
 router.post('/api/game/remove', (req, res) => {
     const jwt = util.validateAdminUser(req, true)
-    if (!jwt.valid || !validateRoleAllowed(req, [Roles.ADMIN, Roles.TEACHER])) {
+    if (!jwt.valid || !validateRoleAllowed(req, [Roles.ADMIN])) {
         res.status(400).json({msg: "הפעולה נכשלה"} )
         return
     }
     api_game.deleteGame(req,res, jwt.jwtUser)
 });
 
+/**
+ * Delete a game
+ */
+router.post('/api/game/clone', (req, res) => {
+    const jwt = util.validateAdminUser(req, true)
+    if (!jwt.valid || !validateRoleAllowed(req, [Roles.ADMIN])) {
+        res.status(400).json({msg: "הפעולה נכשלה"} )
+        return
+    }
+    api_game.cloneGame(req,res, jwt.jwtUser)
+});
 
 /********************** TOOLS ****************************************/
 

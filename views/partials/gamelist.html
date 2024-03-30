@@ -1,6 +1,6 @@
 <main id="main">
 
-        <!-- ======= User List Section ======= -->
+        <!-- ======= Game List Section ======= -->
         <section id="contact" class="contact section-bg">
           <div class="container">
     
@@ -30,7 +30,15 @@
                 <tbody>
                 {{#each data as |game|}}
                 <tr>
-                  <td ></td>
+                  <td >
+                    {{#compare ../jwtUser.role '!==' 'TEACHER'}} 
+                      <a href="#" data-bs-toggle="modal" data-bs-target="#cloneGameModal" data-orig-game="{{game.gameName}}">
+                        <img src="/img/ops/clone.png" class="ops-icon" data-toggle="tooltip" data-placement="top" title="שכפול משחק"/>
+                      </a>
+                      <img src="/img/ops/edit.png" class="ops-icon" onclick="editeGame('{{game.gameName}}')" data-toggle="tooltip" data-placement="top" title="עריכת משחק"/>
+                      <img src="/img/ops/del.png" class="ops-icon" onclick="deleteGame('{{game.gameName}}')" data-toggle="tooltip" data-placement="top" title="מחיקת משחק"/>
+                    {{/compare}}
+                  </td>
                   <td >{{game.gameName}}</td>
                   <td >{{game.branch}}</td>
                   <td >{{game.active}}</td>
@@ -49,64 +57,28 @@
         </div>
       </section><!-- End User List Section -->
 
-      <!-- CHANGE PASSWORD MODAL -->
-
-      <!-- Modal Change Pass -->
-      <div class="modal fade" id="changePassModal" tabindex="-1" aria-labelledby="changePassModalLabel" aria-hidden="true">
+      <!-- Modal Clone Game -->
+      <div class="modal fade" id="cloneGameModal" tabindex="-1" aria-labelledby="cloneGameModalLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="changePassModalLabel">שינוי סיסמה</h5>              
+              <h5 class="modal-title" id="cloneGameModalLabel">שינוי תפקיד</h5>              
             </div>
             <div class="modal-body">
-              <form action="#" method="post" role="form" class=""  id="cngPass" > 
+              <form action="#" method="" role="form" class=""  id="cloneGameForm" > 
                 <div class="row">
-                  <label for="username">שם משתמש (אימייל)</label>
-                  <input name="username" type="input" id="username" class="form-control username" placeholder="אימייל" class="en" value="" readonly/>
+                  <label for="origName">שם המשחק המקורי</label>
+                  <input name="origName" type="input" id="origName-role" class="form-control" placeholder="" class="en" value="" readonly/>
                 </div>
                 <div class="row">
-                  <label for="password">סיסמה</label>
-                  <input name="password" type="password" id="password" class="form-control" placeholder="סיסמה" class="en" value ="" required/>
-                </div>
-            </div>
-            <div id="modalErrMsg" class="errMsg">&nbsp;</div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">סגירה</button>
-              <button type="submit" class="btn btn-primary">שמירה</button>
-            </div>
-          </form> 
-        </div>
-        </div>
-      </div>
-
-      <!-- Modal Change Role -->
-      <div class="modal fade" id="changeRoleModal" tabindex="-1" aria-labelledby="changeRoleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="changeRoleModalLabel">שינוי תפקיד</h5>              
-            </div>
-            <div class="modal-body">
-              <form action="#" method="post" role="form" class=""  id="cngRole" > 
-                <div class="row">
-                  <label for="username">שם משתמש (אימייל)</label>
-                  <input name="username" type="input" id="username-role" class="form-control username" placeholder="אימייל" class="en" value="" readonly/>
-                </div>
-                <div class="row">
-                  <label for="role">תפקיד</label>
-                  <select id="role" class="form-control">
-                    <option value="TEACHER">מורה</option>
-                    <option value="ADMIN">מנהל משחקים</option>
-                    {{#compare ../jwtUser.role '===' 'SUPER-ADMIN'}} 
-                    <option value="SUPER-ADMIN">אדמין</option>
-                    {{/compare}}
-                  </select>
+                  <label for="newName">שם המשחק החדש</label>
+                  <input name="newName" type="input" id="newName-role" class="form-control" placeholder="" class="en" value=""/>
                 </div>
             </div>
             <div id="modalErrRoleMsg" class="errMsg">&nbsp;</div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">סגירה</button>
-              <button type="submit" class="btn btn-primary">שמירה</button>
+              <button type="submit" class="btn btn-primary">שיכפול</button>
             </div>
           </form> 
         </div>
@@ -117,30 +89,12 @@
 
 
 <script>
-  var exampleModal = document.getElementById('changePassModal')
+  var exampleModal = document.getElementById('cloneGameModal')
   exampleModal.addEventListener('show.bs.modal', function (event) {
     // Button that triggered the modal
     var link = event.relatedTarget
     // Extract info from data-bs-* attributes
-    var user_id = link.getAttribute('data-user-id')
-    // If necessary, you could initiate an AJAX request here
-    // and then do the updating in a callback.
-    //
-    // Update the modal's content.
-    var modalTitle = exampleModal.querySelector('.modal-title')
-    var modalBodyInput = exampleModal.querySelectorAll('.modal-body input')
-    //querySelector('.modal-body input')
-    //modalTitle.textContent = 'New message to ' + recipient
-    modalBodyInput[0].value = user_id // username
-    modalBodyInput[1].value = "" // password
-  })  
-  var exampleModal = document.getElementById('changeRoleModal')
-  exampleModal.addEventListener('show.bs.modal', function (event) {
-    // Button that triggered the modal
-    var link = event.relatedTarget
-    // Extract info from data-bs-* attributes
-    var user_id = link.getAttribute('data-user-id')
-    var user_role = link.getAttribute('data-role')
+    var origGame = link.getAttribute('data-orig-game')
     // If necessary, you could initiate an AJAX request here
     // and then do the updating in a callback.
     //
@@ -151,7 +105,6 @@
     
     //querySelector('.modal-body input')
     //modalTitle.textContent = 'New message to ' + recipient
-    modalBodyInput[0].value = user_id // username
-    modalSelect.value = user_role
+    modalBodyInput[0].value = origGame // username
   })  
 </script>

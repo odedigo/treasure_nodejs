@@ -108,3 +108,13 @@ export function validateAdminPage(req) {
     return pages.includes(req.params.page)
 }
 
+
+export function branchToCode(branch) {
+    const code = Object.keys(config.data.branches).find(key => config.data.branches[key] === branch);
+    return code
+}
+
+export function codeToBranch(code) {
+    return config.data.branches[code]
+}
+    

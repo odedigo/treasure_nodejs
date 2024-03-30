@@ -13,28 +13,22 @@
           href="/admin"
           class="list-group-item list-group-item-action py-2 ripple {{#ifEquals section 'admin_main' }} active {{/ifEquals}}"
           aria-current="true"
-        ><span>אזור הניהול</span></a>
+        ><span>ראשי</span></a>
 
         <a
           href="/admin/gamelist"
           class="list-group-item list-group-item-action py-2 ripple {{#ifEquals section 'gamelist' }} active {{/ifEquals}}"
           aria-current="true" 
-        ><span>רשימת המשחקים</span></a>
+        ><span>ניהול משחקים</span></a>
 
         {{#compare jwtUser.role '===' 'TEACHER'}}
         {{else}}
           <a href="/admin/userlist" 
-            class="list-group-item list-group-item-action py-2 ripple {{#ifEquals section 'userlist' }} active {{/ifEquals}}"
+            class="list-group-item list-group-item-action py-2 ripple {{#ifEquals section 'userlist' }} active {{else}} {{#ifEquals section 'register' }} active {{/ifEquals}}{{/ifEquals}}"
               onclick="return opsNotAllowed();"
-          ><span>רשימת משתמשים</span></a>
+          ><span>ניהול משתמשים</span></a>
         {{/compare}}
 
-        {{#compare jwtUser.role '===' 'TEACHER'}}
-        {{else}}
-          <a href="/admin/register" 
-            class="list-group-item list-group-item-action py-2 ripple {{#ifEquals section 'register' }} active {{/ifEquals}}"
-          ><span>רישום משתמש חדש</span></a>
-        {{/compare}}
       </div>
     </div>
   </nav>

@@ -56,6 +56,12 @@ function showModal(show, modal) {
   }
 }
 
+function resetFormInputs() {
+  var allInputs = document.querySelectorAll('input');
+  allInputs.forEach(singleInput => singleInput.value = '');
+}
+
+
 /**
  * Easy selector helper function
  */

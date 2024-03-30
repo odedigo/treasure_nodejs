@@ -8,14 +8,26 @@
               <h2>רשימת משתמשים רשומים</h2>
             </div>
     
+            <div class="row my-3 mx-1">
+              <div class="col-2 mx-1 mt-4">
+              </div>
+
+              <div class="col-2 mx-3 mt-4 list-group">
+                {{#compare jwtUser.role '===' 'TEACHER'}}
+                {{else}}
+                  <a href="/admin/register" 
+                    class="action list-group list-group-item active"
+                  ><span>רישום משתמש חדש</span></a>
+                {{/compare}}
+              </div>
+            </div>
             <div class="row">
     
               <div class="col-lg-2 d-flex align-items-stretch" data-aos="fade-right">
-              <img src="/img/exp1.jpg" />
+              <img src="/img/gamer.png" />
     
             </div>
             <div class="col-lg-7 mt-5 mt-lg-0 d-flex align-items-stretch" data-aos="fade-left">
-              
               <table class="table table-striped">
                 <thead>
                 <tr>

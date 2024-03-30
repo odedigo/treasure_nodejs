@@ -8,6 +8,7 @@
  */
 
 
+/**************** WINDOW ONLOAD ***********************/
 window.addEventListener('load', () => {
     let el = findElement("login")
     if (el != null) {
@@ -38,7 +39,16 @@ window.addEventListener('load', () => {
             e.preventDefault();    //stop form from submitting
         });    
     }
+    el = findElement("cloneGameForm")
+    if (el != null) {
+        el.addEventListener("submit", function(e){
+            e.preventDefault();    //stop form from submitting
+            cloneGame(this)
+        });    
+    }
 });
+
+/**************** USER ACTIONS ***********************/
 
 async function sendLoginForm(form) {
     var errMsg = findElement('errMsg')
@@ -164,11 +174,6 @@ async function sendChangeRoleForm(form) {
     }
 }
 
-function resetFormInputs() {
-    var allInputs = document.querySelectorAll('input');
-    allInputs.forEach(singleInput => singleInput.value = '');
-}
-
 function delUser(username) {
     var errMsg = findElement('errMsg')
     errMsg.innerHTML = ""
@@ -207,5 +212,95 @@ function delUser(username) {
     .catch(err => {
         console.log(err)
     })
-
 }
+
+/**************** GAME ACTIONS ***********************/
+
+function cloneGame(form) {    
+    var errMsg = findElement('errMsg')
+    if (errMsg)
+        errMsg.innerHTML = ""
+
+    var body = {
+        origGame : form.origName.value,
+        newGame : form.newName.value
+    }
+
+    if (body.origGame === body.newGame || body.newGame === "") {
+        errMsg.innerHTML = "שם המשחק חייב להיות ייחודי ולא ריק"
+        return
+    }    
+
+    const response = fetch('/api/game/clone', {
+        method: "POST", // *GET, POST, PUT, DELETE, etc.
+        cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+        headers: {
+          "Content-Type": "application/json",
+        },
+        redirect: "follow", // manual, *follow, error
+        referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+        body: JSON.stringify(body), // body data type must match "Content-Type" header
+    })
+    .then (response => {
+        response.json()
+        .then (resp => {
+            console.log(resp)
+            if (response.status != 200) { // failed        
+                intermediateMsgElem(errMsg,resp.msg)
+            }
+            else {
+                intermediateMsgElem(errMsg,resp.msg)
+                setTimeout(window.location.reload(), 3000)
+            }    
+        })
+    })
+    .catch(err => {
+        console.log(err)
+    })
+}
+
+function deleteGame(name) {
+    var errMsg = findElement('errMsg')
+    if (errMsg)
+        errMsg.innerHTML = ""
+
+    var body = {
+        gameName : name
+    }
+
+    if (body.gameName === "") {
+        errMsg.innerHTML = "שם המשחק חייב לא יכול להיות ריק"
+        return
+    }    
+
+    if (!confirm(`${name} למחוק את המשחק?`)) 
+        return
+
+    const response = fetch('/api/game/remove', {
+        method: "POST", // *GET, POST, PUT, DELETE, etc.
+        cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+        headers: {
+          "Content-Type": "application/json",
+        },
+        redirect: "follow", // manual, *follow, error
+        referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+        body: JSON.stringify(body), // body data type must match "Content-Type" header
+    })
+    .then (response => {
+        response.json()
+        .then (resp => {
+            console.log(resp)
+            if (response.status != 200) { // failed        
+                intermediateMsgElem(errMsg,resp.msg)
+            }
+            else {
+                intermediateMsgElem(errMsg,resp.msg)
+                setTimeout(window.location.reload(), 3000)
+            }    
+        })
+    })
+    .catch(err => {
+        console.log(err)
+    })
+}
+

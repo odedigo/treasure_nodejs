@@ -35,7 +35,10 @@ var GameSchema = new Schema({
     date: String,
     active: Boolean,
     branch: String,
-    gameName: String,
+    gameName: {
+        type: String,
+        unique: true
+    },
     blue: TeamSchema,
     green: TeamSchema,
     red: TeamSchema

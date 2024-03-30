@@ -18,7 +18,7 @@ import strings from "../public/lang/strings.js"
 import config from "../config/config.js"
 import * as util from "../utils/util.js";
 import * as func from "../utils/func.js"
-
+import { Types } from 'mongoose';
 /**
  * Checks if the result vector is valid or not
  * Called by the student's form
@@ -110,6 +110,61 @@ export async function getGameList(req, res, jwt) {
     return games
 }
 
+/**
+ * Clones a game
+ * 
+ * @param {*} req 
+ * @param {*} res 
+ * @returns 
+ */
+export function cloneGame(req, res, jwt) {
+    // check if DB properly connected
+    if(!req.app.get("db_connected")) {
+        return res.status(500);
+    }
+
+    var {origGame, newGame} = req.body
+    var filter = {
+        gameName: origGame
+    }       
+
+    if (jwt.role !== Roles.SUPERADMIN) {
+        filter[branch] = jwt.branch
+    } 
+
+    // send query
+    GameModel.find(filter)
+    .then(game => {
+        if (!game || game.length != 1) {
+            res.status(400).json({msg: "המשחק לא נמצא"})
+            return
+        }
+        game[0].gameName = newGame
+        game[0].version = "1.0"
+        game[0].active = false
+        game[0]._id = new Types.ObjectId();
+        game[0].date = util.getCurrentDateTime()
+        
+        game[0].isNew = true
+        delete game[0]._id
+        var theGame = new GameModel(game[0])
+        theGame.save()
+        .then (ngame => {
+            if (ngame)
+                res.status(200).json({msg: "המשחק שוכפל בהצלחה", game: ngame})
+            else
+                res.status(400).json({msg: "המשחק לא שוכפל"})
+        }) 
+        .catch (error => {
+            console.log(error)
+            res.status(400).json({msg: "המשחק לא נמצא"})
+        })
+    })
+    .catch(err => {
+        console.log(err)
+        res.status(400).json({msg: "המשחק לא נמצא"})
+    })
+}
 
 /**
  * Reset the game
@@ -263,34 +318,36 @@ export async function deleteGame(req, res, jwt) {
         return
     }  
 
-    gameName = 'oded'
     var filter = {
-        gameName
+        gameName,
+        branch: util.branchToCode(jwt.branch)
     }       
 
     const options = {         
     };
 
     // send query
-    await StatusModel.deleteMany(
+    await GameModel.deleteOne(
         filter, 
         options
     )
     .then(doc => {
-        if(!doc) {
-            logger.error("Failed to update team statusReport")
+        if(!doc) {         
+            res.status(400).json({msg: "מחיקת המשחק נכשלה"})   
+        }
+        else {
+            res.status(200).json({msg: "מחיקת המשחק הצליחה"})
         }
     })
     .catch(err => {
-        logger.errorM("catch in statusReport",err)
+        res.status(400).json({msg: "מחיקת המשחק נכשלה"})   
     })
-    res.status(200)
 }
 
 export function createGameList(games) {
     var res = []
     games.forEach(game => {
-        var branch = config.data.branches[game.branch]
+        var branch = util.codeToBranch(game.branch)
         var active = game.active ? "כן" : "לא"
         res.push({gameName:game.gameName, branch , date: game.date, version:game.version, active})
     });

@@ -20,7 +20,10 @@ let Roles = {
 }
 
 var UserSchema = new Schema({
-    username: String,
+    username: {
+        type: String,
+        unique: true
+    },
     password: String,
     created: Date,
     name: String,
