@@ -70,7 +70,7 @@ router.get('/teacher/:gameName', (req, res) => { //Teacher Site
 
 
 // Admin pages
-router.get('/admin/:page?', (req, res) => { //Err Site
+router.get('/admin/:page?/:param?', (req, res) => { //Err Site
     const jwt = util.validateAdminUser(req, true)
     if (!jwt.valid || !validateRoleAllowed(req, [Roles.ADMIN, Roles.TEACHER])) {
         res.redirect("/login")
@@ -159,6 +159,18 @@ router.post('/api/game/list', (req, res) => {
         return
     }
     api_game.getGameList(req,res, jwt.jwtUser)
+});
+
+/**
+ * reset a game
+ */
+router.post('/api/game/edit', (req, res) => {
+    const jwt = util.validateAdminUser(req, true)
+    if (!jwt.valid || !validateRoleAllowed(req, [Roles.ADMIN])) {
+        res.status(400).json({msg: "הפעולה נכשלה"} )
+        return
+    }
+    api_game.editGame(req,res, jwt.jwtUser)
 });
 
 /**

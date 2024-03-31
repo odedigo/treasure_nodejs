@@ -167,6 +167,43 @@ export function cloneGame(req, res, jwt) {
 }
 
 /**
+ * Redurect to edit a game
+ * 
+ * @param {*} req 
+ * @param {*} res 
+ * @returns 
+ */
+export function editGame(req, res, jwt) {
+    // check if DB properly connected
+    if(!req.app.get("db_connected")) {
+        return res.status(500);
+    }
+
+    var {gameName} = req.body
+    var filter = {
+        gameName
+    }       
+
+    if (jwt.role !== Roles.SUPERADMIN) {
+        filter[branch] = jwt.branch
+    } 
+
+    // send query
+    GameModel.findOne(filter)
+    .then(game => {
+        if (!game) {
+            res.status(400).json({msg: "המשחק לא נמצא"})
+            return
+        }
+        res.status(200).json({path:`/admin/editgame/${encodeURI(gameName)}`})
+    }) 
+    .catch (error => {
+        console.log(error)
+        res.status(400).json({msg: "המשחק לא נמצא"})
+    })
+}
+
+/**
  * Reset the game
  * 
  * @param {*} req 

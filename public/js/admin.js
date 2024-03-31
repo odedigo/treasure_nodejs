@@ -289,7 +289,6 @@ function deleteGame(name) {
     .then (response => {
         response.json()
         .then (resp => {
-            console.log(resp)
             if (response.status != 200) { // failed        
                 intermediateMsgElem(errMsg,resp.msg)
             }
@@ -304,3 +303,42 @@ function deleteGame(name) {
     })
 }
 
+function editeGame(name) {
+    var errMsg = findElement('errMsg')
+    if (errMsg)
+        errMsg.innerHTML = ""
+
+    var body = {
+        gameName : name
+    }
+
+    if (body.gameName === "") {
+        errMsg.innerHTML = "שם המשחק חייב לא יכול להיות ריק"
+        return
+    }    
+
+    const response = fetch('/api/game/edit', {
+        method: "POST", // *GET, POST, PUT, DELETE, etc.
+        cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+        headers: {
+          "Content-Type": "application/json",
+        },
+        redirect: "follow", // manual, *follow, error
+        referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+        body: JSON.stringify(body), // body data type must match "Content-Type" header
+    })
+    .then (response => {
+        response.json()
+        .then (resp => {
+            if (response.status != 200) { // failed        
+                intermediateMsgElem(errMsg,resp.msg)
+            }
+            else {
+                window.location = resp.path
+            }    
+        })
+    })
+    .catch(err => {
+        console.log(err)
+    })
+}
