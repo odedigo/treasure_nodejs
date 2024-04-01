@@ -1540,9 +1540,9 @@ section {
 --------------------------------------------------------------*/
 .breadcrumbs {
   padding: 15px 0;
-  
   min-height: 40px;
   /*margin-top: 70px;*/
+  background: #f4f6f7;
 }
 
 .breadcrumbs h2 {

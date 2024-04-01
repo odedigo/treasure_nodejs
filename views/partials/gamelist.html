@@ -7,7 +7,21 @@
             <div class="section-title" data-aos="fade-up">
               <h2>רשימת משחקים</h2>
             </div>
-    
+            
+            <div class="row my-3 mx-1">
+              <div class="col-2 mx-1 mt-4">
+              </div>
+
+              <div class="col-2 mx-3 mt-4 list-group">
+                {{#compare jwtUser.role '===' 'TEACHER'}}
+                {{else}}
+                  <a href="/admin/newGame" 
+                    class="action list-group list-group-item active"
+                  ><span>יצירת משחק חדש</span></a>
+                {{/compare}}
+              </div>
+            </div>
+            
             <div class="row">
     
               <div class="col-lg-2 d-flex align-items-stretch" data-aos="fade-right">

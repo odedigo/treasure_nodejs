@@ -1,68 +1,209 @@
 <main id="main">
 
-        <!-- ======= Game List Section ======= -->
-        <section id="contact" class="contact section-bg">
-          <div class="container">
-    
-            <div class="section-title" data-aos="fade-up">
-              <h2>עריכת משחק</h2>
-            </div>
-    
-            <div class="row">
-    
-content
-    
-            </div>
-          </section><!-- End User List Section -->
+           <!-- ======= Breadcrumbs ======= -->
+      <section id="contact" class="contact section-bg">
+      <div class="container">
+        <h2>עריכת משחק {{data.gameName}}</h2>
 
-      <!-- Modal Clone Game -->
-      <div class="modal fade" id="cloneGameModal" tabindex="-1" aria-labelledby="cloneGameModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="cloneGameModalLabel">שינוי תפקיד</h5>              
-            </div>
-            <div class="modal-body">
-              <form action="#" method="" role="form" class=""  id="cloneGameForm" > 
-                <div class="row">
-                  <label for="origName">שם המשחק המקורי</label>
-                  <input name="origName" type="input" id="origName-role" class="form-control" placeholder="" class="en" value="" readonly/>
+        <div class="">
+
+          <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button class="nav-link active" id="gen-tab" data-bs-toggle="tab" data-bs-target="#gen" type="button" role="tab" aria-controls="gen" aria-selected="true">כללי</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="red-tab" data-bs-toggle="tab" data-bs-target="#red" type="button" role="tab" aria-controls="red" aria-selected="false">קב' אדומה</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="blue-tab" data-bs-toggle="tab" data-bs-target="#blue" type="button" role="tab" aria-controls="blue" aria-selected="false">קב' כחולה</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="green-tab" data-bs-toggle="tab" data-bs-target="#green" type="button" role="tab" aria-controls="green" aria-selected="false">קב' ירוקה</button>
+            </li>
+          </ul>
+          <form id="gameEditor">
+            <div class="tab-content" id="myTabContent">
+              <div class="tab-pane fade show active" id="gen" role="tabpanel" aria-labelledby="gen-tab">
+                
+                <div class="mb-3">
+                  <div class="mb-3 w-50">
+                    <label for="gameName" class="form-label">שם המשחק</label>
+                    <input type="input" class="form-control input-sm" id="gameName" placeholder="" readonly>
+                  </div>
+                  <div class="mb-3 w-50">
+                    <label for="branch" class="form-label">סניף</label>
+                    <input type="input" class="form-control input-sm" id="branch" placeholder="" readonly>
+                  </div>
+                  <div class="mb-3 w-50 ">
+                    <label for="version" class="form-label">גרסה</label>
+                    <div class="d-flex">
+                      <input type="input" class="form-control input-sm en" id="version" placeholder="" readonly>
+                      <button type="button" class="btn btn-success">להעלות</button>
+                    </div>
+                  </div>
                 </div>
-                <div class="row">
-                  <label for="newName">שם המשחק החדש</label>
-                  <input name="newName" type="input" id="newName-role" class="form-control" placeholder="" class="en" value=""/>
-                </div>
+              </div>
+              <!-- RED -->
+              <div class="tab-pane fade show" id="red" role="tabpanel" aria-labelledby="red-tab">
+                <div class="mb-3">
+                  <div class="mb-3 w-50">
+                    <label for="gameName" class="form-label">שם הקבוצה</label>
+                    <input type="input" class="form-control input-sm" id="gameName" placeholder="" >
+                  </div>
+                  <div class="mb-3 w-50">
+                    <label for="branch" class="form-label">צבע הקבוצה</label>
+                    <input type="input" class="form-control input-sm en" id="branch" placeholder="#c0514d" style="background-color:#c0514d" readonly>
+                  </div>
+                  <div class="mb-3 w-50">
+                    <label for="branch" class="form-label">צבע רקע</label>
+                    <input type="input" class="form-control input-sm en" id="branch" placeholder="#ff8f9a" style="background-color:#ff8f9a" readonly>
+                  </div>
+                  <div class="mb-3 w-50">
+                    <label for="exampleFormControlTextarea1" class="form-label">חידה ראשונה</label>
+                    <div class="d-flex">
+                      <img src="/img/form/red1.png" style="width:55px; height:55px"/>
+                      <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                    </div>
+                  </div>
+                  <div class="mb-3 w-50">
+                    <label for="exampleFormControlTextarea1" class="form-label">חידה שנייה</label>
+                    <div class="d-flex">
+                      <img src="/img/form/red2.png" style="width:55px; height:55px"/>
+                      <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                    </div>
+                  </div>
+                  <div class="mb-3 w-50">
+                    <label for="exampleFormControlTextarea1" class="form-label">חידה שלישית</label>
+                    <div class="d-flex">
+                      <img src="/img/form/red3.png" style="width:55px; height:55px"/>
+                      <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                    </div>
+                  </div>
+                  <div class="mb-3 w-50">
+                    <label for="exampleFormControlTextarea1" class="form-label">חידה רביעית</label>
+                    <div class="d-flex">
+                      <img src="/img/form/red4.png" style="width:55px; height:55px"/>
+                      <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                    </div>
+                  </div>
+                  <div class="mb-3 w-50">
+                    <label for="exampleFormControlTextarea1" class="form-label">חידה חמישית</label>
+                    <div class="d-flex">
+                      <img src="/img/form/red5.png" style="width:55px; height:55px"/>
+                      <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                    </div>
+                  </div>
+                </div>              
+              </div>
+              <!-- BLUE -->
+              <div class="tab-pane fade" id="blue" role="tabpanel" aria-labelledby="blue-tab">
+                <div class="mb-3">
+                  <div class="mb-3 w-50">
+                    <label for="gameName" class="form-label">שם הקבוצה</label>
+                    <input type="input" class="form-control input-sm" id="gameName" placeholder="">
+                  </div>
+                  <div class="mb-3 w-50">
+                    <label for="branch" class="form-label">צבע הקבוצה</label>
+                    <input type="input" class="form-control input-sm en" id="branch" placeholder="#4f81bd" style="background-color:#4f81bd" readonly>
+                  </div>
+                  <div class="mb-3 w-50">
+                    <label for="branch" class="form-label">צבע רקע</label>
+                    <input type="input" class="form-control input-sm en" id="branch" placeholder="#94c4ff" style="background-color:#94c4ff" readonly>
+                  </div>
+                  <div class="mb-3 w-50">
+                    <label for="exampleFormControlTextarea1" class="form-label">חידה ראשונה</label>
+                    <div class="d-flex">
+                      <img src="/img/form/blue1.png" style="width:55px; height:55px"/>
+                      <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                    </div>
+                  </div>
+                  <div class="mb-3 w-50">
+                    <label for="exampleFormControlTextarea1" class="form-label">חידה שנייה</label>
+                    <div class="d-flex">
+                      <img src="/img/form/blue2.png" style="width:55px; height:55px"/>
+                      <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                    </div>
+                  </div>
+                  <div class="mb-3 w-50">
+                    <label for="exampleFormControlTextarea1" class="form-label">חידה שלישית</label>
+                    <div class="d-flex">
+                      <img src="/img/form/blue3.png" style="width:55px; height:55px"/>
+                      <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                    </div>
+                  </div>
+                  <div class="mb-3 w-50">
+                    <label for="exampleFormControlTextarea1" class="form-label">חידה רביעית</label>
+                    <div class="d-flex">
+                      <img src="/img/form/blue4.png" style="width:55px; height:55px"/>
+                      <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                    </div>
+                  </div>
+                  <div class="mb-3 w-50">
+                    <label for="exampleFormControlTextarea1" class="form-label">חידה חמישית</label>
+                    <div class="d-flex">
+                      <img src="/img/form/blue5.png" style="width:55px; height:55px"/>
+                      <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                    </div>
+                  </div>
+                </div>              
+              </div>
+              <!-- GREEN -->
+              <div class="tab-pane fade" id="green" role="tabpanel" aria-labelledby="green-tab">
+                <div class="mb-3">
+                  <div class="mb-3 w-50">
+                    <label for="gameName" class="form-label">שם הקבוצה</label>
+                    <input type="input" class="form-control input-sm" id="gameName" placeholder="">
+                  </div>
+                  <div class="mb-3 w-50">
+                    <label for="branch" class="form-label">צבע הקבוצה</label>
+                    <input type="input" class="form-control input-sm en" id="branch" placeholder="#9bba59" style="background-color:#9bba59" readonly>
+                  </div>
+                  <div class="mb-3 w-50">
+                    <label for="branch" class="form-label">צבע רקע</label>
+                    <input type="input" class="form-control input-sm en" id="branch" placeholder="#96dd89" style="background-color:#96dd89" readonly>
+                  </div>
+                  <div class="mb-3 w-50">
+                    <label for="exampleFormControlTextarea1" class="form-label">חידה ראשונה</label>
+                    <div class="d-flex">
+                      <img src="/img/form/green1.png" style="width:55px; height:55px"/>
+                      <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                    </div>
+                  </div>
+                  <div class="mb-3 w-50">
+                    <label for="exampleFormControlTextarea1" class="form-label">חידה שנייה</label>
+                    <div class="d-flex">
+                      <img src="/img/form/green2.png" style="width:55px; height:55px"/>
+                      <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                    </div>
+                  </div>
+                  <div class="mb-3 w-50">
+                    <label for="exampleFormControlTextarea1" class="form-label">חידה שלישית</label>
+                    <div class="d-flex">
+                      <img src="/img/form/green3.png" style="width:55px; height:55px"/>
+                      <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                    </div>
+                  </div>
+                  <div class="mb-3 w-50">
+                    <label for="exampleFormControlTextarea1" class="form-label">חידה רביעית</label>
+                    <div class="d-flex">
+                      <img src="/img/form/green4.png" style="width:55px; height:55px"/>
+                      <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                    </div>
+                  </div>
+                  <div class="mb-3 w-50">
+                    <label for="exampleFormControlTextarea1" class="form-label">חידה חמישית</label>
+                    <div class="d-flex">
+                      <img src="/img/form/green5.png" style="width:55px; height:55px"/>
+                      <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                    </div>
+                  </div>
+                </div>              
+              </div>
             </div>
-            <div id="modalErrRoleMsg" class="errMsg">&nbsp;</div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">סגירה</button>
-              <button type="submit" class="btn btn-primary">שיכפול</button>
-            </div>
-          </form> 
+          </form>
+
         </div>
-        </div>
+        
       </div>
-
-    </main><!-- End #main -->
-
-
-<script>
-  var exampleModal = document.getElementById('cloneGameModal')
-  exampleModal.addEventListener('show.bs.modal', function (event) {
-    // Button that triggered the modal
-    var link = event.relatedTarget
-    // Extract info from data-bs-* attributes
-    var origGame = link.getAttribute('data-orig-game')
-    // If necessary, you could initiate an AJAX request here
-    // and then do the updating in a callback.
-    //
-    // Update the modal's content.
-    var modalTitle = exampleModal.querySelector('.modal-title')
-    var modalBodyInput = exampleModal.querySelectorAll('.modal-body input')
-    var modalSelect = exampleModal.querySelector('.modal-body select')
-    
-    //querySelector('.modal-body input')
-    //modalTitle.textContent = 'New message to ' + recipient
-    modalBodyInput[0].value = origGame // username
-  })  
-</script>
+    </section>
+</main>

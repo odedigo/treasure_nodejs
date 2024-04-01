@@ -23,25 +23,66 @@ var RiddleSchema = new Schema({
     riddle: [String]
 });
 
-var TeamSchema = new Schema({
-    team: String,
-    color: String,
-    bgColor: String,
-    riddles: [RiddleSchema]
-});
-
 var GameSchema = new Schema({
-    version: String,
+    version: {
+        type: String,
+        default: "1.0"
+    },
     date: String,
-    active: Boolean,
+    active: {
+        type: Boolean,
+        default: false
+    },
     branch: String,
     gameName: {
         type: String,
         unique: true
     },
-    blue: TeamSchema,
-    green: TeamSchema,
-    red: TeamSchema
+    red: {
+        team: {
+            type: String,
+            default: "הקבוצה האדומה"
+        },
+        color: {
+            type: String,
+            default: "#c0514d"
+        },
+        bgColor: {
+            type: String,
+            default: "#ff8f9a"
+        },
+        riddles: [RiddleSchema]
+    },
+    blue: {
+        team: {
+            type: String,
+            default: "הקבוצה הכחולה"
+        },
+        color: {
+            type: String,
+            default: "#4f81bd"
+        },
+        bgColor: {
+            type: String,
+            default: "#94c4ff"
+        },
+        riddles: [RiddleSchema]
+    },
+    green: {
+        team: {
+            type: String,
+            default: "הקבוצה הירוקה"
+        },
+        color: {
+            type: String,
+            default: "#9bba59"
+        },
+        bgColor: {
+            type: String,
+            default: "#96dd89"
+        },
+        riddles: [RiddleSchema]
+    }
 });
 GameSchema.set('collection', 'treasure');
 
