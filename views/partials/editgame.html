@@ -4,7 +4,7 @@
       <section id="contact" class="contact section-bg">
       <div class="container">
         <h2>עריכת משחק {{data.gameName}}</h2>
-
+        
         {{#compare data.error '!==' ''}}
         <div class="errMsg">{{data.error}}</div>
         {{/compare}}
@@ -31,96 +31,81 @@
             <div class="tab-content" id="myTabContent">
               <div class="tab-pane fade show active" id="gen" role="tabpanel" aria-labelledby="gen-tab">
                 
-                <div class="mb-3">
-                  <div class="mb-3 w-50">
+                <div class="mb-3 w-25">
+                  <div class="mb-3">
                     <label for="gameName" class="form-label">שם המשחק</label>
-                    <input type="input" class="form-control input-sm" id="gameName" placeholder="" readonly>
+                    <input type="input" class="form-control input-sm" id="gameName" placeholder="" value="{{game.gameName}}" readonly>
                   </div>
-                  <div class="mb-3 w-50">
+                  <div class="mb-3">
                     <label for="branch" class="form-label">סניף</label>
-                    <input type="input" class="form-control input-sm" id="branch" placeholder="" readonly>
+                    <input type="input" class="form-control input-sm" id="branch" value="{{game.branch}}" placeholder="" readonly>
                   </div>
-                  <div class="mb-3 w-50 ">
+                  <div class="mb-3 ">
                     <label for="version" class="form-label">גרסה</label>
                     <div class="d-flex">
-                      <input type="input" class="form-control input-sm en" id="version" placeholder="" readonly>
+                      <input type="input" class="form-control input-sm en" id="version" value="{{game.version}}" placeholder="" readonly>
                       <button type="button" class="btn btn-success text-nowrap">להעלות גרסה</button>
                     </div>
                   </div>
                 </div>
               </div>
-              <!-- ***************** RED ***************** -->
+              <!-- ***************** COLOR ***************** -->
               <div class="tab-pane fade show" id="red" role="tabpanel" aria-labelledby="red-tab">
-                <div class="mb-3 row">
-                  <div class="mb-3 w-50">
-                    <label for="team-red" class="form-label">שם הקבוצה</label>
-                    <input type="input" class="form-control input-sm" id="team-red" placeholder="" >
+                <div class="row">
+                  <div class="mb-3">
+                    <div class="mb-3 w-25">
+                      <label for="team-red" class="form-label">שם הקבוצה</label>
+                      <input type="input" class="form-control input-sm" id="team-red" placeholder="" value="{{game.red.team}}">
+                    </div>
+                    <div class="mb-3 w-25">
+                      <label for="color-red" class="form-label">צבע הקבוצה</label>
+                      <input type="input" class="form-control input-sm en" id="color-red" placeholder="{{game.red.color}}" style="background-color:{{game.red.color}}" readonly>
+                    </div>
+                    <div class="mb-3 w-25">
+                      <label for="bgColor-red" class="form-label">צבע רקע</label>
+                      <input type="input" class="form-control input-sm en" id="bgColor-red" placeholder="{{game.red.bgColor}}" style="background-color:{{game.red.bgColor}}" readonly>
+                    </div>
                   </div>
-                  <div class="mb-3 w-50">
-                    <label for="color-red" class="form-label">צבע הקבוצה</label>
-                    <input type="input" class="form-control input-sm en" id="color-red" placeholder="#c0514d" style="background-color:#c0514d" readonly>
-                  </div>
-                  <div class="mb-3 w-50">
-                    <label for="bgColor-red" class="form-label">צבע רקע</label>
-                    <input type="input" class="form-control input-sm en" id="bgColor-red" placeholder="#ff8f9a" style="background-color:#ff8f9a" readonly>
-                  </div>
-                  <!-- R1 -->
-                  <div class="mb-3 w-50 row">
-                    <label for="riddle1-red" class="form-label fw-bold">חידה ראשונה</label>
+                </div>
+                
+                <!-- RIDDLE -->
+                <div class="mb-3 row"><!--row-->
+                  <div class="col"><!--col-->
+                    <label for="riddle1-red" class="form-label fw-bold fs-3">חידה ראשונה</label>
                     <div class="d-flex">
                       <img src="/img/form/red1.png" style="width:55px; height:55px"/>
-                      <textarea class="form-control" id="riddle1-red" rows="5"></textarea>
+                      <textarea class="form-control" id="riddle1-red" rows="8">{{game.red.riddles.0.text}}</textarea>
                     </div>
                     <div class="mb-3 w-100">
                       <div class="fw-bold">פתרון</div>
                       <div class="d-flex me-5">
-                        <input type="number" class="form-control input-sm" id="gameName" placeholder="אורך הוקטור" > מטר
-                        <input type="number" class="form-control input-sm" id="gameName" placeholder="כיוון הוקטור" > מעלות
+                        1 <input type="number" class="form-control input-sm" id="vecSize1" placeholder="אורך הוקטור הראשון" > מטר
+                         <input type="number" class="form-control input-sm" id="vecAngle1" placeholder="כיוון הוקטור הראשון" > מעלות
+                      </div>
+                      <div class="d-flex me-5">
+                        2 <input type="number" class="form-control input-sm" id="vecSize2" placeholder="אורך הוקטור השני" > מטר
+                        <input type="number" class="form-control input-sm" id="vecAngle2" placeholder="כיוון הוקטור השני" > מעלות
+                      </div>
+                      <div class="d-flex me-5">
+                        3 <input type="number" class="form-control input-sm" id="vecSize3" placeholder="אורך הוקטור השלישי" > מטר
+                        <input type="number" class="form-control input-sm" id="vecAngle3" placeholder="כיוון הוקטור השלישי" > מעלות
                       </div>
                     </div>
-                    <div class="mb-3 w-50 d-flex">
-                      <label for="" class="form-label fw-bold">תמונה</label>
+                  </div> <!-- end col -->
+                  <div class="col"><!--col-->
+                    <div class="mb-3 d-flex">
+                      <label for="" class="form-label fw-bold">תמונה</label><br/>
                       <a href="#" data-bs-toggle="modal" data-bs-target="#imgGalleryModal" data-orig-game="11">
-                        <img src="/img/ops/clone.png" class="ops-icon" data-toggle="tooltip" data-placement="top" title="שכפול משחק"/>
+                        <img src="/img/rdl/{{game.red.riddles.0.img}}" class="img-thumbnail" alt="" id="thumb-red" style="max-height:400px">
                       </a>
-                      <img src="" class="img-thumbnail" alt="" id="thumb-red" style="max-height:100px">
+                      
                     </div>
-                    </div>
-                    <hr class="hr" />
-                  <!-- R2 -->
-                  <div class="mb-3 w-50">
-                    <label for="exampleFormControlTextarea1" class="form-label">חידה שנייה</label>
-                    <div class="d-flex">
-                      <img src="/img/form/red2.png" style="width:55px; height:55px"/>
-                      <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-                    </div>
-                  </div>
-                  <!-- R3 -->
-                  <div class="mb-3 w-50">
-                    <label for="exampleFormControlTextarea1" class="form-label">חידה שלישית</label>
-                    <div class="d-flex">
-                      <img src="/img/form/red3.png" style="width:55px; height:55px"/>
-                      <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-                    </div>
-                  </div>
-                  <!-- R4 -->
-                  <div class="mb-3 w-50">
-                    <label for="exampleFormControlTextarea1" class="form-label">חידה רביעית</label>
-                    <div class="d-flex">
-                      <img src="/img/form/red4.png" style="width:55px; height:55px"/>
-                      <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-                    </div>
-                  </div>
-                  <!-- R5 -->
-                  <div class="mb-3 w-50">
-                    <label for="exampleFormControlTextarea1" class="form-label">חידה חמישית</label>
-                    <div class="d-flex">
-                      <img src="/img/form/red5.png" style="width:55px; height:55px"/>
-                      <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-                    </div>
-                  </div>
-                </div>              
-              </div>
+                  </div><!-- end col -->
+                </div><!-- end row -->
+                
+                <hr class="hr" />
+                          
+              </div> <!-- end tab -->
               <!-- ***************** BLUE ***************** -->
               <div class="tab-pane fade" id="blue" role="tabpanel" aria-labelledby="blue-tab">
 

@@ -408,5 +408,35 @@ export function createGameList(games) {
 }
 
 export function createGameObj(game) {
-    return {gameName:game.gameName, branch: game.branch, date: game.date, version:game.version, active: game.active}
+    var g = {gameName:game.gameName, branch: game.branch, date: game.date, version:game.version, 
+        active: game.active, red:copyColor(game.red), blue:copyColor(game.blue), green:copyColor(game.green)}
+    return g;
+}
+
+function convertRiddleToText(arr) {
+    var text = ""
+    for (var i=0; i< arr.length ; i++) {
+        text = text + `${arr[i]}\n`
+    }
+    return text
+}
+
+function copyColor(col) {
+    var r = {
+        team: col.team,
+        color: col.color,
+        bgColor: col.bgColor,
+        riddles: []
+    }
+    for (var i=0; i< 5; i++) {
+        const text = convertRiddleToText(col.riddles[i].riddle)
+        r.riddles[i] = {
+            index: col.riddles[i].index,
+            img: col.riddles[i].img,
+            vecSize: col.riddles[i].vecSize,
+            vecAngle: col.riddles[i].vecAngle,
+            text: text,
+        }
+    }
+    return r
 }
