@@ -110,6 +110,22 @@ export async function getGameList(req, res, jwt) {
     return games
 }
 
+export async function getGame(gameName, jwt) {
+    if (!util.isValidValue(gameName))
+        return null
+
+    var filter = {
+        gameName
+    }       
+
+    if (jwt.role !== Roles.SUPERADMIN) {
+        filter[branch] = branch
+    } 
+
+    // send query
+    const game = await GameModel.findOne(filter)
+    return game
+}
 /**
  * Clones a game
  * 
@@ -389,4 +405,8 @@ export function createGameList(games) {
         res.push({gameName:game.gameName, branch , date: game.date, version:game.version, active})
     });
     return res;
+}
+
+export function createGameObj(game) {
+    return {gameName:game.gameName, branch: game.branch, date: game.date, version:game.version, active: game.active}
 }

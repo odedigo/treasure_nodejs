@@ -342,3 +342,33 @@ function editeGame(name) {
         console.log(err)
     })
 }
+
+function markThumbnail(link) {
+    var imgs = document.querySelectorAll(".img-thumbnail")
+    if (imgs != null) {
+        imgs.forEach(im => {
+            im.style.border = "1px solid lightGray"
+        })
+    }
+    var img = link.children[0]
+    img.style.border = "3px solid darkBlue"
+}
+
+function findMarkedThmbnail() {
+    var selectedImage = ""
+    var imgs = document.querySelectorAll(".img-thumbnail")
+    if (imgs != null) {
+        imgs.forEach(im => {
+            if (im.style.borderWidth == "3px")
+                selectedImage = im.src
+        })
+    }
+    return selectedImage.substring(selectedImage.indexOf("/rdl/")+5)
+}
+
+function setMarkedThumbnail(thumbId) {
+    var imgName = findMarkedThmbnail()
+    var elem = findElement(thumbId)
+    if (elem)
+        elem.src = `/img/rdl/${imgName}`
+}

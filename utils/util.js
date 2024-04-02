@@ -2,6 +2,8 @@ import crypto from "crypto"
 import emailValidator from "email-validator"
 import config from "../config/config.js"
 import jwt from 'jsonwebtoken'
+import fs from "fs"
+import path from "path"
 
 export function isValidValue(val) {
     return (val !== undefined && val !== "")
@@ -118,3 +120,9 @@ export function codeToBranch(code) {
     return config.data.branches[code]
 }
     
+export function getRiddleImages() {
+    const list = fs.readdirSync('./public/img/rdl/', {withFileTypes: true})
+    .filter(item => !item.isDirectory() && (path.extname(item.name) === '.png' || path.extname(item.name) === '.jpg'))
+    .map(item => item.name)
+    return list
+}

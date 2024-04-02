@@ -97,3 +97,17 @@
 .ops-icon {
   width: 20px;
 }
+
+/* Modal */
+.modal-scrl{
+  display: block !important; /* I added this to see the modal, you don't need this */
+}
+
+/* Important part */
+.modal-dialog-scrl{
+  overflow-y: initial !important
+}
+.modal-body-scrl{
+  height: 50vh;
+  overflow-y: auto;
+}

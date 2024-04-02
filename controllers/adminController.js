@@ -13,6 +13,7 @@
 //================ IMPORTS =================
 import * as api_user from '../controllers/api_user.js';
 import * as api_game from '../controllers/api_game.js';
+import * as util from "../utils/util.js";
 
 /**
  * Main rendering function
@@ -52,10 +53,25 @@ export async function renderAdmin(req, res, partial, jwtUser) {
         renderAdminGamelist(req, res, jwtUser, data)
         return
     }
+    if (partial === 'editgame') {
+        renderAdminGameEdit(req, res, jwtUser, data)
+        return
+    }
 
     // main_admin
     res.render('admin' , data);
+}
 
+export async function renderAdminGameEdit(req, res, jwtUser, data) {    
+    const game = await api_game.getGame(req.params.param,jwtUser)
+    if (game == null) {
+        data.error = "המשחק לא נמצא"
+    }
+    else {
+        data.game = api_game.createGameObj(game)
+        data.imgs = util.getRiddleImages()
+        res.render('admin' , data);        
+    }
 }
 
 export async function renderAdminUserlist(req, res, jwtUser, data) {
