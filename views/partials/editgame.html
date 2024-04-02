@@ -68,13 +68,14 @@
                   </div>
                 </div>
                 
+                {{#each game.red.riddles as |rdl|}}
                 <!-- RIDDLE -->
                 <div class="mb-3 row"><!--row-->
                   <div class="col"><!--col-->
-                    <label for="riddle1-red" class="form-label fw-bold fs-3">חידה ראשונה</label>
+                    <label for="riddle1-red" class="form-label fw-bold fs-3">חידה {{rdl.index}}</label>
                     <div class="d-flex">
-                      <img src="/img/form/red1.png" style="width:55px; height:55px"/>
-                      <textarea class="form-control" id="riddle1-red" rows="8">{{game.red.riddles.0.text}}</textarea>
+                      <img src="/img/form/red{{rdl.index}}.png" style="width:55px; height:55px"/>
+                      <textarea class="form-control" id="riddle1-red" rows="8">{{rdl.text}}</textarea>
                     </div>
                     <div class="mb-3 w-100">
                       <div class="fw-bold">פתרון</div>
@@ -96,14 +97,15 @@
                     <div class="mb-3 d-flex">
                       <label for="" class="form-label fw-bold">תמונה</label><br/>
                       <a href="#" data-bs-toggle="modal" data-bs-target="#imgGalleryModal" data-orig-game="11">
-                        <img src="/img/rdl/{{game.red.riddles.0.img}}" class="img-thumbnail" alt="" id="thumb-red" style="max-height:400px">
+                        <img src="/img/rdl/{{rdl.img}}" class="img-thumbnail" alt="" id="thumb-red" style="max-height:400px">
                       </a>
                       
                     </div>
                   </div><!-- end col -->
                 </div><!-- end row -->
-                
+
                 <hr class="hr" />
+                {{/each}}
                           
               </div> <!-- end tab -->
               <!-- ***************** BLUE ***************** -->
