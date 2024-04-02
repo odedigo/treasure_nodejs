@@ -433,10 +433,18 @@ function copyColor(col) {
         r.riddles[i] = {
             index: col.riddles[i].index,
             img: col.riddles[i].img,
-            vecSize: col.riddles[i].vecSize,
-            vecAngle: col.riddles[i].vecAngle,
+            vecSize: convertNumberArray(col.riddles[i].vecSize),
+            vecAngle: convertNumberArray(col.riddles[i].vecAngle),
             text: text,
         }
     }
     return r
+}
+
+function convertNumberArray(arr) {
+    var t = []
+    for (var i=0; i<arr.length; i++) {
+        t.push(`${arr[i]}`)
+    }
+    return t
 }

@@ -29,7 +29,7 @@
           <form id="gameEditor">
             <!-- GENERAL TAB-->
             <div class="tab-content" id="myTabContent">
-              <div class="tab-pane fade show active" id="gen" role="tabpanel" aria-labelledby="gen-tab">
+              <div class="tab-pane fade show active shadow p-3 bg-body rounded ms-2 me-2" id="gen" role="tabpanel" aria-labelledby="gen-tab">
                 
                 <div class="mb-3 w-25">
                   <div class="mb-3">
@@ -51,26 +51,24 @@
               </div>
               <!-- ***************** COLOR ***************** -->
               <div class="tab-pane fade show" id="red" role="tabpanel" aria-labelledby="red-tab">
-                <div class="row">
-                  <div class="mb-3">
-                    <div class="mb-3 w-25">
+                <div class="row shadow p-3 ms-2 me-2 mb-2 bg-body rounded">
+                    <div class="mb-3 col">
                       <label for="team-red" class="form-label">שם הקבוצה</label>
                       <input type="input" class="form-control input-sm" id="team-red" placeholder="" value="{{game.red.team}}">
                     </div>
-                    <div class="mb-3 w-25">
+                    <div class="mb-3 col">
                       <label for="color-red" class="form-label">צבע הקבוצה</label>
                       <input type="input" class="form-control input-sm en" id="color-red" placeholder="{{game.red.color}}" style="background-color:{{game.red.color}}" readonly>
                     </div>
-                    <div class="mb-3 w-25">
+                    <div class="mb-3 col">
                       <label for="bgColor-red" class="form-label">צבע רקע</label>
                       <input type="input" class="form-control input-sm en" id="bgColor-red" placeholder="{{game.red.bgColor}}" style="background-color:{{game.red.bgColor}}" readonly>
                     </div>
-                  </div>
                 </div>
                 
                 {{#each game.red.riddles as |rdl|}}
                 <!-- RIDDLE -->
-                <div class="mb-3 row"><!--row-->
+                <div class="ms-2 me-2 mb-2 row shadow p-3 bg-body rounded"><!--row-->
                   <div class="col"><!--col-->
                     <label for="riddle1-red" class="form-label fw-bold fs-3">חידה {{rdl.index}}</label>
                     <div class="d-flex">
@@ -80,22 +78,22 @@
                     <div class="mb-3 w-100">
                       <div class="fw-bold">פתרון</div>
                       <div class="d-flex me-5">
-                        1 <input type="number" class="form-control input-sm" id="vecSize1" placeholder="אורך הוקטור הראשון" > מטר
-                         <input type="number" class="form-control input-sm" id="vecAngle1" placeholder="כיוון הוקטור הראשון" > מעלות
+                        1 <input type="number" class="form-control input-sm" id="vecSize1" placeholder="אורך הוקטור הראשון" value="{{rdl.vecSize.[0]}}"> מטר
+                         <input type="number" class="form-control input-sm" id="vecAngle1" placeholder="כיוון הוקטור הראשון" value="{{rdl.vecAngle.[0]}}"> מעלות
                       </div>
                       <div class="d-flex me-5">
-                        2 <input type="number" class="form-control input-sm" id="vecSize2" placeholder="אורך הוקטור השני" > מטר
-                        <input type="number" class="form-control input-sm" id="vecAngle2" placeholder="כיוון הוקטור השני" > מעלות
+                        2 <input type="number" class="form-control input-sm" id="vecSize2" placeholder="אורך הוקטור השני" value="{{rdl.vecSize.[1]}}"> מטר
+                        <input type="number" class="form-control input-sm" id="vecAngle2" placeholder="כיוון הוקטור השני" value="{{rdl.vecAngle.[1]}}"> מעלות
                       </div>
                       <div class="d-flex me-5">
-                        3 <input type="number" class="form-control input-sm" id="vecSize3" placeholder="אורך הוקטור השלישי" > מטר
-                        <input type="number" class="form-control input-sm" id="vecAngle3" placeholder="כיוון הוקטור השלישי" > מעלות
+                        3 <input type="number" class="form-control input-sm" id="vecSize3" placeholder="אורך הוקטור השלישי" value="{{rdl.vecSize.[2]}}"> מטר
+                        <input type="number" class="form-control input-sm" id="vecAngle3" placeholder="כיוון הוקטור השלישי" value="{{rdl.vecAngle.[2]}}"> מעלות
                       </div>
                     </div>
                   </div> <!-- end col -->
                   <div class="col"><!--col-->
                     <div class="mb-3 d-flex">
-                      <label for="" class="form-label fw-bold">תמונה</label><br/>
+                      <label for="" class="form-label fw-bold"></label><br/>
                       <a href="#" data-bs-toggle="modal" data-bs-target="#imgGalleryModal" data-orig-game="11">
                         <img src="/img/rdl/{{rdl.img}}" class="img-thumbnail" alt="" id="thumb-red" style="max-height:400px">
                       </a>
@@ -104,7 +102,6 @@
                   </div><!-- end col -->
                 </div><!-- end row -->
 
-                <hr class="hr" />
                 {{/each}}
                           
               </div> <!-- end tab -->
