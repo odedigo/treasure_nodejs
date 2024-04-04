@@ -26,7 +26,7 @@
               <button class="nav-link" id="green-tab" data-bs-toggle="tab" data-bs-target="#green" type="button" role="tab" aria-controls="green" aria-selected="false">קב' ירוקה</button>
             </li>
           </ul>
-          <form id="gameEditor">
+          <form id="gameEditor" onsubmit="return event.preventDefault();">
             <!-- GENERAL TAB-->
             <div class="tab-content" id="myTabContent">
               <div class="tab-pane fade show active shadow p-3 bg-body rounded ms-2 me-2" id="gen" role="tabpanel" aria-labelledby="gen-tab">
@@ -94,7 +94,7 @@
                   <div class="col"><!--col-->
                     <div class="mb-3 d-flex">
                       <label for="" class="form-label fw-bold"></label><br/>
-                      <a href="#" data-bs-toggle="modal" data-bs-target="#imgGalleryModal" data-orig-game="11">
+                      <a href="#" data-bs-toggle="modal" data-bs-target="#imgGalleryModal">
                         <img src="/img/rdl/{{rdl.img}}" class="img-thumbnail" alt="" id="thumb-red" style="max-height:400px">
                       </a>
                       
@@ -130,32 +130,27 @@
             <h5 class="modal-title" id="imgGalleryModalLabel">בחירת תמונה</h5>              
           </div>
           <div class="modal-body modal-body-scrl">
-            <form action="#" method="" role="form" class=""  id="cloneGameForm" > 
+            <form action="#" method="" role="form" class=""  id="" onsubmit="return event.preventDefault();"> 
               
             <!-- Page Content -->
             <div class="container">
-
-
               <div class="row text-center text-lg-start">
 
                 {{#each imgs as |img|}}
                 <div class="col-lg-3 col-md-4 col-6">
-                  <a href="#" class="d-block mb-4 h-100" onclick="markThumbnail(this); setMarkedThumbnail('thumb-red')">
-                    <img class="img-fluid img-thumbnail" src="/img/rdl/{{img}}" alt="" style="border: 1px solid lightGray">
+                  <a href="#" class="d-block mb-4 h-100 aimage" onclick="markThumbnail(this)">
+                    <img class="img-fluid img-thumbnail" src="/img/rdl/{{img}}" alt="" style="border: 1px solid lightGray" >
                   </a>
                 </div>
                 {{/each}}
                 
               </div>
-
             </div>
-
-
           </div>
           <div id="modalErrRoleMsg" class="errMsg">&nbsp;</div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">סגירה</button>
-            <button type="submit" class="btn btn-primary">בחירה</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal1" aria-label="Close" id="closebut" onclick="closeModal('imgGalleryModal','close')">סגירה</button>
+            <button type="button" class="btn btn-primary" data-bs-dismiss="modal1" id="savebut" onclick="closeModal('imgGalleryModal','save')">בחירה</button>
           </div>
         </form> 
       </div>
@@ -163,3 +158,33 @@
     </div>
 
 </main>
+
+<script>
+  /**
+   * Handle modal 
+   */
+  var imgModal = document.getElementById('imgGalleryModal')
+  let modalLink = null // used to save the link (a) from which it was opened
+  imgModal.addEventListener('hide.bs.modal', function (event) {
+    el = document.getElementsByTagName("body")[0];
+    setTimeout(() => {el.removeAttribute("style")}, 1000)
+    
+  })  
+
+  imgModal.addEventListener('show.bs.modal', function (event) {
+    var link = event.relatedTarget
+    modalLink = link // save link
+    var imageName = getImageFilenameFromSrc(link.children[0].src)
+    clearModalSelection()
+
+    // Mark the currently selected (used) image
+    var links = imgModal.querySelectorAll('a')
+    if (links != null) {
+      links.forEach(link => {
+        if (link.children[0].src.indexOf(imageName) > -1)  { 
+          link.children[0].style.border = "3px solid darkBlue"
+        }
+      })
+    }
+  })  
+</script>

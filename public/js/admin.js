@@ -344,31 +344,78 @@ function editeGame(name) {
 }
 
 function markThumbnail(link) {
-    var imgs = document.querySelectorAll(".img-thumbnail")
-    if (imgs != null) {
-        imgs.forEach(im => {
-            im.style.border = "1px solid lightGray"
-        })
-    }
+    clearModalSelection()
     var img = link.children[0]
     img.style.border = "3px solid darkBlue"
 }
 
 function findMarkedThmbnail() {
     var selectedImage = ""
+    var imgObj = null
     var imgs = document.querySelectorAll(".img-thumbnail")
     if (imgs != null) {
         imgs.forEach(im => {
-            if (im.style.borderWidth == "3px")
+            if (im.style.borderWidth == "3px") {
                 selectedImage = im.src
+                imgObj = im
+            }
         })
     }
-    return selectedImage.substring(selectedImage.indexOf("/rdl/")+5)
+    return {imgElement: imgObj, name:selectedImage.substring(selectedImage.indexOf("/rdl/")+5)}
 }
 
 function setMarkedThumbnail(thumbId) {
-    var imgName = findMarkedThmbnail()
+    var imgName = findMarkedThmbnail().name
     var elem = findElement(thumbId)
     if (elem)
         elem.src = `/img/rdl/${imgName}`
+}
+
+function clearModalSelection() {
+    var imgs = document.querySelectorAll(".img-thumbnail")
+    if (imgs != null) {
+        imgs.forEach(im => {
+            im.style.border = "1px solid lightGray"
+        })
+    }
+}
+
+function getImageFilenameFromSrc(src) {
+    var index = src.indexOf("/rdl/")
+    if (index == -1)
+        return ""
+    return src.substring(index+5)
+}
+
+function closeModal(id,reason) {
+    var el = findElement(id)
+    if (el == null) {
+        console.log("element is null")
+        return
+    }
+
+    if (reason == 'save') {
+        var modalSelection = findMarkedThmbnail()
+        clearModalSelection()
+        // set the img.src to the selected image
+        if (modalSelection.name !== '')
+            modalLink.children[0].src = `/img/rdl/${modalSelection.name}`
+    }
+
+    // close modal
+    var modal = bootstrap.Modal.getInstance(el)
+    modal.hide();
+
+    // hide backdrop
+    const backdrops = document.querySelectorAll('.modal-backdrop')
+    backdrops.forEach(bd => {
+        bd.remove()
+    })
+
+    el = document.getElementsByTagName("body")[0];
+//    el.style.overflowX = "auto"
+//    el.style.overflowY = "auto"
+    //document.getElementsByTagName("body")[0].style['overflowy'] = "auto";
+    //document.getElementsByTagName("body")[0].style['overflowx'] = "auto";
+    el.classList.remove(".modal-open")
 }
