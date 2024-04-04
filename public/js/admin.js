@@ -387,13 +387,7 @@ function getImageFilenameFromSrc(src) {
     return src.substring(index+5)
 }
 
-function closeModal(id,reason) {
-    var el = findElement(id)
-    if (el == null) {
-        console.log("element is null")
-        return
-    }
-
+function closeModalGameEdit(id,reason) {
     if (reason == 'save') {
         var modalSelection = findMarkedThmbnail()
         clearModalSelection()
@@ -401,7 +395,15 @@ function closeModal(id,reason) {
         if (modalSelection.name !== '')
             modalLink.children[0].src = `/img/rdl/${modalSelection.name}`
     }
+}
 
+function closeModal(id) {
+    console.log("close modal")
+    var el = findElement(id)
+    if (el == null) {
+        console.log("element is null")
+        return
+    }
     // close modal
     var modal = bootstrap.Modal.getInstance(el)
     modal.hide();
@@ -413,9 +415,5 @@ function closeModal(id,reason) {
     })
 
     el = document.getElementsByTagName("body")[0];
-//    el.style.overflowX = "auto"
-//    el.style.overflowY = "auto"
-    //document.getElementsByTagName("body")[0].style['overflowy'] = "auto";
-    //document.getElementsByTagName("body")[0].style['overflowx'] = "auto";
     el.classList.remove(".modal-open")
 }

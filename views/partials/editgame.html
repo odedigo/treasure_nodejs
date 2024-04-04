@@ -149,8 +149,8 @@
           </div>
           <div id="modalErrRoleMsg" class="errMsg">&nbsp;</div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal1" aria-label="Close" id="closebut" onclick="closeModal('imgGalleryModal','close')">סגירה</button>
-            <button type="button" class="btn btn-primary" data-bs-dismiss="modal1" id="savebut" onclick="closeModal('imgGalleryModal','save')">בחירה</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close" id="closebut" onclick="closeModalGameEdit('imgGalleryModal','close')">סגירה</button>
+            <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="savebut" onclick="closeModalGameEdit('imgGalleryModal','save')">בחירה</button>
           </div>
         </form> 
       </div>
@@ -166,9 +166,6 @@
   var imgModal = document.getElementById('imgGalleryModal')
   let modalLink = null // used to save the link (a) from which it was opened
   imgModal.addEventListener('hide.bs.modal', function (event) {
-    el = document.getElementsByTagName("body")[0];
-    setTimeout(() => {el.removeAttribute("style")}, 200)
-    
   })  
 
   imgModal.addEventListener('show.bs.modal', function (event) {
