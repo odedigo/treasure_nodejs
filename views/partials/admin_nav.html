@@ -29,6 +29,13 @@
           ><span>ניהול משתמשים</span></a>
         {{/compare}}
 
+        {{#compare jwtUser.role '!==' 'TEACHER'}}
+        <a href="/admin/manage" 
+          class="list-group-item list-group-item-action py-2 ripple {{#ifEquals section 'manage' }} active {{/ifEquals}}"
+          onclick="return opsNotAllowed();"
+        ><span>פעולות ניהול</span></a>
+        {{/compare}}
+
       </div>
     </div>
   </nav>

@@ -52,6 +52,9 @@
                       <img src="/img/ops/edit.png" class="ops-icon" onclick="editeGame('{{game.gameName}}')" data-toggle="tooltip" data-placement="top" title="עריכת משחק"/>
                       <img src="/img/ops/del.png" class="ops-icon" onclick="deleteGame('{{game.gameName}}')" data-toggle="tooltip" data-placement="top" title="מחיקת משחק"/>
                     {{/compare}}
+                    <br/><br/>
+                    <img src="/img/ops/start.png" class="ops-icon" onclick="startGame('{{game.gameName}}')" data-toggle="tooltip" data-placement="top" title="התחלת משחק"/>
+                    <img src="/img/ops/end.png" class="ops-icon" onclick="stoptGame('{{game.gameName}}')" data-toggle="tooltip" data-placement="top" title="סיום משחק"/>
                   </td>
                   <td >{{game.gameName}}</td>
                   <td >{{game.branch}}</td>
