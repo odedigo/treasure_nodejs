@@ -1,6 +1,7 @@
 <main id="main">
+  <form id="gameEditor">
 
-           <!-- ======= Breadcrumbs ======= -->
+    <!-- GAME EDIT SECTION -->
       <section id="contact" class="contact section-bg">
       <div class="container">
         <h2>עריכת משחק {{data.gameName}}</h2>
@@ -9,153 +10,256 @@
         <div class="errMsg">{{data.error}}</div>
         {{/compare}}
         
-        <div class="">
-
-          <!-- TAB DEFINITIONS -->
-          <ul class="nav nav-tabs" id="myTab" role="tablist">
-            <li class="nav-item" role="presentation">
-              <button class="nav-link active" id="gen-tab" data-bs-toggle="tab" data-bs-target="#gen" type="button" role="tab" aria-controls="gen" aria-selected="true">כללי</button>
-            </li>
-            <li class="nav-item" role="presentation">
-              <button class="nav-link" id="red-tab" data-bs-toggle="tab" data-bs-target="#red" type="button" role="tab" aria-controls="red" aria-selected="false">קב' אדומה</button>
-            </li>
-            <li class="nav-item" role="presentation">
-              <button class="nav-link" id="blue-tab" data-bs-toggle="tab" data-bs-target="#blue" type="button" role="tab" aria-controls="blue" aria-selected="false">קב' כחולה</button>
-            </li>
-            <li class="nav-item" role="presentation">
-              <button class="nav-link" id="green-tab" data-bs-toggle="tab" data-bs-target="#green" type="button" role="tab" aria-controls="green" aria-selected="false">קב' ירוקה</button>
-            </li>
-          </ul>
-          <form id="gameEditor" onsubmit="return event.preventDefault();">
-            <!-- GENERAL TAB-->
-            <div class="tab-content" id="myTabContent">
-              <div class="tab-pane fade show active shadow p-3 bg-body rounded ms-2 me-2" id="gen" role="tabpanel" aria-labelledby="gen-tab">
-                
-                <div class="mb-3 w-25">
-                  <div class="mb-3">
-                    <label for="gameName" class="form-label">שם המשחק</label>
-                    <input type="input" class="form-control input-sm" id="gameName" placeholder="" value="{{game.gameName}}" readonly>
-                  </div>
-                  <div class="mb-3">
-                    <label for="branch" class="form-label">סניף</label>
-                    <input type="input" class="form-control input-sm" id="branch" value="{{game.branch}}" placeholder="" readonly>
-                  </div>
-                  <div class="mb-3 ">
-                    <label for="version" class="form-label">גרסה</label>
-                    <div class="d-flex">
-                      <input type="input" class="form-control input-sm en" id="version" value="{{game.version}}" placeholder="" readonly>
-                      <button type="button" class="btn btn-success text-nowrap">להעלות גרסה</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!-- ***************** COLOR ***************** -->
-              <div class="tab-pane fade show" id="red" role="tabpanel" aria-labelledby="red-tab">
-                <div class="row shadow p-3 ms-2 me-2 mb-2 bg-body rounded">
-                    <div class="mb-3 col">
-                      <label for="team-red" class="form-label">שם הקבוצה</label>
-                      <input type="input" class="form-control input-sm" id="team-red" placeholder="" value="{{game.red.team}}">
-                    </div>
-                    <div class="mb-3 col">
-                      <label for="color-red" class="form-label">צבע הקבוצה</label>
-                      <input type="input" class="form-control input-sm en" id="color-red" placeholder="{{game.red.color}}" style="background-color:{{game.red.color}}" readonly>
-                    </div>
-                    <div class="mb-3 col">
-                      <label for="bgColor-red" class="form-label">צבע רקע</label>
-                      <input type="input" class="form-control input-sm en" id="bgColor-red" placeholder="{{game.red.bgColor}}" style="background-color:{{game.red.bgColor}}" readonly>
-                    </div>
-                </div>
-                
-                {{#each game.red.riddles as |rdl|}}
-                <!-- RIDDLE -->
-                <div class="ms-2 me-2 mb-2 row shadow p-3 bg-body rounded"><!--row-->
-                  <div class="col"><!--col-->
-                    <label for="riddle1-red" class="form-label fw-bold fs-3">חידה {{rdl.index}}</label>
-                    <div class="d-flex">
-                      <img src="/img/form/red{{rdl.index}}.png" style="width:55px; height:55px"/>
-                      <textarea class="form-control" id="riddle1-red" rows="8">{{rdl.text}}</textarea>
-                    </div>
-                    <div class="mb-3 w-100">
-                      <div class="fw-bold">פתרון</div>
-                      <div class="d-flex me-5">
-                        1 <input type="number" class="form-control input-sm" id="vecSize1" placeholder="אורך הוקטור הראשון" value="{{rdl.vecSize.[0]}}"> מטר
-                         <input type="number" class="form-control input-sm" id="vecAngle1" placeholder="כיוון הוקטור הראשון" value="{{rdl.vecAngle.[0]}}"> מעלות
-                      </div>
-                      <div class="d-flex me-5">
-                        2 <input type="number" class="form-control input-sm" id="vecSize2" placeholder="אורך הוקטור השני" value="{{rdl.vecSize.[1]}}"> מטר
-                        <input type="number" class="form-control input-sm" id="vecAngle2" placeholder="כיוון הוקטור השני" value="{{rdl.vecAngle.[1]}}"> מעלות
-                      </div>
-                      <div class="d-flex me-5">
-                        3 <input type="number" class="form-control input-sm" id="vecSize3" placeholder="אורך הוקטור השלישי" value="{{rdl.vecSize.[2]}}"> מטר
-                        <input type="number" class="form-control input-sm" id="vecAngle3" placeholder="כיוון הוקטור השלישי" value="{{rdl.vecAngle.[2]}}"> מעלות
-                      </div>
-                    </div>
-                  </div> <!-- end col -->
-                  <div class="col"><!--col-->
-                    <div class="mb-3 d-flex">
-                      <label for="" class="form-label fw-bold"></label><br/>
-                      <a href="#" data-bs-toggle="modal" data-bs-target="#imgGalleryModal">
-                        <img src="/img/rdl/{{rdl.img}}" class="img-thumbnail" alt="" id="thumb-red" style="max-height:400px">
-                      </a>
-                      
-                    </div>
-                  </div><!-- end col -->
-                </div><!-- end row -->
-
-                {{/each}}
-                          
-              </div> <!-- end tab -->
-              <!-- ***************** BLUE ***************** -->
-              <div class="tab-pane fade" id="blue" role="tabpanel" aria-labelledby="blue-tab">
-
-              </div>
-              <!-- ***************** GREEN ***************** -->
-              <div class="tab-pane fade" id="green" role="tabpanel" aria-labelledby="green-tab">
-
-              </div>
-            </div>
-          </form>
-
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">שמירה</button>
         </div>
-        
-      </div>
-    </section>
 
+        <!-- TAB DEFINITIONS -->
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="gen-tab" data-bs-toggle="tab" data-bs-target="#gen" type="button" role="tab" aria-controls="gen" aria-selected="true">כללי</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="red-tab" data-bs-toggle="tab" data-bs-target="#red" type="button" role="tab" aria-controls="red" aria-selected="false">קב' אדומה</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="blue-tab" data-bs-toggle="tab" data-bs-target="#blue" type="button" role="tab" aria-controls="blue" aria-selected="false">קב' כחולה</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="green-tab" data-bs-toggle="tab" data-bs-target="#green" type="button" role="tab" aria-controls="green" aria-selected="false">קב' ירוקה</button>
+          </li>
+        </ul>
 
-    <!-- Modal Image Gallery -->
-    <div class="modal fade" id="imgGalleryModal" tabindex="-1" aria-labelledby="imgGalleryModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-scrl">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="imgGalleryModalLabel">בחירת תמונה</h5>              
-          </div>
-          <div class="modal-body modal-body-scrl">
-            <form action="#" method="" role="form" class=""  id="" onsubmit="return event.preventDefault();"> 
-              
-            <!-- Page Content -->
-            <div class="container">
-              <div class="row text-center text-lg-start">
-
-                {{#each imgs as |img|}}
-                <div class="col-lg-3 col-md-4 col-6">
-                  <a href="#" class="d-block mb-4 h-100 aimage" onclick="markThumbnail(this)">
-                    <img class="img-fluid img-thumbnail" src="/img/rdl/{{img}}" alt="" style="border: 1px solid lightGray" >
-                  </a>
+        <div class="tab-content" id="myTabContent">
+          <!-- GENERAL TAB-->
+          <div class="tab-pane fade show active shadow p-3 bg-body rounded ms-2 me-2" id="gen" role="tabpanel" aria-labelledby="gen-tab">                
+            <div class="mb-3 w-25">
+              <div class="mb-3">
+                <label for="gameName" class="form-label">שם המשחק</label>
+                <input type="input" class="form-control input-sm" id="gameName" placeholder="" value="{{game.gameName}}" readonly>
+              </div>
+              <div class="mb-3">
+                <label for="branch" class="form-label">סניף</label>
+                <input type="input" class="form-control input-sm" id="branch" value="{{game.branch}}" placeholder="" readonly>
+              </div>
+              <div class="mb-3 ">
+                <label for="version" class="form-label">גרסה</label>
+                <div class="d-flex">
+                  <input type="input" class="form-control input-sm en" id="version" value="{{game.version}}" placeholder="" readonly>
+                  <button type="button" class="btn btn-success text-nowrap">להעלות גרסה</button>
                 </div>
-                {{/each}}
-                
               </div>
             </div>
           </div>
-          <div id="modalErrRoleMsg" class="errMsg">&nbsp;</div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close" id="closebut" onclick="closeModalGameEdit('imgGalleryModal','close')">סגירה</button>
-            <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="savebut" onclick="closeModalGameEdit('imgGalleryModal','save')">בחירה</button>
+          <!-- ***************** RED TEAM ***************** -->
+          <div class="tab-pane fade show" id="red" role="tabpanel" aria-labelledby="red-tab">
+            <div class="row shadow p-3 ms-2 me-2 mb-2 bg-body rounded">
+                <div class="mb-3 col">
+                  <label for="team-red" class="form-label">שם הקבוצה</label>
+                  <input type="input" class="form-control input-sm" id="team-red" placeholder="" value="{{game.red.team}}">
+                </div>
+                <div class="mb-3 col">
+                  <label for="color-red" class="form-label">צבע הקבוצה</label>
+                  <input type="input" class="form-control input-sm en" id="color-red" placeholder="{{game.red.color}}" style="background-color:{{game.red.color}}" readonly>
+                </div>
+                <div class="mb-3 col">
+                  <label for="bgColor-red" class="form-label">צבע רקע</label>
+                  <input type="input" class="form-control input-sm en" id="bgColor-red" placeholder="{{game.red.bgColor}}" style="background-color:{{game.red.bgColor}}" readonly>
+                </div>
+            </div>
+              
+            {{#each game.red.riddles as |rdl|}}
+            <!-- RIDDLE -->
+            <div class="ms-2 me-2 mb-2 row shadow p-3 bg-body rounded"><!--row-->
+              <div class="col"><!--col-->
+                <label for="riddle1-red" class="form-label fw-bold fs-3">חידה {{rdl.index}}</label>
+                <div class="d-flex">
+                  <img src="/img/form/red{{rdl.index}}.png" style="width:55px; height:55px"/>
+                  <textarea class="form-control" id="riddle1-red" rows="8">{{rdl.text}}</textarea>
+                </div>
+                <div class="mb-3 w-100">
+                  <div class="fw-bold">פתרון</div>
+                  <div class="d-flex me-5">
+                    1 <input type="number" class="form-control input-sm" id="vecSize1" placeholder="אורך הוקטור הראשון" value="{{rdl.vecSize.[0]}}"> מטר
+                      <input type="number" class="form-control input-sm" id="vecAngle1" placeholder="כיוון הוקטור הראשון" value="{{rdl.vecAngle.[0]}}"> מעלות
+                  </div>
+                  <div class="d-flex me-5">
+                    2 <input type="number" class="form-control input-sm" id="vecSize2" placeholder="אורך הוקטור השני" value="{{rdl.vecSize.[1]}}"> מטר
+                    <input type="number" class="form-control input-sm" id="vecAngle2" placeholder="כיוון הוקטור השני" value="{{rdl.vecAngle.[1]}}"> מעלות
+                  </div>
+                  <div class="d-flex me-5">
+                    3 <input type="number" class="form-control input-sm" id="vecSize3" placeholder="אורך הוקטור השלישי" value="{{rdl.vecSize.[2]}}"> מטר
+                    <input type="number" class="form-control input-sm" id="vecAngle3" placeholder="כיוון הוקטור השלישי" value="{{rdl.vecAngle.[2]}}"> מעלות
+                  </div>
+                </div>
+              </div> <!-- end col -->
+              <div class="col"><!--col-->
+                <div class="mb-3 d-flex">
+                  <label for="" class="form-label fw-bold"></label><br/>
+                  <a href="#" data-bs-toggle="modal" data-bs-target="#imgGalleryModal">
+                    <img src="/img/rdl/{{rdl.img}}" class="img-thumbnail" alt="" id="thumb-red" style="max-height:400px">
+                  </a>
+                  
+                </div>
+              </div><!-- end col -->
+            </div><!-- end row / END RIDDLE -->
+
+            {{/each}}                        
+          </div> <!-- END RED TEAM -->
+
+            <!-- ***************** BLUE TEAM ***************** -->
+            <div class="tab-pane fade" id="blue" role="tabpanel" aria-labelledby="blue-tab">
+              <div class="row shadow p-3 ms-2 me-2 mb-2 bg-body rounded">
+                <div class="mb-3 col">
+                  <label for="team-blue" class="form-label">שם הקבוצה</label>
+                  <input type="input" class="form-control input-sm" id="team-blue" placeholder="" value="{{game.blue.team}}">
+                </div>
+                <div class="mb-3 col">
+                  <label for="color-blue" class="form-label">צבע הקבוצה</label>
+                  <input type="input" class="form-control input-sm en" id="color-blue" placeholder="{{game.blue.color}}" style="background-color:{{game.blue.color}}" readonly>
+                </div>
+                <div class="mb-3 col">
+                  <label for="bgColor-blue" class="form-label">צבע רקע</label>
+                  <input type="input" class="form-control input-sm en" id="bgColor-blue" placeholder="{{game.blue.bgColor}}" style="background-color:{{game.blue.bgColor}}" readonly>
+                </div>
+            </div>
+              
+            {{#each game.blue.riddles as |rdl|}}
+            <!-- RIDDLE -->
+            <div class="ms-2 me-2 mb-2 row shadow p-3 bg-body rounded"><!--row-->
+              <div class="col"><!--col-->
+                <label for="riddle1-blue" class="form-label fw-bold fs-3">חידה {{rdl.index}}</label>
+                <div class="d-flex">
+                  <img src="/img/form/blue{{rdl.index}}.png" style="width:55px; height:55px"/>
+                  <textarea class="form-control" id="riddle1-blue" rows="8">{{rdl.text}}</textarea>
+                </div>
+                <div class="mb-3 w-100">
+                  <div class="fw-bold">פתרון</div>
+                  <div class="d-flex me-5">
+                    1 <input type="number" class="form-control input-sm" id="vecSize1" placeholder="אורך הוקטור הראשון" value="{{rdl.vecSize.[0]}}"> מטר
+                      <input type="number" class="form-control input-sm" id="vecAngle1" placeholder="כיוון הוקטור הראשון" value="{{rdl.vecAngle.[0]}}"> מעלות
+                  </div>
+                  <div class="d-flex me-5">
+                    2 <input type="number" class="form-control input-sm" id="vecSize2" placeholder="אורך הוקטור השני" value="{{rdl.vecSize.[1]}}"> מטר
+                    <input type="number" class="form-control input-sm" id="vecAngle2" placeholder="כיוון הוקטור השני" value="{{rdl.vecAngle.[1]}}"> מעלות
+                  </div>
+                  <div class="d-flex me-5">
+                    3 <input type="number" class="form-control input-sm" id="vecSize3" placeholder="אורך הוקטור השלישי" value="{{rdl.vecSize.[2]}}"> מטר
+                    <input type="number" class="form-control input-sm" id="vecAngle3" placeholder="כיוון הוקטור השלישי" value="{{rdl.vecAngle.[2]}}"> מעלות
+                  </div>
+                </div>
+              </div> <!-- end col -->
+              <div class="col"><!--col-->
+                <div class="mb-3 d-flex">
+                  <label for="" class="form-label fw-bold"></label><br/>
+                  <a href="#" data-bs-toggle="modal" data-bs-target="#imgGalleryModal">
+                    <img src="/img/rdl/{{rdl.img}}" class="img-thumbnail" alt="" id="thumb-blue" style="max-height:400px">
+                  </a>
+                  
+                </div>
+              </div><!-- end col -->
+            </div><!-- end row / END RIDDLE -->
+
+            {{/each}}                
+          </div> <!-- END BLUE TEAM -->
+
+          <!-- ***************** GREEN TEAM ***************** -->
+          <div class="tab-pane fade" id="green" role="tabpanel" aria-labelledby="green-tab">
+            <div class="row shadow p-3 ms-2 me-2 mb-2 bg-body rounded">
+              <div class="mb-3 col">
+                <label for="team-green" class="form-label">שם הקבוצה</label>
+                <input type="input" class="form-control input-sm" id="team-green" placeholder="" value="{{game.green.team}}">
+              </div>
+              <div class="mb-3 col">
+                <label for="color-green" class="form-label">צבע הקבוצה</label>
+                <input type="input" class="form-control input-sm en" id="color-green" placeholder="{{game.green.color}}" style="background-color:{{game.green.color}}" readonly>
+              </div>
+              <div class="mb-3 col">
+                <label for="bgColor-green" class="form-label">צבע רקע</label>
+                <input type="input" class="form-control input-sm en" id="bgColor-green" placeholder="{{game.green.bgColor}}" style="background-color:{{game.green.bgColor}}" readonly>
+              </div>
           </div>
-        </form> 
-      </div>
-      </div>
-    </div>
+            
+          {{#each game.green.riddles as |rdl|}}
+          <!-- RIDDLE -->
+          <div class="ms-2 me-2 mb-2 row shadow p-3 bg-body rounded"><!--row-->
+            <div class="col"><!--col-->
+              <label for="riddle1-green" class="form-label fw-bold fs-3">חידה {{rdl.index}}</label>
+              <div class="d-flex">
+                <img src="/img/form/green{{rdl.index}}.png" style="width:55px; height:55px"/>
+                <textarea class="form-control" id="riddle1-green" rows="8">{{rdl.text}}</textarea>
+              </div>
+              <div class="mb-3 w-100">
+                <div class="fw-bold">פתרון</div>
+                <div class="d-flex me-5">
+                  1 <input type="number" class="form-control input-sm" id="vecSize1" placeholder="אורך הוקטור הראשון" value="{{rdl.vecSize.[0]}}"> מטר
+                    <input type="number" class="form-control input-sm" id="vecAngle1" placeholder="כיוון הוקטור הראשון" value="{{rdl.vecAngle.[0]}}"> מעלות
+                </div>
+                <div class="d-flex me-5">
+                  2 <input type="number" class="form-control input-sm" id="vecSize2" placeholder="אורך הוקטור השני" value="{{rdl.vecSize.[1]}}"> מטר
+                  <input type="number" class="form-control input-sm" id="vecAngle2" placeholder="כיוון הוקטור השני" value="{{rdl.vecAngle.[1]}}"> מעלות
+                </div>
+                <div class="d-flex me-5">
+                  3 <input type="number" class="form-control input-sm" id="vecSize3" placeholder="אורך הוקטור השלישי" value="{{rdl.vecSize.[2]}}"> מטר
+                  <input type="number" class="form-control input-sm" id="vecAngle3" placeholder="כיוון הוקטור השלישי" value="{{rdl.vecAngle.[2]}}"> מעלות
+                </div>
+              </div>
+            </div> <!-- end col -->
+            <div class="col"><!--col-->
+              <div class="mb-3 d-flex">
+                <label for="" class="form-label fw-bold"></label><br/>
+                <a href="#" data-bs-toggle="modal" data-bs-target="#imgGalleryModal">
+                  <img src="/img/rdl/{{rdl.img}}" class="img-thumbnail" alt="" id="thumb-green" style="max-height:400px">
+                </a>
+                
+              </div>
+            </div><!-- end col -->
+          </div><!-- end row / END RIDDLE -->
+
+          {{/each}}              
+          </div> <!-- END GREEN TEAM -->
+
+        </div> <!-- END TAB -->
+
+      </div> <!-- CONTAINER -->
+    </section>
+    <!-- END GAME EDIT SECTION -->
+  </form> 
+
+
+  <!-- IMAGE SELECTION MODAL -->
+  <div class="modal fade" id="imgGalleryModal" tabindex="-1" aria-labelledby="imgGalleryModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="imgGalleryModalLabel">בחירת תמונה</h5>              
+        </div>
+        <div class="modal-body modal-body-scrl">
+            
+          <!-- Page Content -->
+          <div class="container">
+            <div class="row text-center text-lg-start">
+
+              {{#each imgs as |img|}}
+              <div class="col-lg-3 col-md-4 col-6">
+                <a href="#" class="d-block mb-4 h-100 aimage" onclick="markThumbnail(this)">
+                  <img class="img-fluid img-thumbnail" src="/img/rdl/{{img}}" alt="" style="border: 1px solid lightGray" >
+                </a>
+              </div>
+              {{/each}}
+              
+            </div>
+          </div>
+        </div>
+        <div id="modalErrRoleMsg" class="errMsg">&nbsp;</div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close" id="closebut" onclick="closeModalGameEdit('imgGalleryModal','close')">סגירה</button>
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="savebut" onclick="closeModalGameEdit('imgGalleryModal','save')">בחירה</button>
+        </div>
+      </div> <!-- MODAL CONTENT -->
+    </div> <!-- MODAL DIALOG -->
+  </div> <!-- END MODAL-->
+  <!-- END IMAGE SELECTION MODAL -->
 
 </main>
 

@@ -46,6 +46,13 @@ window.addEventListener('load', () => {
             cloneGame(this)
         });    
     }
+    el = findElement("gameEditor")
+    if (el != null) {
+        el.addEventListener("submit", function(e){
+            e.preventDefault();    //stop form from submitting
+            saveGame(this)
+        });    
+    }
 });
 
 /**************** USER ACTIONS ***********************/
@@ -341,6 +348,10 @@ function editeGame(name) {
     .catch(err => {
         console.log(err)
     })
+}
+
+function saveGame(form) {
+    
 }
 
 /**************** MODAL ***********************/
