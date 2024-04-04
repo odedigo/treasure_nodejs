@@ -343,6 +343,8 @@ function editeGame(name) {
     })
 }
 
+/**************** MODAL ***********************/
+
 function markThumbnail(link) {
     clearModalSelection()
     var img = link.children[0]
@@ -396,6 +398,7 @@ function closeModalGameEdit(id,reason) {
             modalLink.children[0].src = `/img/rdl/${modalSelection.name}`
     }
 }
+
 
 function closeModal(id) {
     console.log("close modal")
