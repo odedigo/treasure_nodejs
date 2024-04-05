@@ -38,9 +38,11 @@ export async function renderAdmin(req, res, partial, jwtUser) {
         jwtUser,
         section: partial,
         data: {},
+        root: `${req.protocol}//${req.get('host')}`,
+        url: req.url,
         helpers: {
             whichPartial: function() {
-                return partial
+                return partial  
             }
         }
     }

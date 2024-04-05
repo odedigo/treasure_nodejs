@@ -549,3 +549,11 @@ function increaseMajorVersion() {
     var v = (Number(el.value) + 1.0).toFixed(0) + ".0"
     el.value = v;
 }
+
+function copyToClipboard(text, id) {
+    navigator.clipboard.writeText(text);
+    if (id) {
+        var el = findElement(id)
+        intermediateMsgElem(el, "הועתק לזכרון")
+    }
+}
