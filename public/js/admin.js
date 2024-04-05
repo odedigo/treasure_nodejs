@@ -384,12 +384,6 @@ function saveGame(form) {
         }
     }
     console.log(body)
-    return
-
-    if (body.origGame === body.newGame || body.newGame === "") {
-        errMsg.innerHTML = "שם המשחק חייב להיות ייחודי ולא ריק"
-        return
-    }    
 
     const response = fetch('/api/game/save', {
         method: "POST", // *GET, POST, PUT, DELETE, etc.

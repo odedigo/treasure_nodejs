@@ -156,12 +156,12 @@ export function saveGame(req, res, jwt) {
             res.status(400).json({msg: "המשחק לא נמצא"})
             return
         }
-        var saveData = formatGameForSave( game[0], body)
+        var saveData = formatGameForSave( game[0], req.body)
         var theGame = new GameModel(saveData)
         theGame.save()
         .then (ngame => {
             if (ngame)
-                res.status(200).json({msg: "המשחק נשמר בהצלחה", game: ngame})
+                res.status(200).json({msg: "המשחק נשמר בהצלחה", game: ngame, path: "/admin/gamelist"})
             else
                 res.status(400).json({msg: "המשחק לא נשמר"})
         }) 
@@ -508,11 +508,15 @@ function convertNumberArray(arr) {
 function formatGameForSave( dbData , newData ) {
     
     dbData.isNew = false
-    dbData.version = dbData.version + 1.0
+    dbData.version = String(Number(dbData.version) + 0.1)
     dbData.active = newData.active
     dbData.date = util.getCurrentDateTime()  
-    //dbData.red = 
+    dbData.branch = dbData.branch, // not changing branches
+    
+    dbData.red = newData.red
+    dbData.blue = newData.blue
+    dbData.green = newData.green
 
-
+    console.log(dbData)
     return dbData
 }
