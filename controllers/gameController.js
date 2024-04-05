@@ -75,4 +75,3 @@ export function renderGame(req, res, obj) {
     }) 
 }
 
-

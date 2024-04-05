@@ -351,7 +351,64 @@ function editeGame(name) {
 }
 
 function saveGame(form) {
-    
+
+    if (!confirm("לשמור את השינויים?"))
+        return
+
+    var errMsg = findElement('errMsg')
+    if (errMsg)
+        errMsg.innerHTML = ""
+
+    var body = {
+        gameName: form.gmeName.value,
+        version: form.version.value,
+        branch: form.branch.value,
+
+        red : {
+            team: form.teamRed.value,
+            color: form.colorRed.value,
+            bgColor: form.bgColorRed.value,
+
+            riddles: [
+                {
+                    index: 1
+                    
+                }
+            ]
+        }
+    }
+
+    if (body.origGame === body.newGame || body.newGame === "") {
+        errMsg.innerHTML = "שם המשחק חייב להיות ייחודי ולא ריק"
+        return
+    }    
+
+    const response = fetch('/api/game/save', {
+        method: "POST", // *GET, POST, PUT, DELETE, etc.
+        cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+        headers: {
+          "Content-Type": "application/json",
+        },
+        redirect: "follow", // manual, *follow, error
+        referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+        body: JSON.stringify(body), // body data type must match "Content-Type" header
+    })
+    .then (response => {
+        response.json()
+        .then (resp => {
+            console.log(resp)
+            if (response.status != 200) { // failed        
+                intermediateMsgElem(errMsg,resp.msg)
+            }
+            else {
+                intermediateMsgElem(errMsg,resp.msg)
+                window.location = resp.path
+            }    
+        })
+    })
+    .catch(err => {
+        console.log(err)
+    })
 }
 
 /**************** MODAL ***********************/
@@ -412,10 +469,8 @@ function closeModalGameEdit(id,reason) {
 
 
 function closeModal(id) {
-    console.log("close modal")
     var el = findElement(id)
     if (el == null) {
-        console.log("element is null")
         return
     }
     // close modal

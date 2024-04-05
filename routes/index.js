@@ -233,6 +233,18 @@ router.post('/api/game/clone', (req, res) => {
     api_game.cloneGame(req,res, jwt.jwtUser)
 });
 
+/**
+ * Save a game
+ */
+router.post('/api/game/save', (req, res) => {
+    const jwt = util.validateAdminUser(req, true)
+    if (!jwt.valid || !validateRoleAllowed(req, [Roles.ADMIN])) {
+        res.status(400).json({msg: "הפעולה נכשלה"} )
+        return
+    }
+    api_game.saveGame(req,res, jwt.jwtUser)
+});
+
 /********************** TOOLS ****************************************/
 
 /**

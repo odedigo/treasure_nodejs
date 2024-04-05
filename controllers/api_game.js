@@ -126,6 +126,56 @@ export async function getGame(gameName, jwt) {
     const game = await GameModel.findOne(filter)
     return game
 }
+
+/**
+ * Save a game
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} jwt 
+ * @returns 
+ */
+export function saveGame(req, res, jwt) {
+    // check if DB properly connected
+    if(!req.app.get("db_connected")) {
+        return res.status(500);
+    }
+
+    var {gameName} = req.body
+    var filter = {
+        gameName
+    }       
+
+    if (jwt.role !== Roles.SUPERADMIN) {
+        filter[branch] = jwt.branch
+    } 
+
+    // send query
+    GameModel.find(filter)
+    .then(game => {
+        if (!game || game.length != 1) {
+            res.status(400).json({msg: "המשחק לא נמצא"})
+            return
+        }
+        var saveData = formatGameForSave( game[0], body)
+        var theGame = new GameModel(saveData)
+        theGame.save()
+        .then (ngame => {
+            if (ngame)
+                res.status(200).json({msg: "המשחק נשמר בהצלחה", game: ngame})
+            else
+                res.status(400).json({msg: "המשחק לא נשמר"})
+        }) 
+        .catch (error => {
+            console.log(error)
+            res.status(400).json({msg: "המשחק לא נמצא"})
+        })
+    })
+    .catch(err => {
+        console.log(err)
+        res.status(400).json({msg: "המשחק לא נמצא"})
+    })
+}
+
 /**
  * Clones a game
  * 
@@ -447,4 +497,22 @@ function convertNumberArray(arr) {
         t.push(`${arr[i]}`)
     }
     return t
+}
+
+/**
+ * Formats game data so it could be saved in DB
+ * 
+ * @param {*} game - the game data in DB
+ * @param {*} body - the data to save
+ */
+function formatGameForSave( dbData , newData ) {
+    
+    dbData.isNew = false
+    dbData.version = dbData.version + 1.0
+    dbData.active = newData.active
+    dbData.date = util.getCurrentDateTime()  
+    //dbData.red = 
+
+
+    return dbData
 }
