@@ -48,7 +48,8 @@
               <div class="mb-3 ">
                 <label for="version" class="form-label">גרסה</label>
                 <div class="d-flex">
-                  <input type="input" class="form-control input-sm en" id="version" value="{{game.version}}" placeholder="" readonly>
+                  <input type="input" class="form-control input-sm" id="version" value="{{game.version}}" placeholder="" readonly>
+                  <button type="button" class="btn btn-success text-nowrap" onclick="increaseMajorVersion()">העלאת גרסה ראשית</button>
                 </div>
               </div>
             </div>
@@ -62,11 +63,11 @@
                 </div>
                 <div class="mb-3 col">
                   <label for="coloRed" class="form-label">צבע הקבוצה</label>
-                  <input type="input" class="form-control input-sm en" id="colorRed" value="{{game.red.color}}" style="background-color:{{game.red.color}}" readonly>
+                  <input type="input" class="form-control input-sm text-center" id="colorRed" value="{{game.red.color}}" style="background-color:{{game.red.color}}" readonly>
                 </div>
                 <div class="mb-3 col">
                   <label for="bgColorRed" class="form-label">צבע רקע</label>
-                  <input type="input" class="form-control input-sm en" id="bgColorRed" value="{{game.red.bgColor}}" style="background-color:{{game.red.bgColor}}" readonly>
+                  <input type="input" class="form-control input-sm text-center" id="bgColorRed" value="{{game.red.bgColor}}" style="background-color:{{game.red.bgColor}}" readonly>
                 </div>
             </div>
               
@@ -82,16 +83,16 @@
                 <div class="mb-3 w-100">
                   <div class="fw-bold">פתרון</div>
                   <div class="d-flex me-5">
-                    1 <input type="number" class="form-control input-sm" id="red{{rdl.index}}VecSize1" placeholder="אורך הוקטור הראשון" value="{{rdl.vecSize.[0]}}"> מטר
-                      <input type="number" class="form-control input-sm" id="red{{rdl.index}}VecAngle1" placeholder="כיוון הוקטור הראשון" value="{{rdl.vecAngle.[0]}}"> מעלות
+                    1 <input type="number" class="form-control input-sm text-center" id="red{{rdl.index}}VecSize1" placeholder="אורך הוקטור הראשון" value="{{rdl.vecSize.[0]}}"> מטר
+                      <input type="number" class="form-control input-sm text-center" id="red{{rdl.index}}VecAngle1" placeholder="כיוון הוקטור הראשון" value="{{rdl.vecAngle.[0]}}"> מעלות
                   </div>
                   <div class="d-flex me-5">
-                    2 <input type="number" class="form-control input-sm" id="red{{rdl.index}}VecSize2" placeholder="אורך הוקטור השני" value="{{rdl.vecSize.[1]}}"> מטר
-                    <input type="number" class="form-control input-sm" id="red{{rdl.index}}VecAngle2" placeholder="כיוון הוקטור השני" value="{{rdl.vecAngle.[1]}}"> מעלות
+                    2 <input type="number" class="form-control input-sm text-center" id="red{{rdl.index}}VecSize2" placeholder="אורך הוקטור השני" value="{{rdl.vecSize.[1]}}"> מטר
+                    <input type="number" class="form-control input-sm text-center" id="red{{rdl.index}}VecAngle2" placeholder="כיוון הוקטור השני" value="{{rdl.vecAngle.[1]}}"> מעלות
                   </div>
                   <div class="d-flex me-5">
-                    3 <input type="number" class="form-control input-sm" id="red{{rdl.index}}VecSize3" placeholder="אורך הוקטור השלישי" value="{{rdl.vecSize.[2]}}"> מטר
-                    <input type="number" class="form-control input-sm" id="red{{rdl.index}}VecAngle3" placeholder="כיוון הוקטור השלישי" value="{{rdl.vecAngle.[2]}}"> מעלות
+                    3 <input type="number" class="form-control input-sm text-center" id="red{{rdl.index}}VecSize3" placeholder="אורך הוקטור השלישי" value="{{rdl.vecSize.[2]}}"> מטר
+                    <input type="number" class="form-control input-sm text-center" id="red{{rdl.index}}VecAngle3" placeholder="כיוון הוקטור השלישי" value="{{rdl.vecAngle.[2]}}"> מעלות
                   </div>
                 </div>
               </div> <!-- end col -->
@@ -119,11 +120,11 @@
                 </div>
                 <div class="mb-3 col">
                   <label for="colorBlue" class="form-label">צבע הקבוצה</label>
-                  <input type="input" class="form-control input-sm en" id="colorBlue" value="{{game.blue.color}}" style="background-color:{{game.blue.color}}" readonly>
+                  <input type="input" class="form-control input-sm text-center" id="colorBlue" value="{{game.blue.color}}" style="background-color:{{game.blue.color}}" readonly>
                 </div>
                 <div class="mb-3 col">
                   <label for="bgColorBlue" class="form-label">צבע רקע</label>
-                  <input type="input" class="form-control input-sm en" id="bgColorBlue" value="{{game.blue.bgColor}}" style="background-color:{{game.blue.bgColor}}" readonly>
+                  <input type="input" class="form-control input-sm text-center" id="bgColorBlue" value="{{game.blue.bgColor}}" style="background-color:{{game.blue.bgColor}}" readonly>
                 </div>
             </div>
               
@@ -139,16 +140,16 @@
                 <div class="mb-3 w-100">
                   <div class="fw-bold">פתרון</div>
                   <div class="d-flex me-5">
-                    1 <input type="number" class="form-control input-sm" id="blue{{rdl.index}}VecSize1" placeholder="אורך הוקטור הראשון" value="{{rdl.vecSize.[0]}}"> מטר
-                      <input type="number" class="form-control input-sm" id="blue{{rdl.index}}VecAngle1" placeholder="כיוון הוקטור הראשון" value="{{rdl.vecAngle.[0]}}"> מעלות
+                    1 <input type="number" class="form-control input-sm text-center" id="blue{{rdl.index}}VecSize1" placeholder="אורך הוקטור הראשון" value="{{rdl.vecSize.[0]}}"> מטר
+                      <input type="number" class="form-control input-sm text-center" id="blue{{rdl.index}}VecAngle1" placeholder="כיוון הוקטור הראשון" value="{{rdl.vecAngle.[0]}}"> מעלות
                   </div>
                   <div class="d-flex me-5">
                     2 <input type="number" class="form-control input-sm" id="blue{{rdl.index}}VecSize2" placeholder="אורך הוקטור השני" value="{{rdl.vecSize.[1]}}"> מטר
-                    <input type="number" class="form-control input-sm" id="blue{{rdl.index}}VecAngle2" placeholder="כיוון הוקטור השני" value="{{rdl.vecAngle.[1]}}"> מעלות
+                    <input type="number" class="form-control input-sm text-center" id="blue{{rdl.index}}VecAngle2" placeholder="כיוון הוקטור השני" value="{{rdl.vecAngle.[1]}}"> מעלות
                   </div>
                   <div class="d-flex me-5">
-                    3 <input type="number" class="form-control input-sm" id="blue{{rdl.index}}VecSize3" placeholder="אורך הוקטור השלישי" value="{{rdl.vecSize.[2]}}"> מטר
-                    <input type="number" class="form-control input-sm" id="blue{{rdl.index}}VecAngle3" placeholder="כיוון הוקטור השלישי" value="{{rdl.vecAngle.[2]}}"> מעלות
+                    3 <input type="number" class="form-control input-sm text-center" id="blue{{rdl.index}}VecSize3" placeholder="אורך הוקטור השלישי" value="{{rdl.vecSize.[2]}}"> מטר
+                    <input type="number" class="form-control input-sm text-center" id="blue{{rdl.index}}VecAngle3" placeholder="כיוון הוקטור השלישי" value="{{rdl.vecAngle.[2]}}"> מעלות
                   </div>
                 </div>
               </div> <!-- end col -->
@@ -176,11 +177,11 @@
               </div>
               <div class="mb-3 col">
                 <label for="colorGreen" class="form-label">צבע הקבוצה</label>
-                <input type="input" class="form-control input-sm en" id="colorGreen" value="{{game.green.color}}" style="background-color:{{game.green.color}}" readonly>
+                <input type="input" class="form-control input-sm text-center" id="colorGreen" value="{{game.green.color}}" style="background-color:{{game.green.color}}" readonly>
               </div>
               <div class="mb-3 col">
                 <label for="bgColorGreen" class="form-label">צבע רקע</label>
-                <input type="input" class="form-control input-sm en" id="bgColorGreen" value="{{game.green.bgColor}}" style="background-color:{{game.green.bgColor}}" readonly>
+                <input type="input" class="form-control input-sm text-center" id="bgColorGreen" value="{{game.green.bgColor}}" style="background-color:{{game.green.bgColor}}" readonly>
               </div>
           </div>
             
@@ -196,15 +197,15 @@
               <div class="mb-3 w-100">
                 <div class="fw-bold">פתרון</div>
                 <div class="d-flex me-5">
-                  1 <input type="number" class="form-control input-sm" id="green{{rdl.index}}VecSize1" placeholder="אורך הוקטור הראשון" value="{{rdl.vecSize.[0]}}"> מטר
-                    <input type="number" class="form-control input-sm" id="green{{rdl.index}}VecAngle1" placeholder="כיוון הוקטור הראשון" value="{{rdl.vecAngle.[0]}}"> מעלות
+                  1 <input type="number" class="form-control input-sm text-center" id="green{{rdl.index}}VecSize1" placeholder="אורך הוקטור הראשון" value="{{rdl.vecSize.[0]}}"> מטר
+                    <input type="number" class="form-control input-sm text-center" id="green{{rdl.index}}VecAngle1" placeholder="כיוון הוקטור הראשון" value="{{rdl.vecAngle.[0]}}"> מעלות
                 </div>
                 <div class="d-flex me-5">
-                  2 <input type="number" class="form-control input-sm" id="green{{rdl.index}}VecSize2" placeholder="אורך הוקטור השני" value="{{rdl.vecSize.[1]}}"> מטר
+                  2 <input type="number" class="form-control input-sm text-center" id="green{{rdl.index}}VecSize2" placeholder="אורך הוקטור השני" value="{{rdl.vecSize.[1]}}"> מטר
                   <input type="number" class="form-control input-sm" id="green{{rdl.index}}VecAngle2" placeholder="כיוון הוקטור השני" value="{{rdl.vecAngle.[1]}}"> מעלות
                 </div>
                 <div class="d-flex me-5">
-                  3 <input type="number" class="form-control input-sm" id="green{{rdl.index}}VecSize3" placeholder="אורך הוקטור השלישי" value="{{rdl.vecSize.[2]}}"> מטר
+                  3 <input type="number" class="form-control input-sm text-center" id="green{{rdl.index}}VecSize3" placeholder="אורך הוקטור השלישי" value="{{rdl.vecSize.[2]}}"> מטר
                   <input type="number" class="form-control input-sm" id="green{{rdl.index}}VecAngle3" placeholder="כיוון הוקטור השלישי" value="{{rdl.vecAngle.[2]}}"> מעלות
                 </div>
               </div>

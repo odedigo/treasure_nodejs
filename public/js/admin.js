@@ -206,7 +206,6 @@ function delUser(username) {
     .then (response => {
         response.json()
         .then (resp => {
-            console.log(resp)
             if (response.status != 200) { // failed        
                 intermediateMsgElem(errMsg,resp.msg)
             }
@@ -251,7 +250,6 @@ function cloneGame(form) {
     .then (response => {
         response.json()
         .then (resp => {
-            console.log(resp)
             if (response.status != 200) { // failed        
                 intermediateMsgElem(errMsg,resp.msg)
             }
@@ -383,7 +381,6 @@ function saveGame(form) {
             riddles: getRiddles(form,'green')
         }
     }
-    console.log(body)
 
     const response = fetch('/api/game/save', {
         method: "POST", // *GET, POST, PUT, DELETE, etc.
@@ -398,13 +395,12 @@ function saveGame(form) {
     .then (response => {
         response.json()
         .then (resp => {
-            console.log(resp)
             if (response.status != 200) { // failed        
                 intermediateMsgElem(errMsg,resp.msg)
             }
             else {
                 intermediateMsgElem(errMsg,resp.msg)
-                window.location = resp.path
+                setTimeout(window.location = resp.path, 1000)
             }    
         })
     })
@@ -511,7 +507,9 @@ function getRiddles(form, color) {
 function getVecSize(form, color, index) {
     var sizes = []
     for (var i=1; i<=3 ; i++) {
-        sizes.push(Number(form[`${color}${index}VecSize${i}`].value.trim()))
+        var val = Number(form[`${color}${index}VecSize${i}`].value.trim())
+        if (val !== 0)
+            sizes.push(val)
     }
     return sizes
 }
@@ -520,7 +518,10 @@ function getVecSize(form, color, index) {
 function getVecAngle(form, color, index) {
     var sizes = []
     for (var i=1; i<=3 ; i++) {
-        sizes.push(Number(form[`${color}${index}VecAngle${i}`].value.trim()))
+        var val = Number(form[`${color}${index}VecAngle${i}`].value.trim())
+        var size = Number(form[`${color}${index}VecSize${i}`].value.trim())
+        if (size !== 0)
+            sizes.push(val)
     }
     return sizes
 }
@@ -541,4 +542,10 @@ function removeImgPath(src) {
     if (src !== undefined && src !== '')
         return src.substring(src.indexOf("/rdl/")+5)
     return "empty.png"
+}
+
+function increaseMajorVersion() {
+    var el = findElement("version")
+    var v = (Number(el.value) + 1.0).toFixed(0) + ".0"
+    el.value = v;
 }

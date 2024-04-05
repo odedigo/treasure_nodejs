@@ -61,6 +61,13 @@
     direction: ltr;
     text-align: left;
   }
+  .he {
+    direction: rtl;
+    text-align: right;
+  }
+  .middle {
+    text-align: middle
+  }
   /* sidebar */
   /* Sidebar */
 .sidebar {

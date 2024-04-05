@@ -506,9 +506,8 @@ function convertNumberArray(arr) {
  * @param {*} body - the data to save
  */
 function formatGameForSave( dbData , newData ) {
-    
     dbData.isNew = false
-    dbData.version = String(Number(dbData.version) + 0.1)
+    dbData.version = String((parseFloat(newData.version) + 0.1).toPrecision(2))
     dbData.active = newData.active
     dbData.date = util.getCurrentDateTime()  
     dbData.branch = dbData.branch, // not changing branches
@@ -516,7 +515,5 @@ function formatGameForSave( dbData , newData ) {
     dbData.red = newData.red
     dbData.blue = newData.blue
     dbData.green = newData.green
-
-    console.log(dbData)
     return dbData
 }
