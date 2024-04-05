@@ -360,7 +360,7 @@ function saveGame(form) {
         errMsg.innerHTML = ""
 
     var body = {
-        gameName: form.gmeName.value,
+        gameName: form.gameName.value,
         version: form.version.value,
         branch: form.branch.value,
 
@@ -368,15 +368,23 @@ function saveGame(form) {
             team: form.teamRed.value,
             color: form.colorRed.value,
             bgColor: form.bgColorRed.value,
-
-            riddles: [
-                {
-                    index: 1
-                    
-                }
-            ]
+            riddles: getRiddles(form,'red')
+        },
+        blue : {
+            team: form.teamBlue.value,
+            color: form.colorBlue.value,
+            bgColor: form.bgColorBlue.value,
+            riddles: getRiddles(form,'blue')
+        },
+        green : {
+            team: form.teamGreen.value,
+            color: form.colorGreen.value,
+            bgColor: form.bgColorGreen.value,
+            riddles: getRiddles(form,'green')
         }
     }
+    console.log(body)
+    return
 
     if (body.origGame === body.newGame || body.newGame === "") {
         errMsg.innerHTML = "שם המשחק חייב להיות ייחודי ולא ריק"
@@ -485,4 +493,58 @@ function closeModal(id) {
 
     el = document.getElementsByTagName("body")[0];
     el.classList.remove(".modal-open")
+}
+
+/**************** RIDDLES ***********************/
+
+function getRiddles(form, color) {
+    var riddles = []
+
+    for (var i=1; i <=5 ; i++) {
+        var rdl = {
+            index: i,
+            img: removeImgPath(form[`${color}Img${i}`].value),
+            vecSize: getVecSize(form,color,i),
+            vecAngle: getVecAngle(form, color,i),
+            riddle: getRiddle(form, color,i)                    
+        }
+        riddles.push(rdl)
+    }
+    return riddles
+}
+
+// red{{rdl.index}}VecSize3
+function getVecSize(form, color, index) {
+    var sizes = []
+    for (var i=1; i<=3 ; i++) {
+        sizes.push(Number(form[`${color}${index}VecSize${i}`].value.trim()))
+    }
+    return sizes
+}
+
+// red{{rdl.index}}VecAngle3
+function getVecAngle(form, color, index) {
+    var sizes = []
+    for (var i=1; i<=3 ; i++) {
+        sizes.push(Number(form[`${color}${index}VecAngle${i}`].value.trim()))
+    }
+    return sizes
+}
+
+// riddleBlue{{rdl.index}}
+function getRiddle(form, color, index) {
+    var riddle = []
+    var text = form[`riddle${color}${index}`].value
+    var splitText = text.split("\n")
+    splitText.forEach( t => {
+        if (t.trim() !== '')
+            riddle.push(t.trim())
+    })
+    return riddle    
+}
+
+function removeImgPath(src) {
+    if (src !== undefined && src !== '')
+        return src.substring(src.indexOf("/rdl/")+5)
+    return "empty.png"
 }
