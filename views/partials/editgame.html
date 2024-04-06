@@ -32,8 +32,9 @@
             <button class="nav-link" id="map-tab" data-bs-toggle="tab" data-bs-target="#map" type="button" role="tab" aria-controls="map" aria-selected="false">מפות</button>
           </li>
         </ul>
+        <!-- END TAB DEFINITIONS -->
 
-        <div class="tab-content" id="myTabContent">
+        <div class="tab-content" id="myTabContent"> <!-- THE TABS CONTAINRE -->
           <!-- GENERAL TAB-->
           <div class="tab-pane fade show active shadow p-3 bg-body rounded ms-2 me-2" id="gen" role="tabpanel" aria-labelledby="gen-tab">                
             <div class="mb-3 w-25">
@@ -60,7 +61,8 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div> <!-- END GEN TAB -->
+
           <!-- ***************** RED TEAM ***************** -->
           <div class="tab-pane fade show" id="red" role="tabpanel" aria-labelledby="red-tab">
             <div class="row shadow p-3 ms-2 me-2 mb-2 bg-body rounded">
@@ -232,8 +234,32 @@
           {{/each}}              
           </div> <!-- END GREEN TEAM -->
 
-          <div class="tab-pane fade show active shadow p-3 bg-body rounded ms-2 me-2" id="map" role="tabpanel" aria-labelledby="map-tab"> 
-          </div> 
+          <!-- MAPS TAB -->
+          <div class="tab-pane fade show shadow p-3 bg-body rounded ms-2 me-2" id="map" role="tabpanel" aria-labelledby="map-tab"> 
+            <div class="mb-3 row">
+              <div class="mb-3 col">
+                <h3>מפה של קבוצה אדומה</h3>
+                <a href="#" data-bs-toggle="modal" data-bs-target="#mapModal">
+                  <img src="/img/maps/{{game.uid}}_red.png" class="img-thumbnail" alt="" id="map_red" style="max-height:400px">
+                  <input type="hidden" id="redmap" value="{{game.uid}}_red" />
+                </a>
+              </div>
+              <div class="mb-3 col">
+                <h3>מפה של קבוצה כחולה</h3>
+                <a href="#" data-bs-toggle="modal" data-bs-target="#mapModal">
+                  <img src="/img/maps/{{game.uid}}_blue.png" class="img-thumbnail" alt="" id="map_blue" style="max-height:400px">
+                  <input type="hidden" id="bluemap" value="{{game.uid}}_blue" />
+                </a>                
+              </div>
+              <div class="mb-3 col">
+                <h3>מפה של קבוצה ירוקה</h3>
+                <a href="#" data-bs-toggle="modal" data-bs-target="#mapModal">
+                  <img src="/img/maps/{{game.uid}}_green.png" class="img-thumbnail" alt="" id="map_green" style="max-height:400px">
+                  <input type="hidden" id="greenmap" value="{{game.uid}}_red" />
+                </a>
+              </div>
+            </div>
+          </div> <!-- END MAPS TAB -->
 
         </div> <!-- END TAB -->
 

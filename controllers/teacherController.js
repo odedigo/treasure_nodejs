@@ -30,7 +30,8 @@ export function renderTeacher (req, res) {
             res.render('teacher' , { 
                 jsscript: '/js/teacher.js', 
                 gameData,
-                gameName
+                gameName,
+                uid: gameData.uid
             });
         }
         else {

@@ -38,6 +38,9 @@ var GameSchema = new Schema({
         type: String,
         unique: true
     },
+    uid: {
+        type: String
+    },
     red: {
         team: {
             type: String,

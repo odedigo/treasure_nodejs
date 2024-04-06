@@ -126,3 +126,8 @@ export function getRiddleImages() {
     .map(item => item.name)
     return list
 }
+
+export function getUniqueGameUID() {
+    var id = "id" + Math.random().toString(16).slice(2)
+    return id
+}

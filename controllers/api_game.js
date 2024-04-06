@@ -210,6 +210,7 @@ export function cloneGame(req, res, jwt) {
         game[0].active = false
         game[0]._id = new Types.ObjectId();
         game[0].date = util.getCurrentDateTime()
+        game[0].uid = util.getUniqueGameUID()
         
         game[0].isNew = true
         delete game[0]._id
@@ -483,7 +484,8 @@ export function createGameList(games) {
  */
 export function createGameObj(game) {
     var g = {gameName:game.gameName, branch: game.branch, date: game.date, version:game.version, 
-        active: game.active, red:_copyColor(game.red), blue:_copyColor(game.blue), green:_copyColor(game.green)}
+        active: game.active, red:_copyColor(game.red), blue:_copyColor(game.blue), green:_copyColor(game.green),
+        uid: game.uid}
     return g;
 }
 
@@ -573,6 +575,7 @@ function _createNewGame(gameName, branch) {
         date: util.getCurrentDateTime(),
         branch: util.branchToCode(branch),
         gameName,
+        uid: util.getUniqueGameUID(),
         red: _createTeam('red'),
         blue: _createTeam('blue'),
         green: _createTeam('green')
