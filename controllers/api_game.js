@@ -407,8 +407,7 @@ export async function createGame(req, res, jwt) {
             res.status(400).json({msg: "המשחק לא נשמר"})
     }) 
     .catch (error => {
-        console.log(error)
-        res.status(400).json({msg: "המשחק לא נמצא"})
+        res.status(400).json({msg: "המשחק לא נוצר. ייתכן והשם כבר תפוס."})
     })
 
     res.status(200)

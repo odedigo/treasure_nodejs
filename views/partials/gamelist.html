@@ -152,7 +152,7 @@
                   <label for="origName">שם המשחק</label>
                   <input name="newName" type="input" id="newName" class="form-control" placeholder="" class="" value="" />
                 </div>                
-                <div class="row" style="display:{{#compare jwtUser.role '===' 'SUPERADMIN'}}block{{else}}none{{/compare}}">
+                <div class="row" style="display:{{#compare jwtUser.role '===' 'SUPER-ADMIN'}}block{{else}}none{{/compare}}">
                   <label for="origName">שם הסניף</label>
                   <input name="newBranch" type="input" id="newBranch" class="form-control" placeholder="" class="" value="" />
                 </div>                
@@ -170,6 +170,9 @@
 
 
 <script>
+  /**
+  * CLONE MODAL
+  */
   var cloneModal = document.getElementById('cloneGameModal')
   cloneModal.addEventListener('show.bs.modal', function (event) {
     // Button that triggered the modal
@@ -182,23 +185,17 @@
     // Update the modal's content.
     var modalTitle = cloneModal.querySelector('.modal-title')
     var modalBodyInput = cloneModal.querySelectorAll('.modal-body input')
-    var modalSelect = cloneModal.querySelector('.modal-body select')
-    
-    //querySelector('.modal-body input')
-    //modalTitle.textContent = 'New message to ' + recipient
+    var modalSelect = cloneModal.querySelector('.modal-body select')   
     modalBodyInput[0].value = origGame // username
   })  
 
+  /**
+  * LINKS MODAL
+  */
   var linksModal = document.getElementById('gameLinksModal')
   linksModal.addEventListener('show.bs.modal', function (event) {
-    // Button that triggered the modal
     var link = event.relatedTarget
-    // Extract info from data-bs-* attributes
     var origGame = link.getAttribute('data-orig-game')
-    // If necessary, you could initiate an AJAX request here
-    // and then do the updating in a callback.
-    //
-    // Update the modal's content.
     var modalTitle = linksModal.querySelector('.modal-title')
     var modalBodyInput = linksModal.querySelectorAll('.modal-body input')
 
@@ -211,8 +208,6 @@
     gameLinks[2].href = `{{root}}/game/${origName.value}/blue/1`
     gameLinks[2].innerHTML = `{{root}}/game/${origName.value}/green/1`
 
-    //querySelector('.modal-body input')
-    //modalTitle.textContent = 'New message to ' + recipient
     modalBodyInput[0].value = origGame // username
   })  
 </script>

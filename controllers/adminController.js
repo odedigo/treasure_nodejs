@@ -14,6 +14,7 @@
 import * as api_user from '../controllers/api_user.js';
 import * as api_game from '../controllers/api_game.js';
 import * as util from "../utils/util.js";
+import config from "../config/config.js";
 
 /**
  * Main rendering function
@@ -40,6 +41,7 @@ export async function renderAdmin(req, res, partial, jwtUser) {
         data: {},
         root: `${req.protocol}//${req.get('host')}`,
         url: req.url,
+        branches: config.data.branches,
         helpers: {
             whichPartial: function() {
                 return partial  
