@@ -549,7 +549,7 @@ function _convertNumberArray(arr) {
 function _formatGameForSave( dbData , newData ) {
     dbData.isNew = false
     dbData.version = String((parseFloat(newData.version) + 0.1).toPrecision(2))
-    dbData.active = newData.active
+    dbData.active = Boolean(newData.active)
     dbData.date = util.getCurrentDateTime()  
     dbData.branch = dbData.branch, // not changing branches
     

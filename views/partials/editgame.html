@@ -45,6 +45,13 @@
                 <label for="branch" class="form-label">סניף</label>
                 <input type="input" class="form-control input-sm" id="branch" value="{{game.branch}}" placeholder="" readonly>
               </div>
+              <div class="mb-3">
+                <label for="branch" class="form-label">פעיל</label>
+                <select id="active" name="active">
+                  <option value="true" {{#compare game.active '===' true}}selected{{/compare}}>כן</option>
+                  <option value="false" {{#compare game.active '===' false}}selected{{/compare}}>לא</option>
+                </select>
+              </div>
               <div class="mb-3 ">
                 <label for="version" class="form-label">גרסה</label>
                 <div class="d-flex">

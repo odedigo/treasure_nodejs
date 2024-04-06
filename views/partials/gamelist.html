@@ -51,11 +51,14 @@
                       <img src="/img/ops/del.png" class="ops-icon" onclick="deleteGame('{{game.gameName}}')" data-toggle="tooltip" data-placement="top" title="מחיקת משחק"/>
                     {{/compare}}
                     <br/><br/>
+                    {{#compare game.active '===' 'כן'}}
                     <img src="/img/ops/start.png" class="ops-icon" onclick="startGame('{{game.gameName}}')" data-toggle="tooltip" data-placement="top" title="התחלת משחק"/>
-                    <img src="/img/ops/end.png" class="ops-icon" onclick="stoptGame('{{game.gameName}}')" data-toggle="tooltip" data-placement="top" title="סיום משחק"/>
+                    <img src="/img/ops/end.png" class="ops-icon" onclick="stoptGame('{{game.gameName}}')" data-toggle="tooltip" data-placement="top" title="סיום משחק"/>                    
                     <a href="#" data-bs-toggle="modal" data-bs-target="#gameLinksModal" data-orig-game="{{game.gameName}}">
-                      <img src="/img/ops/qr.png" class="ops-icon" data-toggle="tooltip" data-placement="top" title="לינקים למשחק"/>
-                    </a>                  </td>
+                     <img src="/img/ops/qr.png" class="ops-icon" data-toggle="tooltip" data-placement="top" title="לינקים למשחק"/>
+                    </a>                  
+                    {{/compare}}
+                  </td>
                   <td >{{game.gameName}}</td>
                   <td >{{game.branch}}</td>
                   <td >{{game.active}}</td>
@@ -128,6 +131,11 @@
                   <label for="origName">לינק לקבוצה הירוקה</label>
                   <a href="#" id="gameLinkGreen" class="gamelink" target="newGame"></a>
                   <button type="button" class="btn btn-success text-nowrap" onclick="copyToClipboard(`{{root}}/game/{{game.gameName}}/green/1`,'modalLinksMsg')">העתקה לזכרון - ירוקה</button>
+                </div>
+                <div class="row">
+                  <label for="origName">לינק לאתר המורה</label>
+                  <a href="#" id="gameLinkGreen" class="gamelink" target="newGame"></a>
+                  <button type="button" class="btn btn-info text-nowrap" onclick="copyToClipboard(`{{root}}/teacher/{{game.gameName}}`,'modalLinksMsg')">העתקה לזכרון - אתר מורה</button>
                 </div>
             </div>
             <div id="modalLinksMsg" class="errMsg">&nbsp;</div>
@@ -209,6 +217,8 @@
     gameLinks[1].innerHTML = `{{root}}/game/${origName.value}/red/1`
     gameLinks[2].href = `{{root}}/game/${origName.value}/blue/1`
     gameLinks[2].innerHTML = `{{root}}/game/${origName.value}/green/1`
+    gameLinks[3].href = `{{root}}/teacher/${origName.value}`
+    gameLinks[3].innerHTML = `{{root}}/teacher/${origName.value}`
 
     modalBodyInput[0].value = origGame // username
   })  

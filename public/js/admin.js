@@ -412,6 +412,7 @@ function saveGame(form) {
         gameName: form.gameName.value,
         version: form.version.value,
         branch: form.branch.value,
+        active: form.active.value,
 
         red : {
             team: form.teamRed.value,
