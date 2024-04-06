@@ -618,9 +618,9 @@ function _createEmptyRiddles() {
         var rdl = {
             index: i,
             img: "empty.png",
-            vecSize: [],
-            vecAngle: [],
-            riddle: ["כתוב את החידה"]
+            vecSize: [100],
+            vecAngle: [30],
+            riddle: ["שורה ראשונה","כיתבו את החידה","המשך החידה","שורה אחרונה"]
         }
         r.push(rdl)
     }
