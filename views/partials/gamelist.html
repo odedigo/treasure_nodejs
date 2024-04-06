@@ -19,9 +19,7 @@
                 {{/compare}}
               </div>
             </div>
-            <a href="#" data-bs-toggle="modal" data-bs-target="#gameLinksModal" data-orig-game="{{game.gameName}}">
-              <img src="/img/ops/qr.png" class="ops-icon" data-toggle="tooltip" data-placement="top" title="לינקים למשחק"/>
-            </a>     
+
             <div class="row">
     
               <div class="col-lg-2 d-flex align-items-stretch" data-aos="fade-right">
@@ -154,7 +152,11 @@
                 </div>                
                 <div class="row" style="display:{{#compare jwtUser.role '===' 'SUPER-ADMIN'}}block{{else}}none{{/compare}}">
                   <label for="origName">שם הסניף</label>
-                  <input name="newBranch" type="input" id="newBranch" class="form-control" placeholder="" class="" value="" />
+                  <select name="newBranch" id="newBranch" class="form-control">
+                    {{#each branches as |brch|}}
+                    <option value="{{brch}}">{{brch}}</option>
+                    {{/each}}                    
+                  </select>
                 </div>                
             </div>
             <div id="newGameMsg" class="errMsg">&nbsp;</div>
