@@ -222,6 +222,57 @@ function delUser(username) {
 
 /**************** GAME ACTIONS ***********************/
 
+function createNewGame(nameId, branchId, msgId) {
+    var nameEl = findElement(nameId)
+    if (nameEl === undefined) {
+        return
+    }
+    var branch = ""
+    var branchEl = findElement(branchId)
+    if (branchEl !== undefined) {
+        branch = branchEl.value
+    }
+    if (nameEl.value.trim() === '') {
+        intermediateMsgElem(findElement(msgId), "שם המשחק לא יכול להיות ריק")
+        return
+    }
+
+    var errMsg = findElement('errMsg')
+    if (errMsg)
+        errMsg.innerHTML = ""
+
+    var body = {
+        gameName : nameEl.value,
+        branch
+    }
+
+    const response = fetch('/api/game/create', {
+        method: "POST", // *GET, POST, PUT, DELETE, etc.
+        cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+        headers: {
+          "Content-Type": "application/json",
+        },
+        redirect: "follow", // manual, *follow, error
+        referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+        body: JSON.stringify(body), // body data type must match "Content-Type" header
+    })
+    .then (response => {
+        response.json()
+        .then (resp => {
+            if (response.status != 200) { // failed        
+                intermediateMsgElem(errMsg,resp.msg)
+            }
+            else {
+                intermediateMsgElem(errMsg,resp.msg)
+                setTimeout(window.location.reload(), 3000)
+            }    
+        })
+    })
+    .catch(err => {
+        console.log(err)
+    })
+}
+
 function cloneGame(form) {    
     var errMsg = findElement('errMsg')
     if (errMsg)
@@ -464,7 +515,6 @@ function closeModalGameEdit(id,reason) {
             modalLink.children[0].src = `/img/rdl/${modalSelection.name}`
     }
 }
-
 
 function closeModal(id) {
     var el = findElement(id)

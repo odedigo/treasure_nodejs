@@ -156,7 +156,7 @@ export function saveGame(req, res, jwt) {
             res.status(400).json({msg: "המשחק לא נמצא"})
             return
         }
-        var saveData = formatGameForSave( game[0], req.body)
+        var saveData = _formatGameForSave( game[0], req.body)
         var theGame = new GameModel(saveData)
         theGame.save()
         .then (ngame => {
@@ -233,7 +233,7 @@ export function cloneGame(req, res, jwt) {
 }
 
 /**
- * Redurect to edit a game
+ * Edit a game
  * 
  * @param {*} req 
  * @param {*} res 
@@ -388,22 +388,34 @@ export async function createGame(req, res, jwt) {
         return res.status(500);
     }
 
-    var {gameName} = req.body
+    var {gameName, branch} = req.body
     if (!util.isValidValue(gameName)) {
         res.status(200).json({result: {sucess:false, msg: "חסרים נתונים"}})
         return
     }  
 
-    gameName = 'oded'
-    await func._createTeamDoc(gameName, 'red')
-    await func._createTeamDoc(gameName, 'green')
-    await func._createTeamDoc(gameName, 'blue')
+    if (jwt.role !== Roles.SUPERADMIN || !util.isValidValue(branch))
+        branch = jwt.branch    
+
+    var game = _createNewGame(gameName, branch)
+    var model = GameModel(game)
+    model.save()
+    .then (ngame => {
+        if (ngame)
+            res.status(200).json({msg: "המשחק נוצר בהצלחה", game: ngame})
+        else
+            res.status(400).json({msg: "המשחק לא נשמר"})
+    }) 
+    .catch (error => {
+        console.log(error)
+        res.status(400).json({msg: "המשחק לא נמצא"})
+    })
 
     res.status(200)
 }
 
 /**
- * Creates a new game
+ * Delete game
  * 
  * @param {*} req 
  * @param {*} res 
@@ -447,6 +459,14 @@ export async function deleteGame(req, res, jwt) {
     })
 }
 
+/****************** HELPERS ***********************/
+
+
+/**
+ * 
+ * @param {*} games 
+ * @returns 
+ */
 export function createGameList(games) {
     var res = []
     games.forEach(game => {
@@ -457,13 +477,25 @@ export function createGameList(games) {
     return res;
 }
 
+/**
+ * 
+ * @param {*} game 
+ * @returns 
+ */
 export function createGameObj(game) {
     var g = {gameName:game.gameName, branch: game.branch, date: game.date, version:game.version, 
-        active: game.active, red:copyColor(game.red), blue:copyColor(game.blue), green:copyColor(game.green)}
+        active: game.active, red:_copyColor(game.red), blue:_copyColor(game.blue), green:_copyColor(game.green)}
     return g;
 }
 
-function convertRiddleToText(arr) {
+/******************* INTERNAL **********************/
+
+/**
+ * 
+ * @param {*} arr 
+ * @returns 
+ */
+function _convertRiddleToText(arr) {
     var text = ""
     for (var i=0; i< arr.length ; i++) {
         text = text + `${arr[i]}\n`
@@ -471,7 +503,12 @@ function convertRiddleToText(arr) {
     return text
 }
 
-function copyColor(col) {
+/**
+ * 
+ * @param {*} col 
+ * @returns 
+ */
+function _copyColor(col) {
     var r = {
         team: col.team,
         color: col.color,
@@ -479,19 +516,24 @@ function copyColor(col) {
         riddles: []
     }
     for (var i=0; i< 5; i++) {
-        const text = convertRiddleToText(col.riddles[i].riddle)
+        const text = _convertRiddleToText(col.riddles[i].riddle)
         r.riddles[i] = {
             index: col.riddles[i].index,
             img: col.riddles[i].img,
-            vecSize: convertNumberArray(col.riddles[i].vecSize),
-            vecAngle: convertNumberArray(col.riddles[i].vecAngle),
+            vecSize: _convertNumberArray(col.riddles[i].vecSize),
+            vecAngle: _convertNumberArray(col.riddles[i].vecAngle),
             text: text,
         }
     }
     return r
 }
 
-function convertNumberArray(arr) {
+/**
+ * 
+ * @param {*} arr 
+ * @returns 
+ */
+function _convertNumberArray(arr) {
     var t = []
     for (var i=0; i<arr.length; i++) {
         t.push(`${arr[i]}`)
@@ -505,7 +547,7 @@ function convertNumberArray(arr) {
  * @param {*} game - the game data in DB
  * @param {*} body - the data to save
  */
-function formatGameForSave( dbData , newData ) {
+function _formatGameForSave( dbData , newData ) {
     dbData.isNew = false
     dbData.version = String((parseFloat(newData.version) + 0.1).toPrecision(2))
     dbData.active = newData.active
@@ -516,4 +558,71 @@ function formatGameForSave( dbData , newData ) {
     dbData.blue = newData.blue
     dbData.green = newData.green
     return dbData
+}
+
+/**
+ * 
+ * @param {*} gameName 
+ * @param {*} branch 
+ * @returns 
+ */
+function _createNewGame(gameName, branch) {
+    var game = {
+        isNew: true,
+        version: "1.0",
+        active: false,
+        date: util.getCurrentDateTime(),
+        branch: util.branchToCode(branch),
+        gameName,
+        red: _createTeam('red'),
+        blue: _createTeam('blue'),
+        green: _createTeam('green')
+    }
+    return game    
+}
+
+/**
+ * 
+ * @param {*} color 
+ * @returns 
+ */
+function _createTeam(color) {
+    var team = {
+        riddles: _createEmptyRiddles()
+    }
+    if (color == 'red') {
+        team['color'] = "#c0514d"
+        team['bgColor'] = "#ff8f9a"
+        team['team'] = "הקבוצה האדומה"
+    }
+    else if (color == 'blue') {
+        team['color'] = "#4f81bd"
+        team['bgColor'] = "#94c4ff"
+        team['team'] = "הקבוצה הכחולה"
+    }
+    else if (color == 'green') {
+        team['color'] = "#9bba59"
+        team['bgColor'] = "#96dd89"
+        team['team'] = "הקבוצה הירוקה"
+    }
+    return team
+}
+
+/**
+ * 
+ * @returns 
+ */
+function _createEmptyRiddles() {
+    var r = []
+    for (var i=1; i<=5; i++) {
+        var rdl = {
+            index: i,
+            img: "empty.png",
+            vecSize: [],
+            vecAngle: [],
+            riddle: ["כתוב את החידה"]
+        }
+        r.push(rdl)
+    }
+    return r
 }
