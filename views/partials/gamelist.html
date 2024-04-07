@@ -37,6 +37,7 @@
                   <th scope="col">פעיל</th>
                   <th scope="col">גרסה</th>
                   <th scope="col">תאריך עדכון</th>
+                  <th scope="col">UID</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -48,7 +49,7 @@
                         <img src="/img/ops/clone.png" class="ops-icon" data-toggle="tooltip" data-placement="top" title="שכפול משחק"/>
                       </a>
                       <img src="/img/ops/edit.png" class="ops-icon" onclick="editeGame('{{game.gameName}}')" data-toggle="tooltip" data-placement="top" title="עריכת משחק"/>
-                      <img src="/img/ops/del.png" class="ops-icon" onclick="deleteGame('{{game.gameName}}')" data-toggle="tooltip" data-placement="top" title="מחיקת משחק"/>
+                      <img src="/img/ops/del.png" class="ops-icon" onclick="deleteGame('{{game.gameName}}','{{game.uid}}')" data-toggle="tooltip" data-placement="top" title="מחיקת משחק"/>
                     {{/compare}}
                     <br/><br/>
                     {{#compare game.active '===' 'כן'}}
@@ -63,7 +64,8 @@
                   <td >{{game.branch}}</td>
                   <td >{{game.active}}</td>
                   <td >{{game.version}}</td>
-                  <td >{{game.date}}</td>                  
+                  <td >{{game.date}}</td>
+                  <td >{{game.uid}}</td>                  
                 </tr>
                 {{/each}}
                 </tbody>
@@ -82,7 +84,7 @@
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="cloneGameModalLabel">שינוי תפקיד</h5>              
+              <h5 class="modal-title" id="cloneGameModalLabel">יצירת משחק חדש</h5>              
             </div>
             <div class="modal-body">
               <form action="#" method="" role="form" class=""  id="cloneGameForm" > 

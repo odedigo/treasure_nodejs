@@ -142,3 +142,23 @@ export function getMapImagesFolder() {
     var p = `${str}${path.sep}public${path.sep}img${path.sep}maps${path.sep}`
     return p
 }
+
+export function deleteMapFiles(uid) {
+    var folder = getMapImagesFolder()
+    var filename = `${uid}_red.png`
+    fs.unlinkSync(`${folder}${filename}`);
+    var filename = `${uid}_blue.png`
+    fs.unlinkSync(`${folder}${filename}`);
+    var filename = `${uid}_green.png`
+    fs.unlinkSync(`${folder}${filename}`);
+}
+
+export function createMapFiles(uid) {
+    var folder = getMapImagesFolder()
+    var filename = `${uid}_red.png`
+    fs.copyFileSync(`${folder}empty.png`,`${folder}${filename}`);
+    var filename = `${uid}_blue.png`
+    fs.copyFileSync(`${folder}empty.png`,`${folder}${filename}`);
+    var filename = `${uid}_green.png`
+    fs.copyFileSync(`${folder}empty.png`,`${folder}${filename}`);    
+}

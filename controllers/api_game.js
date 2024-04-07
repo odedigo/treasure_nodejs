@@ -222,8 +222,10 @@ export function cloneGame(req, res, jwt) {
         var theGame = new GameModel(game[0])
         theGame.save()
         .then (ngame => {
-            if (ngame)
+            if (ngame) {
+                util.createMapFiles(game[0].uid)
                 res.status(200).json({msg: "המשחק שוכפל בהצלחה", game: ngame})
+            }
             else
                 res.status(400).json({msg: "המשחק לא שוכפל"})
         }) 
@@ -407,16 +409,16 @@ export async function createGame(req, res, jwt) {
     var model = GameModel(game)
     model.save()
     .then (ngame => {
-        if (ngame)
+        if (ngame) {
+            util.createMapFiles(ngame.uid)
             res.status(200).json({msg: "המשחק נוצר בהצלחה", game: ngame})
+        }
         else
             res.status(400).json({msg: "המשחק לא נשמר"})
     }) 
     .catch (error => {
         res.status(400).json({msg: "המשחק לא נוצר. ייתכן והשם כבר תפוס."})
     })
-
-    res.status(200)
 }
 
 /**
@@ -432,16 +434,18 @@ export async function deleteGame(req, res, jwt) {
         return res.status(500);
     }
 
-    var {gameName} = req.body
+    var {gameName, uid} = req.body
     if (!util.isValidValue(gameName)) {
         res.status(200).json({result: {sucess:false, msg: "חסרים נתונים"}})
         return
     }  
 
     var filter = {
-        gameName,
-        branch: util.branchToCode(jwt.branch)
+        gameName        
     }       
+
+    if (jwt.role !== Roles.SUPERADMIN)    
+        filter["branch"] = util.branchToCode(jwt.branch)
 
     const options = {         
     };
@@ -456,6 +460,7 @@ export async function deleteGame(req, res, jwt) {
             res.status(400).json({msg: "מחיקת המשחק נכשלה"})   
         }
         else {
+            util.deleteMapFiles(uid)
             res.status(200).json({msg: "מחיקת המשחק הצליחה"})
         }
     })
@@ -477,7 +482,7 @@ export function createGameList(games) {
     games.forEach(game => {
         var branch = util.codeToBranch(game.branch)
         var active = game.active ? "כן" : "לא"
-        res.push({gameName:game.gameName, branch , date: game.date, version:game.version, active})
+        res.push({gameName:game.gameName, branch , date: game.date, version:game.version, active, uid:game.uid})
     });
     return res;
 }

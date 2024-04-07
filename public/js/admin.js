@@ -323,13 +323,14 @@ function cloneGame(form) {
     })
 }
 
-function deleteGame(name) {
+function deleteGame(gameName, uid) {
     var errMsg = findElement('errMsg')
     if (errMsg)
         errMsg.innerHTML = ""
 
     var body = {
-        gameName : name
+        gameName,
+        uid
     }
 
     if (body.gameName === "") {
@@ -337,7 +338,7 @@ function deleteGame(name) {
         return
     }    
 
-    if (!confirm(`${name} למחוק את המשחק?`)) 
+    if (!confirm(`${gameName} למחוק את המשחק?`)) 
         return
 
     const response = fetch('/api/game/remove', {
@@ -353,6 +354,7 @@ function deleteGame(name) {
     .then (response => {
         response.json()
         .then (resp => {
+            console.log(resp)
             if (response.status != 200) { // failed        
                 intermediateMsgElem(errMsg,resp.msg)
             }
