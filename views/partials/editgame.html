@@ -239,21 +239,21 @@
             <div class="mb-3 row">
               <div class="mb-3 col">
                 <h3>מפה של קבוצה אדומה</h3>
-                <a href="#" data-bs-toggle="modal" data-bs-target="#mapModal">
+                <a href="#" data-bs-toggle="modal" data-bs-target="#mapModal" data-map="{{game.uid}}_red" data-team="red">
                   <img src="/img/maps/{{game.uid}}_red.png" class="img-thumbnail" alt="" id="map_red" style="max-height:400px">
                   <input type="hidden" id="redmap" value="{{game.uid}}_red" />
                 </a>
               </div>
               <div class="mb-3 col">
                 <h3>מפה של קבוצה כחולה</h3>
-                <a href="#" data-bs-toggle="modal" data-bs-target="#mapModal">
+                <a href="#" data-bs-toggle="modal" data-bs-target="#mapModal" data-map="{{game.uid}}_blue" data-team="blue">
                   <img src="/img/maps/{{game.uid}}_blue.png" class="img-thumbnail" alt="" id="map_blue" style="max-height:400px">
                   <input type="hidden" id="bluemap" value="{{game.uid}}_blue" />
                 </a>                
               </div>
               <div class="mb-3 col">
                 <h3>מפה של קבוצה ירוקה</h3>
-                <a href="#" data-bs-toggle="modal" data-bs-target="#mapModal">
+                <a href="#" data-bs-toggle="modal" data-bs-target="#mapModal" data-map="{{game.uid}}_green" data-team="green">
                   <img src="/img/maps/{{game.uid}}_green.png" class="img-thumbnail" alt="" id="map_green" style="max-height:400px">
                   <input type="hidden" id="greenmap" value="{{game.uid}}_red" />
                 </a>
@@ -303,11 +303,58 @@
   </div> <!-- END MODAL-->
   <!-- END IMAGE SELECTION MODAL -->
 
+  <!-- MAP UPLOAD MODAL -->
+  <div class="modal fade" id="mapModal" tabindex="-1" aria-labelledby="mapModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="mapModalLabel">החלפת מפה</h5>              
+        </div>
+        <div class="modal-body modal-body-scrl">
+            
+          <!-- Page Content -->
+          <div class="container">
+            <form method="post" enctype="multipart/form-data" id="mapUpload">
+              <div class="row text-center text-lg-start">
+
+                <div class="col">
+                  <h4>בחירת תמונה חדשה</h4>
+                  <input type="file" accept="image/png" name="mapfile" id="mapfile" onchange="loadFile(event)" style="display: none;">
+                  <label for="mapfile" style="cursor: pointer;">בחירת תמונה</label>
+                  <img id="newmap" width="200" class="newmap"/>
+                </div>
+                
+                <div class="col">
+                  <h4>התמונה הנוכחית</h4>
+                  <img src="" class="img-thumbnail mapimage" alt="" id="curMap" style="max-height:400px"> 
+                </div>
+
+                <input type="hidden" id="mapGame" value="{{game.gameName}}" />
+                <input type="hidden" id="mapTeam" class="mapTeam" value="" />
+                <input type="hidden" id="mapUid" value="{{game.uid}}" />
+
+              </div>              
+              <div class="row">
+                
+                <button class="button" type="submit">העלאת התמונה</button>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div id="mapMsg" class="errMsg float-start">&nbsp;חלידגחלכילח </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close" id="closebut">סגירה</button>
+        </div>
+      </div> <!-- MODAL CONTENT -->
+    </div> <!-- MODAL DIALOG -->
+  </div> <!-- END MODAL-->
+  <!-- END MAP UPLOAD MODAL -->
+
 </main>
 
 <script>
   /**
-   * Handle modal 
+   * Handle gallery modal
    */
   var imgModal = document.getElementById('imgGalleryModal')
   let modalLink = null // used to save the link (a) from which it was opened
@@ -330,4 +377,32 @@
       })
     }
   })  
+  /**
+   * Map modal
+   */
+   var mapModal = document.getElementById('mapModal')
+   mapModal.addEventListener('show.bs.modal', function (event) {
+    var link = event.relatedTarget
+    var imgName = link.getAttribute('data-map')
+    var team = link.getAttribute('data-team')
+
+    var img = document.querySelector(".modal-body .mapimage")
+    img.src = `/img/maps/${imgName}.png`
+    img = document.querySelector(".modal-body .newmap")
+    img.src = ""
+    var teamEl = document.querySelector('.modal-body .mapTeam')
+    teamEl.value = team
+  })  
+  mapModal.addEventListener('hide.bs.modal', function (event) {
+    reloadImg('map_red')
+    reloadImg('map_blue')
+    reloadImg('map_green')
+  })  
+
+
+  var loadFile = function(event) {
+    var image = document.getElementById('newmap');
+    image.src = URL.createObjectURL(event.target.files[0]);
+  };
+
 </script>

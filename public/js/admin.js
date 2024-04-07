@@ -53,6 +53,14 @@ window.addEventListener('load', () => {
             saveGame(this)
         });    
     }
+    el = findElement("mapUpload")
+    if (el != null) {
+        el.addEventListener("submit", function(e){
+            e.preventDefault();    //stop form from submitting
+            uploadMap(this)
+        });    
+    }
+    
 });
 
 /**************** USER ACTIONS ***********************/
@@ -461,6 +469,52 @@ function saveGame(form) {
     })
 }
 
+function uploadMap(form) {
+    var mapMsg = findElement('mapMsg')
+    if (mapMsg)
+    mapMsg.innerHTML = ""
+
+    var mapFiles = findElement('mapfile').files
+    if (mapFiles.length === 0) {
+        mapMsg.innerHTML = "יש לבחור קובץ תמונה מסוג PNG"
+        return
+    }    
+    var formData = new FormData();
+    var data = {team: form.mapTeam.value, uid: form.mapUid.value, game: form.mapGame.value}
+    mapFiles[0].name = `${data.uid}_${data.team}.png`
+    formData.append("file", mapFiles[0])
+    formData.append("info",data)
+    const response = fetch('/api/game/upmap', {
+        method: "POST", // *GET, POST, PUT, DELETE, etc.
+        cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+        headers: {
+          //"Content-Type": "multipart/form-data",
+          'Content-Length': mapFiles[0].length,
+          'x-Path-Name': `${data.uid}_${data.team}.png`
+        },
+        redirect: "follow", // manual, *follow, error
+        referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+        body: formData
+    })
+    .then (response => {
+        response.json()
+        .then (resp => {
+            if (response.status != 200) { // failed        
+                intermediateMsgElem(errMsg,resp.msg)
+            }
+            else {
+                intermediateMsgElem(mapMsg,"הקובץ עלה בהצלחה")
+                findElement('newmap').src = ""
+                reloadImg('curMap')
+                //findElement('curMap').src = findElement('curMap').src + "/" + new Date().getTime();
+            }    
+        })
+    })
+    .catch(err => {
+        console.log(err)
+    })
+}
+
 /**************** MODAL ***********************/
 
 function markThumbnail(link) {
@@ -607,4 +661,16 @@ function copyToClipboard(text, id) {
         var el = findElement(id)
         intermediateMsgElem(el, "הועתק לזכרון")
     }
+}
+
+function reloadImg(id) {
+    var el = findElement(id)
+    if (!el)
+        return
+    var src= el.src
+    var index = src.indexOf(".png")
+    if (index != -1) {
+        src = src.substring(0, index + 4)
+    }
+    el.src = src + "/" + new Date().getTime()
 }

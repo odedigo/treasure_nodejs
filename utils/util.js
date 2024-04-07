@@ -131,3 +131,14 @@ export function getUniqueGameUID() {
     var id = "id" + Math.random().toString(16).slice(2)
     return id
 }
+
+export function getMapImagesFolder() {
+    var str = process.argv[1]
+    var index = str.lastIndexOf(path.sep)
+    if (index == -1) {
+        return null
+    }
+    str = str.substring(0, index)
+    var p = `${str}${path.sep}public${path.sep}img${path.sep}maps${path.sep}`
+    return p
+}

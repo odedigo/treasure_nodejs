@@ -22,11 +22,27 @@ import { renderLogin } from '../controllers/loginController.js'
 import { renderAdmin } from '../controllers/adminController.js'
 import * as util from "../utils/util.js";
 import { UserModel, Roles } from '../db/models/UserModel.js';
+import multer from 'multer'
+
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+      cb(null, util.getMapImagesFolder());
+    },
+    filename: (req, file, cb) => {
+        var fn = req.headers['x-path-name']
+        cb(null, fn);
+    },
+  });
+const upload = multer({ storage: storage })
 
 /********************** PAGES ****************************************/
 
 router.get('/', (req, res) => {
     renderHome(req, res)
+})
+
+router.get('/img/maps/:file/:tag?', (req, res) => {
+    res.sendFile(util.getMapImagesFolder() + req.params.file)
 })
 
 // Error page
@@ -243,6 +259,18 @@ router.post('/api/game/save', (req, res) => {
         return
     }
     api_game.saveGame(req,res, jwt.jwtUser)
+});
+
+/**
+ * Upload map image
+ */
+router.post('/api/game/upmap' , upload.single('file'), (req, res) => {
+    const jwt = util.validateAdminUser(req, true)
+    if (!jwt.valid || !validateRoleAllowed(req, [Roles.ADMIN])) {
+        res.status(400).json({msg: "הפעולה נכשלה"} )
+        return
+    }
+    api_game.uploadMap(req,res, jwt.jwtUser)
 });
 
 /********************** TOOLS ****************************************/

@@ -19,6 +19,7 @@ import config from "../config/config.js"
 import * as util from "../utils/util.js";
 import * as func from "../utils/func.js"
 import { Types } from 'mongoose';
+import fs from 'fs'
 /**
  * Checks if the result vector is valid or not
  * Called by the student's form
@@ -176,6 +177,10 @@ export function saveGame(req, res, jwt) {
     })
 }
 
+export function uploadMap(req, res, jwt) {
+    const imageFile = req.file
+    res.status(200).json({})
+}
 /**
  * Clones a game
  * 
