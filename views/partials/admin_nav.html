@@ -9,11 +9,32 @@
         <div><img src="/img/th/treasurehunt.jpg" class="img-fluid" alt=""></div>
         <div style="height:20px"></div>
 
+          <a
+            href="/admin"
+            class="list-group-item list-group-item-action py-2 ripple {{#ifEquals section 'admin_main' }} active {{/ifEquals}}"
+            aria-current="true"
+          ><span>איך משחקים</span></a>
+
+          <ul class="list-group">
+            <li class="list-group-item">
+              <a href="/admin/tch" 
+              class="list-group-item-action {{#ifEquals section 'rdlimg' }} active {{/ifEquals}}"
+              onclick="return opsNotAllowed();"
+              ><span>אתר המורים</span></a>
+            </li>
+            <li class="list-group-item">
+                <a href="admin/qr" 
+                class="list-group-item-action {{#ifEquals section 'brnch' }} active {{/ifEquals}}"
+                onclick="return opsNotAllowed();"
+              ><span>הדפסת QR למשחק</span></a>
+            </li>
+        </ul>  
+      
         <a
-          href="/admin"
-          class="list-group-item list-group-item-action py-2 ripple {{#ifEquals section 'admin_main' }} active {{/ifEquals}}"
-          aria-current="true"
-        ><span>ראשי</span></a>
+        href="#"
+        class="list-group-item list-group-item-action py-2 ripple"
+        aria-current="true" 
+      ><span>&nbsp;</span></a>
 
         <a
           href="/admin/gamelist"
