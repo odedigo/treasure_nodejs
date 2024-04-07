@@ -16,6 +16,7 @@ const router = Router();
 import { renderGame, renderHome } from '../controllers/gameController.js'; 
 import * as api_user from '../controllers/api_user.js';
 import * as api_game from '../controllers/api_game.js';
+import * as api_mng from '../controllers/api_mng.js';
 import { renderTeacher } from '../controllers/teacherController.js';
 import { renderErr } from '../controllers/errController.js';
 import { renderLogin } from '../controllers/loginController.js'
@@ -271,6 +272,16 @@ router.post('/api/game/upmap' , upload.single('file'), (req, res) => {
         return
     }
     api_game.uploadMap(req,res, jwt.jwtUser)
+});
+
+/********************** MANAGEMENT ***********************************/
+router.post('/api/mng/brnch', (req, res) => {
+    const jwt = util.validateAdminUser(req, true)
+    if (!jwt.valid || !validateRoleAllowed(req, [Roles.SUPERADMIN])) {
+        res.status(400).json({msg: "הפעולה נכשלה"} )
+        return
+    }
+    api_mng.handleBranch(req,res, jwt.jwtUser)
 });
 
 /********************** TOOLS ****************************************/

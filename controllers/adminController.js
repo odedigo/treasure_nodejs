@@ -14,7 +14,7 @@
 import * as api_user from '../controllers/api_user.js';
 import * as api_game from '../controllers/api_game.js';
 import * as util from "../utils/util.js";
-import config from "../config/config.js";
+import { Roles } from '../db/models/UserModel.js';
 import fs from 'fs'
 
 /**
@@ -64,9 +64,21 @@ export async function renderAdmin(req, res, partial, jwtUser) {
         renderAdminGameEdit(req, res, jwtUser, data)
         return
     }
+    if (partial === 'brnch') {
+        renderAdminBranches(req, res, jwtUser, data)
+        return
+    }
 
     // main_admin
     res.render('admin' , data);
+}
+
+export async function renderAdminBranches(req, res, jwtUser, data) {    
+    if (jwtUser.role !== Roles.SUPERADMIN) {
+        res.redirect("/admin")
+        return
+    }
+    res.render('admin' , data);        
 }
 
 export async function renderAdminGameEdit(req, res, jwtUser, data) {    

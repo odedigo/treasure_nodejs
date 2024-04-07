@@ -676,3 +676,68 @@ function reloadImg(id) {
     }
     el.src = src + "/" + new Date().getTime()
 }
+
+/****************** BRANCHES *******************/
+function actionBranch(data) {
+    var errMsg = findElement(data.msgId)
+    if (errMsg)
+        errMsg.innerHTML = ""
+
+    var body = {        
+        action: data.action
+    }
+
+    if (data.action === 'new') {
+        body['name'] = findElement(data.newNameId).value
+        body['nick'] = findElement(data.newNickId).value
+        if (body.name === "" || body.nick === "") {
+            errMsg.innerHTML = "שם וכינוי הסניף לא יכולים להיות ריקים"
+            return
+        }    
+    }
+    else if (data.action === 'del') {
+        body['nick'] = data.nick
+        if (body.nick === "") {
+            errMsg.innerHTML = "כינוי הסניף לא יכול להיות ריק"
+            return
+        }    
+    }
+
+
+    const response = fetch('/api/mng/brnch', {
+        method: "POST", // *GET, POST, PUT, DELETE, etc.
+        cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+        headers: {
+          "Content-Type": "application/json",
+        },
+        redirect: "follow", // manual, *follow, error
+        referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+        body: JSON.stringify(body), // body data type must match "Content-Type" header
+    })
+    .then (response => {
+        response.json()
+        .then (resp => {
+            console.log(resp)
+            if (response.status != 200) { // failed        
+                intermediateMsgElem(errMsg,resp.msg)
+            }
+            else {
+                intermediateMsgElem(errMsg,resp.msg)
+                setTimeout(window.location.reload(), 1000)
+            }    
+        })
+    })
+    .catch(err => {
+        console.log(err)
+    })    
+}
+
+function createBranch(newNameId, newNickId, msgId) {
+    actionBranch({newNameId, newNickId, msgId,action:'new'})
+}
+
+function deleteBranch(nick, msgId) {
+    if (!confirm("למחוק את הסניף "+nick+" ?"))
+        return
+    actionBranch({nick, msgId, action:'del'})
+}

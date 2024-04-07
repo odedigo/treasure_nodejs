@@ -1,0 +1,85 @@
+<main id="main">
+
+        <!-- ======= Game List Section ======= -->
+        <section id="contact" class="contact section-bg">
+          <div class="container">
+    
+            <div class="section-title" data-aos="fade-up">
+              <h2>רשימת סניפים</h2>
+            </div>
+            
+            <div class="row my-3 mx-1">
+              <div class="col-2 mx-1 mt-4">
+              </div>
+
+              <div class="col-2 mx-3 mt-4 list-group">
+                  <a href="#" class="action list-group list-group-item active text-center" data-bs-toggle="modal" data-bs-target="#newBranchModal">
+                  <span>הגדרת סניף חדש</span></a>
+              </div>
+            </div>
+
+            <div class="row">
+    
+              <div class="col-lg-6 d-flex align-items-stretch" data-aos="fade-right">
+              <img src="/img/brnch.png" />
+    
+            </div>
+            <div class="col-lg-4 mt-5 mt-lg-0 d-flex align-items-stretch" data-aos="fade-left">
+              <table class="table table-striped">
+                <thead>
+                <tr>
+                  <th scope="col">פעולות</th>
+                  <th scope="col">סניף</th>
+                  <th scope="col">קיצור</th>
+                </tr>
+                </thead>
+                <tbody>
+                  {{#each branches as |brch|}}
+                  <tr>
+                    <td>
+                      <img src="/img/ops/del.png" class="ops-icon" onclick="deleteBranch('{{@key}}','errMsg')" data-toggle="tooltip" data-placement="top" title="מחיקת סניף"/>
+                    </td>
+                    <td >{{brch @index}}</td>
+                    <td >{{@key}}</td>
+                  </tr>
+                  {{/each}}
+                </tbody>
+              </table>
+              
+            </div>
+            <div class="my-3">
+              <div class="errMsg" id="errMsg"></div>
+            </div>
+          </div>
+    
+        </div>
+      </section><!-- End User List Section -->
+
+      <!-- Modal New Branch -->
+      <div class="modal fade" id="newBranchModal" tabindex="-1" aria-labelledby="newBranchModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="newBranchModalLabel">הגדרת סניף חדש</h5>              
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                  <label for="origName">שם הסניף</label>
+                  <input name="newName" type="input" id="newName" class="form-control" placeholder="שם בעברית" class="" value="" />
+                </div>                
+                <div class="row">
+                  <label for="origName">כינוי הסניף</label>
+                  <input name="newName" type="input" id="newNick" class="form-control en" placeholder="כינוי אנגלי מקוצר לסניף" class="" value="" />
+                </div>                
+            </div>
+            <div id="newBranchMsg" class="errMsg">&nbsp;</div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">סגירה</button>
+              <button type="submit" class="btn btn-primary" onclick="createBranch('newName','newNick','newBranchMsg')">הגדרת סניף חדש</button>
+            </div>
+        </div>
+        </div>
+      </div>
+
+    </main><!-- End #main -->
+
