@@ -21,7 +21,7 @@ import { renderErr } from '../controllers/errController.js';
 import { renderLogin } from '../controllers/loginController.js'
 import { renderAdmin } from '../controllers/adminController.js'
 import * as util from "../utils/util.js";
-import { UserModel, Roles } from '../db/models/UserModel.js';
+import { Roles } from '../db/models/UserModel.js';
 import multer from 'multer'
 
 const storage = multer.diskStorage({
