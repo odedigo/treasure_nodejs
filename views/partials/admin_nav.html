@@ -19,24 +19,45 @@
           href="/admin/gamelist"
           class="list-group-item list-group-item-action py-2 ripple {{#ifEquals section 'gamelist' }} active {{/ifEquals}}"
           aria-current="true" 
-        ><span>ניהול משחקים</span></a>
+        ><span>משחקים</span></a>
 
-        {{#compare jwtUser.role '===' 'TEACHER'}}
-        {{else}}
+        {{#compare jwtUser.role '!==' 'TEACHER'}}
           <a href="/admin/userlist" 
             class="list-group-item list-group-item-action py-2 ripple {{#ifEquals section 'userlist' }} active {{else}} {{#ifEquals section 'register' }} active {{/ifEquals}}{{/ifEquals}}"
               onclick="return opsNotAllowed();"
-          ><span>ניהול משתמשים</span></a>
+          ><span>משתמשים</span></a>
         {{/compare}}
 
-        {{#compare jwtUser.role '!==' 'TEACHER'}}
-        <a href="/admin/manage" 
+        <a
+          href="#"
+          class="list-group-item list-group-item-action py-2 ripple"
+          aria-current="true" 
+        ><span>&nbsp;</span></a>
+
+        {{#compare jwtUser.role '===' 'SUPER-ADMIN'}}
+        <a href="#" 
           class="list-group-item list-group-item-action py-2 ripple {{#ifEquals section 'manage' }} active {{/ifEquals}}"
           onclick="return opsNotAllowed();"
         ><span>פעולות ניהול</span></a>
         {{/compare}}
-
-      </div>
+      </div>   
+      
+      {{#compare jwtUser.role '===' 'SUPER-ADMIN'}}
+      <ul class="list-group">
+        <li class="list-group-item">
+            <a href="admin/brnch" 
+            class="list-group-item-action {{#ifEquals section 'brnch' }} active {{/ifEquals}}"
+            onclick="return opsNotAllowed();"
+          ><span>הגדרת סניפים</span></a>
+        </li>
+        <li class="list-group-item">
+          <a href="/admin/rdlimg" 
+          class="list-group-item-action {{#ifEquals section 'rdlimg' }} active {{/ifEquals}}"
+          onclick="return opsNotAllowed();"
+        ><span>תמונות חידות</span></a>
+      </li>
+    </ul>  
+      {{/compare}}
     </div>
   </nav>
   <!-- Sidebar -->
