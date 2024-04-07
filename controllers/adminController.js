@@ -15,6 +15,7 @@ import * as api_user from '../controllers/api_user.js';
 import * as api_game from '../controllers/api_game.js';
 import * as util from "../utils/util.js";
 import config from "../config/config.js";
+import fs from 'fs'
 
 /**
  * Main rendering function
@@ -34,6 +35,8 @@ export async function renderAdmin(req, res, partial, jwtUser) {
         partial = 'admin_main'
     }
 
+    const branches = JSON.parse(fs.readFileSync('./config/branches.json'))
+
     var data = { 
         jsscript: '/js/admin.js',
         jwtUser,
@@ -41,7 +44,7 @@ export async function renderAdmin(req, res, partial, jwtUser) {
         data: {},
         root: `${req.protocol}://${req.get('host')}`,
         url: req.url,
-        branches: config.data.branches,
+        branches: branches.branches, 
         helpers: {
             whichPartial: function() {
                 return partial  

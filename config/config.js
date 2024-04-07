@@ -30,9 +30,6 @@ const config = {
         report_status: true,
         expiration: 1 // # of days
     },
-    data: {
-        branches: {'ksava': "כפר סבא", 'rehov': "רחובות", 'netiv': "נתיבות", 'jer': "ירושלים", 'aco': "עכו", 'rishon': "ראשון לציון"}
-    },
     roles: {},
     accounts: {},
     validation: {}

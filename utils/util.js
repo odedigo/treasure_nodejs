@@ -112,12 +112,14 @@ export function validateAdminPage(req) {
 
 
 export function branchToCode(branch) {
-    const code = Object.keys(config.data.branches).find(key => config.data.branches[key] === branch);
+    const branches = JSON.parse(fs.readFileSync('./config/branches.json'))
+    const code = Object.keys(branches.branches).find(key => branches.branches[key] === branch);
     return code
 }
 
 export function codeToBranch(code) {
-    return config.data.branches[code]
+    const branches = JSON.parse(fs.readFileSync('./config/branches.json'))
+    return branches.branches[code]
 }
     
 export function getRiddleImages() {
