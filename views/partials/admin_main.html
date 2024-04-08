@@ -13,10 +13,10 @@
   <div class="container">
 
     <div class="section-title" data-aos="fade-up">
-      <h2>מחפשים את המטמון - אזור הניהול</h2>
+      <h2>מחפשים את המטמון - המשחק</h2>
     </div>
 
-    
+    <!-- TABS -->
     <ul class="nav nav-tabs" role="tablist">
       <li class="nav-item" role="presentation">
         <button class="nav-link active" id="main" data-bs-toggle="tab" data-bs-target="#main-tabpanel" type="button" role="tab" aria-controls="main-tabpanel" aria-selected="true">המשחק</button>
@@ -34,27 +34,30 @@
         <button class="nav-link" id="user" data-bs-toggle="tab" data-bs-target="#user-tabpanel" type="button" role="tab" aria-controls="user-tabpanel" aria-selected="false">ניהול משתמשים</button>        
       </li>
     </ul>
-    <div class="tab-content" id="tab-content">
+    
+    <div class="tab-content" id="tab-content"> <!-- TAB CONTENT -->
+      <!-- STD PANEL-->
       <div class="tab-pane fade show active" id="main-tabpanel" role="tabpanel" aria-labelledby="main">
         <div class="row shadow p-3 ms-2 me-2 mb-2 bg-body rounded">  
           <div class="col-lg-4 d-flex align-items-stretch" data-aos="fade-right">
             <img src="/img/docs/std_all.png" />  
           </div>
           <div class="col-lg-7 mt-5 mt-lg-0 " data-aos="fade-left">
-            <p>"מחפשים את המטמון" תוכנן כמשחק מהנה ומאתגר לסיכום פרק הוקטורים בכתה י</p>
+            <p class="pt-4">"מחפשים את המטמון" תוכנן כמשחק מהנה ומאתגר לסיכום פרק הוקטורים בכתה י</p>
             <p>המשחק מאפשר לשלוש קבוצות להתחרות מי תגיע ראשונה לנקודת הסיום תוך פתרון של חידות במהלך הדרך, שהתשובה להן הם וקטורים (מרחק וכיוון) אותם הם צריכים ללכת בעזרת מצפן ומדידת צעדים.</p>
             <p>בכל משחק יש שלוש קבוצות (אפשר לשחק גם עם פחות): אדומה, כחולה וירוקה, ולכל אחת אפשר לתכנן מסלול שונה עם חידות שונות.</p>
             <p>כדי לאפשר גמישות, האתר תוכנן בצורה כזאת שכל סניף יכול ליצור לעצמו מספר משחקים שונים, במסלולים שונים ועם חידות שונות. מעבר לזה, המורים יכולים לערוך את החידות בעצמם באזור הניהול של האתר.</p>
           </div>
         </div>
       </div>
+      <!-- STD PANEL-->
       <div class="tab-pane fade" id="std-tabpanel" role="tabpanel" aria-labelledby="std">
-        <div class="row shadow p-3 ms-2 me-2 mb-2 bg-body rounded">   
+        <div class="row shadow p-3 ms-2 me-2 mb-2 bg-body rounded d-flex flex-row flex-wrap">   
           <div class="col-lg-4 d-flex align-items-stretch" data-aos="fade-right">
             <img src="/img/docs/std2.png" />  
           </div>
           <div class="col-lg-7 mt-5 mt-lg-0 " data-aos="fade-left">
-            <p></p>
+            <p class="pt-4">התלמידים סורקים בעזרת הטלפונים שלהם קוד QR (שמקודד כתובת של אתר אינטרנט) והחידה מופיעה על המסך. אחרי פתרון החידה, ובאותו מסך, הם יכולים לבדוק אם הוקטור שחישבו נכון או לא, לפני שהם ממשיכים לחידה הבאה</p>
             <p></p>
             <p></p>
             <p></p>
@@ -63,53 +66,64 @@
           </div>        
         </div>
       </div>
+      <!-- TEACHER PANEL -->
       <div class="tab-pane fade" id="tch-tabpanel" role="tabpanel" aria-labelledby="tch">
-        <div class="row shadow p-3 ms-2 me-2 mb-2 bg-body rounded">   
+        <div class="row shadow p-3 ms-2 me-2 mb-2 bg-body rounded d-flex flex-row flex-wrap">   
           <div class="col-lg-4 d-flex align-items-stretch" data-aos="fade-right">
-            <img src="/img/docs/teacher.png" />  
+            <img src="/img/docs/teacher.png" width="600px"/>  
           </div>
-          <div class="col-lg-7 mt-5 mt-lg-0 " data-aos="fade-left">
+          <div class="" data-aos="fade-left">
+            <p class="pt-4">אזור המורים מאפשר צפייה בכל נתוני המשחק, כולל החידות והפתרונות של כל הקבוצות</p>
+            <p>וכן מפות המסלולים, במידה והוזנו</p>
             <p></p>
-            <p></p>
-            <p></p>
-            <p></p>
-            <p></p>
-            <p></p>
-          </div>        
+          </div>                
+        </div>
         </div>
       </div>
+      <!-- GAME PANEL -->
       <div class="tab-pane fade" id="game-tabpanel" role="tabpanel" aria-labelledby="game">
-        <div class="row shadow p-3 ms-2 me-2 mb-2 bg-body rounded">   
-          <div class="col-lg-4 d-flex flex-column" data-aos="fade-right">
-            <img src="/img/docs/gamelist.png" />  
+        <div class="shadow p-3 ms-2 me-2 mb-2 bg-body rounded d-flex flex-row flex-wrap">   
+          <div class="col-lg-4 d-flex align-items-stretch" data-aos="fade-right">
+            <img src="/img/docs/gamelist.png" width="800px" class="shadow"/>  
           </div>
-          <div class="col-lg-7 mt-5 mt-lg-0 " data-aos="fade-left">
-            <p></p>
-            <p></p>
-            <p></p>
-            <p></p>
-            <p></p>
-            <p></p>
-          </div>        
-        </div>  
+          <div class="">
+            <div class="col-lg-7 mt-5 mt-lg-0" data-aos="fade-left">
+              <p class="pt-4">מנהל המשחקים של כל סניף יכול ליצור משחק חדש או לשכפל משחק קיים של אותו סניף. לאחר מכן, ניתן לערוך את המשחק ולהגדיר את החידות והפתרונות שלו </p>
+              <p>כל חידה, יכולה להכיל בפתרון שלה עד 3 וקטורים אותם התלמידים צריכים ללכת. הוקטור הם בפורמט פולרי ולכן מכילים מרחק (במטרים) וכיוון (זווית).</p>
+              <p>לכל חידה אפשר להוסיף תמונה (שתראה ע"י התלמידים) . שימו לב שתמונות חדשות רק מנהל המשחקים של הסניף יכול להעלות.</p>
+              <p>יש אפשרות גם להעלות תמונה של מסלולי שלושת הקבוצות לאתר המורים כדי לסמן איפה מוסתרים קודי ה QR לאורך המסלול.	</p>
+            </div>        
+            <div class="col-lg-4 d-flex align-items-stretch" data-aos="fade-right">
+              <img src="/img/docs/links.png" width="600px"/>  
+            </div>
+            <div class="" data-aos="fade-left">
+              <p class="pt-4">באזור זה אפשר לקבל את הלינקים למשחק גם עבור התלמידים וגם עבור אתר המורים</p>
+              <p></p>
+            </div>                  
+          </div>  
+        </div>
+        
       </div>
+      <!-- USER PANEL -->
       <div class="tab-pane fade" id="user-tabpanel" role="tabpanel" aria-labelledby="user">
         <div class="row shadow p-3 ms-2 me-2 mb-2 bg-body rounded">  
           <div class="" data-aos="fade-right">
-            <div class="" data-aos="fade-right" >
-              <img src="/img/docs/userlist.png" style="max-width:100px"/>  
+            <div class="row" data-aos="fade-right" >
+              <img src="/img/docs/userlist.png" width="800px"/>  
             </div>
-          
-            <p>sadasd</p>
-            <p></p>
-            <p></p>
-            <p></p>
-            <p></p>
-            <p></p>
+            <div class="row" data-aos="fade-right" >
+              <p class="pt-4">באתר קיימים 4 סוגי משתמשים:</p>
+              <ol>
+                <li>לתלמידים יש גישה לאזור הפתוח של המשחק ואין צורך להגדיר אותם באתר</li>
+                <li>מורים – מורים צריכים להיות רשומים באתר והם יכולים לערוך משחקים ולקבל גישה לאזור המורה שמכיל את החידות והפתרונות של כל הקבוצות</li>
+                <li>מנהלי משחקים – אלו יכולים ליצור משחקים חדשים (או לשכפל קיימים) וכן להעלות תמונות חדשות לאזור החידות. מנהלי משחקים יכולים להוסיף מורים לאתר</li>
+                <li>אדמין – בעלי הרשאות נוספות (יצירת סניפים חדשים, יצירת משחקים בסניפים אחרים וכו). אלו בדרך כלל מנהלי ה IT של מש"ר.</li>
+              </ol>
+            </div>
           </div>        
         </div>
       </div>
-    </div>
+    </div> <!-- TAB CONTENT -->
 
   </div> <!-- CONTAINER -->
 </section><!-- End Main Admin Section -->
