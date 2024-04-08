@@ -37,7 +37,9 @@
                   {{#each branches as |brch|}}
                   <tr>
                     <td>
+                      {{#compare brch.used '!==' true}}
                       <img src="/img/ops/del.png" class="ops-icon" onclick="deleteBranch('{{@key}}','errMsg')" data-toggle="tooltip" data-placement="top" title="מחיקת סניף"/>
+                      {{/compare}}
                     </td>
                     <td >{{brch.name}}</td>
                     <td >{{@key}}</td>

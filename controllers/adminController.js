@@ -78,10 +78,10 @@ export async function renderAdminBranches(req, res, jwtUser, data) {
         res.redirect("/admin")
         return
     }
-    /*const games = await api_game.getGameList(req, res, jwtUser)
+    const games = await api_game.getGameList(req, res, jwtUser)
     games.forEach(game => {
-        data.branches[""] game.branch)
-    });*/
+        data.branches[game.branch].used = true
+    });
 
     res.render('admin' , data);        
 }
