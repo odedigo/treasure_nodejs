@@ -15,38 +15,18 @@
             aria-current="true"
           ><span>איך משחקים</span></a>
 
-          <ul class="list-group">
-            <li class="list-group-item">
-              <a href="/admin/tch" 
-              class="list-group-item-action {{#ifEquals section 'rdlimg' }} active {{/ifEquals}}"
-              onclick="return opsNotAllowed();"
-              ><span>אתר המורים</span></a>
-            </li>
-            <li class="list-group-item">
-                <a href="admin/qr" 
-                class="list-group-item-action {{#ifEquals section 'brnch' }} active {{/ifEquals}}"
-                onclick="return opsNotAllowed();"
-              ><span>הדפסת QR למשחק</span></a>
-            </li>
-        </ul>  
-      
-        <a
-        href="#"
-        class="list-group-item list-group-item-action py-2 ripple"
-        aria-current="true" 
-      ><span>&nbsp;</span></a>
-
+          
         <a
           href="/admin/gamelist"
           class="list-group-item list-group-item-action py-2 ripple {{#ifEquals section 'gamelist' }} active {{/ifEquals}}"
           aria-current="true" 
-        ><span>משחקים</span></a>
+        ><span>ניהול המשחקים</span></a>
 
         {{#compare jwtUser.role '!==' 'TEACHER'}}
           <a href="/admin/userlist" 
             class="list-group-item list-group-item-action py-2 ripple {{#ifEquals section 'userlist' }} active {{else}} {{#ifEquals section 'register' }} active {{/ifEquals}}{{/ifEquals}}"
               onclick="return opsNotAllowed();"
-          ><span>משתמשים</span></a>
+          ><span>ניהול המשתמשים</span></a>
         {{/compare}}
 
         <a
@@ -65,19 +45,19 @@
       
       {{#compare jwtUser.role '===' 'SUPER-ADMIN'}}
       <ul class="list-group">
-        <li class="list-group-item">
+        <li class="list-group-item border-0 p-0">
             <a href="admin/brnch" 
-            class="list-group-item-action {{#ifEquals section 'brnch' }} active {{/ifEquals}}"
+            class="list-group-item-action list-group-item border-0 pt-2 pb-2 {{#ifEquals section 'brnch' }} active {{/ifEquals}}"
             onclick="return opsNotAllowed();"
           ><span>הגדרת סניפים</span></a>
         </li>
-        <li class="list-group-item">
+        <li class="list-group-item border-0 p-0">
           <a href="/admin/rdlimg" 
-          class="list-group-item-action {{#ifEquals section 'rdlimg' }} active {{/ifEquals}}"
+          class="list-group-item-action list-group-item border-0 pt-2 pb-2 {{#ifEquals section 'rdlimg' }} active {{/ifEquals}}"
           onclick="return opsNotAllowed();"
         ><span>תמונות חידות</span></a>
-      </li>
-    </ul>  
+        </li>
+      </ul>  
       {{/compare}}
     </div>
   </nav>
