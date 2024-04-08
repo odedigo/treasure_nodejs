@@ -35,7 +35,7 @@
           aria-current="true" 
         ><span>&nbsp;</span></a>
 
-        {{#compare jwtUser.role '===' 'SUPER-ADMIN'}}
+        {{#compare jwtUser.role '!==' 'TEACHER'}}
         <a href="#" 
           class="list-group-item list-group-item-action py-2 ripple {{#ifEquals section 'manage' }} active {{/ifEquals}}"
           onclick="return opsNotAllowed();"
@@ -51,6 +51,8 @@
             onclick="return opsNotAllowed();"
           ><span>הגדרת סניפים</span></a>
         </li>
+        {{/compare}}
+        {{#compare jwtUser.role '!==' 'TEACHER'}}
         <li class="list-group-item border-0 p-0">
           <a href="/admin/gallery" 
           class="list-group-item-action list-group-item border-0 pt-2 pb-2 {{#ifEquals section 'gallery' }} active {{/ifEquals}}"

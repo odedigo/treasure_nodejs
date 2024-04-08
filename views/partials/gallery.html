@@ -12,6 +12,7 @@
           <div class="section-title" data-aos="fade-up">
             <h2>גלריית תמונות לחידות</h2>
             <p>אלו תמונות שאותן ניתן לשלב בחידות</p>
+            <p>הזהרו מלמחוק תמונות שיתכן נמצאות בשימוש באחד המשחקים</p>
             <div id="msg" class="errMsg mt-4"></div>
           </div>
         </div>  
@@ -27,7 +28,7 @@
             <div id="gallery"></div>            
             <div class="row">
               <div class="col">
-                <button class="btn btn-primary" onclick="uploadAllFiles()">העלאה</button>
+                <button class="btn btn-primary" onclick="uploadAllFiles()">העלאת התמונות לענן</button>
               </div>
               <!-- <div class="col">
                 <progress id="progress-bar" max=100 value=0></progress>
@@ -48,7 +49,11 @@
           </div>
           {{#compare img '!==' 'empty.png'}}
           <div >
-            <button type="button" class="btn-close" aria-label="Close" style="position:absolute;top:0px;right:0px" onclick="deleteGalImg('{{img}}')"></button>            
+            <button type="button" class="btn-close" aria-label="Close" style="position:absolute;top:0px;right:0px" 
+            {{#compare jwtUser.role '===' 'SUPER-ADMIN'}}
+            onclick="deleteGalImg('{{img}}')"
+            {{/compare}}
+            ></button>            
           </div>
           {{/compare}}
         </div>     

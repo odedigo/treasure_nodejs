@@ -95,6 +95,7 @@
                 <div class="row">
                   <label for="newName">שם המשחק החדש</label>
                   <input name="newName" type="input" id="newName-role" class="form-control" placeholder="" class="en" value=""/>
+                  <label class="comment">שימו לב ששם המשחק צריך להיות באנגלית וקצר מאד (מילה אחת)</label>
                 </div>
             </div>
             <div id="modalErrRoleMsg" class="errMsg">&nbsp;</div>
@@ -159,6 +160,7 @@
                 <div class="row">
                   <label for="origName">שם המשחק</label>
                   <input name="newName" type="input" id="newName" class="form-control" placeholder="" class="" value="" />
+                  <label class="comment">שימו לב ששם המשחק צריך להיות באנגלית וקצר מאד (מילה אחת)</label>
                 </div>                
                 <div class="row" style="display:{{#compare jwtUser.role '===' 'SUPER-ADMIN'}}block{{else}}none{{/compare}}">
                   <label for="origName">שם הסניף</label>
@@ -167,6 +169,7 @@
                     <option value="{{brch}}">{{brch.name}}</option>
                     {{/each}}                    
                   </select>
+                  <label class="comment">בחרו מתרשימת הסניפים</label>
                 </div>                
             </div>
             <div id="newGameMsg" class="errMsg">&nbsp;</div>

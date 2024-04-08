@@ -160,3 +160,9 @@ p {
 #fileElem {
   display: none;
 }
+/** Other */
+.comment {
+  font-size: 12pt;
+  color: gray;
+  margin-bottom: 10px;
+}
