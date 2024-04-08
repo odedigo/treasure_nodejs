@@ -17,7 +17,7 @@ import * as util from "../utils/util.js";
 export function handleBranch(req, res, jwt) {
     const {action, name, nick} = req.body
 
-    const branches = JSON.parse(fs.readFileSync('./config/branches.json'))
+    const branches = util.getBranchesForUser(jwt)
     if (action === 'new') {
         if (!util.isValidValue(name) || !util.isValidValue(nick)) {
             res.status(400).json({msg: "שם או כינוי סניף לא חוקיים"})

@@ -97,14 +97,16 @@ export async function getGameList(req, res, jwt) {
             res.status(400).json({msg: "פעולה לא חוקית"})
             return 
         }
+        if (!util.isValidValue(branch))
+            filter["branch"] = util.branchToCode(jwt.branch)
     }
     else { // super admins can search for other branches
         if (util.isValidValue(branch))
-            filter[branch] = branch
+            filter["branch"] = util.branchToCode(branch)
     } 
 
     if (util.isValidValue(gameName))
-        filter[gameName] = gameName
+        filter["gameName"] = gameName
 
     // send query
     const games = await GameModel.find(filter)
@@ -120,7 +122,7 @@ export async function getGame(gameName, jwt) {
     }       
 
     if (jwt.role !== Roles.SUPERADMIN) {
-        filter[branch] = branch
+        filter["branch"] = util.branchToCode(branch)
     } 
 
     // send query
@@ -147,7 +149,7 @@ export function saveGame(req, res, jwt) {
     }       
 
     if (jwt.role !== Roles.SUPERADMIN) {
-        filter[branch] = jwt.branch
+        filter["branch"] = jwt.branch
     } 
 
     // send query
@@ -200,7 +202,7 @@ export function cloneGame(req, res, jwt) {
     }       
 
     if (jwt.role !== Roles.SUPERADMIN) {
-        filter[branch] = jwt.branch
+        filter["branch"] = util.branchToCode(jwt.branch)
     } 
 
     // send query
@@ -259,7 +261,7 @@ export function editGame(req, res, jwt) {
     }       
 
     if (jwt.role !== Roles.SUPERADMIN) {
-        filter[branch] = jwt.branch
+        filter["branch"] = util.branchToCode(jwt.branch)
     } 
 
     // send query
@@ -403,7 +405,7 @@ export async function createGame(req, res, jwt) {
     }  
 
     if (jwt.role !== Roles.SUPERADMIN || !util.isValidValue(branch))
-        branch = jwt.branch    
+        branch = util.branchToCode(jwt.branch)
 
     var game = _createNewGame(gameName, branch)
     var model = GameModel(game)

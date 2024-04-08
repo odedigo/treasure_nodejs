@@ -28,7 +28,7 @@ export function renderTeacher (req, res) {
                                   
             // render teacher page with received content
             res.render('teacher' , { 
-                jsscript: '/js/teacher.js', 
+                jsscript: ['/js/teacher.js'], 
                 gameData,
                 gameName,
                 uid: gameData.uid

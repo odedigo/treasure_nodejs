@@ -66,9 +66,9 @@ window.addEventListener('load', () => {
 /**************** USER ACTIONS ***********************/
 
 async function sendLoginForm(form) {
+    console.log("login")
     var errMsg = findElement('errMsg')
     errMsg.innerHTML = ""
-
     var body = {
         username: form.username.value,
         password: form.password.value

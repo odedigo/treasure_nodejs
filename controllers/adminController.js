@@ -35,7 +35,7 @@ export async function renderAdmin(req, res, partial, jwtUser) {
         partial = 'admin_main'
     }
 
-    const branches = JSON.parse(fs.readFileSync('./config/branches.json'))
+    const branches = util.getBranchesForUser(jwtUser)
 
     var data = { 
         jsscript: ['/js/admin.js'],

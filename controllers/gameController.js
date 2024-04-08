@@ -55,7 +55,7 @@ export function renderGame(req, res, obj) {
 
             // render game page with received content
             res.render('game' , { 
-                jsscript: '/js/student.js', 
+                jsscript: ['/js/student.js'], 
                 teamData: gameJson[team],   
                 rdl,
                 team,
