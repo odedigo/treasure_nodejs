@@ -164,7 +164,7 @@
                   <label for="origName">שם הסניף</label>
                   <select name="newBranch" id="newBranch" class="form-control">
                     {{#each branches as |brch|}}
-                    <option value="{{brch}}">{{brch}}</option>
+                    <option value="{{brch}}">{{brch.name}}</option>
                     {{/each}}                    
                   </select>
                 </div>                

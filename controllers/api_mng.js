@@ -23,8 +23,8 @@ export function handleBranch(req, res, jwt) {
             res.status(400).json({msg: "שם או כינוי סניף לא חוקיים"})
             return
         }
-        if (branches.branches[nick] === undefined)
-            branches.branches[nick] = name
+        if (branches[nick] === undefined)
+            branches[nick] = {name}
         else {
             res.status(400).json({msg: "סניף זה כבר מוגדר"})
             return
@@ -35,8 +35,8 @@ export function handleBranch(req, res, jwt) {
             res.status(400).json({msg: "כינוי הסניף לא חוקי"})
             return
         }
-        if (branches.branches[nick] !== undefined)
-            delete branches.branches[nick] 
+        if (branches[nick] !== undefined)
+            delete branches[nick] 
         else {
             res.status(400).json({msg: "כינוי הסניף כבר קיים"})
             return

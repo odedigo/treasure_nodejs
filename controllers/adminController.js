@@ -44,7 +44,7 @@ export async function renderAdmin(req, res, partial, jwtUser) {
         data: {},
         root: `${req.protocol}://${req.get('host')}`,
         url: req.url,
-        branches: branches.branches, 
+        branches: branches, 
         helpers: {
             whichPartial: function() {
                 return partial  
@@ -78,6 +78,11 @@ export async function renderAdminBranches(req, res, jwtUser, data) {
         res.redirect("/admin")
         return
     }
+    /*const games = await api_game.getGameList(req, res, jwtUser)
+    games.forEach(game => {
+        data.branches[""] game.branch)
+    });*/
+
     res.render('admin' , data);        
 }
 

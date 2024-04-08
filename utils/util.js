@@ -113,13 +113,13 @@ export function validateAdminPage(req) {
 
 export function branchToCode(branch) {
     const branches = JSON.parse(fs.readFileSync('./config/branches.json'))
-    const code = Object.keys(branches.branches).find(key => branches.branches[key] === branch);
+    const code = Object.keys(branches).find(key => branches[key].name === branch);
     return code
 }
 
 export function codeToBranch(code) {
     const branches = JSON.parse(fs.readFileSync('./config/branches.json'))
-    return branches.branches[code]
+    return branches[code].name
 }
     
 export function getRiddleImages() {
