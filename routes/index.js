@@ -25,16 +25,26 @@ import * as util from "../utils/util.js";
 import { Roles } from '../db/models/UserModel.js';
 import multer from 'multer'
 
-const storage = multer.diskStorage({
+const storageMap = multer.diskStorage({
     destination: (req, file, cb) => {
-      cb(null, util.getMapImagesFolder());
+        cb(null, util.getMapImagesFolder());
     },
     filename: (req, file, cb) => {
         var fn = req.headers['x-path-name']
         cb(null, fn);
     },
-  });
-const upload = multer({ storage: storage })
+});
+const storageGal = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, util.getMapGalleryFolder());
+    },
+    filename: (req, file, cb) => {
+        var fn = file.originalname
+        cb(null, fn);
+    },
+});
+const uploadMap = multer({ storage: storageMap })
+const uploadGal = multer({ storage: storageGal })
 
 /********************** PAGES ****************************************/
 
@@ -265,7 +275,7 @@ router.post('/api/game/save', (req, res) => {
 /**
  * Upload map image
  */
-router.post('/api/game/upmap' , upload.single('file'), (req, res) => {
+router.post('/api/game/upmap' , uploadMap.single('file'), (req, res) => {
     const jwt = util.validateAdminUser(req, true)
     if (!jwt.valid || !validateRoleAllowed(req, [Roles.ADMIN])) {
         res.status(400).json({msg: "הפעולה נכשלה"} )
@@ -284,6 +294,23 @@ router.post('/api/mng/brnch', (req, res) => {
     api_mng.handleBranch(req,res, jwt.jwtUser)
 });
 
+router.post('/api/mng/gal', uploadGal.single('file'), (req, res) => {
+    const jwt = util.validateAdminUser(req, true)
+    if (!jwt.valid || !validateRoleAllowed(req, [Roles.ADMIN])) {
+        res.status(400).json({msg: "הפעולה נכשלה"} )
+        return
+    }
+    api_mng.handleGallery(req,res, jwt.jwtUser)
+});
+
+router.post('/api/mng/galdel', (req, res) => {
+    const jwt = util.validateAdminUser(req, true)
+    if (!jwt.valid || !validateRoleAllowed(req, [Roles.ADMIN])) {
+        res.status(400).json({msg: "הפעולה נכשלה"} )
+        return
+    }
+    api_mng.handleGalleryDelete(req,res, jwt.jwtUser)
+});
 /********************** TOOLS ****************************************/
 
 /**

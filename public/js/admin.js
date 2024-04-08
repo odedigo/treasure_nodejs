@@ -741,3 +741,44 @@ function deleteBranch(nick, msgId) {
         return
     actionBranch({nick, msgId, action:'del'})
 }
+
+function deleteGalImg(id) {
+    const errMsg = findElement('msg')
+    const img = findElement(id)
+    if (!img)
+        return
+
+    if (!confirm("בטוח שאתם רוצים למחוק את התמונה?"))
+        return
+
+    var body = {        
+        action: 'del',
+        name: id
+    }
+
+    const response = fetch('/api/mng/galdel', {
+        method: "POST", // *GET, POST, PUT, DELETE, etc.
+        cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+        headers: {
+            "Content-Type": "application/json",
+        },
+        redirect: "follow", // manual, *follow, error
+        referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+        body: JSON.stringify(body), // body data type must match "Content-Type" header
+    })
+    .then (response => {
+        response.json()
+        .then (resp => {
+            if (response.status != 200) { // failed        
+                intermediateMsgElem(errMsg,resp.msg)
+            }
+            else {
+                intermediateMsgElem(errMsg,resp.msg)
+                setTimeout(window.location.reload(), 1000)
+            }    
+        })
+    })
+    .catch(err => {
+        console.log(err)
+    })       
+}

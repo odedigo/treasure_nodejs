@@ -38,7 +38,7 @@ export async function renderAdmin(req, res, partial, jwtUser) {
     const branches = JSON.parse(fs.readFileSync('./config/branches.json'))
 
     var data = { 
-        jsscript: '/js/admin.js',
+        jsscript: ['/js/admin.js'],
         jwtUser,
         section: partial,
         data: {},
@@ -68,9 +68,23 @@ export async function renderAdmin(req, res, partial, jwtUser) {
         renderAdminBranches(req, res, jwtUser, data)
         return
     }
+    if (partial === 'gallery') {
+        renderAdminGallery(req, res, jwtUser, data)
+        return
+    }
 
     // main_admin
     res.render('admin' , data);
+}
+
+export async function renderAdminGallery(req, res, jwtUser, data) {    
+    if (jwtUser.role === Roles.TEACHER) {
+        res.redirect("/admin")
+        return
+    }
+    data.jsscript.push('/js/upload.js')
+    data.imgs = util.getRiddleImages()
+    res.render('admin' , data);        
 }
 
 export async function renderAdminBranches(req, res, jwtUser, data) {    

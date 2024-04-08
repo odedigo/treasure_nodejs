@@ -1,0 +1,58 @@
+<main id="main">
+
+  <section id="portfolio" class="portfolio">
+    <div class="container">
+
+      <div class="section-title" data-aos="fade-up">
+        <h2>גלריית תמונות לחידות</h2>
+        <p>אלו תמונות שאותן ניתן לשלב בחידות</p>
+      </div>
+      
+      <div class="row">
+        <div class="col-lg-12 d-flex justify-content-center" data-aos="fade-up" data-aos-delay="100">
+          <div id="drop-area">
+            <form class="galleryForm" id="galleryForm">
+              <p>בחרו תמונות או גררו אותן על האזור הזה</p>
+              <input type="file" id="fileElem" multiple accept="image/png" onchange="handleFiles(this.files)">
+              <label class="btn btn-secondary" for="fileElem">בחרו תמונות</label>
+            </form>
+            
+            <div id="gallery"></div>            
+            <div class="row">
+              <div class="col">
+                <button class="btn btn-primary" onclick="uploadAllFiles()">העלאה</button>
+              </div>
+              <!-- <div class="col">
+                <progress id="progress-bar" max=100 value=0></progress>
+              </div> -->
+            </div>
+            
+          </div>          
+        </div>
+        <div class="col">
+          <div id="msg" class="errMsg"></div>
+        </div>
+
+      </div>
+
+      <div class="row portfolio-container" data-aos="fade-up" data-aos-delay="200">
+
+        {{#each imgs as |img|}}
+        <div class="col-md-4 col-6 portfolio-item filter-app align-content-center" style="border: 1px solid lightGray; width:202px; height:202px">
+          <div class="portfolio-wrap">
+            <img src="/img/rdl/{{img}}" class="img-fluid" alt="" style="max-height:180px" id="{{img}}">
+          </div>
+          {{#compare img '!==' 'empty.png'}}
+          <div >
+            <button type="button" class="btn-close" aria-label="Close" style="position:absolute;top:0px;right:0px" onclick="deleteGalImg('{{img}}')"></button>            
+          </div>
+          {{/compare}}
+        </div>     
+        {{/each}}
+
+      </div>
+
+    </div>
+  </section><!-- End Portfolio Section -->
+
+</main><!-- End #main -->

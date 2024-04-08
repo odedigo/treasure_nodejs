@@ -104,7 +104,7 @@ export function validateAdminUser(req, validatePage = false) {
 }
 
 export function validateAdminPage(req) {
-    var pages = ['gamelist','register','userlist','editgame','brnch','rdlimg']
+    var pages = ['gamelist','register','userlist','editgame','brnch','gallery']
     if (req.params.page == undefined)
         return true
     return pages.includes(req.params.page)
@@ -142,6 +142,16 @@ export function getMapImagesFolder() {
     }
     str = str.substring(0, index)
     var p = `${str}${path.sep}public${path.sep}img${path.sep}maps${path.sep}`
+    return p
+}
+export function getMapGalleryFolder() {
+    var str = process.argv[1]
+    var index = str.lastIndexOf(path.sep)
+    if (index == -1) {
+        return null
+    }
+    str = str.substring(0, index)
+    var p = `${str}${path.sep}public${path.sep}img${path.sep}rdl${path.sep}`
     return p
 }
 

@@ -45,3 +45,18 @@ export function handleBranch(req, res, jwt) {
     fs.writeFileSync('./config/branches.json',JSON.stringify(branches))
     res.status(200).json({msg: "הפעולה בוצעה בהצלחה"});
 }
+
+export function handleGallery(req, res, jwt) {
+   res.status(200).json({msg: "הפעולה בוצעה בהצלחה"});
+}
+
+export function handleGalleryDelete(req, res, jwt) {
+    var folder = util.getMapGalleryFolder()
+    const {name, action} = req.body
+    if (name === 'empty.png') {
+        res.status(400).json({msg: "אי אפשר למחוק את התמונה הזאת"});    
+        return
+    }
+    fs.unlinkSync(folder+name)
+    res.status(200).json({msg: "הפעולה בוצעה בהצלחה"});
+}
