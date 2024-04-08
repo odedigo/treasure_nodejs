@@ -127,7 +127,6 @@ export function getBranchesForUser(jwt) {
     const branches = JSON.parse(fs.readFileSync('./config/branches.json'))
     if (jwt.role === Roles.SUPERADMIN)
         return branches
-    console.log(branches[branchToCode(jwt.branch)])
     var code = branchToCode(jwt.branch)
     return {code : branches[branchToCode(jwt.branch)]}
 }
