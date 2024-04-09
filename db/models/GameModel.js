@@ -38,6 +38,10 @@ var GameSchema = new Schema({
         type: String,
         unique: true
     },
+    readableName: {
+        type: String,
+        default: "מחפשים את המטמון"
+    },
     uid: {
         type: String
     },

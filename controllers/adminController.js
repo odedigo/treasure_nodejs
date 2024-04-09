@@ -133,7 +133,7 @@ export async function renderAdminGamelist(req, res, jwtUser, data) {
 
 
 export function renderAdminQR(req, res, jwt) {
-    const {gameName, branch} = req.params
+    const {gameName, branch, readableName} = req.params
     if (!util.isValidValue(branch) || !util.isValidValue(gameName)) {
         res.redirect("/admin")
         return
@@ -144,6 +144,7 @@ export function renderAdminQR(req, res, jwt) {
         jwtUser: jwt,
         data: {
             gameName,
+            readableName,
             branch,
             branchName: util.codeToBranch(branch),
             green: "9bba59",

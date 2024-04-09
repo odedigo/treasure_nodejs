@@ -484,7 +484,8 @@ export function createGameList(games) {
     games.forEach(game => {
         var branch = util.codeToBranch(game.branch)
         var active = game.active ? "כן" : "לא"
-        res.push({gameName:game.gameName, branch , branchCode: util.branchToCode(branch),date: game.date, version:game.version, active, uid:game.uid})
+        res.push({gameName:game.gameName, branch , branchCode: util.branchToCode(branch),date: game.date, version:game.version, active, uid:game.uid,
+        readableName: game.readableName})
     });
     return res;
 }
@@ -497,7 +498,7 @@ export function createGameList(games) {
 export function createGameObj(game) {
     var g = {gameName:game.gameName, branch: game.branch, date: game.date, version:game.version, 
         active: game.active, red:_copyColor(game.red), blue:_copyColor(game.blue), green:_copyColor(game.green),
-        uid: game.uid}
+        uid: game.uid,readableName: game.readableName}
     return g;
 }
 
@@ -565,7 +566,8 @@ function _formatGameForSave( dbData , newData ) {
     dbData.version = String((parseFloat(newData.version) + 0.1).toPrecision(2))
     dbData.active = Boolean(newData.active)
     dbData.date = util.getCurrentDateTime()  
-    dbData.branch = dbData.branch, // not changing branches
+    //dbData.branch = dbData.branch, // not changing branches
+    dbData.readableName = newData.readableName
     
     dbData.red = newData.red
     dbData.blue = newData.blue
@@ -590,7 +592,8 @@ function _createNewGame(gameName, branch) {
         uid: util.getUniqueGameUID(),
         red: _createTeam('red'),
         blue: _createTeam('blue'),
-        green: _createTeam('green')
+        green: _createTeam('green'),
+        readableName: "מחפשים את המטמון"
     }
     return game    
 }

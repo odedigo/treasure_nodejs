@@ -22,7 +22,7 @@ export function renderTeacher (req, res) {
     // Async Query
     GameModel.findOne(query)
     .then (gameData => {
-        if (gameData) {
+        if (gameData) {            
             // All good
             var gameJson = JSON.parse(JSON.stringify(gameData))
                                   
@@ -31,6 +31,9 @@ export function renderTeacher (req, res) {
                 jsscript: ['/js/teacher.js'], 
                 gameData,
                 gameName,
+                branch: util.codeToBranch(gameData.branch),
+                date: new Date(gameData.date).toLocaleString('he-IL', { timeZone: 'Asia/Jerusalem' }),
+                readableName: gameData.readableName,
                 uid: gameData.uid
             });
         }
