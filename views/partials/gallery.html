@@ -29,6 +29,7 @@
             <div class="row">
               <div class="col">
                 <button class="btn btn-primary" onclick="uploadAllFiles()">העלאת התמונות לענן</button>
+                
               </div>
               <!-- <div class="col">
                 <progress id="progress-bar" max=100 value=0></progress>
@@ -48,9 +49,9 @@
             <img src="/img/rdl/{{img}}" class="img-fluid" alt="" style="max-height:180px" id="{{img}}">
           </div>
           {{#compare img '!==' 'empty.png'}}
-          <div >
+          <div >            
             <button type="button" class="btn-close" aria-label="Close" style="position:absolute;top:0px;right:0px" 
-            {{#compare jwtUser.role '===' 'SUPER-ADMIN'}}
+            {{#compare ../jwtUser.role '===' 'SUPER-ADMIN'}}
             onclick="deleteGalImg('{{img}}')"
             {{/compare}}
             ></button>            
