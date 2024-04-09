@@ -484,7 +484,7 @@ export function createGameList(games) {
     games.forEach(game => {
         var branch = util.codeToBranch(game.branch)
         var active = game.active ? "כן" : "לא"
-        res.push({gameName:game.gameName, branch , date: game.date, version:game.version, active, uid:game.uid})
+        res.push({gameName:game.gameName, branch , branchCode: util.branchToCode(branch),date: game.date, version:game.version, active, uid:game.uid})
     });
     return res;
 }

@@ -55,9 +55,9 @@
                     {{#compare game.active '===' 'כן'}}
                     <img src="/img/ops/start.png" class="ops-icon" onclick="startGame('{{game.gameName}}')" data-toggle="tooltip" data-placement="top" title="התחלת משחק"/>
                     <img src="/img/ops/end.png" class="ops-icon" onclick="stoptGame('{{game.gameName}}')" data-toggle="tooltip" data-placement="top" title="סיום משחק"/>                    
-                    <a href="#" data-bs-toggle="modal" data-bs-target="#gameLinksModal" data-orig-game="{{game.gameName}}">
-                     <img src="/img/ops/qr.png" class="ops-icon" data-toggle="tooltip" data-placement="top" title="לינקים למשחק"/>
-                    </a>                  
+                    <a href="/admin/qr/{{game.branchCode}}/{{game.gameName}}" target="game">
+                      <img src="/img/ops/qr.png" class="ops-icon" data-toggle="tooltip" data-placement="top" title="לינקים למשחק"/>
+                     </a>                 
                     {{/compare}}
                   </td>
                   <td >{{game.gameName}}</td>
@@ -104,47 +104,6 @@
               <button type="submit" class="btn btn-primary">שיכפול</button>
             </div>
           </form> 
-        </div>
-        </div>
-      </div>
-
-      <!-- Modal Game Links -->
-      <div class="modal fade" id="gameLinksModal" tabindex="-1" aria-labelledby="gameLinksModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="gameLinksModalLabel">לינקים למשחק</h5>              
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                  <label for="origName">שם המשחק</label>
-                  <input name="origName" type="input" id="origName" class="form-control" placeholder="" class="en" value="" readonly/>
-                </div>
-                <div class="row">  
-                  <label for="origName">לינק לקבוצה האדומה</label>
-                  <a href="#" id="gameLinkRed" class="gamelink" target="newGame"></a>
-                  <button type="button" class="btn btn-danger text-nowrap" onclick="copyToClipboard(`{{root}}/game/{{game.gameName}}/red/1`,'modalLinksMsg')">העתקה לזכרון - אדומה</button>
-                </div>
-                <div class="row">
-                  <label for="origName">לינק לקבוצה הכחולה</label>
-                  <a href="#" id="gameLinkBlue" class="gamelink" target="newGame"></a>
-                  <button type="button" class="btn btn-primary text-nowrap" onclick="copyToClipboard(`{{root}}/game/{{game.gameName}}/blue/1`,'modalLinksMsg')">העתקה לזכרון - כחולה</button>
-                </div>
-                <div class="row">
-                  <label for="origName">לינק לקבוצה הירוקה</label>
-                  <a href="#" id="gameLinkGreen" class="gamelink" target="newGame"></a>
-                  <button type="button" class="btn btn-success text-nowrap" onclick="copyToClipboard(`{{root}}/game/{{game.gameName}}/green/1`,'modalLinksMsg')">העתקה לזכרון - ירוקה</button>
-                </div>
-                <div class="row">
-                  <label for="origName">לינק לאתר המורה</label>
-                  <a href="#" id="gameLinkGreen" class="gamelink" target="teacher"></a>
-                  <button type="button" class="btn btn-info text-nowrap" onclick="copyToClipboard(`{{root}}/teacher/{{game.gameName}}`,'modalLinksMsg')">העתקה לזכרון - אתר מורה</button>
-                </div>
-            </div>
-            <div id="modalLinksMsg" class="errMsg">&nbsp;</div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">סגירה</button>
-            </div>
         </div>
         </div>
       </div>
@@ -204,27 +163,4 @@
     modalBodyInput[0].value = origGame // username
   })  
 
-  /**
-  * LINKS MODAL
-  */
-  var linksModal = document.getElementById('gameLinksModal')
-  linksModal.addEventListener('show.bs.modal', function (event) {
-    var link = event.relatedTarget
-    var origGame = link.getAttribute('data-orig-game')
-    var modalTitle = linksModal.querySelector('.modal-title')
-    var modalBodyInput = linksModal.querySelectorAll('.modal-body input')
-
-    var gameLinks = linksModal.querySelectorAll('.modal-body .gamelink')
-
-    gameLinks[0].href = `{{root}}/game/${origName.value}/red/1`
-    gameLinks[0].innerHTML = `{{root}}/game/${origName.value}/red/1`
-    gameLinks[1].href = `{{root}}/game/${origName.value}/blue/1`
-    gameLinks[1].innerHTML = `{{root}}/game/${origName.value}/blue/1`
-    gameLinks[2].href = `{{root}}/game/${origName.value}/green/1`
-    gameLinks[2].innerHTML = `{{root}}/game/${origName.value}/green/1`
-    gameLinks[3].href = `{{root}}/teacher/${origName.value}`
-    gameLinks[3].innerHTML = `{{root}}/teacher/${origName.value}`
-
-    modalBodyInput[0].value = origGame // username
-  })  
 </script>

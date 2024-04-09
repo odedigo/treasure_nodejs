@@ -132,3 +132,28 @@ export async function renderAdminGamelist(req, res, jwtUser, data) {
 }
 
 
+export function renderAdminQR(req, res, jwt) {
+    const {gameName, branch} = req.params
+    if (!util.isValidValue(branch) || !util.isValidValue(gameName)) {
+        res.redirect("/admin")
+        return
+    }
+
+    var data = { 
+        jsscript: ['/js/admin.js'],
+        jwtUser: jwt,
+        data: {
+            gameName,
+            branch,
+            branchName: util.codeToBranch(branch),
+            green: "9bba59",
+            red: "ff0000",
+            blue: "4f81bd",
+            imgSize: "200x200"
+        },
+        rootEncoded: encodeURIComponent (`${req.protocol}://${req.get('host')}`),        
+        root: `${req.protocol}://${req.get('host')}`,
+        url: req.url
+    }
+    res.render('qr', data)
+}

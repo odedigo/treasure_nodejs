@@ -665,6 +665,10 @@ function copyToClipboard(text, id) {
     }
 }
 
+function showInTab(url) {
+    window.open(url,"game")
+}
+
 function reloadImg(id) {
     var el = findElement(id)
     if (!el)

@@ -20,7 +20,7 @@ import * as api_mng from '../controllers/api_mng.js';
 import { renderTeacher } from '../controllers/teacherController.js';
 import { renderErr } from '../controllers/errController.js';
 import { renderLogin } from '../controllers/loginController.js'
-import { renderAdmin } from '../controllers/adminController.js'
+import { renderAdmin, renderAdminQR } from '../controllers/adminController.js'
 import * as util from "../utils/util.js";
 import { Roles } from '../db/models/UserModel.js';
 import multer from 'multer'
@@ -97,13 +97,23 @@ router.get('/teacher/:gameName', (req, res) => { //Teacher Site
 
 
 // Admin pages
-router.get('/admin/:page?/:param?', (req, res) => { //Err Site
+router.get('/admin/:page?/:param?', (req, res) => { 
     const jwt = util.validateAdminUser(req, true)
     if (!jwt.valid || !validateRoleAllowed(req, [Roles.ADMIN, Roles.TEACHER])) {
         res.redirect("/login")
         return
     }
     renderAdmin(req, res, req.params.page, jwt.jwtUser);
+});
+
+// Admin pages
+router.get('/admin/qr/:branch/:gameName', (req, res) => { //QR
+    const jwt = util.validateAdminUser(req, true)
+    if (!jwt.valid || !validateRoleAllowed(req, [Roles.ADMIN, Roles.TEACHER])) {
+        res.redirect("/login")
+        return
+    }
+    renderAdminQR(req, res, jwt.jwtUser);
 });
 
 /********* API ********** LOGIN / LOGOUT / REGISTER ****************************************/
