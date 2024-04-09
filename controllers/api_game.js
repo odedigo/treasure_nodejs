@@ -511,7 +511,7 @@ export function createGameObj(game) {
 function _convertRiddleToText(arr) {
     var text = ""
     for (var i=0; i< arr.length ; i++) {
-        text = text + `${arr[i]}\n`
+        text = `${text}${arr[i].trim()}\n`
     }
     return text
 }

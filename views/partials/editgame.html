@@ -83,11 +83,12 @@
             {{#each game.red.riddles as |rdl|}}
             <!-- RIDDLE -->
             <div class="ms-2 me-2 mb-2 row shadow p-3 bg-body rounded"><!--row-->
+              
               <div class="col"><!--col-->
                 <label for="riddlered{{rdl.index}}" class="form-label fw-bold fs-3">חידה {{rdl.index}}</label>
                 <div class="d-flex">
                   <img src="/img/form/red{{rdl.index}}.png" style="width:55px; height:55px"/>
-                  <textarea class="form-control" id="riddlered{{rdl.index}}" rows="8">{{rdl.text}}</textarea>
+                  <textarea class="form-control" id="riddlered{{rdl.index}}" rows="8" style="direction:unset">{{rdl.text}}</textarea>
                 </div>
                 <div class="mb-3 w-100">
                   <div class="fw-bold">פתרון</div>
@@ -197,6 +198,7 @@
           {{#each game.green.riddles as |rdl|}}
           <!-- RIDDLE -->
           <div class="ms-2 me-2 mb-2 row shadow p-3 bg-body rounded"><!--row-->
+            
             <div class="col"><!--col-->
               <label for="riddlegreen{{rdl.index}}" class="form-label fw-bold fs-3">חידה {{rdl.index}}</label>
               <div class="d-flex">
@@ -405,4 +407,12 @@
     image.src = URL.createObjectURL(event.target.files[0]);
   };
 
+
+  window.addEventListener('load', () => {
+    var elms = document.getElementsByTagName('textarea');
+      for(let i = 0;i < elms.length; i++) {
+        elms[i].value = elms[i].value.replaceAll("            ","")
+      }
+  })
+  
 </script>
