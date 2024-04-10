@@ -398,8 +398,8 @@ export async function createGame(req, res, jwt) {
         return res.status(500);
     }
 
-    var {gameName, branch} = req.body
-    if (!util.isValidValue(gameName)) {
+    var {name, branch, gameCode} = req.body
+    if (!util.isValidValue(name) || !util.isValidValue(gameCode)) {
         res.status(200).json({result: {sucess:false, msg: "חסרים נתונים"}})
         return
     }  
@@ -407,7 +407,7 @@ export async function createGame(req, res, jwt) {
     if (jwt.role !== Roles.SUPERADMIN || !util.isValidValue(branch))
         branch = util.branchToCode(jwt.branch)
 
-    var game = _createNewGame(gameName, branch)
+    var game = _createNewGame(name,gameCode, branch)
     var model = GameModel(game)
     model.save()
     .then (ngame => {
@@ -462,7 +462,7 @@ export async function deleteGame(req, res, jwt) {
             res.status(400).json({msg: "מחיקת המשחק נכשלה"})   
         }
         else {
-            util.deleteMapFiles(uid, branch)
+            util.deleteMapFiles(uid, util.branchToCode(branch))
             res.status(200).json({msg: "מחיקת המשחק הצליחה"})
         }
     })
@@ -582,19 +582,19 @@ function _formatGameForSave( dbData , newData ) {
  * @param {*} branch 
  * @returns 
  */
-function _createNewGame(gameName, branch) {
+function _createNewGame(name, gameCode, branch) {
     var game = {
         isNew: true,
         version: "1.0",
         active: false,
         date: util.getCurrentDateTime(),
-        branch: util.branchToCode(branch),
-        gameName,
+        branch, //: util.branchToCode(branch),
+        gameName : gameCode,
+        readableName : name,
         uid: util.getUniqueGameUID(),
         red: _createTeam('red'),
         blue: _createTeam('blue'),
-        green: _createTeam('green'),
-        readableName: "מחפשים את המטמון"
+        green: _createTeam('green')
     }
     return game    
 }

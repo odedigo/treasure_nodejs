@@ -230,14 +230,18 @@ function delUser(username) {
 
 /**************** GAME ACTIONS ***********************/
 
-function createNewGame(nameId, branchId, msgId) {
+function createNewGame(nameId,codeId, branchId, msgId) {
     var nameEl = findElement(nameId)
     if (nameEl === undefined) {
         return
     }
+    var codeEl = findElement(codeId)
+    if (codeEl === undefined) {
+        return
+    }
     var branch = ""
     var branchEl = findElement(branchId)
-    if (branchEl !== undefined) {
+    if (branchEl && branchEl !== undefined) {
         branch = branchEl.value
     }
     if (nameEl.value.trim() === '') {
@@ -250,8 +254,9 @@ function createNewGame(nameId, branchId, msgId) {
         errMsg.innerHTML = ""
 
     var body = {
-        gameName : nameEl.value,
-        branch
+        name : nameEl.value,
+        branch,
+        gameCode: codeEl.value
     }
 
     const response = fetch('/api/game/create', {

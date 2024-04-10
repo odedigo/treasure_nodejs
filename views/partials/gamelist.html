@@ -50,7 +50,7 @@
                         <img src="/img/ops/clone.png" class="ops-icon" data-toggle="tooltip" data-placement="top" title="שכפול משחק"/>
                       </a>
                       <img src="/img/ops/edit.png" class="ops-icon" onclick="editeGame('{{game.gameName}}')" data-toggle="tooltip" data-placement="top" title="עריכת משחק"/>
-                      <img src="/img/ops/del.png" class="ops-icon" onclick="deleteGame('{{game.gameName}}','{{game.uid}}'),'{{game.branch}}" data-toggle="tooltip" data-placement="top" title="מחיקת משחק"/>
+                      <img src="/img/ops/del.png" class="ops-icon" onclick="deleteGame('{{game.gameName}}','{{game.uid}}','{{game.branch}}')" data-toggle="tooltip" data-placement="top" title="מחיקת משחק"/>
                     {{/compare}}
                     <br/><br/>
                     {{#compare game.active '===' 'כן'}}
@@ -121,24 +121,31 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                  <label for="origName">שם המשחק</label>
+                  <label for="newName">שם המשחק</label>
                   <input name="newName" type="input" id="newName" class="form-control" placeholder="" class="" value="" />
-                  <label class="comment">שימו לב ששם המשחק צריך להיות באנגלית וקצר מאד (מילה אחת)</label>
+                  <label class="comment">שם בעברית או אנגלית בשפה חופשית</label>
                 </div>                
+                <div class="row">
+                  <label for="newCode">קוד המשחק</label>
+                  <input name="newCode" type="input" id="newCode" class="form-control" placeholder="" class="" value="" />
+                  <label class="comment">שימו לב שקוד המשחק צריך להיות ייחודי, באנגלית וקצר מאד (מילה אחת, עד 5 אותיות)</label>
+                </div>                
+                {{#compare jwtUser.role '===' 'SUPER-ADMIN'}}
                 <div class="row" style="display:{{#compare jwtUser.role '===' 'SUPER-ADMIN'}}block{{else}}none{{/compare}}">
                   <label for="origName">שם הסניף</label>
                   <select name="newBranch" id="newBranch" class="form-control">
                     {{#each branches as |brch|}}
-                    <option value="{{brch}}">{{brch.name}}</option>
+                    <option value="{{@key}}">{{brch.name}}</option>
                     {{/each}}                    
                   </select>
                   <label class="comment">בחרו מתרשימת הסניפים</label>
                 </div>                
+                {{/compare}}
             </div>
             <div id="newGameMsg" class="errMsg">&nbsp;</div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">סגירה</button>
-              <button type="submit" class="btn btn-primary" onclick="createNewGame('newName','newBranch','newGameMsg')">יצירת משחק חדש</button>
+              <button type="submit" class="btn btn-primary" onclick="createNewGame('newName','newCode','newBranch','newGameMsg')">יצירת משחק חדש</button>
             </div>
         </div>
         </div>
