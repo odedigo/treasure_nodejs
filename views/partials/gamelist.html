@@ -50,7 +50,7 @@
                         <img src="/img/ops/clone.png" class="ops-icon" data-toggle="tooltip" data-placement="top" title="שכפול משחק"/>
                       </a>
                       <img src="/img/ops/edit.png" class="ops-icon" onclick="editeGame('{{game.gameName}}')" data-toggle="tooltip" data-placement="top" title="עריכת משחק"/>
-                      <img src="/img/ops/del.png" class="ops-icon" onclick="deleteGame('{{game.gameName}}','{{game.uid}}')" data-toggle="tooltip" data-placement="top" title="מחיקת משחק"/>
+                      <img src="/img/ops/del.png" class="ops-icon" onclick="deleteGame('{{game.gameName}}','{{game.uid}}'),'{{game.branch}}" data-toggle="tooltip" data-placement="top" title="מחיקת משחק"/>
                     {{/compare}}
                     <br/><br/>
                     {{#compare game.active '===' 'כן'}}

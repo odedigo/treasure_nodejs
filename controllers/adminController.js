@@ -82,8 +82,21 @@ export async function renderAdminGallery(req, res, jwtUser, data) {
         res.redirect("/admin")
         return
     }
+    const branchCode = req.params.param
+    if (!util.isValidValue(branchCode)) {
+        res.redirect("/err")
+        return
+    }
+    if (jwtUser.role !== Roles.SUPERADMIN) {
+        if (branchCode != jwtUser.branch) {
+            branchCode = util.branchToCode(jwtUser.branch)
+        }
+    }
+
     data.jsscript.push('/js/upload.js')
-    data.imgs = util.getRiddleImages()
+    data.imgs = util.getRiddleImages(branchCode)
+    data.branchCode = branchCode
+    data.branch = util.codeToBranch(branchCode)
     res.render('admin' , data);        
 }
 
@@ -107,7 +120,7 @@ export async function renderAdminGameEdit(req, res, jwtUser, data) {
     }
     else {
         data.game = api_game.createGameObj(game)
-        data.imgs = util.getRiddleImages()
+        data.imgs = util.getRiddleImages(game.branch)
         res.render('admin' , data);        
     }
 }

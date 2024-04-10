@@ -27,7 +27,7 @@ import multer from 'multer'
 
 const storageMap = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, util.getMapImagesFolder());
+        cb(null, util.getMapImagesFolder(req.headers['x-branch-code']));
     },
     filename: (req, file, cb) => {
         var fn = req.headers['x-path-name']
@@ -36,7 +36,7 @@ const storageMap = multer.diskStorage({
 });
 const storageGal = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, util.getMapGalleryFolder());
+        cb(null, util.getGalleryFolder(req.headers['x-branch-code']));
     },
     filename: (req, file, cb) => {
         var fn = file.originalname
@@ -52,8 +52,8 @@ router.get('/', (req, res) => {
     renderHome(req, res)
 })
 
-router.get('/img/maps/:file/:tag?', (req, res) => {
-    res.sendFile(util.getMapImagesFolder() + req.params.file)
+router.get('/img/maps/:branch/:file/:tag?', (req, res) => {
+    res.sendFile(util.getMapImagesFolder(req.params.branch) + req.params.file)
 })
 
 // Error page

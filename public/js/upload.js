@@ -77,18 +77,19 @@ let fileList = []
     progressBar.value = total
   }
   
-    function uploadAllFiles() {
+    function uploadAllFiles(branchCode) {
         var i = 1
         fileList.forEach(file => {
-            uploadFile(file,i++)
+            uploadFile(file,i++, branchCode)
          })
     }
 
-  function uploadFile(file, i) { 
+  function uploadFile(file, i, branchCode) { 
     var url = '/api/mng/gal'
     var xhr = new XMLHttpRequest()
     var formData = new FormData()
     xhr.open('POST', url, true)
+    xhr.setRequestHeader('x-branch-code', branchCode)
   
     // Add following event listener
     xhr.upload.addEventListener("progress", function(e) {

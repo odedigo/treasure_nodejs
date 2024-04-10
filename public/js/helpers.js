@@ -40,7 +40,7 @@ export function teacher_generateTeamRiddles(gameData, team) {
     for (var i=1 ; i <= 5 ; i++) {
         const rdl = data.riddles.filter((rdl) => (rdl.index == i) )[0]
         var vectors = calcVectors(rdl.vecSize, rdl.vecAngle)
-        innerHtml += util.formatString(html, rdl.riddle, "/img/rdl/"+rdl.img, i, vectors)
+        innerHtml += util.formatString(html, rdl.riddle, "/img/rdl/"+gameData.branch+"/"+rdl.img, i, vectors)
     }
     return innerHtml
 }

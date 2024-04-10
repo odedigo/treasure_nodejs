@@ -114,8 +114,8 @@
                 <div class="mb-3 d-flex">
                   <label for="redImg{{rdl.index}}" class="form-label fw-bold"></label><br/>
                   <a href="#" data-bs-toggle="modal" data-bs-target="#imgGalleryModal">
-                    <img src="/img/rdl/{{rdl.img}}" class="img-thumbnail" alt="" id="thumbRed" style="max-height:400px">
-                    <input type="hidden" id="redImg{{rdl.index}}" value="/img/rdl/{{rdl.img}}" />
+                    <img src="/img/rdl/{{../game.branch}}/{{rdl.img}}" class="img-thumbnail" alt="" id="thumbRed" style="max-height:400px">
+                    <input type="hidden" id="redImg{{rdl.index}}" value="/img/rdl/{{../game.branch}}/{{rdl.img}}" />
                   </a>
                   
                 </div>
@@ -171,8 +171,8 @@
                 <div class="mb-3 d-flex">
                   <label for="blueImg{{rdl.index}}" class="form-label fw-bold"></label><br/>
                   <a href="#" data-bs-toggle="modal" data-bs-target="#imgGalleryModal">
-                    <img src="/img/rdl/{{rdl.img}}" class="img-thumbnail" alt="" id="blueImg{{rdl.index}}" style="max-height:400px">
-                    <input type="hidden" id="blueImg{{rdl.index}}" value="/img/rdl/{{rdl.img}}" />
+                    <img src="/img/rdl/{{../game.branch}}/{{rdl.img}}" class="img-thumbnail" alt="" id="blueImg{{rdl.index}}" style="max-height:400px">
+                    <input type="hidden" id="blueImg{{rdl.index}}" value="/img/rdl/{{../game.branch}}/{{rdl.img}}" />
                   </a>
                   
                 </div>
@@ -229,8 +229,8 @@
               <div class="mb-3 d-flex">
                 <label for="greenImg{{rdl.index}}" class="form-label fw-bold"></label><br/>
                 <a href="#" data-bs-toggle="modal" data-bs-target="#imgGalleryModal">
-                  <img src="/img/rdl/{{rdl.img}}" class="img-thumbnail" alt="" id="greenImg{{rdl.index}}" style="max-height:400px">
-                  <input type="hidden" id="greenImg{{rdl.index}}" value="/img/rdl/{{rdl.img}}" />
+                  <img src="/img/rdl/{{../game.branch}}/{{rdl.img}}" class="img-thumbnail" alt="" id="greenImg{{rdl.index}}" style="max-height:400px">
+                  <input type="hidden" id="greenImg{{rdl.index}}" value="/img/rdl/{{../game.branch}}/{{rdl.img}}" />
                 </a>
                 
               </div>
@@ -246,21 +246,21 @@
               <div class="mb-3 col">
                 <h3>מפה של קבוצה אדומה</h3>
                 <a href="#" data-bs-toggle="modal" data-bs-target="#mapModal" data-map="{{game.uid}}_red" data-team="red">
-                  <img src="/img/maps/{{game.uid}}_red.png" class="img-thumbnail" alt="" id="map_red" style="max-height:400px">
+                  <img src="/img/maps/{{game.branch}}/{{game.uid}}_red.png" class="img-thumbnail" alt="" id="map_red" style="max-height:400px">
                   <input type="hidden" id="redmap" value="{{game.uid}}_red" />
                 </a>
               </div>
               <div class="mb-3 col">
                 <h3>מפה של קבוצה כחולה</h3>
                 <a href="#" data-bs-toggle="modal" data-bs-target="#mapModal" data-map="{{game.uid}}_blue" data-team="blue">
-                  <img src="/img/maps/{{game.uid}}_blue.png" class="img-thumbnail" alt="" id="map_blue" style="max-height:400px">
+                  <img src="/img/maps/{{game.branch}}/{{game.uid}}_blue.png" class="img-thumbnail" alt="" id="map_blue" style="max-height:400px">
                   <input type="hidden" id="bluemap" value="{{game.uid}}_blue" />
                 </a>                
               </div>
               <div class="mb-3 col">
                 <h3>מפה של קבוצה ירוקה</h3>
                 <a href="#" data-bs-toggle="modal" data-bs-target="#mapModal" data-map="{{game.uid}}_green" data-team="green">
-                  <img src="/img/maps/{{game.uid}}_green.png" class="img-thumbnail" alt="" id="map_green" style="max-height:400px">
+                  <img src="/img/maps/{{game.branch}}/{{game.uid}}_green.png" class="img-thumbnail" alt="" id="map_green" style="max-height:400px">
                   <input type="hidden" id="greenmap" value="{{game.uid}}_red" />
                 </a>
               </div>
@@ -291,7 +291,7 @@
               {{#each imgs as |img|}}
               <div class="col-lg-3 col-md-4 col-6">
                 <a href="#" class="d-block mb-4 h-100 aimage" onclick="markThumbnail(this)">
-                  <img class="img-fluid img-thumbnail" src="/img/rdl/{{img}}" alt="" style="border: 1px solid lightGray" >
+                  <img class="img-fluid img-thumbnail" src="/img/rdl/{{../game.branch}}/{{img}}" alt="" style="border: 1px solid lightGray" >
                 </a>
               </div>
               {{/each}}
@@ -302,7 +302,7 @@
         <div id="modalErrRoleMsg" class="errMsg">&nbsp;</div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close" id="closebut">סגירה</button>
-          <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="savebut" onclick="closeModalGameEdit('imgGalleryModal','save')">בחירה</button>
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="savebut" onclick="closeModalGameEdit('imgGalleryModal','save','{{game.branch}}')">בחירה</button>
         </div>
       </div> <!-- MODAL CONTENT -->
     </div> <!-- MODAL DIALOG -->
@@ -338,6 +338,7 @@
                 <input type="hidden" id="mapGame" value="{{game.gameName}}" />
                 <input type="hidden" id="mapTeam" class="mapTeam" value="" />
                 <input type="hidden" id="mapUid" value="{{game.uid}}" />
+                <input type="hidden" id="branchCode" value="{{game.branch}}" />
 
               </div>              
               <div class="row">
@@ -393,7 +394,7 @@
     var team = link.getAttribute('data-team')
 
     var img = document.querySelector(".modal-body .mapimage")
-    img.src = `/img/maps/${imgName}.png`
+    img.src = `/img/maps/{{game.branch}}/${imgName}.png`
     img = document.querySelector(".modal-body .newmap")
     img.src = ""
     var teamEl = document.querySelector('.modal-body .mapTeam')

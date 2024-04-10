@@ -54,7 +54,7 @@
         {{/compare}}
         {{#compare jwtUser.role '!==' 'TEACHER'}}
         <li class="list-group-item border-0 p-0">
-          <a href="/admin/gallery" 
+          <a href="/admin/gallery/{{jwtUser.branchCode}}" 
           class="list-group-item-action list-group-item border-0 pt-2 pb-2 {{#ifEquals section 'gallery' }} active {{/ifEquals}}"
           onclick="return opsNotAllowed();"
         ><span>תמונות חידות</span></a>

@@ -225,7 +225,7 @@ export function cloneGame(req, res, jwt) {
         theGame.save()
         .then (ngame => {
             if (ngame) {
-                util.createMapFiles(game[0].uid)
+                util.createMapFiles(game[0].uid,game[0].branch)
                 res.status(200).json({msg: "המשחק שוכפל בהצלחה", game: ngame})
             }
             else
@@ -412,7 +412,7 @@ export async function createGame(req, res, jwt) {
     model.save()
     .then (ngame => {
         if (ngame) {
-            util.createMapFiles(ngame.uid)
+            util.createMapFiles(ngame.uid, branch)
             res.status(200).json({msg: "המשחק נוצר בהצלחה", game: ngame})
         }
         else
@@ -436,7 +436,7 @@ export async function deleteGame(req, res, jwt) {
         return res.status(500);
     }
 
-    var {gameName, uid} = req.body
+    var {gameName, uid, branch} = req.body
     if (!util.isValidValue(gameName)) {
         res.status(200).json({result: {sucess:false, msg: "חסרים נתונים"}})
         return
@@ -462,7 +462,7 @@ export async function deleteGame(req, res, jwt) {
             res.status(400).json({msg: "מחיקת המשחק נכשלה"})   
         }
         else {
-            util.deleteMapFiles(uid)
+            util.deleteMapFiles(uid, branch)
             res.status(200).json({msg: "מחיקת המשחק הצליחה"})
         }
     })

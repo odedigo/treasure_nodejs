@@ -61,6 +61,7 @@ export function renderGame(req, res, obj) {
                 team,
                 index,
                 gameName,
+                branch: gameJson["branch"],
                 errMsg,
                 infoMsg
             });

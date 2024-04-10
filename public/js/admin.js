@@ -323,14 +323,15 @@ function cloneGame(form) {
     })
 }
 
-function deleteGame(gameName, uid) {
+function deleteGame(gameName, uid, branch) {
     var errMsg = findElement('errMsg')
     if (errMsg)
         errMsg.innerHTML = ""
 
     var body = {
         gameName,
-        uid
+        uid,
+        branch
     }
 
     if (body.gameName === "") {
@@ -493,7 +494,8 @@ function uploadMap(form) {
         headers: {
           //"Content-Type": "multipart/form-data",
           'Content-Length': mapFiles[0].length,
-          'x-Path-Name': `${data.uid}_${data.team}.png`
+          'x-path-name': `${data.uid}_${data.team}.png`,
+          'x-branch-code': form.branchCode.value
         },
         redirect: "follow", // manual, *follow, error
         referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
@@ -538,15 +540,15 @@ function findMarkedThmbnail() {
             }
         })
     }
-    return {imgElement: imgObj, name:selectedImage.substring(selectedImage.indexOf("/rdl/")+5)}
+    return {imgElement: imgObj, name:selectedImage.substring(selectedImage.lastIndexOf("/")+1)}
 }
 
-function setMarkedThumbnail(thumbId) {
+/*function setMarkedThumbnail(thumbId) {
     var imgName = findMarkedThmbnail().name
     var elem = findElement(thumbId)
     if (elem)
         elem.src = `/img/rdl/${imgName}`
-}
+}*/
 
 function clearModalSelection() {
     var imgs = document.querySelectorAll(".img-thumbnail")
@@ -564,13 +566,13 @@ function getImageFilenameFromSrc(src) {
     return src.substring(index+5)
 }
 
-function closeModalGameEdit(id,reason) {
+function closeModalGameEdit(id,reason,branch) {
     if (reason == 'save') {
         var modalSelection = findMarkedThmbnail()
         clearModalSelection()
         // set the img.src to the selected image
         if (modalSelection.name !== '')
-            modalLink.children[0].src = `/img/rdl/${modalSelection.name}`
+            modalLink.children[0].src = `/img/rdl/${branch}/${modalSelection.name}`
     }
 }
 
@@ -747,7 +749,7 @@ function deleteBranch(nick, msgId) {
     actionBranch({nick, msgId, action:'del'})
 }
 
-function deleteGalImg(id) {
+function deleteGalImg(id, branchCode) {
     const errMsg = findElement('msg')
     const img = findElement(id)
     if (!img)
@@ -758,7 +760,8 @@ function deleteGalImg(id) {
 
     var body = {        
         action: 'del',
-        name: id
+        name: id,
+        branchCode
     }
 
     const response = fetch('/api/mng/galdel', {
@@ -786,4 +789,10 @@ function deleteGalImg(id) {
     .catch(err => {
         console.log(err)
     })       
+}
+
+function changeBranchGal(root, sel) {
+    var newBranchCode = (sel.options[sel.selectedIndex].value)
+    
+    window.location = `/admin/gallery/${newBranchCode}`
 }

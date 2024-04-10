@@ -54,7 +54,7 @@ export function validateEmail(email) {
 }
 
 export function getOneTimeToken(user) {
-    const token = jwt.sign({ username: user.username, role: user.role, branch: user.branch, name: user.name }, process.env.JWTSECRET, {
+    const token = jwt.sign({ username: user.username, role: user.role, branch: user.branch, branchCode: branchToCode(user.branch), name: user.name }, process.env.JWTSECRET, {
         expiresIn: '10h',
     });    
     return {token, expires: getTokenExpiration({hour: 10})}
@@ -84,7 +84,6 @@ export function validateToken(token) {
         return decoded
     }
     catch(error) {
-        console.log("Cannot decode token")
         return null
     }
 }
@@ -131,8 +130,9 @@ export function getBranchesForUser(jwt) {
     return {code : branches[branchToCode(jwt.branch)]}
 }
     
-export function getRiddleImages() {
-    const list = fs.readdirSync('./public/img/rdl/', {withFileTypes: true})
+export function getRiddleImages(branch) {
+    const pth = `./public/img/rdl/${branch}/`
+    const list = fs.readdirSync(pth, {withFileTypes: true})
     .filter(item => !item.isDirectory() && (path.extname(item.name) === '.png' || path.extname(item.name) === '.jpg'))
     .map(item => item.name)
     return list
@@ -143,29 +143,29 @@ export function getUniqueGameUID() {
     return id
 }
 
-export function getMapImagesFolder() {
+export function getMapImagesFolder(branchCode) {
     var str = process.argv[1]
     var index = str.lastIndexOf(path.sep)
     if (index == -1) {
         return null
     }
     str = str.substring(0, index)
-    var p = `${str}${path.sep}public${path.sep}img${path.sep}maps${path.sep}`
+    var p = `${str}${path.sep}public${path.sep}img${path.sep}maps${path.sep}${branchCode}${path.sep}`
     return p
 }
-export function getMapGalleryFolder() {
+export function getGalleryFolder(branchCode) {
     var str = process.argv[1]
     var index = str.lastIndexOf(path.sep)
     if (index == -1) {
         return null
     }
     str = str.substring(0, index)
-    var p = `${str}${path.sep}public${path.sep}img${path.sep}rdl${path.sep}`
+    var p = `${str}${path.sep}public${path.sep}img${path.sep}rdl${path.sep}${branchCode}${path.sep}`
     return p
 }
 
-export function deleteMapFiles(uid) {
-    var folder = getMapImagesFolder()
+export function deleteMapFiles(uid, branchCode) {
+    var folder = getMapImagesFolder(branchCode)
     var filename = `${uid}_red.png`
     fs.unlinkSync(`${folder}${filename}`);
     var filename = `${uid}_blue.png`
@@ -174,12 +174,21 @@ export function deleteMapFiles(uid) {
     fs.unlinkSync(`${folder}${filename}`);
 }
 
-export function createMapFiles(uid) {
-    var folder = getMapImagesFolder()
+export function createMapFiles(uid, branchCode) {
+    var folder = getMapImagesFolder(branchCode)
     var filename = `${uid}_red.png`
     fs.copyFileSync(`${folder}empty.png`,`${folder}${filename}`);
     var filename = `${uid}_blue.png`
     fs.copyFileSync(`${folder}empty.png`,`${folder}${filename}`);
     var filename = `${uid}_green.png`
     fs.copyFileSync(`${folder}empty.png`,`${folder}${filename}`);    
+}
+
+export function upFolder(folder) {
+    var index = folder.lastIndexOf(path.sep, folder.length-2)
+    return folder.substring(0,index+1)
+}
+
+export function concatFile(folder,file) {
+    return `${folder}${path.sep}${file}`
 }

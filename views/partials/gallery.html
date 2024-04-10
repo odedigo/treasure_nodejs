@@ -13,7 +13,17 @@
             <h2>גלריית תמונות לחידות</h2>
             <p>אלו תמונות שאותן ניתן לשלב בחידות</p>
             <p>הזהרו מלמחוק תמונות שיתכן נמצאות בשימוש באחד המשחקים</p>
-            <div id="msg" class="errMsg mt-4"></div>
+            <div id="msg" class="errMsg mt-4">
+              {{#compare jwtUser.role '===' 'SUPER-ADMIN'}}
+              <form id="galChangeBranch">
+                <h5>שינוי סניף</h5><select id="newBranchCode" onchange="changeBranchGal('{{../root}}',this)">
+                  {{#each branches as |brch| }}
+                  <option value="{{@key}}" {{#compare @key '===' ../branchCode}} selected {{/compare}}>{{brch.name}}</option>
+                  {{/each}}
+                </select>
+              </form>
+              {{/compare}}
+            </div>
           </div>
         </div>  
 
@@ -23,12 +33,13 @@
               <p>בחרו תמונות או גררו אותן על האזור הזה</p>
               <input type="file" id="fileElem" multiple accept="image/png" onchange="handleFiles(this.files)">
               <label class="btn btn-secondary" for="fileElem">בחרו תמונות</label>
+              <input type="hidden" id="branchCode" value="{{branchCode}}"/>
             </form>
             
             <div id="gallery"></div>            
             <div class="row">
               <div class="col">
-                <button class="btn btn-primary" onclick="uploadAllFiles()">העלאת התמונות לענן</button>
+                <button class="btn btn-primary" onclick="uploadAllFiles('{{branchCode}}')">העלאת התמונות לענן</button>
                 
               </div>
               <!-- <div class="col">
@@ -46,13 +57,13 @@
         {{#each imgs as |img|}}
         <div class="col-md-4 col-6 portfolio-item filter-app align-content-center" style="border: 1px solid lightGray; width:202px; height:202px">
           <div class="portfolio-wrap">
-            <img src="/img/rdl/{{img}}" class="img-fluid" alt="" style="max-height:180px" id="{{img}}">
+            <img src="/img/rdl/{{../branchCode}}/{{img}}" class="img-fluid" alt="" style="max-height:180px" id="{{img}}">
           </div>
           {{#compare img '!==' 'empty.png'}}
           <div >            
             <button type="button" class="btn-close" aria-label="Close" style="position:absolute;top:0px;right:0px" 
             {{#compare ../jwtUser.role '===' 'SUPER-ADMIN'}}
-            onclick="deleteGalImg('{{img}}')"
+            onclick="deleteGalImg('{{img}}','{{../branchCode}}')"
             {{/compare}}
             ></button>            
           </div>
