@@ -196,9 +196,9 @@ export function cloneGame(req, res, jwt) {
         return res.status(500);
     }
 
-    var {origGame} = req.body
+    var {origGame,newGame} = req.body
     var filter = {
-        gameName: origGame
+        gameName: origGame,        
     }       
 
     if (jwt.role !== Roles.SUPERADMIN) {
@@ -218,6 +218,7 @@ export function cloneGame(req, res, jwt) {
         game[0]._id = new Types.ObjectId();
         game[0].date = util.getCurrentDateTime()
         game[0].uid = game[0].gameName
+        game[0].readableName = newGame
         
         game[0].isNew = true
         delete game[0]._id
@@ -572,7 +573,7 @@ function _convertNumberArray(arr) {
 function _formatGameForSave( dbData , newData ) {
     dbData.isNew = false
     dbData.version = String((parseFloat(newData.version) + 0.1).toPrecision(2))
-    dbData.active = Boolean(newData.active)
+    dbData.active = newData.active == 'true' ? true : false
     dbData.date = util.getCurrentDateTime()  
     //dbData.branch = dbData.branch, // not changing branches
     dbData.readableName = newData.readableName

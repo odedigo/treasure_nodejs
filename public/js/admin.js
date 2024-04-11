@@ -66,7 +66,6 @@ window.addEventListener('load', () => {
 /**************** USER ACTIONS ***********************/
 
 async function sendLoginForm(form) {
-    console.log("login")
     var errMsg = findElement('errMsg')
     errMsg.innerHTML = ""
     var body = {
@@ -179,7 +178,6 @@ async function sendChangeRoleForm(form) {
     })
 
     const resp = await response.json()
-    console.log(resp)
     var modalErrMsg = findElement('modalErrRoleMsg')
     if (response.status != 200) { // failed        
         intermediateMsgElem(modalErrMsg,resp.msg)   
@@ -357,7 +355,6 @@ function deleteGame(gameName, uid, branch) {
     .then (response => {
         response.json()
         .then (resp => {
-            console.log(resp)
             if (response.status != 200) { // failed        
                 intermediateMsgElem(errMsg,resp.msg)
             }
@@ -466,7 +463,7 @@ function saveGame(form) {
             }
             else {
                 intermediateMsgElem(errMsg,resp.msg)
-                //setTimeout(window.location = resp.path, 1000)
+                setTimeout(window.location = resp.path, 1000)
             }    
         })
     })
@@ -562,10 +559,9 @@ function clearModalSelection() {
 }
 
 function getImageFilenameFromSrc(src) {
-    var index = src.lastIndexOf('/',2)
+    var index = src.lastIndexOf('/')
     if (index == -1)
         return ""
-console.log("image name",src.substring(index+1))    
     return src.substring(index+1)
 }
 
@@ -727,7 +723,6 @@ function actionBranch(data) {
     .then (response => {
         response.json()
         .then (resp => {
-            console.log(resp)
             if (response.status != 200) { // failed        
                 intermediateMsgElem(errMsg,resp.msg)
             }

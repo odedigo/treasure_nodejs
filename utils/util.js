@@ -141,7 +141,7 @@ export function getRiddleImages(branch) {
 
 export function getUniqueGameUID() {
     //var id = "id" + Math.random().toString(16).slice(2)
-    var id = Math.floor(100000 + Math.random() * 900000).toString(16)
+    var id = Math.floor(1000000 + Math.random() * 9000000).toString(16)
     return id
 }
 
