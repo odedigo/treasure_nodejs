@@ -54,7 +54,7 @@
    border: 0;
   }
   .errMsg {
-    color: red;    
+    color: red !important;    
   }
   /* */
   .en {

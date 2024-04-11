@@ -21,7 +21,8 @@
             <div class="row">
               <div class="form-group col-md-6">
                 <label for="name">שם פרטי ומשפחה</label>
-                <input name="name" type="input" id="name" class="form-control" placeholder="שם פרטי ומשפחה" value="" required/>
+                <input name="name" type="input" id="name" class="form-control" placeholder="שם פרטי ומשפחה" value=""/>
+                <small id="nameError" class="form-text text-muted errMsg">&nbsp;</small>
               </div>
               <div class="form-group col-md-6 mt-3 mt-md-0">
                 <label for="branch">סניף</label>
@@ -36,11 +37,13 @@
             <div class="row">
               <div class="form-group col-md-6">
                 <label for="username">שם משתמש (אימייל)</label>
-                <input name="username" type="input" id="username" class="form-control" placeholder="אימייל" class="en" value="" required/>
+                <input name="username" type="input" id="username" class="form-control" placeholder="אימייל" class="en" value=""/>
+                <small id="usernameError" class="form-text text-muted errMsg">&nbsp;</small>
               </div>
               <div class="form-group col-md-6 mt-3 mt-md-0">
                 <label for="password">סיסמה</label>
-                <input name="password" type="password" id="password" class="form-control" placeholder="סיסמה" class="en" value ="" required/>
+                <input name="password" type="password" id="password" class="form-control" placeholder="סיסמה" class="en" value =""/>
+                <small id="passwordError" class="form-text text-muted errMsg">&nbsp;</small>
               </div>
             </div>
             <div class="row">

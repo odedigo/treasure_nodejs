@@ -12,25 +12,23 @@
     </section><!-- End Breadcrumbs -->
 
     <section class="inner-page">
-      <div class="container">
+      <div class="container w-50">
         <p>
           <form id="login" action="#" method="POST">
-            <ul class="wrapper">
-              <li class="form-row">
+              <div class="form-group">
                 <label for="username">שם משתמש (אימייל)</label>
-                <input name="username" type="input" id="username" placeholder="שם משתמש" class="en"/>
-              </li>
-              <li class="form-row">
+                <input name="username" type="input" id="username" placeholder="שם משתמש" class="form-control en"/>
+                <small id="usernameError" class="form-text text-muted errMsg">&nbsp;</small>
+              </div>
+              <div class="form-group">
                 <label for="password">סיסמה</label>
-                <input name="password" type="password" id="password" placeholder="סיסמה" class="en"/>
-              </li>
-              <li class="form-row">
+                <input name="password" type="password" id="password" placeholder="סיסמה" class="form-control en"/>
+                <small id="passwordError" class="form-text text-muted errMsg">&nbsp;</small>
+              </div>
+              <div class="form-group">
                 <button type="submit">כניסה</button>
-              </li>     
-              <li class="form-row">
                 <label id="errMsg" class="errMsg"></button>
-              </li> 
-            </ul>
+              </div>
           </form> 
         </p>
       </div>

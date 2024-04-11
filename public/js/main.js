@@ -34,7 +34,7 @@ function intermediateMsg(id, msg) {
 function intermediateMsgElem(elem, msg) {
   elem.innerHTML = msg
   setTimeout(() => {
-    elem.innerHTML = ""
+    elem.innerHTML = "&nbsp;"
   },5000)
 }
 

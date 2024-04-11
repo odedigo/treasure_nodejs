@@ -9,7 +9,21 @@
 
 
 /**************** WINDOW ONLOAD ***********************/
+
 window.addEventListener('load', () => {
+    
+    // Add rules to Iodine
+    window.Iodine.rule('someUppercase', (value) => {
+        return value !== value.toUpperCase() &&
+            value !== value.toLowerCase();
+    });
+    window.Iodine.setErrorMessage('someUppercase', "השדה חייב להכיל לפחות אות אחת גדולה באנגלית");
+    window.Iodine.rule('specialChars', (value) => {
+        var format = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+        return format.test(value)
+    });
+    window.Iodine.setErrorMessage('specialChars', "השדה חייב להכיל לפחות תו אחד מיוחד");
+
     let el = findElement("login")
     if (el != null) {
         saveTokens("") // delete tokens
@@ -68,9 +82,35 @@ window.addEventListener('load', () => {
 async function sendLoginForm(form) {
     var errMsg = findElement('errMsg')
     errMsg.innerHTML = ""
+
+    // validations
+    const items = {
+        email    : form.username.value.trim(),
+        password : form.password.value.trim(),
+    };
+    const rules = {
+        email    : ['required', 'email'],
+        password : ['required', 'minLength:6','someUppercase','specialChars'],
+    };
+    const v = window.Iodine.assert(items, rules)
+    /**
+     *   fields: 
+     *      email: {valid: false, rule: 'required', error: 'השדה לא יכול להיות ריק'}
+     *      password: {valid: false, rule: 'required', error: 'השדה לא יכול להיות ריק'}
+     *   valid: false
+     */
+    if (!v.valid) {
+        if (!v.fields.email.valid)
+            intermediateMsg("usernameError",v.fields.email.error)
+        if (!v.fields.password.valid)
+            intermediateMsg("passwordError",v.fields.password.error)
+        return
+    }
+    // End Validations
+
     var body = {
-        username: form.username.value,
-        password: form.password.value
+        username: form.username.value.trim(),
+        password: form.password.value.trim()
     }
     const response = await fetch('/api/login', {
         method: "POST", // *GET, POST, PUT, DELETE, etc.
@@ -98,11 +138,35 @@ async function sendRegisterForm(form) {
     var errMsg = findElement('errMsg')
     errMsg.innerHTML = ""
 
+    // validations
+    const items = {
+        email    : form.username.value.trim(),
+        password : form.password.value.trim(),
+        name     : form.name.value.trim()
+    };
+    const rules = {
+        email    : ['required', 'email'],
+        password : ['required', 'minLength:6','someUppercase','specialChars'],
+        name     : ['required', 'minLength:3', 'string']
+    };
+
+    const v = window.Iodine.assert(items, rules)    
+    if (!v.valid) {
+        if (!v.fields.email.valid)
+            intermediateMsg("usernameError",v.fields.email.error)
+        if (!v.fields.password.valid)
+            intermediateMsg("passwordError",v.fields.password.error)
+        if (!v.fields.name.valid)
+            intermediateMsg("nameError",v.fields.name.error)
+        return
+    }
+    // End Validations
+
     var body = {
-        username: form.username.value,
-        password: form.password.value,
+        username: form.username.value.trim(),
+        password: form.password.value.trim(),
         role: form.role.value,
-        name: form.name.value,
+        name: form.name.value.trim(),
         branch: form.branch.value,
     }
     const response = await fetch('/api/register', {
