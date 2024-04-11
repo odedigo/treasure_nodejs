@@ -43,29 +43,39 @@
                 {{#each data as |user|}}
                 <tr>
                   <td >
-                    {{#compare ../data.length '===' 1}} 
+                    {{#compare ../data.length '<=' 1}} 
                       &nbsp; 
                     {{else}} 
                       {{#compare ../jwtUser.role '===' 'SUPER-ADMIN'}} 
-                        {{#compare ../jwtUser.username '!==' user.username}} 
+                        {{#compare ../jwtUser.username '!==' user.username}} <!-- user cannot delete himself -->
                           <img src="/img/ops/del.png" class="ops-icon" onclick="delUser('{{user.username}}')" data-toggle="tooltip" data-placement="top" title="מחיקת משתמש"/>
-                        {{else}}
-                          <img src="/img/ops/del-d.png" class="ops-icon" />
-                        {{/compare}}
-                      {{else}}
-                        <img src="/img/ops/del-d.png" class="ops-icon" />
-                      {{/compare}}    
-                    {{/compare}}
-                    {{#compare ../jwtUser.role '!==' 'TEACHER'}} 
-                        <a href="#" data-bs-toggle="modal" data-bs-target="#changePassModal" data-user-id="{{user.username}}"><img src="/img/ops/pass.png" class="ops-icon" data-toggle="tooltip" data-placement="top" title="שינוי סיסמה"/></a>
-                        {{#compare ../jwtUser.username '!==' user.username}} 
                           <a href="#" data-bs-toggle="modal" data-bs-target="#changeRoleModal" data-user-id="{{user.username}}" data-role="{{user.role}}"><img src="/img/ops/role.png" class="ops-icon" data-toggle="tooltip" data-placement="top" title="שינוי תפקיד"/></a>
                         {{else}}
+                          <img src="/img/ops/del-d.png" class="ops-icon" />
                           <img src="/img/ops/role-d.png" class="ops-icon" />
                         {{/compare}}
-                    {{else}}
-                        <img src="/img/ops/pass-d.png" class="ops-icon" />
-                    {{/compare}}
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#changePassModal" data-user-id="{{user.username}}"><img src="/img/ops/pass.png" class="ops-icon" data-toggle="tooltip" data-placement="top" title="שינוי סיסמה"/></a>
+                      {{else}} 
+                        <!-- not super-admin -->
+                        {{#compare ../jwtUser.username '!==' user.username}} <!-- user cannot delete himself -->
+                            {{#compare user.role '!==' 'SUPER-ADMIN'}} <!-- admin cannot delete super-admin -->
+                              <img src="/img/ops/del.png" class="ops-icon" onclick="delUser('{{user.username}}')" data-toggle="tooltip" data-placement="top" title="מחיקת משתמש"/>
+                            {{else}}
+                              <img src="/img/ops/del-d.png" class="ops-icon" />
+                            {{/compare}}
+                        {{else}}
+                          <!-- himself -->
+                          <img src="/img/ops/del-d.png" class="ops-icon" />
+                        {{/compare}} <!-- not himself -->
+
+                          <a href="#" data-bs-toggle="modal" data-bs-target="#changePassModal" data-user-id="{{user.username}}"><img src="/img/ops/pass.png" class="ops-icon" data-toggle="tooltip" data-placement="top" title="שינוי סיסמה"/></a>
+                          {{#compare ../jwtUser.username '!==' user.username}} 
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#changeRoleModal" data-user-id="{{user.username}}" data-role="{{user.role}}"><img src="/img/ops/role.png" class="ops-icon" data-toggle="tooltip" data-placement="top" title="שינוי תפקיד"/></a>
+                          {{else}}
+                            <img src="/img/ops/role-d.png" class="ops-icon" />
+                          {{/compare}}
+                      {{/compare}}
+                    {{/compare}} <!-- data.length === 1 -->
                   </td>
                   <td >{{user.name}}</td>
                   <td >{{user.username}}</td>

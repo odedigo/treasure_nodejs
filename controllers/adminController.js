@@ -78,18 +78,15 @@ export async function renderAdmin(req, res, partial, jwtUser) {
 }
 
 export async function renderAdminGallery(req, res, jwtUser, data) {    
-    if (jwtUser.role === Roles.TEACHER) {
-        res.redirect("/admin")
-        return
-    }
-    const branchCode = req.params.param
+    var branchCode = req.params.param
     if (!util.isValidValue(branchCode)) {
         res.redirect("/err")
         return
     }
     if (jwtUser.role !== Roles.SUPERADMIN) {
-        if (branchCode != jwtUser.branch) {
-            branchCode = util.branchToCode(jwtUser.branch)
+        if (branchCode != jwtUser.branchCode) {
+            res.redirect("/admin/gallery/"+jwtUser.branchCode)
+            return
         }
     }
 

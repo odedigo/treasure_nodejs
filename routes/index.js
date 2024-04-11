@@ -165,7 +165,7 @@ router.post('/api/user/chgpass', (req, res) => {
 
 router.post('/api/user/role', (req, res) => {
     const jwt = util.validateAdminUser(req, true)
-    if (!jwt.valid || !validateRoleAllowed(req, [Roles.SUPERADMIN])) {
+    if (!jwt.valid || !validateRoleAllowed(req, [Roles.ADMIN])) {
         res.redirect("/err")
         return
     }
@@ -306,7 +306,7 @@ router.post('/api/mng/brnch', (req, res) => {
 
 router.post('/api/mng/gal', uploadGal.single('file'), (req, res) => {
     const jwt = util.validateAdminUser(req, true)
-    if (!jwt.valid || !validateRoleAllowed(req, [Roles.ADMIN])) {
+    if (!jwt.valid || !validateRoleAllowed(req, [Roles.TEACHER, Roles.ADMIN])) {
         res.status(400).json({msg: "הפעולה נכשלה"} )
         return
     }

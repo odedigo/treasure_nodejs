@@ -165,6 +165,7 @@ async function sendChangeRoleForm(form) {
         role: form.role.value,
         username: form.username.value
     }
+    
     const response = await fetch('/api/user/role', {
         method: "POST", // *GET, POST, PUT, DELETE, etc.
         cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
@@ -178,6 +179,7 @@ async function sendChangeRoleForm(form) {
     })
 
     const resp = await response.json()
+    console.log(resp)
     var modalErrMsg = findElement('modalErrRoleMsg')
     if (response.status != 200) { // failed        
         intermediateMsgElem(modalErrMsg,resp.msg)   
