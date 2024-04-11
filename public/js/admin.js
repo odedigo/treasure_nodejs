@@ -232,13 +232,9 @@ function delUser(username) {
 
 /**************** GAME ACTIONS ***********************/
 
-function createNewGame(nameId,codeId, branchId, msgId) {
+function createNewGame(nameId, branchId, msgId) {
     var nameEl = findElement(nameId)
     if (nameEl === undefined) {
-        return
-    }
-    var codeEl = findElement(codeId)
-    if (codeEl === undefined) {
         return
     }
     var branch = ""
@@ -257,8 +253,7 @@ function createNewGame(nameId,codeId, branchId, msgId) {
 
     var body = {
         name : nameEl.value,
-        branch,
-        gameCode: codeEl.value
+        branch
     }
 
     const response = fetch('/api/game/create', {
@@ -471,7 +466,7 @@ function saveGame(form) {
             }
             else {
                 intermediateMsgElem(errMsg,resp.msg)
-                setTimeout(window.location = resp.path, 1000)
+                //setTimeout(window.location = resp.path, 1000)
             }    
         })
     })
@@ -567,10 +562,11 @@ function clearModalSelection() {
 }
 
 function getImageFilenameFromSrc(src) {
-    var index = src.indexOf("/rdl/")
+    var index = src.lastIndexOf('/',2)
     if (index == -1)
         return ""
-    return src.substring(index+5)
+console.log("image name",src.substring(index+1))    
+    return src.substring(index+1)
 }
 
 function closeModalGameEdit(id,reason,branch) {
@@ -657,7 +653,7 @@ function getRiddle(form, color, index) {
 
 function removeImgPath(src) {
     if (src !== undefined && src !== '')
-        return src.substring(src.indexOf("/rdl/")+5)
+        return src.substring(src.lastIndexOf("/")+1)
     return "empty.png"
 }
 

@@ -196,7 +196,7 @@ export function cloneGame(req, res, jwt) {
         return res.status(500);
     }
 
-    var {origGame, newGame} = req.body
+    var {origGame} = req.body
     var filter = {
         gameName: origGame
     }       
@@ -212,12 +212,12 @@ export function cloneGame(req, res, jwt) {
             res.status(400).json({msg: "המשחק לא נמצא"})
             return
         }
-        game[0].gameName = newGame
+        game[0].gameName = util.getUniqueGameUID()
         game[0].version = "1.0"
         game[0].active = false
         game[0]._id = new Types.ObjectId();
         game[0].date = util.getCurrentDateTime()
-        game[0].uid = util.getUniqueGameUID()
+        game[0].uid = game[0].gameName
         
         game[0].isNew = true
         delete game[0]._id
@@ -398,8 +398,8 @@ export async function createGame(req, res, jwt) {
         return res.status(500);
     }
 
-    var {name, branch, gameCode} = req.body
-    if (!util.isValidValue(name) || !util.isValidValue(gameCode)) {
+    var {name, branch} = req.body
+    if (!util.isValidValue(name)) {
         res.status(200).json({result: {sucess:false, msg: "חסרים נתונים"}})
         return
     }  
@@ -407,7 +407,7 @@ export async function createGame(req, res, jwt) {
     if (jwt.role !== Roles.SUPERADMIN || !util.isValidValue(branch))
         branch = util.branchToCode(jwt.branch)
 
-    var game = _createNewGame(name,gameCode, branch)
+    var game = _createNewGame(name, branch)
     var model = GameModel(game)
     model.save()
     .then (ngame => {
@@ -534,13 +534,20 @@ function _copyColor(col) {
         const text = _convertRiddleToText(col.riddles[i].riddle)
         r.riddles[i] = {
             index: col.riddles[i].index,
-            img: col.riddles[i].img,
+            img: _fixRiddleImagePath(col.riddles[i].img),
             vecSize: _convertNumberArray(col.riddles[i].vecSize),
             vecAngle: _convertNumberArray(col.riddles[i].vecAngle),
             text: text,
         }
     }
     return r
+}
+
+function _fixRiddleImagePath(src) {
+    if (src.indexOf("/") != -1) {
+        src = src.substring(src.indexOf("/")+1)
+    }
+    return src
 }
 
 /**
@@ -582,16 +589,17 @@ function _formatGameForSave( dbData , newData ) {
  * @param {*} branch 
  * @returns 
  */
-function _createNewGame(name, gameCode, branch) {
+function _createNewGame(name, branch) {
+    var uid = util.getUniqueGameUID()
     var game = {
         isNew: true,
         version: "1.0",
         active: false,
         date: util.getCurrentDateTime(),
         branch, //: util.branchToCode(branch),
-        gameName : gameCode,
+        gameName : uid,
         readableName : name,
-        uid: util.getUniqueGameUID(),
+        uid: uid,
         red: _createTeam('red'),
         blue: _createTeam('blue'),
         green: _createTeam('green')

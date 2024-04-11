@@ -135,11 +135,13 @@ export function getRiddleImages(branch) {
     const list = fs.readdirSync(pth, {withFileTypes: true})
     .filter(item => !item.isDirectory() && (path.extname(item.name) === '.png' || path.extname(item.name) === '.jpg'))
     .map(item => item.name)
+
     return list
 }
 
 export function getUniqueGameUID() {
-    var id = "id" + Math.random().toString(16).slice(2)
+    //var id = "id" + Math.random().toString(16).slice(2)
+    var id = Math.floor(100000 + Math.random() * 900000).toString(16)
     return id
 }
 

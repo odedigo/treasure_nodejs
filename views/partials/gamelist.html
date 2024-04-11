@@ -46,7 +46,7 @@
                 <tr>
                   <td >
                     {{#compare ../jwtUser.role '!==' 'TEACHER'}} 
-                      <a href="#" data-bs-toggle="modal" data-bs-target="#cloneGameModal" data-orig-game="{{game.gameName}}">
+                      <a href="#" data-bs-toggle="modal" data-bs-target="#cloneGameModal" data-orig-game="{{game.uid}}">
                         <img src="/img/ops/clone.png" class="ops-icon" data-toggle="tooltip" data-placement="top" title="שכפול משחק"/>
                       </a>
                     {{else}}
@@ -103,13 +103,13 @@
             <div class="modal-body">
               <form action="#" method="" role="form" class=""  id="cloneGameForm" > 
                 <div class="row">
-                  <label for="origName">שם המשחק המקורי</label>
+                  <label for="origName">קוד המשחק המקורי</label>
                   <input name="origName" type="input" id="origName-role" class="form-control" placeholder="" class="en" value="" readonly/>
                 </div>
                 <div class="row">
                   <label for="newName">שם המשחק החדש</label>
-                  <input name="newName" type="input" id="newName-role" class="form-control" placeholder="" class="en" value=""/>
-                  <label class="comment">שימו לב שקוד המשחק צריך להיות ייחודי, באנגלית וקצר מאד (מילה אחת, עד 5 אותיות)</label>
+                  <input name="newName" type="input" id="newName-role" class="form-control" placeholder="" value=""/>
+                  <label class="comment">שם בעברית או אנגלית בשפה חופשית</label>
                 </div>
             </div>
             <div id="modalErrRoleMsg" class="errMsg">&nbsp;</div>
@@ -135,11 +135,6 @@
                   <input name="newName" type="input" id="newName" class="form-control" placeholder="" class="" value="" />
                   <label class="comment">שם בעברית או אנגלית בשפה חופשית</label>
                 </div>                
-                <div class="row">
-                  <label for="newCode">קוד המשחק (לא ניתן לשינוי)</label>
-                  <input name="newCode" type="input" id="newCode" class="form-control" placeholder="" class="" value="" />
-                  <label class="comment">שימו לב שקוד המשחק צריך להיות ייחודי, באנגלית וקצר מאד (מילה אחת, עד 5 אותיות)</label>
-                </div>                
                 {{#compare jwtUser.role '===' 'SUPER-ADMIN'}}
                 <div class="row" style="display:{{#compare jwtUser.role '===' 'SUPER-ADMIN'}}block{{else}}none{{/compare}}">
                   <label for="origName">שם הסניף</label>
@@ -155,7 +150,7 @@
             <div id="newGameMsg" class="errMsg">&nbsp;</div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">סגירה</button>
-              <button type="submit" class="btn btn-primary" onclick="createNewGame('newName','newCode','newBranch','newGameMsg')">יצירת משחק חדש</button>
+              <button type="submit" class="btn btn-primary" onclick="createNewGame('newName','newBranch','newGameMsg')">יצירת משחק חדש</button>
             </div>
         </div>
         </div>
