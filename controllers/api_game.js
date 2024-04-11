@@ -122,7 +122,7 @@ export async function getGame(gameName, jwt) {
     }       
 
     if (jwt.role !== Roles.SUPERADMIN) {
-        filter["branch"] = util.branchToCode(branch)
+        filter["branch"] = util.branchToCode(jwt.branch)
     } 
 
     // send query
@@ -149,7 +149,7 @@ export function saveGame(req, res, jwt) {
     }       
 
     if (jwt.role !== Roles.SUPERADMIN) {
-        filter["branch"] = jwt.branch
+        filter["branch"] = util.branchToCode(jwt.branch)
     } 
 
     // send query

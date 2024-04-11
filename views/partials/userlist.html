@@ -107,11 +107,11 @@
               <form action="#" method="post" role="form" class=""  id="cngPass" > 
                 <div class="row">
                   <label for="username">שם משתמש (אימייל)</label>
-                  <input name="username" type="input" id="username" class="form-control username" placeholder="אימייל" class="en" value="" readonly/>
+                  <input name="username" type="input" id="username" class="form-control chpass" placeholder="אימייל" class="en" value="" readonly/>
                 </div>
                 <div class="row">
                   <label for="password">סיסמה</label>
-                  <input name="password" type="password" id="password" class="form-control" placeholder="סיסמה" class="en" value ="" required/>
+                  <input name="password" type="password" id="password" class="form-control chpass" placeholder="סיסמה" class="en" value ="" required/>
                 </div>
             </div>
             <div id="modalErrMsg" class="errMsg">&nbsp;</div>
@@ -162,8 +162,8 @@
 
 
 <script>
-  var exampleModal = document.getElementById('changePassModal')
-  exampleModal.addEventListener('show.bs.modal', function (event) {
+  var changePassModal = document.getElementById('changePassModal')
+  changePassModal.addEventListener('show.bs.modal', function (event) {
     // Button that triggered the modal
     var link = event.relatedTarget
     // Extract info from data-bs-* attributes
@@ -172,15 +172,16 @@
     // and then do the updating in a callback.
     //
     // Update the modal's content.
-    var modalTitle = exampleModal.querySelector('.modal-title')
-    var modalBodyInput = exampleModal.querySelectorAll('.modal-body input')
+    var modalTitle = changePassModal.querySelector('.modal-title')
+    var modalBodyInput = changePassModal.querySelectorAll('.modal-body input')
     //querySelector('.modal-body input')
     //modalTitle.textContent = 'New message to ' + recipient
     modalBodyInput[0].value = user_id // username
     modalBodyInput[1].value = "" // password
+    console.log("user_id",user_id)
   })  
-  var exampleModal = document.getElementById('changeRoleModal')
-  exampleModal.addEventListener('show.bs.modal', function (event) {
+  var changeRoleModal = document.getElementById('changeRoleModal')
+  changeRoleModal.addEventListener('show.bs.modal', function (event) {
     // Button that triggered the modal
     var link = event.relatedTarget
     // Extract info from data-bs-* attributes
@@ -190,9 +191,9 @@
     // and then do the updating in a callback.
     //
     // Update the modal's content.
-    var modalTitle = exampleModal.querySelector('.modal-title')
-    var modalBodyInput = exampleModal.querySelectorAll('.modal-body input')
-    var modalSelect = exampleModal.querySelector('.modal-body select')
+    var modalTitle = changeRoleModal.querySelector('.modal-title')
+    var modalBodyInput = changeRoleModal.querySelectorAll('.modal-body input')
+    var modalSelect = changeRoleModal.querySelector('.modal-body select')
     
     //querySelector('.modal-body input')
     //modalTitle.textContent = 'New message to ' + recipient
