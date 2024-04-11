@@ -49,9 +49,19 @@
                       <a href="#" data-bs-toggle="modal" data-bs-target="#cloneGameModal" data-orig-game="{{game.gameName}}">
                         <img src="/img/ops/clone.png" class="ops-icon" data-toggle="tooltip" data-placement="top" title="שכפול משחק"/>
                       </a>
-                      <img src="/img/ops/edit.png" class="ops-icon" onclick="editeGame('{{game.gameName}}')" data-toggle="tooltip" data-placement="top" title="עריכת משחק"/>
-                      <img src="/img/ops/del.png" class="ops-icon" onclick="deleteGame('{{game.gameName}}','{{game.uid}}','{{game.branch}}')" data-toggle="tooltip" data-placement="top" title="מחיקת משחק"/>
+                    {{else}}
+                      <img src="/img/ops/clone-d.png" class="ops-icon" data-toggle="tooltip" data-placement="top" title="שכפול משחק"/>
                     {{/compare}}
+                    
+                    <img src="/img/ops/edit.png" class="ops-icon" onclick="editeGame('{{game.gameName}}')" data-toggle="tooltip" data-placement="top" title="עריכת משחק"/>
+                    {{#compare ../jwtUser.role '!==' 'TEACHER'}} 
+                      {{#compare game.active '===' 'כן'}}
+                        <img src="/img/ops/del-d.png" class="ops-icon" data-toggle="tooltip" data-placement="top" title="אי אפשר למחוק משחק פעיל  "/>
+                      {{else}}
+                        <img src="/img/ops/del.png" class="ops-icon" onclick="deleteGame('{{game.gameName}}','{{game.uid}}','{{game.branch}}')" data-toggle="tooltip" data-placement="top" title="מחיקת משחק"/>
+                      {{/compare}}
+                    {{/compare}}
+                    
                     <br/><br/>
                     {{#compare game.active '===' 'כן'}}
                     <!--
