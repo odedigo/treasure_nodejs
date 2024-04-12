@@ -65,15 +65,17 @@
               <h5 class="modal-title" id="newBranchModalLabel">הגדרת סניף חדש</h5>              
             </div>
             <div class="modal-body">
-                <div class="row">
-                  <label for="origName">שם הסניף</label>
-                  <input name="newName" type="input" id="newName" class="form-control" placeholder="שם בעברית" class="" value="" />
-                  <label class="comment">שם הסניף בעברית. למשל, רחובות.</label>
+                <div class="form-group">
+                  <label for="newName">שם הסניף</label>
+                  <input name="newName" type="input" id="newName" class="form-control" placeholder="שם הסניף בעברית. למשל, רחובות." class="" 
+                   onchange="validate(this.value,'newName',['required','string','minLength:3'])"value="" />
+                  <small id="newNameError" class="form-text text-muted errMsg">&nbsp;</small>
                 </div>                
-                <div class="row">
-                  <label for="origName">כינוי הסניף</label>
-                  <input name="newName" type="input" id="newNick" class="form-control en" placeholder="כינוי אנגלי מקוצר לסניף" class="" value="" />
-                  <label class="comment">שם קצר באנגלית (מילה אחת), למשל rehov</label>
+                <div class="form-group">
+                  <label for="newNick">כינוי הסניף</label>
+                  <input name="newNick" type="input" id="newNick" class="form-control" placeholder="שם קצר באנגלית (מילה אחת), למשל rehov" class="" value="" 
+                    onchange="validate(this.value,'newNick',['required','string','minLength:3','maxLength:6','english'])"/>
+                  <small id="newNickError" class="form-text text-muted errMsg">&nbsp;</small>
                 </div>                
             </div>
             <div id="newBranchMsg" class="errMsg">&nbsp;</div>

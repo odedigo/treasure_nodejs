@@ -106,7 +106,7 @@ export async function renderAdminBranches(req, res, jwtUser, data) {
     games.forEach(game => {
         data.branches[game.branch].used = true
     });
-
+    data.jsscript.push('/js/gvalid.js')
     res.render('admin' , data);        
 }
 

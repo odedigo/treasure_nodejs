@@ -28,6 +28,11 @@ window.addEventListener('load', () => {
         return format.test(value)
     });
     window.Iodine.setErrorMessage('specialChars', "השדה חייב להכיל לפחות תו אחד מיוחד");
+    window.Iodine.rule('english', (value) => {
+        var english = /^[A-Za-z]*$/;
+        return english.test(value)
+    })
+    window.Iodine.setErrorMessage('english', "השדה חייב להכיל רק אותיות אנגליות, ללא רווחים");
     /******** END IODINE **************/
 
     let el = findElement("login")
@@ -809,19 +814,34 @@ function reloadImg(id) {
 function actionBranch(data) {
     var errMsg = findElement(data.msgId)
     if (errMsg)
-        errMsg.innerHTML = ""
+        errMsg.innerHTML = "&nbsp;"
 
     var body = {        
         action: data.action
     }
 
-    if (data.action === 'new') {
-        body['name'] = findElement(data.newNameId).value
-        body['nick'] = findElement(data.newNickId).value
-        if (body.name === "" || body.nick === "") {
-            errMsg.innerHTML = "שם וכינוי הסניף לא יכולים להיות ריקים"
+    if (data.action === 'new') {                
+        // validations
+        const items = {
+            name    : findElement(data.newNameId).value.trim(),
+            nick    : findElement(data.newNickId).value.trim(),
+        };
+        const rules = {
+            name    : ['required', 'string','minLength:3'],
+            nick    : ['required', 'string','minLength:3','maxLength:6','english'],
+        };
+        const v = window.Iodine.assert(items, rules)
+        if (!v.valid) {
+            if (!v.fields.name.valid)
+                intermediateMsg(data.newNameId+"Error",v.fields.email.error)
+            if (!v.fields.password.valid)
+                intermediateMsg(data.newNameId+"Error",v.fields.password.error)
             return
-        }    
+        }
+        // End Validations        
+        
+        body['name'] = findElement(data.newNameId).value.trim()
+        body['nick'] = findElement(data.newNickId).value.trim()
     }
     else if (data.action === 'del') {
         body['nick'] = data.nick

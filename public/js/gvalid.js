@@ -6,9 +6,10 @@ function validate(value, fieldId, fieldRules) {
     const items = {
         field : value
     }
+    var el = document.getElementById(fieldId+"Error")
+    el.innerHTML = "&nbsp;"
     const v = window.Iodine.assert(items, rules)
     if (!v.valid) {
-        var el = document.getElementById(fieldId+"Error")
         if (el != null)
             el.innerHTML = v.fields.field.error
     }
@@ -18,7 +19,7 @@ function validate(value, fieldId, fieldRules) {
 function validateVectors(sizeId, angleId, errId) {
     const size = document.getElementById(sizeId).value.trim()
     const angle = document.getElementById(angleId).value.trim()
-    document.getElementById(errId).innerHTML = ""
+    document.getElementById(errId).innerHTML = "&nbsp;"
     if (size === '' && angle === '')
         return true
     if (size === '' && angle !== '') {
