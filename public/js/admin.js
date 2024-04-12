@@ -10,6 +10,11 @@
 
 /**************** WINDOW ONLOAD ***********************/
 
+
+/**
+ * Listens to the window loading event and subscribing to 
+ * various events
+ */
 window.addEventListener('load', () => {
     
     // Add rules to Iodine
@@ -23,6 +28,7 @@ window.addEventListener('load', () => {
         return format.test(value)
     });
     window.Iodine.setErrorMessage('specialChars', "השדה חייב להכיל לפחות תו אחד מיוחד");
+    /******** END IODINE **************/
 
     let el = findElement("login")
     if (el != null) {
@@ -79,6 +85,11 @@ window.addEventListener('load', () => {
 
 /**************** USER ACTIONS ***********************/
 
+/**
+ * Login submission
+ * @param {*} form 
+ * @returns 
+ */
 async function sendLoginForm(form) {
     var errMsg = findElement('errMsg')
     errMsg.innerHTML = ""
@@ -134,6 +145,11 @@ async function sendLoginForm(form) {
     }
 }
 
+/**
+ * User registration submission
+ * @param {*} form 
+ * @returns 
+ */
 async function sendRegisterForm(form) {
     var errMsg = findElement('errMsg')
     errMsg.innerHTML = ""
@@ -191,12 +207,44 @@ async function sendRegisterForm(form) {
     }
 }
 
+/**
+ * Change password submission
+ * @param {*} form 
+ * @returns 
+ */
+
 async function sendChangePassForm(form) {
     var errMsg = findElement('errMsg')
     errMsg.innerHTML = ""
+
+    // validations
+    const items = {
+        email    : form.username.value.trim(),
+        password : form.password.value.trim(),
+    };
+    const rules = {
+        email    : ['required', 'email'],
+        password : ['required', 'minLength:6','someUppercase','specialChars'],
+    };
+    const v = window.Iodine.assert(items, rules)
+    /**
+     *   fields: 
+     *      email: {valid: false, rule: 'required', error: 'השדה לא יכול להיות ריק'}
+     *      password: {valid: false, rule: 'required', error: 'השדה לא יכול להיות ריק'}
+     *   valid: false
+     */
+    if (!v.valid) {
+        if (!v.fields.email.valid)
+            intermediateMsg("usernameError",v.fields.email.error)
+        if (!v.fields.password.valid)
+            intermediateMsg("passwordError",v.fields.password.error)
+        return
+    }
+    // End Validations
+
     var body = {
-        password: form.password.value,
-        username: form.username.value
+        password: form.password.value.trim(),
+        username: form.username.value.trim()
     }
     const response = await fetch('/api/user/chgpass', {
         method: "POST", // *GET, POST, PUT, DELETE, etc.
@@ -221,6 +269,11 @@ async function sendChangePassForm(form) {
     }
 }
 
+/**
+ * Change role submission
+ * @param {*} form 
+ * @returns 
+ */
 async function sendChangeRoleForm(form) {
     var errMsg = findElement('errMsg')
     errMsg.innerHTML = ""
@@ -253,6 +306,11 @@ async function sendChangeRoleForm(form) {
     }
 }
 
+/**
+ * Delete user submission
+ * @param {*} form 
+ * @returns 
+ */
 function delUser(username) {
     var errMsg = findElement('errMsg')
     errMsg.innerHTML = ""
