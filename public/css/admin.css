@@ -169,3 +169,10 @@ p {
 .thin-border {
   border: 1px solid gray;
 }
+
+.gameStatus {
+  border: 1px dashed #FF9A56;
+}
+.gameStatusText {
+  color: brown !important;
+}

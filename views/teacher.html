@@ -58,6 +58,11 @@
             <h2>משחק: {{readableName}}</h2>
             <h2>סניף: {{branch}}</h2>
             <h2>עודכן: {{date}}</h2>
+            {{#compare gameStatus.started '===' true}}
+            <div class="gameStatus d-flex flex-column">
+              <small class="form-text text-muted gameStatusText">המשחק התחיל ב {{gameStatus.startTime}}</small>
+            </div>
+            {{/compare}}
             <!-- <a href="#about" class="btn-get-started scrollto">Get Started</a> -->
           </div>
         </div>
@@ -80,6 +85,13 @@
         <div class="section-title" data-aos="fade-up">
           <h2 style="color:#4f81bd">חידות הקבוצה הכחולה</h2>
           <p>באזור הזה, תוכלו לראות את החידות והתשובות של הקבוצה</p>
+          {{#compare gameStatus.started '===' true}}
+          <div class="gameStatus d-flex flex-column">
+            <small class="form-text text-muted gameStatusText">הקבוצה מנסה לפתור את חידה {{gameStatus.blue.stage}}</small>
+            <small class="form-text text-muted gameStatusText">הצליחו: {{#compare gameStatus.blue.success '===' true}} כן {{else}} לא {{/compare}}</small>
+            <small class="form-text text-muted gameStatusText">מספר הנסיונות: {{gameStatus.blue.numTries}}</small>
+          </div>
+          {{/compare}}
         </div>
 
         <div class="testimonials-slider swiper" data-aos="fade-up" data-aos-delay="100">
@@ -101,6 +113,13 @@
           <div class="section-title" data-aos="fade-up">
             <h2 style="color:#9bba59">חידות הקבוצה הירוקה</h2>
             <p>באזור הזה, תוכלו לראות את החידות והתשובות של הקבוצה</p>
+            {{#compare gameStatus.started '===' true}}
+            <div class="gameStatus d-flex flex-column">
+              <small class="form-text text-muted gameStatusText">הקבוצה מנסה לפתור את חידה {{gameStatus.green.stage}}</small>
+              <small class="form-text text-muted gameStatusText">הצליחו: {{#compare gameStatus.green.success '===' true}} כן {{else}} לא {{/compare}}</small>
+              <small class="form-text text-muted gameStatusText">מספר הנסיונות: {{gameStatus.green.numTries}}</small>
+            </div>
+            {{/compare}}
           </div>
   
           <div class="testimonials-slider swiper" data-aos="fade-up" data-aos-delay="100">
@@ -122,6 +141,13 @@
         <div class="section-title" data-aos="fade-up">
           <h2 style="color:#c0514d">חידות הקבוצה האדומה</h2>
           <p>באזור הזה, תוכלו לראות את החידות והתשובות של הקבוצה</p>
+          {{#compare gameStatus.started '===' true}}
+            <div class="gameStatus d-flex flex-column">
+              <small class="form-text text-muted gameStatusText">הקבוצה מנסה לפתור את חידה {{gameStatus.red.stage}}</small>
+              <small class="form-text text-muted gameStatusText">הצליחו: {{#compare gameStatus.red.success '===' true}} כן {{else}} לא {{/compare}}</small>
+              <small class="form-text text-muted gameStatusText">מספר הנסיונות: {{gameStatus.red.numTries}}</small>
+          </div>
+          {{/compare}}
         </div>
 
         <div class="testimonials-slider swiper" data-aos="fade-up" data-aos-delay="100">
