@@ -95,27 +95,26 @@ function _checkAnswer(formSize, formAngle, jsonSize, jsonAngle) {
  * @param {*} body 
  * @returns 
  */
-export function _reportStatus( data, team, body) {
+export function _reportStatus( data, team, gameCode, branchCode) {
     if (!config.app.report_status)
         return
 
-    var {gameName,index} = body
-
-    if (!util.isValidValue(gameName) || !util.isValidValue(index)) {
+    if (!util.isValidValue(gameCode) || !util.isValidValue(branchCode)) {
         logger.error("Invalid data (branch or index) in _reportStatus")
         return;
     }
 
     var filter = {
-        team,
-        gameName
+        branchCode,
+        gameCode,
+        active: true
     }       
 
+    var info = {}
+    info[team] = {success:data.success, status:data.status, "stage": data.stage ,"created": util.getCurrentDateTime()}
+
     var update = {
-        $push: {"events": {success:data.success, status:data.status, "stage": index,"created": util.getCurrentDateTime()}}
-    }
-    if (data.suucess) {
-        update["$set"] = {stage: index}
+        $push: info
     }
 
     const options = { 

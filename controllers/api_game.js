@@ -59,9 +59,9 @@ export function validateVector(req, res) {
 
             var [success, errMsg, infoMsg] = func._checkVector(req.body, gameJson[team])
             if (success > -1)
-                func._reportStatus({success: true, status:"Correct vector", index: req.body.index},team,req.body)
+                func._reportStatus({success: true, status:"Correct vector", stage: req.body.index},team, gameJson.uid, gameJson.branch)
             else
-                func._reportStatus({success: false, status:"Bad vector", index: req.body.index},team,req.body)
+                func._reportStatus({success: false, status:"Bad vector", stage: req.body.index},team, gameJson.uid, gameJson.branch)
                 
             res.status(200).json({result: {errMsg, infoMsg}})
         }
