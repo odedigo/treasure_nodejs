@@ -61,7 +61,7 @@ export function validateVector(req, res) {
             if (success > -1)
                 func._reportStatus({success: true, status:"Correct vector", index: req.body.index},team,req.body)
             else
-            func._reportStatus({success: false, status:"Bad vector", index: req.body.index},team,req.body)
+                func._reportStatus({success: false, status:"Bad vector", index: req.body.index},team,req.body)
                 
             res.status(200).json({result: {errMsg, infoMsg}})
         }
@@ -110,7 +110,8 @@ export async function getGameList(req, res, jwt) {
 
     // send query
     const games = await GameModel.find(filter)
-    return games
+    const status = await StatusModel.find(filter)
+    return {games,status}
 }
 
 export async function getGame(gameName, jwt) {
@@ -281,31 +282,87 @@ export function editGame(req, res, jwt) {
 }
 
 /**
- * Reset the game
+ * Start a new game
  * 
  * @param {*} req 
  * @param {*} res 
  * @returns 
  */
-export function resetGame(req, res, jwt) {
+export function startGame(req, res, jwt) {
     // check if DB properly connected
     if(!req.app.get("db_connected")) {
         return res.status(500);
     }
 
-    var {gameName} = req.body
-    if (!util.isValidValue(gameName)) {
-        res.status(200).json({result: {sucess:false, msg: "חסרים נתונים"}})
+    var {gameCode, branch} = req.body
+    if (!util.isValidValue(gameCode) || !util.isValidValue(branch)) {
+        res.status(400).json({result: {sucess:false, msg: "חסרים נתונים"}})
         return
     }
 
     var filter = {
-        gameName
+        gameCode,
+        branchCode: util.branchToCode(branch)
     }       
 
-    var now = util.getCurrentDateTime()
+    var now = util.getCurrentDateTime()    
     var update = {
-        $set: {"stage": 0, startTime: 0, "events": []}
+        $set: {startTime: now, active: true,  "red": [], "green": [], "blue" : []}
+    }
+
+    const options = { 
+        upsert: true,
+        returnOriginal: false,
+        new: true
+    };
+
+    // send query
+    StatusModel.findOneAndUpdate(
+        filter, 
+        update,
+        options
+    )
+    .then(doc => {
+        if(!doc) {
+            logger.error("Failed to update team statusReport")
+            res.status(400).json({Error: "התחלת המשחק נכשלה"})
+        }
+        else
+            res.status(200).json({msg: "המשחק התחיל בהצלחה"})
+    })
+    .catch(err => {
+        logger.errorM("catch in statusReport",err)
+        res.status(400).json({Error: "התחלת המשחק נכשלה"})
+    })
+}
+
+/**
+ * Stop a game
+ * 
+ * @param {*} req 
+ * @param {*} res 
+ * @returns 
+ */
+export function stopGame(req, res, jwt) {
+    // check if DB properly connected
+    if(!req.app.get("db_connected")) {
+        return res.status(500);
+    }
+
+    var {gameCode, branch} = req.body
+    if (!util.isValidValue(gameCode) || !util.isValidValue(branch)) {
+        res.status(400).json({result: {sucess:false, msg: "חסרים נתונים"}})
+        return
+    }
+
+    var filter = {
+        gameCode,
+        branchCode: util.branchToCode(branch)
+    }       
+
+    var now = util.getCurrentDateTime()    
+    var update = {
+        $set: {active: false}
     }
 
     const options = { 
@@ -322,67 +379,14 @@ export function resetGame(req, res, jwt) {
     .then(doc => {
         if(!doc) {
             logger.error("Failed to update team statusReport")
-            res.status(500).json({Error: "[1] Failed to update statusReport"})
-        }
-        else   
-            res.status(200)
-    })
-    .catch(err => {
-        logger.errorM("catch in statusReport",err)
-        res.status(500).json({Error: "[2] Failed to update statusReport"})
-    })
-}
-
-/**
- * Start a new game
- * 
- * @param {*} req 
- * @param {*} res 
- * @returns 
- */
-export function startGame(req, res, jwt) {
-    // check if DB properly connected
-    if(!req.app.get("db_connected")) {
-        return res.status(500);
-    }
-
-    var {gameName} = req.body
-    if (!util.isValidValue(gameName)) {
-        res.status(200).json({result: {sucess:false, msg: "חסרים נתונים"}})
-        return
-    }
-
-    var filter = {
-        gameName
-    }       
-
-    var now = util.getCurrentDateTime()
-    var update = {
-        $set: {"stage": 0, startTime: util.getCurrentDateTime(), "events": []}
-    }
-
-    const options = { 
-        upsert: true,
-        returnOriginal: false
-    };
-
-    // send query
-    StatusModel.updateMany(
-        filter, 
-        update,
-        options
-    )
-    .then(doc => {
-        if(!doc) {
-            logger.error("Failed to update team statusReport")
-            res.status(500).json({Error: "[1] Failed to update statusReport"})
+            res.status(400).json({msg: "עצירת המשחק נכשלה"})
         }
         else
-            res.status(200)
+            res.status(200).json({msg: "המשחק נעצר בהצלחה"})
     })
     .catch(err => {
         logger.errorM("catch in statusReport",err)
-        res.status(500).json({Error: "[2] Failed to update statusReport"})
+        res.status(400).json({Error: "עצירת המשחק נכשלה"})
     })
 }
 
@@ -480,14 +484,18 @@ export async function deleteGame(req, res, jwt) {
  * @param {*} games 
  * @returns 
  */
-export function createGameList(games) {
+export function createGameList(games, status) {
     var res = []
     games.forEach(game => {
         var branch = util.codeToBranch(game.branch)
         var active = game.active ? "כן" : "לא"
+        var activeGame = false
+        const gameStatus = status.filter(st => st.gameCode === game.uid)
+        if (gameStatus.length == 1 && gameStatus[0].active)
+            activeGame = true
         var d = new Date(game.date).toLocaleString('he-IL', { timeZone: 'Asia/Jerusalem' })
         res.push({gameName:game.gameName, branch , branchCode: util.branchToCode(branch),date: d, version:game.version, active, uid:game.uid,
-        readableName: game.readableName})
+        readableName: game.readableName, activeGame})
     });
     return res;
 }

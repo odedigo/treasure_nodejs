@@ -17,15 +17,20 @@ const StatusEvent = new Schema({
     created: Date,
     stage: Number,
     status: String,
-    success: Boolean
+    success: Boolean,
 }, { _id : false })
 
 var StatusSchema = new Schema({
-    gameName: String,
-    team: String,
+    gameCode: {
+        type: String,
+        unique: true
+    },
     startTime: Date,
-    stage: Number,
-    events: [StatusEvent]
+    active: Boolean,
+    branchCode: String,
+    red: [StatusEvent],
+    green: [StatusEvent],
+    blue: [StatusEvent]
 });
 StatusSchema.set('collection', 'status');
 

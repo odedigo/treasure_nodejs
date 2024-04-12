@@ -13,9 +13,7 @@
 //================ IMPORTS =================
 import * as logger from "../utils/logger.js"
 import * as util from "../utils/util.js";
-import { StatusModel } from "../db/models/StatusModel.js";
 import { UserModel, Roles } from "../db/models/UserModel.js";
-import * as func from "../utils/func.js"
 import bcrypt from 'bcrypt'
 
 export async function logoutUser(req, res) {

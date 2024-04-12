@@ -307,7 +307,7 @@ async function sendChangeRoleForm(form) {
     else {
         intermediateMsgElem(errMsg,resp.msg)
         showModal(false,'changeRoleModal')
-        setTimeout(window.location.reload(), 5000)
+        setTimeout(() => {window.location.reload()}, 5000)
     }
 }
 
@@ -346,7 +346,7 @@ function delUser(username) {
             }
             else {
                 intermediateMsgElem(errMsg,resp.msg)
-                setTimeout(window.location.reload(), 3000)
+                setTimeout(() => {window.location.reload()}, 3000)
             }    
         })
     })
@@ -399,7 +399,7 @@ function createNewGame(nameId, branchId, msgId) {
             }
             else {
                 intermediateMsgElem(errMsg,resp.msg)
-                setTimeout(window.location.reload(), 3000)
+                setTimeout(() => {window.location.reload()}, 3000)
             }    
         })
     })
@@ -441,7 +441,7 @@ function cloneGame(form) {
             }
             else {
                 intermediateMsgElem(errMsg,resp.msg)
-                setTimeout(window.location.reload(), 3000)
+                setTimeout(() => {window.location.reload()}, 3000)
             }    
         })
     })
@@ -487,7 +487,7 @@ function deleteGame(gameName, uid, branch) {
             }
             else {
                 intermediateMsgElem(errMsg,resp.msg)
-                setTimeout(window.location.reload(), 3000)
+                setTimeout(() => {window.location.reload()}, 3000)
             }    
         })
     })
@@ -590,7 +590,7 @@ function saveGame(form) {
             }
             else {
                 intermediateMsgElem(errMsg,resp.msg)
-                setTimeout(window.location = resp.path, 1000)
+                setTimeout(() => {window.location = resp.path}, 1000)
             }    
         })
     })
@@ -644,6 +644,78 @@ function uploadMap(form) {
     .catch(err => {
         console.log(err)
     })
+}
+
+/**
+ * start game
+ * @param {*} form 
+ * @returns 
+ */
+async function startGame(gameCode, branch) {
+    var errMsg = findElement('errMsg')
+    errMsg.innerHTML = ""
+
+    var body = {
+        gameCode,
+        branch
+    }
+    const response = await fetch('/api/game/start', {
+        method: "POST", // *GET, POST, PUT, DELETE, etc.
+        cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+        headers: {
+          "Content-Type": "application/json",
+          // 'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        redirect: "follow", // manual, *follow, error
+        referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+        body: JSON.stringify(body), // body data type must match "Content-Type" header
+      })
+    
+    const resp = await response.json()
+    if (response.status != 200) { // failed        
+        errMsg.innerHTML = resp.msg
+        intermediateMsgElem(errMsg, resp.msg)
+    }
+    else {        
+        intermediateMsgElem(errMsg, resp.msg)
+        setTimeout(() => {window.location.reload()}, 3000)
+    }
+}
+
+/**
+ * stop game
+ * @param {*} form 
+ * @returns 
+ */
+async function stopGame(gameCode, branch) {
+    var errMsg = findElement('errMsg')
+    errMsg.innerHTML = ""
+
+    var body = {
+        gameCode,
+        branch
+    }
+    const response = await fetch('/api/game/stop', {
+        method: "POST", // *GET, POST, PUT, DELETE, etc.
+        cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+        headers: {
+          "Content-Type": "application/json",
+          // 'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        redirect: "follow", // manual, *follow, error
+        referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+        body: JSON.stringify(body), // body data type must match "Content-Type" header
+      })
+    
+    const resp = await response.json()
+    if (response.status != 200) { // failed        
+        errMsg.innerHTML = resp.msg
+        intermediateMsgElem(errMsg, resp.msg)
+    }
+    else {
+        intermediateMsgElem(errMsg, resp.msg)
+        setTimeout(() => {window.location.reload()}, 3000)
+    }
 }
 
 /**************** MODAL ***********************/
@@ -870,7 +942,7 @@ function actionBranch(data) {
             }
             else {
                 intermediateMsgElem(errMsg,resp.msg)
-                setTimeout(window.location.reload(), 1000)
+                setTimeout(() => {window.location.reload()}, 1000)
             }    
         })
     })
@@ -922,7 +994,7 @@ function deleteGalImg(id, branchCode) {
             }
             else {
                 intermediateMsgElem(errMsg,resp.msg)
-                setTimeout(window.location.reload(), 1000)
+                setTimeout(() => {window.location.reload()}, 1000)
             }    
         })
     })

@@ -102,7 +102,7 @@ export async function renderAdminBranches(req, res, jwtUser, data) {
         res.redirect("/admin")
         return
     }
-    const games = await api_game.getGameList(req, res, jwtUser)
+    const {games,status} = await api_game.getGameList(req, res, jwtUser)
     games.forEach(game => {
         data.branches[game.branch].used = true
     });
@@ -135,9 +135,9 @@ export async function renderAdminUserlist(req, res, jwtUser, data) {
 
 
 export async function renderAdminGamelist(req, res, jwtUser, data) {
-    const games = await api_game.getGameList(req, res, jwtUser)
+    const {games,status} = await api_game.getGameList(req, res, jwtUser)
     if (games) {
-        data.data = api_game.createGameList(games)
+        data.data = api_game.createGameList(games, status)
     }
     // main_admin
     res.render('admin' , data);

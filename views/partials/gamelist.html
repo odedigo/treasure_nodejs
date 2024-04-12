@@ -63,10 +63,14 @@
                     
                     <br/><br/>
                     {{#compare game.active '===' 'כן'}}
-                    <!--
-                    <img src="/img/ops/start.png" class="ops-icon" onclick="startGame('{{game.gameName}}')" data-toggle="tooltip" data-placement="top" title="התחלת משחק"/>
-                    <img src="/img/ops/end.png" class="ops-icon" onclick="stoptGame('{{game.gameName}}')" data-toggle="tooltip" data-placement="top" title="סיום משחק"/>                    
-                    -->
+                    
+                    <img src="/img/ops/start.png" class="ops-icon" onclick="startGame('{{game.gameName}}','{{game.branch}}')" data-toggle="tooltip" data-placement="top" title="התחלת משחק"/>
+                    {{#compare game.activeGame '===' true}}
+                      <img src="/img/ops/end.png" class="ops-icon" onclick="stopGame('{{game.gameName}}','{{game.branch}}')" data-toggle="tooltip" data-placement="top" title="סיום משחק"/>                    
+                    {{else}}
+                      <img src="/img/ops/end-d.png" class="ops-icon" data-toggle="tooltip" data-placement="top" title="סיום משחק"/>                    
+                    {{/compare}}
+                    
                     <a href="/admin/qr/{{game.branchCode}}/{{game.gameName}}" target="game">
                       <img src="/img/ops/qr.png" class="ops-icon" data-toggle="tooltip" data-placement="top" title="לינקים למשחק"/>
                      </a>                 

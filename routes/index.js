@@ -211,18 +211,6 @@ router.post('/api/game/edit', (req, res) => {
 });
 
 /**
- * reset a game
- */
-router.post('/api/game/reset', (req, res) => {
-    const jwt = util.validateAdminUser(req, true)
-    if (!jwt.valid || !validateRoleAllowed(req, [Roles.ADMIN, Roles.TEACHER])) {
-        res.status(400).json({msg: "הפעולה נכשלה"} )
-        return
-    }
-    api_game.resetGame(req,res, jwt.jwtUser)
-});
-
-/**
  * start a game
  */
 router.post('/api/game/start', (req, res) => {
@@ -232,6 +220,18 @@ router.post('/api/game/start', (req, res) => {
         return
     }
     api_game.startGame(req,res, jwt.jwtUser)
+});
+
+/**
+ * start a game
+ */
+router.post('/api/game/stop', (req, res) => {
+    const jwt = util.validateAdminUser(req, true)
+    if (!jwt.valid || !validateRoleAllowed(req, [Roles.ADMIN, Roles.TEACHER])) {
+        res.status(400).json({msg: "הפעולה נכשלה"} )
+        return
+    }
+    api_game.stopGame(req,res, jwt.jwtUser)
 });
 
 /**
