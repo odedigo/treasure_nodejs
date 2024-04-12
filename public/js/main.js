@@ -7,6 +7,7 @@
  * Template Name: Scaffold
  */
 let debugMode = false 
+let msgDelay = 2500
 
 /**
  * Prints data only if in debug mode
@@ -36,7 +37,7 @@ function intermediateMsgElem(elem, msg) {
   elem.innerHTML = msg
   setTimeout(() => {
     elem.innerHTML = "&nbsp;"
-  },5000)
+  },msgDelay)
 }
 
 function showModal(show, modal) {

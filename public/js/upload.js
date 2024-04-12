@@ -1,3 +1,4 @@
+let reloadDelay = 2500
 let uploadProgress = []
 let progressBar = document.getElementById('progress-bar')
 let dropArea = document.getElementById('drop-area')
@@ -103,7 +104,7 @@ let fileList = []
         document.getElementById('msg').innerHTML = "הקבצים הועלו בהצלחה"
         setTimeout(() => {
             window.location.reload()
-          }, "2000");
+          }, reloadDelay);
       }
       else if (xhr.readyState == 4 && xhr.status != 200) {
         intermediateMsg('msg',"העלאת הקבצים נכשלה")

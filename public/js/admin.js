@@ -10,6 +10,7 @@
 
 /**************** WINDOW ONLOAD ***********************/
 
+let reloadDelay = 2500
 
 /**
  * Listens to the window loading event and subscribing to 
@@ -307,7 +308,7 @@ async function sendChangeRoleForm(form) {
     else {
         intermediateMsgElem(errMsg,resp.msg)
         showModal(false,'changeRoleModal')
-        setTimeout(() => {window.location.reload()}, 5000)
+        setTimeout(() => {window.location.reload()}, reloadDelay)
     }
 }
 
@@ -346,7 +347,7 @@ function delUser(username) {
             }
             else {
                 intermediateMsgElem(errMsg,resp.msg)
-                setTimeout(() => {window.location.reload()}, 3000)
+                setTimeout(() => {window.location.reload()}, reloadDelay)
             }    
         })
     })
@@ -399,7 +400,7 @@ function createNewGame(nameId, branchId, msgId) {
             }
             else {
                 intermediateMsgElem(errMsg,resp.msg)
-                setTimeout(() => {window.location.reload()}, 3000)
+                setTimeout(() => {window.location.reload()}, reloadDelay)
             }    
         })
     })
@@ -441,7 +442,7 @@ function cloneGame(form) {
             }
             else {
                 intermediateMsgElem(errMsg,resp.msg)
-                setTimeout(() => {window.location.reload()}, 3000)
+                setTimeout(() => {window.location.reload()}, reloadDelay)
             }    
         })
     })
@@ -487,7 +488,7 @@ function deleteGame(gameName, uid, branch) {
             }
             else {
                 intermediateMsgElem(errMsg,resp.msg)
-                setTimeout(() => {window.location.reload()}, 3000)
+                setTimeout(() => {window.location.reload()}, reloadDelay)
             }    
         })
     })
@@ -678,7 +679,7 @@ async function startGame(gameCode, branch) {
     }
     else {        
         intermediateMsgElem(errMsg, resp.msg)
-        setTimeout(() => {window.location.reload()}, 3000)
+        setTimeout(() => {window.location.reload()}, reloadDelay)
     }
 }
 
@@ -714,7 +715,7 @@ async function stopGame(gameCode, branch) {
     }
     else {
         intermediateMsgElem(errMsg, resp.msg)
-        setTimeout(() => {window.location.reload()}, 3000)
+        setTimeout(() => {window.location.reload()}, reloadDelay)
     }
 }
 
@@ -942,7 +943,7 @@ function actionBranch(data) {
             }
             else {
                 intermediateMsgElem(errMsg,resp.msg)
-                setTimeout(() => {window.location.reload()}, 1000)
+                setTimeout(() => {window.location.reload()}, reloadDelay)
             }    
         })
     })
@@ -994,7 +995,7 @@ function deleteGalImg(id, branchCode) {
             }
             else {
                 intermediateMsgElem(errMsg,resp.msg)
-                setTimeout(() => {window.location.reload()}, 1000)
+                setTimeout(() => {window.location.reload()}, reloadDelay)
             }    
         })
     })

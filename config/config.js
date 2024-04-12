@@ -28,7 +28,9 @@ const config = {
         isProduction: process.env.NODE_ENV === 'production',
         logger_show_info: true,
         report_status: true,
-        expiration: 1 // # of days
+        expiration: 1, // # of days
+        reloadDelay: 2500,
+        msgDelay: 2500
     },
     roles: {},
     accounts: {},
