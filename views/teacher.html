@@ -58,12 +58,14 @@
             <h2>משחק: {{readableName}}</h2>
             <h2>סניף: {{branch}}</h2>
             <h2>עודכן: {{date}}</h2>
-            {{#compare gameStatus.started '===' true}}
             <div class="gameStatus d-flex flex-column">
+              {{#compare gameStatus.started '===' true}}
               <small class="form-text text-muted gameStatusText">המשחק התחיל ב {{gameStatus.startTime}}</small>
-            </div>
+            {{else}}
+              <small class="form-text text-muted gameStatusText">המשחק לא התחיל</small>
             {{/compare}}
-            <!-- <a href="#about" class="btn-get-started scrollto">Get Started</a> -->
+            </div>
+          <!-- <a href="#about" class="btn-get-started scrollto">Get Started</a> -->
           </div>
         </div>
         <div class="col-lg-6 order-1 order-lg-2 hero-img" data-aos="fade-left">
@@ -181,7 +183,7 @@
 
           <div class="col-lg-4 col-md-6">
             <div class="member" data-aos="zoom-in">
-              <div class="pic"><img id="bluemap" src="/img/maps/{{branchCode}}/{uid}}_blue.png" class="img-fluid imgSmall" alt=""></div>
+              <div class="pic"><img id="bluemap" src="/img/maps/{{branchCode}}/{{uid}}_blue.png" class="img-fluid imgSmall" alt=""></div>
               
             </div>
           </div>

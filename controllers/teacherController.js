@@ -34,6 +34,7 @@ export async function renderTeacher (req, res) {
                 gameData,
                 gameName,
                 gameStatus,
+                branchCode: gameData.branch,
                 branch: util.codeToBranch(gameData.branch),
                 date: new Date(gameData.date).toLocaleString('he-IL', { timeZone: 'Asia/Jerusalem' }),
                 readableName: gameData.readableName,
