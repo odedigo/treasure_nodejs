@@ -88,6 +88,11 @@ export async function getGameList(req, res, jwt) {
         return res.status(500);
     }
 
+    var page = req.params.param
+    const numPerPage = config.app.gameListPerPage
+    if (!util.isValidValue(page))
+        page = 1
+
     var {branch, gameName} = req.body
     var filter = {
     }       
@@ -109,9 +114,13 @@ export async function getGameList(req, res, jwt) {
         filter["gameName"] = gameName
 
     // send query
-    const games = await GameModel.find(filter)
+    var games = await GameModel.find(filter)
+        .limit(numPerPage)
+        .skip(numPerPage*(page-1))
+        .sort({uid:'asc'})
+    var numGames = await GameModel.countDocuments(filter)
     const status = await StatusModel.find(filter)
-    return {games,status}
+    return {games,status, numGames}
 }
 
 export async function getGame(gameName, jwt) {

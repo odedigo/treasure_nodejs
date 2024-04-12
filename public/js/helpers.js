@@ -87,3 +87,46 @@ export function compare (v1, operator, v2, options) {
     }
     return console.error('Error: Expression "' + operator + '" not found');
   }
+
+export function pagination(totalDocs, numPerPage, currPage) {
+    currPage = parseInt(currPage)
+    if (totalDocs < numPerPage)
+        return
+    var numBlocks = Math.round(totalDocs / numPerPage + 0.5)
+    if (numBlocks == 1)
+        return
+
+    var preDisabled = false
+    var nextDisabled = false
+    if (currPage == 1)
+        preDisabled = true
+    if (currPage == numBlocks)
+        nextDisabled = true
+    
+    var prev = `<nav aria-label="...">
+                  <ul class="pagination">`
+    if (preDisabled)                  
+        prev = `${prev}<li class="page-item disabled"><span class="page-link">קודם</span></li>`
+    else
+        prev = `${prev}<li class="page-item"><a class="page-link" href="/admin/gamelist/${currPage-1}">הקודם</a></li>`
+
+    var before = ''    
+    for (var i=1; i<currPage; i++) {
+        before = `${before}<li class="page-item"><a class="page-link" href="/admin/gamelist/${i}">${i}</a></li>`
+    }
+    
+    var active = `<li class="page-item active"><span class="page-link">${currPage}<span class="sr-only">(current)</span></span></li>`
+    
+    var after = ''
+    var j = 0
+    for (j=currPage+1; j<=numBlocks; j++) {
+        after = `${after}<li class="page-item"><a class="page-link" href="/admin/gamelist/${currPage+1}">${currPage+1}</a></li>`      
+    }
+    var nextp = `<li class="page-item`
+    if (nextDisabled)
+        nextp = `${nextp} disabled"><span class="page-link">הבא</span></li>`
+    else
+        nextp = `${nextp}"><a class="page-link" href="/admin/gamelist/${currPage+1}">הבא</a></li></ul></nav>`
+
+    return `${prev}${before}${active}${after}${nextp}`
+}

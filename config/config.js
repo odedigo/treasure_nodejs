@@ -29,8 +29,7 @@ const config = {
         logger_show_info: true,
         report_status: true,
         expiration: 1, // # of days
-        reloadDelay: 2500,
-        msgDelay: 2500
+        gameListPerPage: 15
     },
     roles: {},
     accounts: {},
