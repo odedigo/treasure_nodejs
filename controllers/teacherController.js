@@ -20,7 +20,6 @@ export async function renderTeacher (req, res) {
     
     logger.debugM("Get game data query:", query)
     var gameStatus = await _calcGameStatus(gameName)
-    console.log(gameStatus)
 
     // Async Query
     GameModel.findOne(query)
