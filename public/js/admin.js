@@ -916,3 +916,8 @@ function changeBranchGal(root, sel) {
     
     window.location = `/admin/gallery/${newBranchCode}`
 }
+
+function cancelChanges(url) {
+    if (confirm("בטוחים שרוצים לצאת בלי לשמור את השינויים?"))
+        window.location = url
+}

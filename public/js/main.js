@@ -28,7 +28,8 @@ function readTokens() {
 
 function intermediateMsg(id, msg) {
   var el = findElement(id)
-  intermediateMsgElem(el, msg)
+  if (el != null)
+    intermediateMsgElem(el, msg)
 }
 
 function intermediateMsgElem(elem, msg) {

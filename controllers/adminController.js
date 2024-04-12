@@ -118,6 +118,7 @@ export async function renderAdminGameEdit(req, res, jwtUser, data) {
     else {
         data.game = api_game.createGameObj(game)
         data.imgs = util.getRiddleImages(game.branch)
+        data.jsscript.push('/js/gvalid.js')
         res.render('admin' , data);        
     }
 }

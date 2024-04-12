@@ -11,6 +11,7 @@
         {{/compare}}
         
         <div class="modal-footer">
+          <button type="button" class="btn btn-secondary ms-3" onclick="cancelChanges('/admin/gamelist')">ביטול</button>
           <button type="submit" class="btn btn-primary">שמירה</button>
         </div>
 
@@ -39,8 +40,10 @@
           <div class="tab-pane fade show active shadow p-3 bg-body rounded ms-2 me-2" id="gen" role="tabpanel" aria-labelledby="gen-tab">                
             <div class="mb-3 w-25">
               <div class="mb-3">
-                <label for="gameName" class="form-label">שם המשחק</label>
-                <input type="input" class="form-control input-sm" id="readableName" placeholder="" value="{{game.readableName}}" >
+                <label for="readableName" class="form-label">שם המשחק</label>
+                <input type="input" class="form-control input-sm" id="readableName" placeholder="" value="{{game.readableName}}" 
+                  onchange="validate(this.value,'readableName',['required','string','minLength:3'])" >
+                <small id="readableNameError" class="form-text text-muted errMsg">&nbsp;</small>
               </div>
               <div class="mb-3">
                 <label for="gameName" class="form-label">קוד המשחק</label>
@@ -72,7 +75,9 @@
             <div class="row shadow p-3 ms-2 me-2 mb-2 bg-body rounded">
                 <div class="mb-3 col">
                   <label for="teamRed" class="form-label">שם הקבוצה</label>
-                  <input type="input" class="form-control input-sm" id="teamRed" placeholder="" value="{{game.red.team}}">
+                  <input type="input" class="form-control input-sm" id="teamRed" placeholder="" value="{{game.red.team}}"
+                    onchange="validate(this.value,'teamRed',['required','string','minLength:6'])">
+                  <small id="teamRedError" class="form-text text-muted errMsg">&nbsp;</small>
                 </div>
                 <div class="mb-3 col">
                   <label for="coloRed" class="form-label">צבע הקבוצה</label>
@@ -95,18 +100,33 @@
                   <textarea class="form-control" id="riddlered{{rdl.index}}" rows="8" style="direction:unset">{{rdl.text}}</textarea>
                 </div>
                 <div class="mb-3 w-100">
-                  <div class="fw-bold">פתרון</div>
-                  <div class="d-flex me-5">
-                    1 <input type="number" class="form-control input-sm text-center" id="red{{rdl.index}}VecSize1" placeholder="אורך הוקטור הראשון" value="{{rdl.vecSize.[0]}}"> מטר
-                      <input type="number" class="form-control input-sm text-center" id="red{{rdl.index}}VecAngle1" placeholder="כיוון הוקטור הראשון" value="{{rdl.vecAngle.[0]}}"> מעלות
+                  <div class="fw-bold ">פתרון</div>
+                  <div class="d-flex me-5 form-group">
+                    1 <input type="number" class="form-control input-sm text-center" id="red{{rdl.index}}VecSize1" placeholder="אורך הוקטור הראשון" 
+                       onchange=validateVectors('red{{rdl.index}}VecSize1','red{{rdl.index}}VecAngle1','red{{rdl.index}}1Error') value="{{rdl.vecSize.[0]}}"> מטר
+                      <input type="number" class="form-control input-sm text-center" id="red{{rdl.index}}VecAngle1" placeholder="כיוון הוקטור הראשון" 
+                        onchange=validateVectors('red{{rdl.index}}VecSize1','red{{rdl.index}}VecAngle1','red{{rdl.index}}1Error') value="{{rdl.vecAngle.[0]}}" min="0" max="360"> מעלות
+                  </div>
+                  <div class="d-flex me-5 form-group">
+                    &nbsp; <small id="red{{rdl.index}}1Error" class="form-text text-muted errMsg">&nbsp;</small>
                   </div>
                   <div class="d-flex me-5">
-                    2 <input type="number" class="form-control input-sm text-center" id="red{{rdl.index}}VecSize2" placeholder="אורך הוקטור השני" value="{{rdl.vecSize.[1]}}"> מטר
-                    <input type="number" class="form-control input-sm text-center" id="red{{rdl.index}}VecAngle2" placeholder="כיוון הוקטור השני" value="{{rdl.vecAngle.[1]}}"> מעלות
+                    2 <input type="number" class="form-control input-sm text-center" id="red{{rdl.index}}VecSize2" placeholder="אורך הוקטור השני" 
+                      onchange=validateVectors('red{{rdl.index}}VecSize2','red{{rdl.index}}VecAngle2','red{{rdl.index}}2Error') value="{{rdl.vecSize.[1]}}"> מטר
+                    <input type="number" class="form-control input-sm text-center" id="red{{rdl.index}}VecAngle2" placeholder="כיוון הוקטור השני" 
+                      onchange=validateVectors('red{{rdl.index}}VecSize2','red{{rdl.index}}VecAngle2','red{{rdl.index}}2Error') value="{{rdl.vecAngle.[1]}} "min="0" max="360"> מעלות
+                  </div>
+                  <div class="d-flex me-5 form-group">
+                    &nbsp; <small id="red{{rdl.index}}2Error" class="form-text text-muted errMsg">&nbsp;</small>
                   </div>
                   <div class="d-flex me-5">
-                    3 <input type="number" class="form-control input-sm text-center" id="red{{rdl.index}}VecSize3" placeholder="אורך הוקטור השלישי" value="{{rdl.vecSize.[2]}}"> מטר
-                    <input type="number" class="form-control input-sm text-center" id="red{{rdl.index}}VecAngle3" placeholder="כיוון הוקטור השלישי" value="{{rdl.vecAngle.[2]}}"> מעלות
+                    3 <input type="number" class="form-control input-sm text-center" id="red{{rdl.index}}VecSize3" placeholder="אורך הוקטור השלישי" 
+                      onchange=validateVectors('red{{rdl.index}}VecSize3','red{{rdl.index}}VecAngle3','red{{rdl.index}}3Error') value="{{rdl.vecSize.[2]}}"> מטר
+                    <input type="number" class="form-control input-sm text-center" id="red{{rdl.index}}VecAngle3" placeholder="כיוון הוקטור השלישי" 
+                      onchange=validateVectors('red{{rdl.index}}VecSize3','red{{rdl.index}}VecAngle3','red{{rdl.index}}3Error') value="{{rdl.vecAngle.[2]}} "min="0" max="360"> מעלות
+                  </div>
+                  <div class="d-flex me-5 form-group">
+                    &nbsp; <small id="red{{rdl.index}}3Error" class="form-text text-muted errMsg">&nbsp;</small>
                   </div>
                 </div>
               </div> <!-- end col -->
@@ -130,7 +150,9 @@
               <div class="row shadow p-3 ms-2 me-2 mb-2 bg-body rounded">
                 <div class="mb-3 col">
                   <label for="teamBlue" class="form-label">שם הקבוצה</label>
-                  <input type="input" class="form-control input-sm" id="teamBlue" placeholder="" value="{{game.blue.team}}">
+                  <input type="input" class="form-control input-sm" id="teamBlue" placeholder="" value="{{game.blue.team}}"
+                    onchange="validate(this.value,'teamBlue',['required','string','minLength:6'])">
+                  <small id="teamBlueError" class="form-text text-muted errMsg">&nbsp;</small>
                 </div>
                 <div class="mb-3 col">
                   <label for="colorBlue" class="form-label">צבע הקבוצה</label>
@@ -154,16 +176,31 @@
                 <div class="mb-3 w-100">
                   <div class="fw-bold">פתרון</div>
                   <div class="d-flex me-5">
-                    1 <input type="number" class="form-control input-sm text-center" id="blue{{rdl.index}}VecSize1" placeholder="אורך הוקטור הראשון" value="{{rdl.vecSize.[0]}}"> מטר
-                      <input type="number" class="form-control input-sm text-center" id="blue{{rdl.index}}VecAngle1" placeholder="כיוון הוקטור הראשון" value="{{rdl.vecAngle.[0]}}"> מעלות
+                    1 <input type="number" class="form-control input-sm text-center" id="blue{{rdl.index}}VecSize1" placeholder="אורך הוקטור הראשון" 
+                      onchange=validateVectors('blue{{rdl.index}}VecSize1','blue{{rdl.index}}VecAngle1','blue{{rdl.index}}1Error') value="{{rdl.vecSize.[0]}}"> מטר
+                      <input type="number" class="form-control input-sm text-center" id="blue{{rdl.index}}VecAngle1" placeholder="כיוון הוקטור הראשון" 
+                      onchange=validateVectors('blue{{rdl.index}}VecSize1','blue{{rdl.index}}VecAngle1','blue{{rdl.index}}1Error') value="{{rdl.vecAngle.[0]}} "min="0" max="360"> מעלות
+                  </div>
+                  <div class="d-flex me-5 form-group">
+                    &nbsp; <small id="blue{{rdl.index}}1Error" class="form-text text-muted errMsg">&nbsp;</small>
                   </div>
                   <div class="d-flex me-5">
-                    2 <input type="number" class="form-control input-sm text-center" id="blue{{rdl.index}}VecSize2" placeholder="אורך הוקטור השני" value="{{rdl.vecSize.[1]}}"> מטר
-                    <input type="number" class="form-control input-sm text-center" id="blue{{rdl.index}}VecAngle2" placeholder="כיוון הוקטור השני" value="{{rdl.vecAngle.[1]}}"> מעלות
+                    2 <input type="number" class="form-control input-sm text-center" id="blue{{rdl.index}}VecSize2" placeholder="אורך הוקטור השני" 
+                    onchange=validateVectors('blue{{rdl.index}}VecSize2','blue{{rdl.index}}VecAngle2','blue{{rdl.index}}2Error') value="{{rdl.vecSize.[1]}}"> מטר
+                    <input type="number" class="form-control input-sm text-center" id="blue{{rdl.index}}VecAngle2" placeholder="כיוון הוקטור השני" 
+                    onchange=validateVectors('blue{{rdl.index}}VecSize2','blue{{rdl.index}}VecAngle2','blue{{rdl.index}}2Error') value="{{rdl.vecAngle.[1]}} "min="0" max="360"> מעלות
+                  </div>
+                  <div class="d-flex me-5 form-group">
+                    &nbsp; <small id="blue{{rdl.index}}2Error" class="form-text text-muted errMsg">&nbsp;</small>
                   </div>
                   <div class="d-flex me-5">
-                    3 <input type="number" class="form-control input-sm text-center" id="blue{{rdl.index}}VecSize3" placeholder="אורך הוקטור השלישי" value="{{rdl.vecSize.[2]}}"> מטר
-                    <input type="number" class="form-control input-sm text-center" id="blue{{rdl.index}}VecAngle3" placeholder="כיוון הוקטור השלישי" value="{{rdl.vecAngle.[2]}}"> מעלות
+                    3 <input type="number" class="form-control input-sm text-center" id="blue{{rdl.index}}VecSize3" placeholder="אורך הוקטור השלישי" 
+                    onchange=validateVectors('blue{{rdl.index}}VecSize3','blue{{rdl.index}}VecAngle3','blue{{rdl.index}}3Error') value="{{rdl.vecSize.[2]}}"> מטר
+                    <input type="number" class="form-control input-sm text-center" id="blue{{rdl.index}}VecAngle3" placeholder="כיוון הוקטור השלישי" 
+                    onchange=validateVectors('blue{{rdl.index}}VecSize3','blue{{rdl.index}}VecAngle3','blue{{rdl.index}}3Error') value="{{rdl.vecAngle.[2]}} "min="0" max="360"> מעלות
+                  </div>
+                  <div class="d-flex me-5 form-group">
+                    &nbsp; <small id="blue{{rdl.index}}3Error" class="form-text text-muted errMsg">&nbsp;</small>
                   </div>
                 </div>
               </div> <!-- end col -->
@@ -187,7 +224,9 @@
             <div class="row shadow p-3 ms-2 me-2 mb-2 bg-body rounded">
               <div class="mb-3 col">
                 <label for="teamGreen" class="form-label">שם הקבוצה</label>
-                <input type="input" class="form-control input-sm" id="teamGreen" placeholder="" value="{{game.green.team}}">
+                <input type="input" class="form-control input-sm" id="teamGreen" placeholder="" value="{{game.green.team}}"
+                onchange="validate(this.value,'teamGreen',['required','string','minLength:6'])">
+                <small id="teamGreenError" class="form-text text-muted errMsg">&nbsp;</small>
               </div>
               <div class="mb-3 col">
                 <label for="colorGreen" class="form-label">צבע הקבוצה</label>
@@ -212,16 +251,31 @@
               <div class="mb-3 w-100">
                 <div class="fw-bold">פתרון</div>
                 <div class="d-flex me-5">
-                  1 <input type="number" class="form-control input-sm text-center" id="green{{rdl.index}}VecSize1" placeholder="אורך הוקטור הראשון" value="{{rdl.vecSize.[0]}}"> מטר
-                    <input type="number" class="form-control input-sm text-center" id="green{{rdl.index}}VecAngle1" placeholder="כיוון הוקטור הראשון" value="{{rdl.vecAngle.[0]}}"> מעלות
+                  1 <input type="number" class="form-control input-sm text-center" id="green{{rdl.index}}VecSize1" placeholder="אורך הוקטור הראשון" 
+                    onchange=validateVectors('green{{rdl.index}}VecSize1','green{{rdl.index}}VecAngle1','green{{rdl.index}}1Error') value="{{rdl.vecSize.[0]}}"> מטר
+                    <input type="number" class="form-control input-sm text-center" id="green{{rdl.index}}VecAngle1" placeholder="כיוון הוקטור הראשון" 
+                    onchange=validateVectors('green{{rdl.index}}VecSize1','green{{rdl.index}}VecAngle1','green{{rdl.index}}1Error') value="{{rdl.vecAngle.[0]}} "min="0" max="360"> מעלות
+                </div>
+                <div class="d-flex me-5 form-group">
+                  &nbsp; <small id="green{{rdl.index}}1Error" class="form-text text-muted errMsg">&nbsp;</small>
                 </div>
                 <div class="d-flex me-5">
-                  2 <input type="number" class="form-control input-sm text-center" id="green{{rdl.index}}VecSize2" placeholder="אורך הוקטור השני" value="{{rdl.vecSize.[1]}}"> מטר
-                  <input type="number" class="form-control input-sm text-center" id="green{{rdl.index}}VecAngle2" placeholder="כיוון הוקטור השני" value="{{rdl.vecAngle.[1]}}"> מעלות
+                  2 <input type="number" class="form-control input-sm text-center" id="green{{rdl.index}}VecSize2" placeholder="אורך הוקטור השני" 
+                    onchange=validateVectors('green{{rdl.index}}VecSize2','green{{rdl.index}}VecAngle2','green{{rdl.index}}2Error') value="{{rdl.vecSize.[1]}}"> מטר
+                  <input type="number" class="form-control input-sm text-center" id="green{{rdl.index}}VecAngle2" placeholder="כיוון הוקטור השני" 
+                    onchange=validateVectors('green{{rdl.index}}VecSize2','green{{rdl.index}}VecAngle2','green{{rdl.index}}2Error') value="{{rdl.vecAngle.[1]}} "min="0" max="360"> מעלות
+                </div>
+                <div class="d-flex me-5 form-group">
+                  &nbsp; <small id="green{{rdl.index}}2Error" class="form-text text-muted errMsg">&nbsp;</small>
                 </div>
                 <div class="d-flex me-5">
-                  3 <input type="number" class="form-control input-sm text-center" id="green{{rdl.index}}VecSize3" placeholder="אורך הוקטור השלישי" value="{{rdl.vecSize.[2]}}"> מטר
-                  <input type="number" class="form-control input-sm text-center" id="green{{rdl.index}}VecAngle3" placeholder="כיוון הוקטור השלישי" value="{{rdl.vecAngle.[2]}}"> מעלות
+                  3 <input type="number" class="form-control input-sm text-center" id="green{{rdl.index}}VecSize3" placeholder="אורך הוקטור השלישי" 
+                    onchange=validateVectors('green{{rdl.index}}VecSize3','green{{rdl.index}}VecAngle3','green{{rdl.index}}3Error') value="{{rdl.vecSize.[2]}}"> מטר
+                  <input type="number" class="form-control input-sm text-center" id="green{{rdl.index}}VecAngle3" placeholder="כיוון הוקטור השלישי" 
+                    onchange=validateVectors('green{{rdl.index}}VecSize3','green{{rdl.index}}VecAngle3','green{{rdl.index}}3Error') value="{{rdl.vecAngle.[2]}} "min="0" max="360"> מעלות
+                </div>
+                <div class="d-flex me-5 form-group">
+                  &nbsp; <small id="green{{rdl.index}}3Error" class="form-text text-muted errMsg">&nbsp;</small>
                 </div>
               </div>
             </div> <!-- end col -->
