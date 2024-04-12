@@ -377,7 +377,7 @@ function createNewGame(nameId, branchId, msgId) {
         errMsg.innerHTML = ""
 
     var body = {
-        name : nameEl.value,
+        name : nameEl.value.trim(),
         branch
     }
 
@@ -414,8 +414,8 @@ function cloneGame(form) {
         errMsg.innerHTML = ""
 
     var body = {
-        origGame : form.origName.value,
-        newGame : form.newName.value
+        origGame : form.origName.value.trim(),
+        newGame : form.newName.value.trim()
     }
 
     if (body.origGame === body.newGame || body.newGame === "") {
@@ -546,26 +546,26 @@ function saveGame(form) {
         errMsg.innerHTML = ""
 
     var body = {
-        gameName: form.gameName.value,
+        gameName: form.gameName.value.trim(),
         version: form.version.value,
         branch: form.branch.value,
         active: form.active.value,
-        readableName: form.readableName.value,
+        readableName: form.readableName.value.trim(),
 
         red : {
-            team: form.teamRed.value,
+            team: form.teamRed.value.trim(),
             color: form.colorRed.value,
             bgColor: form.bgColorRed.value,
             riddles: getRiddles(form,'red')
         },
         blue : {
-            team: form.teamBlue.value,
+            team: form.teamBlue.value.trim(),
             color: form.colorBlue.value,
             bgColor: form.bgColorBlue.value,
             riddles: getRiddles(form,'blue')
         },
         green : {
-            team: form.teamGreen.value,
+            team: form.teamGreen.value.trim(),
             color: form.colorGreen.value,
             bgColor: form.bgColorGreen.value,
             riddles: getRiddles(form,'green')
@@ -765,7 +765,7 @@ function getVecAngle(form, color, index) {
 // riddleBlue{{rdl.index}}
 function getRiddle(form, color, index) {
     var riddle = []
-    var text = form[`riddle${color}${index}`].value
+    var text = form[`riddle${color}${index}`].value.trim()
     var splitText = text.split("\n")
     splitText.forEach( t => {
         if (t.trim() !== '')
