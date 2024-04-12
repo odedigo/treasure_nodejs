@@ -112,14 +112,15 @@
             <div class="modal-body">
               <form action="#" method="post" role="form" class=""  id="cngPass" > 
                 <div class="form-group">
-                  <label for="username">שם משתמש (אימייל)</label>
-                  <input name="username" type="input" id="username" class="form-control chpass" placeholder="אימייל" class="en" value="" readonly/>
-                  <small id="usernameError" class="form-text text-muted errMsg">&nbsp;</small>
+                  <label for="usernameChg">שם משתמש (אימייל)</label>
+                  <input name="usernameChg" type="input" id="usernameChg" class="form-control chpass" placeholder="אימייל" class="en" value="" readonly/>
+                  <small id="usernameChgError" class="form-text text-muted errMsg">&nbsp;</small>
                 </div>
                 <div class="form-group">
-                  <label for="password">סיסמה</label>
-                  <input name="password" type="password" id="password" class="form-control chpass" placeholder="סיסמה" class="en" value =""/>
-                  <small id="passwordError" class="form-text text-muted errMsg">&nbsp;</small>
+                  <label for="passwordChg">סיסמה</label>
+                  <input name="passwordChg" type="password" id="passwordChg" class="form-control chpass" placeholder="סיסמה" class="en" 
+                   onchange="validate(this.value,'passwordChg',['required', 'minLength:6','someUppercase','specialChars'])" value =""/>
+                  <small id="passwordChgError" class="form-text text-muted errMsg">&nbsp;</small>
                 </div>
             </div>
             <div id="modalErrMsg" class="errMsg">&nbsp;</div>
@@ -187,7 +188,6 @@
     //modalTitle.textContent = 'New message to ' + recipient
     modalBodyInput[0].value = user_id // username
     modalBodyInput[1].value = "" // password
-    console.log("user_id",user_id)
   })  
   var changeRoleModal = document.getElementById('changeRoleModal')
   changeRoleModal.addEventListener('show.bs.modal', function (event) {

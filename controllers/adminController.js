@@ -128,6 +128,7 @@ export async function renderAdminUserlist(req, res, jwtUser, data) {
     if (users) {
         data.data = api_user.createUserList(users)
     }
+    data.jsscript.push('/js/gvalid.js')
     // main_admin
     res.render('admin' , data);
 }

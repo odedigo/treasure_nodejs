@@ -224,8 +224,8 @@ async function sendChangePassForm(form) {
 
     // validations
     const items = {
-        email    : form.username.value.trim(),
-        password : form.password.value.trim(),
+        email    : form.usernameChg.value.trim(),
+        password : form.passwordChg.value.trim(),
     };
     const rules = {
         email    : ['required', 'email'],
@@ -240,16 +240,16 @@ async function sendChangePassForm(form) {
      */
     if (!v.valid) {
         if (!v.fields.email.valid)
-            intermediateMsg("usernameError",v.fields.email.error)
+            intermediateMsg("usernameChgError",v.fields.email.error)
         if (!v.fields.password.valid)
-            intermediateMsg("passwordError",v.fields.password.error)
+            intermediateMsg("passwordChgError",v.fields.password.error)
         return
     }
     // End Validations
 
     var body = {
-        password: form.password.value.trim(),
-        username: form.username.value.trim()
+        password: form.passwordChg.value.trim(),
+        username: form.usernameChg.value.trim()
     }
     const response = await fetch('/api/user/chgpass', {
         method: "POST", // *GET, POST, PUT, DELETE, etc.
