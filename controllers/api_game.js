@@ -3,7 +3,7 @@
  * Treasure Hunt Application
  * --------------------------
  * 
- * @desc Controller for the student's game
+ * @desc Controller for game operations
  * 
  * Org: Mashar / Kfar-Sava
  * By: Oded Cnaan
@@ -19,7 +19,7 @@ import config from "../config/config.js"
 import * as util from "../utils/util.js";
 import * as func from "../utils/func.js"
 import { Types } from 'mongoose';
-import fs from 'fs'
+
 /**
  * Checks if the result vector is valid or not
  * Called by the student's form
@@ -58,6 +58,7 @@ export function validateVector(req, res) {
             var success = -1
 
             var [success, errMsg, infoMsg] = func._checkVector(req.body, gameJson[team])
+            // add report so the teacher can monitor progress
             if (success > -1)
                 func._reportStatus({success: true, status:"Correct vector", stage: req.body.index},team, gameJson.uid, gameJson.branch)
             else
@@ -66,7 +67,7 @@ export function validateVector(req, res) {
             res.status(200).json({result: {errMsg, infoMsg}})
         }
         else {
-            res.status(500).json({result: {errMsg: "Failed to retrieve game data", infoMsg:""}})
+            res.status(500).json({result: {errMsg: "לא הצלחנו למצוא את נתוני המשחק", infoMsg:""}})
         }                                           
     })
     .catch(err => {
@@ -88,20 +89,22 @@ export async function getGameList(req, res, jwt) {
         return res.status(500);
     }
 
+    // pagination
     var page = req.params.param
     const numPerPage = config.app.gameListPerPage
     if (!util.isValidValue(page))
         page = 1
 
     var {branch, gameName} = req.body
-    var filter = {
-    }       
+    var filter = {}       
 
+    // only super-admins can get data on games not in their branch
     if (jwt.role === Roles.TEACHER || jwt.role === Roles.ADMIN) {
         if (util.isValidValue(branch) && branch !== jwt.branch) {
             res.status(400).json({msg: "פעולה לא חוקית"})
             return 
         }
+        // force their branch if not specified
         if (!util.isValidValue(branch))
             filter["branch"] = util.branchToCode(jwt.branch)
     }
@@ -113,7 +116,7 @@ export async function getGameList(req, res, jwt) {
     if (util.isValidValue(gameName))
         filter["gameName"] = gameName
 
-    // send query
+    // send query with pagination
     var games = await GameModel.find(filter)
         .limit(numPerPage)
         .skip(numPerPage*(page-1))
@@ -123,6 +126,12 @@ export async function getGameList(req, res, jwt) {
     return {games,status, numGames}
 }
 
+/**
+ * gets a specific game
+ * @param {*} gameName 
+ * @param {*} jwt 
+ * @returns 
+ */
 export async function getGame(gameName, jwt) {
     if (!util.isValidValue(gameName))
         return null
@@ -131,6 +140,7 @@ export async function getGame(gameName, jwt) {
         gameName
     }       
 
+    // only super-admins can get games outside their branch
     if (jwt.role !== Roles.SUPERADMIN) {
         filter["branch"] = util.branchToCode(jwt.branch)
     } 
@@ -158,6 +168,7 @@ export function saveGame(req, res, jwt) {
         gameName
     }       
 
+    // only super-admins can save games outside their branch
     if (jwt.role !== Roles.SUPERADMIN) {
         filter["branch"] = util.branchToCode(jwt.branch)
     } 
@@ -170,8 +181,8 @@ export function saveGame(req, res, jwt) {
             return
         }
         var saveData = _formatGameForSave( game[0], req.body)
-        var theGame = new GameModel(saveData)
-        theGame.save()
+        var theGame = new GameModel(saveData) // create a Model
+        theGame.save() // save it
         .then (ngame => {
             if (ngame)
                 res.status(200).json({msg: "המשחק נשמר בהצלחה", game: ngame, path: "/admin/gamelist"})
@@ -189,10 +200,6 @@ export function saveGame(req, res, jwt) {
     })
 }
 
-export function uploadMap(req, res, jwt) {
-    const imageFile = req.file
-    res.status(200).json({})
-}
 /**
  * Clones a game
  * 
@@ -211,6 +218,7 @@ export function cloneGame(req, res, jwt) {
         gameName: origGame,        
     }       
 
+    // only super-admins can clone games outside their branch
     if (jwt.role !== Roles.SUPERADMIN) {
         filter["branch"] = util.branchToCode(jwt.branch)
     } 
@@ -271,6 +279,7 @@ export function editGame(req, res, jwt) {
         gameName
     }       
 
+    // only super-admins can edit games outside their branch
     if (jwt.role !== Roles.SUPERADMIN) {
         filter["branch"] = util.branchToCode(jwt.branch)
     } 
@@ -291,7 +300,7 @@ export function editGame(req, res, jwt) {
 }
 
 /**
- * Start a new game
+ * Start a game (or resets an existing one)
  * 
  * @param {*} req 
  * @param {*} res 
@@ -485,11 +494,22 @@ export async function deleteGame(req, res, jwt) {
     })
 }
 
+/**
+ * The uploading is handled by Multer
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} jwt 
+ */
+export function uploadMap(req, res, jwt) {
+    res.status(200).json({})
+}
+
+
 /****************** HELPERS ***********************/
 
 
 /**
- * 
+ * Converts DB games to an array of objects
  * @param {*} games 
  * @returns 
  */
@@ -512,7 +532,7 @@ export function createGameList(games, status) {
 }
 
 /**
- * 
+ * Creates a formatted game object from the DB game
  * @param {*} game 
  * @returns 
  */
@@ -526,7 +546,7 @@ export function createGameObj(game) {
 /******************* INTERNAL **********************/
 
 /**
- * 
+ * converts a riddle array (DB) to text for textarea with \n
  * @param {*} arr 
  * @returns 
  */
@@ -539,7 +559,7 @@ function _convertRiddleToText(arr) {
 }
 
 /**
- * 
+ * makes a copy of team data
  * @param {*} col 
  * @returns 
  */
@@ -563,6 +583,11 @@ function _copyColor(col) {
     return r
 }
 
+/**
+ * makes sure the path includes only filename
+ * @param {*} src 
+ * @returns 
+ */
 function _fixRiddleImagePath(src) {
     if (src.indexOf("/") != -1) {
         src = src.substring(src.indexOf("/")+1)
@@ -571,7 +596,7 @@ function _fixRiddleImagePath(src) {
 }
 
 /**
- * 
+ * converts a number array (DB) to a string array
  * @param {*} arr 
  * @returns 
  */
@@ -604,7 +629,7 @@ function _formatGameForSave( dbData , newData ) {
 }
 
 /**
- * 
+ * Creates the data for a new game
  * @param {*} gameName 
  * @param {*} branch 
  * @returns 
@@ -672,3 +697,4 @@ function _createEmptyRiddles() {
     }
     return r
 }
+
