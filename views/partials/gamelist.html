@@ -74,7 +74,7 @@
                     <a href="/admin/qr/{{game.branchCode}}/{{game.gameName}}" target="game">
                       <img src="/img/ops/qr.png" class="ops-icon" data-toggle="tooltip" data-placement="top" title="לינקים למשחק"/>
                      </a>                 
-                    {{/compare}}
+                    {{/compare}} <!-- Game Active -->
                   </td>
                   <td >{{game.readableName}}</td>
                   <td >{{game.gameName}}</td>
@@ -90,7 +90,9 @@
             <div class="my-3">
               <div class="errMsg" id="errMsg"></div>
             </div>
-            {{#pagination numGames numPerPage page}}{{/pagination}}
+            <div class="h-100 d-flex align-items-center justify-content-center">
+              {{#pagination numGames numPerPage page '/admin/gamelist'}}{{/pagination}}
+            </div>            
           <!--  -->
           </div>
         </div>

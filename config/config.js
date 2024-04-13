@@ -29,7 +29,7 @@ const config = {
         logger_show_info: true,
         report_status: true,
         expiration: 1, // # of days
-        gameListPerPage: 15
+        gameListPerPage: 5
     },
     roles: {},
     accounts: {},

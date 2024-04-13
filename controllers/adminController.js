@@ -140,7 +140,7 @@ export async function renderAdminGamelist(req, res, jwtUser, data) {
     if (games) {
         data.data = api_game.createGameList(games, status)
         data.numGames = numGames
-        data.numPerPage = config.app.numPerPage
+        data.numPerPage = config.app.gameListPerPage
         if (!util.isValidValue(req.params.param))
             data.page = 1
         else
