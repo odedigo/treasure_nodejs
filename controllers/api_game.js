@@ -653,7 +653,7 @@ function _createNewGame(name, branch) {
 }
 
 /**
- * 
+ * create a team object
  * @param {*} color 
  * @returns 
  */
@@ -680,7 +680,7 @@ function _createTeam(color) {
 }
 
 /**
- * 
+ * create an empty riddle object
  * @returns 
  */
 function _createEmptyRiddles() {
