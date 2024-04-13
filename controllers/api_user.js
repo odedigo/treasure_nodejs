@@ -127,7 +127,8 @@ export async function getUserList(param, jwt) {
 export function createUserList(users) {
     var res = []
     users.forEach(user => {
-        res.push({name:user.name, branch: user.branch, username: user.username, role: user.role, created: user.created})
+        var dt = util.getDateIL(user.created)
+        res.push({name:user.name, branch: user.branch, username: user.username, role: user.role, created: dt})
     });
     return res;
 }

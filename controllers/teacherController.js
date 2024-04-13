@@ -36,7 +36,7 @@ export async function renderTeacher (req, res) {
                 gameStatus,
                 branchCode: gameData.branch,
                 branch: util.codeToBranch(gameData.branch),
-                date: new Date(gameData.date).toLocaleString('he-IL', { timeZone: 'Asia/Jerusalem' }),
+                date: util.getDateIL(gameData.date),
                 readableName: gameData.readableName,
                 uid: gameData.uid
             });            
@@ -74,7 +74,7 @@ async function _getGameStatus(gameCode, branchCode) {
 
     return {
         active: status[0].active,
-        startTime: new Date(status[0].startTime).toLocaleString('he-IL', { timeZone: 'Asia/Jerusalem' }),
+        startTime: util.getDateIL(status[0].startTime),
         red: status[0].red,
         blue: status[0].blue,
         green: status[0].green

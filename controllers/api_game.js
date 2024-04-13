@@ -502,7 +502,7 @@ export function createGameList(games, status) {
         const gameStatus = status.filter(st => st.gameCode === game.uid)
         if (gameStatus.length == 1 && gameStatus[0].active)
             activeGame = true
-        var d = new Date(game.date).toLocaleString('he-IL', { timeZone: 'Asia/Jerusalem' })
+        var d = util.getDateIL(game.date)
         res.push({gameName:game.gameName, branch , branchCode: util.branchToCode(branch),date: d, version:game.version, active, uid:game.uid,
         readableName: game.readableName, activeGame})
     });

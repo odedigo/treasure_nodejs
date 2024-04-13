@@ -194,3 +194,7 @@ export function upFolder(folder) {
 export function concatFile(folder,file) {
     return `${folder}${path.sep}${file}`
 }
+
+export function getDateIL(dt) {
+    return new Date(dt).toLocaleString('he-IL', { timeZone: 'Asia/Jerusalem' })
+}
