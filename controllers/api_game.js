@@ -495,6 +495,8 @@ export async function deleteGame(req, res, jwt) {
  */
 export function createGameList(games, status) {
     var res = []
+    if (games == null)
+        return res
     games.forEach(game => {
         var branch = util.codeToBranch(game.branch)
         var active = game.active ? "כן" : "לא"

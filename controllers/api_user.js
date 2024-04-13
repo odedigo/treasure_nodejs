@@ -121,11 +121,15 @@ export async function getUserList(param, jwt) {
         .skip(numPerPage*(page-1))
         .sort({ branch:'desc', name:'asc'})
     var numUsers = await UserModel.countDocuments(filter)
+    if (users == null)
+        users = []
     return {users, numUsers}
 }
 
 export function createUserList(users) {
     var res = []
+    if (users == null)
+    return res
     users.forEach(user => {
         var dt = util.getDateIL(user.created)
         res.push({name:user.name, branch: user.branch, username: user.username, role: user.role, created: dt})

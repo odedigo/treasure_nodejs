@@ -10,14 +10,17 @@
  * Date: March 2024
  */
 "use strict";
-
+/**
+ * Holds general application configuration
+ * of the application
+ */
 
 const config = {
     version: {
         v: "1.0.0",
         date: "21.3.24"
     },
-    mongodb: {
+    mongodb: { // DB Atlas access
         "protocol": "mongodb+srv",
         "dbname": "Mashar",
         "clusterURI": "masharcluster.qpsgps5.mongodb.net",
@@ -30,11 +33,8 @@ const config = {
         report_status: true,
         expiration: 1, // # of days
         gameListPerPage: 20,
-        userListPerPage: 2
-    },
-    roles: {},
-    accounts: {},
-    validation: {}
+        userListPerPage: 20
+    }
 };
 
 export default config
