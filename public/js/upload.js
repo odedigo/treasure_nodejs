@@ -1,4 +1,3 @@
-let reloadDelay = 2500
 let uploadProgress = []
 let progressBar = document.getElementById('progress-bar')
 let dropArea = document.getElementById('drop-area')

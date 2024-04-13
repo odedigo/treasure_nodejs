@@ -19,7 +19,6 @@ let reloadDelay = 2500
 window.addEventListener('load', () => {
     
     const spinner = findElement("spinner")
-    console.log(spinner)
     if (spinner != null) {
         for (var i=0 ; i<spinner.children.length; i++)
             spinner.children[i].style.display = "none"
