@@ -116,13 +116,30 @@
               <form action="#" method="post" role="form" class=""  id="cngPass" > 
                 <div class="form-group">
                   <label for="usernameChg">שם משתמש (אימייל)</label>
-                  <input name="usernameChg" type="input" id="usernameChg" class="form-control chpass" placeholder="אימייל" class="en" value="" readonly/>
+                  <div class="input-group mb-3 en">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="basic-addon2" style="padding: .75rem .75rem;"><i class="fas fa-user"></i></span>
+                    </div>
+                    <input name="usernameChg" type="input" id="usernameChg" placeholder="אימייל" class="form-control en chpass" aria-label="usernameChg" aria-describedby="basic-addon2" readonly/>
+                  </div>
                   <small id="usernameChgError" class="form-text text-muted errMsg">&nbsp;</small>
                 </div>
                 <div class="form-group">
                   <label for="passwordChg">סיסמה</label>
-                  <input name="passwordChg" type="password" id="passwordChg" class="form-control chpass" placeholder="סיסמה" class="en" 
-                   onchange="validate(this.value,'passwordChg',['required', 'minLength:6','someUppercase','specialChars'])" value =""/>
+                  <div class="input-group mb-3 en">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="basic-addon1" style="padding: .75rem .75rem;"><i class="fas fa-lock"></i></span>
+                    </div>
+                    <input name="passwordChg" type="password" id="passwordChg" placeholder="סיסמה" class="input form-control en chpass" aria-label="passwordChg" 
+                      onchange="validate(this.value,'passwordChg',['required', 'minLength:6','someUppercase','specialChars'])"
+                      aria-describedby="basic-addon1" />
+                    <div class="input-group-append">
+                      <span class="input-group-text" onclick="password_show_hide('passwordChg');" style="padding: .75rem .75rem;">
+                        <i class="fas fa-eye" id="show_eye"></i>
+                        <i class="fas fa-eye-slash d-none" id="hide_eye"></i>
+                      </span>
+                    </div>
+                  </div>
                   <small id="passwordChgError" class="form-text text-muted errMsg">&nbsp;</small>
                 </div>
             </div>
