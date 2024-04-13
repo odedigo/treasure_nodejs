@@ -1,5 +1,7 @@
 "use strict";
 export function renderErr(req, res) {
-    res.render('err');
+    res.render('err' , { 
+        title: "שגיאה"
+    });
 }
 

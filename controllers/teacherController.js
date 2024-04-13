@@ -38,7 +38,8 @@ export async function renderTeacher (req, res) {
                 branch: util.codeToBranch(gameData.branch),
                 date: util.getDateIL(gameData.date),
                 readableName: gameData.readableName,
-                uid: gameData.uid
+                uid: gameData.uid,
+                title: "אזור המורה"
             });            
         }
         else {

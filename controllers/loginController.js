@@ -31,7 +31,8 @@ export function renderLogin(req, res, obj) {
     }
 
     res.render('login' , { 
-        jsscript: ['/js/admin.js']
+        jsscript: ['/js/admin.js'],
+        title: "כניסה"
     });
 }
 

@@ -17,7 +17,9 @@ import * as util from "../utils/util.js";
 import strings from "../public/lang/strings.js"
 
 export function renderHome(req, res) {
-    res.render('home');
+    res.render('home' , { 
+        title: "אזור ניהול"
+    });
 }
 
 
@@ -63,7 +65,8 @@ export function renderGame(req, res, obj) {
                 gameName,
                 branch: gameJson["branch"],
                 errMsg,
-                infoMsg
+                infoMsg,
+                title: "אזור תלמידים"
             });
         }
         else {

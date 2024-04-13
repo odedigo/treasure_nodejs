@@ -57,6 +57,7 @@ export async function renderAdmin(req, res, partial, jwtUser) {
         root: `${req.protocol}://${req.get('host')}`,   // root of the site
         url: req.url,               // the page URL
         branches: branches,         // the branches
+        title: "אזור ניהול",
         helpers: {
             whichPartial: function() {  // used by handibars to render the sub-page
                 return partial  
