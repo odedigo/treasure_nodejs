@@ -56,7 +56,7 @@ app.use('/', routing); // routing module with all routes, which in turn points t
 app.set('db_connected', false); 
 
 //Express-Server
-const port = process.env.PORT || 5500;
+const port = process.env.PORT || 3030;
 
 connectDB(function(status) {
     // Start server (listen)

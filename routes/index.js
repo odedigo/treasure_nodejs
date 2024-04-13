@@ -88,10 +88,6 @@ router.get('/game/:gameName/:team/:index/', (req, res) => { //Game Site
 
 // Teacher's site
 router.get('/teacher/:gameName', (req, res) => { //Teacher Site
-    if (!validateRoleAllowed(req, [Roles.ADMIN, Roles.TEACHER])) {
-        res.status(400).json({msg: "הפעולה נכשלה"} )
-        return
-    }
     renderTeacher(req, res);
 });
 
