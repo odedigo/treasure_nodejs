@@ -15,6 +15,7 @@ import * as logger from "../utils/logger.js"
 import * as util from "../utils/util.js";
 import { UserModel, Roles } from "../db/models/UserModel.js";
 import bcrypt from 'bcrypt'
+import config from "../config/config.js"
 
 export async function logoutUser(req, res) {
     res.cookie('cred', "", {maxAge: 9000000000, httpOnly: true, secure: true });
@@ -107,9 +108,20 @@ export async function registerUser(req, res) {
     })
 }
 
-export async function getUserList() {
-    const users = await UserModel.find({})
-    return users
+export async function getUserList(param, jwt) {
+    const numPerPage = config.app.userListPerPage
+    var page = param
+    if (!util.isValidValue(page))
+        page = 1
+    var filter = {}
+    if (jwt.role !== Roles.SUPERADMIN)
+        filter['branch'] = jwt.branch
+    const users = await UserModel.find(filter)
+        .limit(numPerPage)
+        .skip(numPerPage*(page-1))
+        .sort({ branch:'desc', name:'asc'})
+    var numUsers = await UserModel.countDocuments(filter)
+    return {users, numUsers}
 }
 
 export function createUserList(users) {

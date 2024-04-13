@@ -125,11 +125,17 @@ export async function renderAdminGameEdit(req, res, jwtUser, data) {
 }
 
 export async function renderAdminUserlist(req, res, jwtUser, data) {
-    const users = await api_user.getUserList()
+    const {users, numUsers} = await api_user.getUserList(req.params.param, jwtUser)
     if (users) {
         data.data = api_user.createUserList(users)
     }
     data.jsscript.push('/js/gvalid.js')
+    data.numUsers = numUsers
+    data.numPerPage = config.app.userListPerPage
+    if (!util.isValidValue(req.params.param))
+        data.page = 1
+    else
+        data.page = req.params.param
     // main_admin
     res.render('admin' , data);
 }

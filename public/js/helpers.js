@@ -98,9 +98,15 @@ export function pagination(totalDocs, numPerPage, currPage, url) {
 
     var prev = `<nav aria-label="...">
                   <ul class="pagination">`
-    if (currPage == 1)                
+    if (numBlocks > 1 && currPage > 1)
+        prev = `${prev}<li class="page-item"><a class="page-link" href="${url}/1">ראשון</a></li>`
+    else 
+        prev = `${prev}<li class="page-item disabled"><span class="page-link">ראשון</span></li>`
+
+    if (currPage == 1) {
         prev = `${prev}<li class="page-item disabled"><span class="page-link">קודם</span></li>`
-    else
+    }
+    else 
         prev = `${prev}<li class="page-item"><a class="page-link" href="${url}/${currPage-1}">הקודם</a></li>`
 
     var before = ''    
@@ -113,13 +119,21 @@ export function pagination(totalDocs, numPerPage, currPage, url) {
     var after = ''
     var j = 0
     for (j=currPage+1; j<=numBlocks; j++) {
-        after = `${after}<li class="page-item"><a class="page-link" href="${url}/${currPage+1}">${currPage+1}</a></li>`      
+        after = `${after}<li class="page-item"><a class="page-link" href="${url}/${j}">${j}</a></li>`      
     }
     var nextp = `<li class="page-item`
-    if (currPage == numBlocks)
+    if (currPage == numBlocks) {
         nextp = `${nextp} disabled"><span class="page-link">הבא</span></li>`
-    else
-        nextp = `${nextp}"><a class="page-link" href="/admin/gamelist/${currPage+1}">הבא</a></li></ul></nav>`
+        nextp = `${nextp}<li class="page-item disabled"><span class="page-link">אחרון</span></li>`
+    }
+    else {
+        nextp = `${nextp}"><a class="page-link" href="${url}/${currPage+1}">הבא</a></li>`
+        if (numBlocks > 1)
+          nextp = `${nextp}<a class="page-link" href="${url}/${numBlocks}">אחרון</a></li>`
+        else
+          nextp = `${nextp}<li class="page-item disabled"><span class="page-link">אחרון</span></li>`
+        nextp = `${nextp}</ul></nav>`
+    }
 
     return `${prev}${before}${active}${after}${nextp}`
 }
