@@ -167,23 +167,33 @@ export function getGalleryFolder(branchCode) {
 }
 
 export function deleteMapFiles(uid, branchCode) {
-    var folder = getMapImagesFolder(branchCode)
-    var filename = `${uid}_red.png`
-    fs.unlinkSync(`${folder}${filename}`);
-    var filename = `${uid}_blue.png`
-    fs.unlinkSync(`${folder}${filename}`);
-    var filename = `${uid}_green.png`
-    fs.unlinkSync(`${folder}${filename}`);
+    try {
+        var folder = getMapImagesFolder(branchCode)
+        var filename = `${uid}_red.png`
+        fs.unlinkSync(`${folder}${filename}`);
+        var filename = `${uid}_blue.png`
+        fs.unlinkSync(`${folder}${filename}`);
+        var filename = `${uid}_green.png`
+        fs.unlinkSync(`${folder}${filename}`);
+    }
+    catch(err) {
+        console.log("Failed to delete map folder",err)
+    }
 }
 
 export function createMapFiles(uid, branchCode) {
     var folder = getMapImagesFolder(branchCode)
-    var filename = `${uid}_red.png`
-    fs.copyFileSync(`${folder}empty.png`,`${folder}${filename}`);
-    var filename = `${uid}_blue.png`
-    fs.copyFileSync(`${folder}empty.png`,`${folder}${filename}`);
-    var filename = `${uid}_green.png`
-    fs.copyFileSync(`${folder}empty.png`,`${folder}${filename}`);    
+    try {
+        var filename = `${uid}_red.png`
+        fs.copyFileSync(`${folder}empty.png`,`${folder}${filename}`);
+        var filename = `${uid}_blue.png`
+        fs.copyFileSync(`${folder}empty.png`,`${folder}${filename}`);
+        var filename = `${uid}_green.png`
+        fs.copyFileSync(`${folder}empty.png`,`${folder}${filename}`);    
+    }
+    catch(err) {
+        console.log("Failed to create map files",err)
+    }
 }
 
 export function upFolder(folder) {
