@@ -6,7 +6,7 @@
   <nav id="sidebarMenu" class="collapse d-lg-block sidebar collapse bg-white">
     <div class="position-sticky">
       <div class="list-group list-group-flush mx-3 mt-4">
-        <div><img src="/img/th/treasurehunt.jpg" class="img-fluid" alt=""></div>
+        <div><a href="/admin"><img src="/img/th/treasurehunt.jpg" class="img-fluid" alt=""></a></div>
         <div style="height:20px"></div>
 
           <a
@@ -64,8 +64,29 @@
     <nav id="navbar" class="navbar order-last fixed-top order-lg-0 navbar-light bg-white">
       <a href="/admin"><img src="/img/th/header.png" /></a>
       <ul>
-        <li><span class="scrollto nav-link px-2 " href="/admin"><img src="/img/user.png" height="20px"> שלום {{jwtUser.name}}</span></li>
-        <li><a href="/logout"><img src="/img/logout.png" title="יציאה" data-toggle="tooltip"/></a></li>
+        <li>
+          <div class="dropdown scrollto nav-link px-2">
+            
+            <img src="/img/usernav.png" height="30px" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+          
+            <ul class="dropdown-menu">
+              <li><span class="dropdown-item mid" >שם: {{jwtUser.name}}</span></li>
+              <li><span class="dropdown-item mid" >תפקיד:&nbsp;
+                {{#compare jwtUser.role '===' 'TEACHER'}}
+                מורה
+                {{else}}
+                  {{#compare jwtUser.role '===' 'ADMIN'}}
+                  מנהל משחקים
+                  {{else}}
+                  אדמין
+                  {{/compare}}
+                {{/compare}}
+              </span></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="/logout">יציאה <img src="/img/logout.png" title="יציאה" data-toggle="tooltip"/></a></li>
+            </ul>
+          </div>
+        </li>
       </ul>
     </nav>
     <!-- .navbar -->
