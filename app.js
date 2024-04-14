@@ -23,6 +23,7 @@ import __dirname from 'fs'
 import { HTTPS } from 'express-sslify'; //https://www.npmjs.com/package/express-sslify 
 import { config } from 'dotenv'; //https://www.npmjs.com/package/dotenv
 import bodyParser from 'body-parser';
+import {loadBranchesFromDB} from "./utils/util.js";
 
 config({ path: './config.env' });
 
@@ -64,5 +65,6 @@ connectDB(function(status) {
         console.log(`Server running on port ${port}.`);
     });
     app.set('db_connected', status);  // mark connected or not
+    loadBranchesFromDB()
 });
 

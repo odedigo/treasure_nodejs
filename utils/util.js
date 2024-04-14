@@ -54,8 +54,9 @@ export function validateEmail(email) {
     return emailValidator.validate(email)
 }
 
-export function getOneTimeToken(user) {
-    const token = jwt.sign({ username: user.username, role: user.role, branch: user.branch, branchCode: branchToCode(user.branch), name: user.name }, process.env.JWTSECRET, {
+export async function getOneTimeToken(user) {
+    var branchCode = branchToCode(user.branch)
+    const token = jwt.sign({ username: user.username, role: user.role, branch: user.branch, branchCode, name: user.name }, process.env.JWTSECRET, {
         expiresIn: '10h',
     });    
     return {token, expires: getTokenExpiration({hour: 10})}
@@ -112,26 +113,28 @@ export function validateAdminPage(req) {
 }
 
 
-export async function branchToCode(branch) {
-    const branches = await loadBranchesFromDB()
-    const code = Object.keys(branches).find(key => branches[key].name === branch);
-    return code
+export function branchToCode(branch) {
+    if (isValidValue(global.huntBranches))
+        return Object.keys(global.huntBranches).find(key => global.huntBranches[key].name === branch);
+    return "N/A"
 }
 
-export async function codeToBranch(code) {
-    const branches = await loadBranchesFromDB()
-    return branches[code].name
+export function codeToBranch(code) {
+    if (isValidValue(global.huntBranches))
+        return global.huntBranches[code].name
+    return "N/A"
 }
 
-async function loadBranchesFromDB() {
+export function loadBranchesFromDB() {
     if (!isValidValue(global.huntBranches)) {
-        const branches = await BranchModel.find()
-        global.huntBranches = {}
-        branches.forEach(brch => {
-            global.huntBranches[brch.code] = {"name": brch.name}
+        BranchModel.find()
+        .then(branches => {
+            global.huntBranches = {}
+            branches.forEach(brch => {
+                global.huntBranches[brch.code] = {"name": brch.name}
+            })    
         })
     }
-    return Object.assign({}, global.huntBranches)
 }
 
 export function clearBranchesCache() {
@@ -142,6 +145,7 @@ export function addBranch(code, name) {
     BranchModel.create({name, code})
     .then(doc => {
         clearBranchesCache()
+        loadBranchesFromDB()
     })
     .catch(err => {
         console.log(err)
@@ -152,6 +156,7 @@ export function deleteBranch(code) {
     BranchModel.findOneAndDelete({code})
     .then(doc => {
         clearBranchesCache()
+        loadBranchesFromDB()
     })
     .catch(err => {
         console.log(err)
@@ -159,11 +164,10 @@ export function deleteBranch(code) {
 }
 
 export function getBranchesForUser(jwt) {    
-    const branches = loadBranchesFromDB()
     if (jwt.role === Roles.SUPERADMIN)
-        return branches
+        return global.huntBranches
     var code = branchToCode(jwt.branch)
-    return {code : branches[branchToCode(jwt.branch)]}
+    return {code : global.huntBranches[code]}
 }
     
 export function getRiddleImages(branch) {

@@ -36,7 +36,7 @@ export async function loginUser(req, res) {
         if (user) {
             bcrypt.compare(password, user.password).then(async function (result) {
                 if (result) {
-                    var jwt = util.getOneTimeToken(user)
+                    var jwt = await util.getOneTimeToken(user)
                     res.cookie('cred', jwt.token , {maxAge: 9000000000, httpOnly: true, secure: true });
                     res.status(200).json({msg: "", redirect:"/admin"})
                 }

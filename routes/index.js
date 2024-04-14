@@ -24,6 +24,8 @@ import { renderAdmin, renderAdminQR } from '../controllers/adminController.js'
 import * as util from "../utils/util.js";
 import { Roles } from '../db/models/UserModel.js';
 import multer from 'multer'
+import { S3Client } from '@aws-sdk/client-s3'
+import multerS3 from 'multer-s3'
 
 const storageMap = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -43,8 +45,24 @@ const storageGal = multer.diskStorage({
         cb(null, fn);
     },
 });
+const s3 = new S3Client()
+const storageGalS3 = multer({
+    storage: multerS3({
+      s3: s3,
+      bucket: 'mashar',
+      metadata: function (req, file, cb) {
+        cb(null, {fieldName: file.originalname});
+      },
+      location: (req, file, cb) => {
+        cb("riddles/"+req.headers['x-branch-code']);
+      },
+      key: function (req, file, cb) {
+        cb(null, file.originalname)
+      }
+    })
+  })
 const uploadMap = multer({ storage: storageMap })
-const uploadGal = multer({ storage: storageGal })
+const uploadGal = multer({ storage: storageGalS3 })
 
 /********************** PAGES ****************************************/
 
