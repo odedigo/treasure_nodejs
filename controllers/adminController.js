@@ -41,7 +41,7 @@ export async function renderAdmin(req, res, partial, jwtUser) {
     }
 
     // Read all branches from DB
-    const branches = util.getBranchesForUser(jwtUser)
+    const branches = await util.getBranchesForUser(jwtUser)
 
     /**
      * This data is used by handibars

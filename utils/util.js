@@ -5,6 +5,7 @@ import jwt from 'jsonwebtoken'
 import fs from "fs"
 import path from "path"
 import { Roles } from '../db/models/UserModel.js';
+import {BranchModel} from '../db/models/BranchModel.js'
 
 export function isValidValue(val) {
     return (val !== undefined && val !== "")
@@ -111,19 +112,54 @@ export function validateAdminPage(req) {
 }
 
 
-export function branchToCode(branch) {
-    const branches = JSON.parse(fs.readFileSync('./config/branches.json'))
+export async function branchToCode(branch) {
+    const branches = await loadBranchesFromDB()
     const code = Object.keys(branches).find(key => branches[key].name === branch);
     return code
 }
 
-export function codeToBranch(code) {
-    const branches = JSON.parse(fs.readFileSync('./config/branches.json'))
+export async function codeToBranch(code) {
+    const branches = await loadBranchesFromDB()
     return branches[code].name
 }
 
+async function loadBranchesFromDB() {
+    if (!isValidValue(global.huntBranches)) {
+        const branches = await BranchModel.find()
+        global.huntBranches = {}
+        branches.forEach(brch => {
+            global.huntBranches[brch.code] = {"name": brch.name}
+        })
+    }
+    return Object.assign({}, global.huntBranches)
+}
+
+export function clearBranchesCache() {
+    global.huntBranches = undefined
+}
+
+export function addBranch(code, name) {
+    BranchModel.create({name, code})
+    .then(doc => {
+        clearBranchesCache()
+    })
+    .catch(err => {
+        console.log(err)
+    })
+}
+
+export function deleteBranch(code) {
+    BranchModel.findOneAndDelete({code})
+    .then(doc => {
+        clearBranchesCache()
+    })
+    .catch(err => {
+        console.log(err)
+    })
+}
+
 export function getBranchesForUser(jwt) {    
-    const branches = JSON.parse(fs.readFileSync('./config/branches.json'))
+    const branches = loadBranchesFromDB()
     if (jwt.role === Roles.SUPERADMIN)
         return branches
     var code = branchToCode(jwt.branch)
