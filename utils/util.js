@@ -7,6 +7,7 @@ import path from "path"
 import { Roles } from '../db/models/UserModel.js';
 import {BranchModel} from '../db/models/BranchModel.js'
 
+
 export function isValidValue(val) {
     return (val !== undefined && val !== "")
 }
@@ -248,3 +249,4 @@ export function concatFile(folder,file) {
 export function getDateIL(dt) {
     return new Date(dt).toLocaleString('he-IL', { timeZone: 'Asia/Jerusalem' })
 }
+

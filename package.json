@@ -12,7 +12,7 @@
   "author": "Oded Cnaan",
   "license": "None",
   "dependencies": {
-    "@aws-sdk/lib-storage": "^3.554.0",
+    "aws-sdk": "^2.1599.0",
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.2",
     "colors": "^1.4.0",

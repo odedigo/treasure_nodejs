@@ -24,8 +24,11 @@ import { renderAdmin, renderAdminQR } from '../controllers/adminController.js'
 import * as util from "../utils/util.js";
 import { Roles } from '../db/models/UserModel.js';
 import multer from 'multer'
-import { S3Client } from '@aws-sdk/client-s3'
 import multerS3 from 'multer-s3'
+import * as awsS3 from '../utils/awsS3.js'
+import { config } from 'dotenv'; //https://www.npmjs.com/package/dotenv
+
+config({ path: './config.env' });
 
 const storageMap = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -45,10 +48,11 @@ const storageGal = multer.diskStorage({
         cb(null, fn);
     },
 });
-const s3 = new S3Client()
+
+
 const storageGalS3 = multer({
     storage: multerS3({
-      s3: s3,
+      s3: awsS3.getS3Client(),
       bucket: 'mashar',
       metadata: function (req, file, cb) {
         cb(null, {fieldName: file.originalname});
@@ -57,12 +61,12 @@ const storageGalS3 = multer({
         cb("riddles/"+req.headers['x-branch-code']);
       },
       key: function (req, file, cb) {
-        cb(null, file.originalname)
+        cb(null, "riddles/"+req.headers['x-branch-code']+"/"+file.originalname)
       }
     })
   })
 const uploadMap = multer({ storage: storageMap })
-const uploadGal = multer({ storage: storageGalS3 })
+const uploadGal = multer({ storage: storageGal })
 
 /********************** PAGES ****************************************/
 
@@ -318,7 +322,7 @@ router.post('/api/mng/brnch', (req, res) => {
     api_mng.handleBranch(req,res, jwt.jwtUser)
 });
 
-router.post('/api/mng/gal', uploadGal.single('file'), (req, res) => {
+router.post('/api/mng/gal', storageGalS3.single('file'), (req, res) => {
     const jwt = util.validateAdminUser(req, true)
     if (!jwt.valid || !validateRoleAllowed(req, [Roles.TEACHER, Roles.ADMIN])) {
         res.status(400).json({msg: "הפעולה נכשלה"} )
