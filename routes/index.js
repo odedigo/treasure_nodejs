@@ -65,8 +65,21 @@ const storageGalS3 = multer({
       }
     })
   })
-const uploadMap = multer({ storage: storageMap })
-const uploadGal = multer({ storage: storageGal })
+  const storageMapS3 = multer({
+    storage: multerS3({
+      s3: awsS3.getS3Client(),
+      bucket: 'mashar',
+      metadata: function (req, file, cb) {
+        cb(null, {fieldName: req.headers['x-path-name']});
+      },
+      location: (req, file, cb) => {
+        cb("maps/"+req.headers['x-branch-code']);
+      },
+      key: function (req, file, cb) {
+        cb(null, "maps/"+req.headers['x-branch-code']+"/"+req.headers['x-path-name'])
+      }
+    })
+  })
 
 /********************** PAGES ****************************************/
 
@@ -303,7 +316,7 @@ router.post('/api/game/save', (req, res) => {
 /**
  * Upload map image
  */
-router.post('/api/game/upmap' , uploadMap.single('file'), (req, res) => {
+router.post('/api/game/upmap' , storageMapS3.single('file'), (req, res) => {
     const jwt = util.validateAdminUser(req, true)
     if (!jwt.valid || !validateRoleAllowed(req, [Roles.ADMIN])) {
         res.status(400).json({msg: "הפעולה נכשלה"} )

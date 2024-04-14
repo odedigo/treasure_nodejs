@@ -12,9 +12,7 @@
 "use strict";
 //================ IMPORTS =================
 import {GameModel} from "../db/models/GameModel.js";
-import * as logger from "../utils/logger.js"
-import * as util from "../utils/util.js";
-import strings from "../public/lang/strings.js"
+import config from "../config/config.js";
 
 export function renderHome(req, res) {
     res.render('home' , { 
@@ -66,7 +64,8 @@ export function renderGame(req, res, obj) {
                 branch: gameJson["branch"],
                 errMsg,
                 infoMsg,
-                title: "אזור תלמידים"
+                title: "אזור תלמידים",
+                imgRoot: config.s3.root
             });
         }
         else {

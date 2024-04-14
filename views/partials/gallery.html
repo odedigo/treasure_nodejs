@@ -58,7 +58,7 @@
         {{#each imgs as |img|}}
         <div class="col-md-4 col-6 portfolio-item filter-app align-content-center" style="border: 1px solid lightGray; width:202px; height:202px">
           <div class="portfolio-wrap">
-            <img src="/img/rdl/{{../branchCode}}/{{img}}" class="img-fluid" alt="" style="max-height:180px" id="{{img}}">
+            <img src="{{..imgRoot}}/riddles/{{../branchCode}}/{{img}}" class="img-fluid" alt="" style="max-height:180px" id="{{img}}">
           </div>
           {{#compare img '!==' 'empty.png'}}
           {{#compare ../jwtUser.role '!==' 'TEACHER'}}

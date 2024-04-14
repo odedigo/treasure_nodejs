@@ -29,7 +29,7 @@ export function teacher_generateTeamRiddles(gameData, team) {
                         {0}
                         <i class="bx bxs-quote-alt-right quote-icon-right"></i>
                     </p>
-                    <img src="{1}" class="testimonial-img" alt="">
+                    <img src="https://mashar.s3.eu-north-1.amazonaws.com{1}" class="testimonial-img" alt="">
                     <h3>חידה {2}</h3>
                     <h4>{3}</h4>
                     </div>
@@ -40,7 +40,7 @@ export function teacher_generateTeamRiddles(gameData, team) {
     for (var i=1 ; i <= 5 ; i++) {
         const rdl = data.riddles.filter((rdl) => (rdl.index == i) )[0]
         var vectors = calcVectors(rdl.vecSize, rdl.vecAngle)
-        innerHtml += util.formatString(html, rdl.riddle, "/img/rdl/"+gameData.branch+"/"+rdl.img, i, vectors)
+        innerHtml += util.formatString(html, rdl.riddle, "/riddles/"+gameData.branch+"/"+rdl.img, i, vectors)
     }
     return innerHtml
 }

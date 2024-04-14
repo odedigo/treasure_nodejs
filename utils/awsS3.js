@@ -142,7 +142,7 @@ export async function deleteFile(file, cb) {
  * @param {*} options 
  * @returns 
  */
-export async function _listFolder(folder, cb, options) {
+async function _listFolder(folder, cb, options) {
     const command = new ListObjectsV2Command({
         Bucket: bucketName,
         Prefix: folder + "/",

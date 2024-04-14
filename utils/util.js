@@ -6,7 +6,7 @@ import fs from "fs"
 import path from "path"
 import { Roles } from '../db/models/UserModel.js';
 import {BranchModel} from '../db/models/BranchModel.js'
-
+import * as aws from '../utils/awsS3.js'
 
 export function isValidValue(val) {
     return (val !== undefined && val !== "")
@@ -171,13 +171,15 @@ export function getBranchesForUser(jwt) {
     return {code : global.huntBranches[code]}
 }
     
-export function getRiddleImages(branch) {
-    const pth = `./public/img/rdl/${branch}/`
-    const list = fs.readdirSync(pth, {withFileTypes: true})
-    .filter(item => !item.isDirectory() && (path.extname(item.name) === '.png' || path.extname(item.name) === '.jpg'))
-    .map(item => item.name)
-
-    return list
+export function getRiddleImages(branch, cb) {
+    aws.listFolder("riddles/"+branch, function(err, keyList, options){
+        var list = keyList.Objects.filter((item) => {
+           return (item.Key.endsWith('.png') || item.Key.endsWith('.jpg'))}
+        ).map(item => {
+            return item.Key.substring(item.Key.lastIndexOf("/")+1)
+        })
+       cb(list)
+    }, null) 
 }
 
 export function getUniqueGameUID() {

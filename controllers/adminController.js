@@ -58,6 +58,7 @@ export async function renderAdmin(req, res, partial, jwtUser) {
         url: req.url,               // the page URL
         branches: branches,         // the branches
         title: "אזור ניהול",
+        imgRoot: config.s3.root,
         helpers: {
             whichPartial: function() {  // used by handibars to render the sub-page
                 return partial  
@@ -123,11 +124,13 @@ export async function renderAdminGallery(req, res, jwtUser, data) {
     // set up the data for this page
     data.jsscript.push('/js/upload.js') // manage image uploads
     // list of images for this branch
-    data.imgs = util.getRiddleImages(branchCode)
-    data.branchCode = branchCode
-    data.branch = util.codeToBranch(branchCode)
-    // render
-    res.render('admin' , data);        
+    util.getRiddleImages(branchCode, function(list) {
+        data.branchCode = branchCode
+        data.branch = util.codeToBranch(branchCode)
+        data.imgs = list
+        // render
+        res.render('admin' , data);            
+    })
 }
 
 /**
@@ -170,9 +173,12 @@ export async function renderAdminGameEdit(req, res, jwtUser, data) {
         return
     }
     data.game = api_game.createGameObj(game)
-    data.imgs = util.getRiddleImages(game.branch)
     data.jsscript.push('/js/gvalid.js')
-    res.render('admin' , data);        
+    util.getRiddleImages(game.branch, function(list) {
+        data.imgs = list
+        // render
+        res.render('admin' , data);            
+    })
 }
 
 /**

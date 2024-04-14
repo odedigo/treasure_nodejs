@@ -14,6 +14,7 @@
 import fs from 'fs'
 import * as util from "../utils/util.js";
 import {Roles} from "../db/models/UserModel.js";
+import * as aws from "../utils/awsS3.js"
 
 /**
  * Create a new branch or delete an existing one
@@ -37,7 +38,7 @@ export async function handleBranch(req, res, jwt) {
             res.status(400).json({msg: "סניף זה כבר מוגדר"})
             return
         }
-        createBranchFolders(nick)
+        createBranchFolders(res, nick)
     }
     else if (action === 'del') {
         if (!util.isValidValue(nick)) {
@@ -50,9 +51,9 @@ export async function handleBranch(req, res, jwt) {
             res.status(400).json({msg: "כינוי הסניף כבר קיים"})
             return
         }
-        deleteBranchFolders(nick)
+        deleteBranchFolders(res, nick)
     }
-    res.status(200).json({msg: "הפעולה בוצעה בהצלחה"});
+    
 }
 
 /**
@@ -123,27 +124,34 @@ export async function getQRcode(url, color) {
 }
 
 /**
+ * 
  * Creates a folder for the new branch
  * @param {*} branchCode 
  */
-function createBranchFolders(branchCode) {
-    const galleyFolder = util.getGalleryFolder(branchCode)
-    if (!fs.existsSync(galleyFolder)) {
-        fs.mkdirSync(galleyFolder);
-    }
-    fs.copyFileSync(util.concatFile(util.upFolder(galleyFolder), 'empty.png'),util.concatFile(galleyFolder, 'empty.png'))
+function createBranchFolders(res, branchCode) {
+    aws.createFolder("riddles/"+branchCode, function(err, success){
+        if (success) {
+            aws.createFolder("maps/"+branchCode, function(err, success){
+                if (success)
+                    res.status(200).json({msg: "הפעולה בוצעה בהצלחה"});
+                else
+                    res.status(200).json({msg: "יצירת הסניף נכשלה"});
+            })   
+        }
+        else
+            res.status(200).json({msg: "יצירת הסניף נכשלה"});
+    })
 
-    const mapsFolder = util.getMapImagesFolder(branchCode)
-    if (!fs.existsSync(mapsFolder)) {
-        fs.mkdirSync(mapsFolder);
-    }
-    fs.copyFileSync(util.concatFile(util.upFolder(mapsFolder), 'empty.png'),util.concatFile(mapsFolder, 'empty.png'))
-    
 }
 
-function deleteBranchFolders(branchCode) {
-    const galleyFolder = util.getGalleryFolder(branchCode)
-    fs.rmSync(galleyFolder,{recursive: true, force: true,})
-    const mapsFolder = util.getMapImagesFolder(branchCode)
-    fs.rmSync(mapsFolder,{recursive: true, force: true,})
+/**
+ *
+ * @param {*} branchCode 
+ */
+function deleteBranchFolders(res, branchCode) {
+    aws.deleteFolder("riddles/"+branchCode, function(err, numDeleted, options){
+        aws.deleteFolder("maps/"+branchCode, function(err, numDeleted, options){
+            res.status(200).json({msg: "הפעולה בוצעה בהצלחה"});
+        }, null)
+    }, null)
 }

@@ -775,10 +775,13 @@ function getImageFilenameFromSrc(src) {
 function closeModalGameEdit(id,reason,branch) {
     if (reason == 'save') {
         var modalSelection = findMarkedThmbnail()
+        
         clearModalSelection()
         // set the img.src to the selected image
-        if (modalSelection.name !== '')
-            modalLink.children[0].src = `/img/rdl/${branch}/${modalSelection.name}`
+        if (modalSelection.name !== '') {
+            modalLink.children[0].src = `https://mashar.s3.eu-north-1.amazonaws.com/riddles/${branch}/${modalSelection.name}`
+            modalLink.children[1].value = `${branch}/${modalSelection.name}`
+        }
     }
 }
 

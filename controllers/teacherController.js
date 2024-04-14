@@ -1,4 +1,5 @@
 "use strict";
+import config from "../config/config.js";
 import {GameModel} from "../db/models/GameModel.js";
 import {StatusModel} from "../db/models/StatusModel.js";
 import * as logger from "../utils/logger.js"
@@ -39,7 +40,8 @@ export async function renderTeacher (req, res) {
                 date: util.getDateIL(gameData.date),
                 readableName: gameData.readableName,
                 uid: gameData.uid,
-                title: "אזור המורה"
+                title: "אזור המורה",
+                imgRoot: config.s3.root
             });            
         }
         else {
