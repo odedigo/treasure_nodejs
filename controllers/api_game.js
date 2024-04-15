@@ -486,7 +486,10 @@ export async function deleteGame(req, res, jwt) {
         }
         else {
             util.deleteMapFiles(uid, util.branchToCode(branch))
-            res.status(200).json({msg: "מחיקת המשחק הצליחה"})
+            StatusModel.deleteOne({gameCode: gameName})
+            .then(d => {
+                res.status(200).json({msg: "מחיקת המשחק הצליחה"})
+            })            
         }
     })
     .catch(err => {
