@@ -11,19 +11,33 @@ import * as util from "../../utils/util.js";
 
 export function student_generateRiddle(teamData, index) {
     const rdl = teamData.riddles.filter((rdl) => (rdl.index == index))[0];
+    var i = 1;
+    var first = rdl.riddle[0]
+    if (rdl.riddle.length === 1) {
+        first = ""
+        i = 0
+    }
+    if (first === undefined)
+        first = ""
     var str = `<p class="fst-italic">
-                ${rdl.riddle[0]}
+                ${first}
             </p>
             <ul>`;
 
-    var i = 1;
+    
     for (; i < rdl.riddle.length - 1; i++) {
-        str += `<li><i class="bi bi-check-circle"> ${rdl.riddle[i]}</i></li>`;
+        if (rdl.riddle[i] !== undefined)
+            str += `<li><i class="bi bi-check-circle"> ${rdl.riddle[i]}</i></li>`;
+        else
+            str += `<li><i class="bi bi-check-circle">&nbsp;</i></li>`;
     }
 
+    var lst = rdl.riddle[i]
+    if (lst === undefined)
+        lst = ""
     str += `</ul>
             <p class="final-inst">
-                ${rdl.riddle[i]}
+                ${lst}
             </p>`;
 
     return str;

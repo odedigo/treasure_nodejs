@@ -20,7 +20,10 @@ export function formatString() {
     try {
         let str = arguments[0]
         for (let i = 1; i < arguments.length; i++) {
-            str = str.replace("{"+(i-1)+"}", arguments[i]);
+            if (isValidValue(arguments[i]))
+                str = str.replace("{"+(i-1)+"}", arguments[i]);
+            else
+                str = str.replace("{"+(i-1)+"}","");
         }    
         return str;
     }
