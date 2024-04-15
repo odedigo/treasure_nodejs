@@ -30,7 +30,7 @@ import { config } from 'dotenv'; //https://www.npmjs.com/package/dotenv
 
 config({ path: './config.env' });
 
-const storageMap = multer.diskStorage({
+/*const storageMap = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, util.getMapImagesFolder(req.headers['x-branch-code']));
     },
@@ -47,8 +47,7 @@ const storageGal = multer.diskStorage({
         var fn = file.originalname
         cb(null, fn);
     },
-});
-
+});*/
 
 const storageGalS3 = multer({
     storage: multerS3({

@@ -187,6 +187,11 @@ export function getUniqueGameUID() {
     return id
 }
 
+/**
+ * NOT IN USE
+ * @param {*} branchCode 
+ * @returns 
+ */
 export function getMapImagesFolder(branchCode) {
     var str = process.argv[1]
     var index = str.lastIndexOf(path.sep)
@@ -197,6 +202,12 @@ export function getMapImagesFolder(branchCode) {
     var p = `${str}${path.sep}public${path.sep}img${path.sep}maps${path.sep}${branchCode}${path.sep}`
     return p
 }
+
+/**
+ * NOT IN USE
+ * @param {*} branchCode 
+ * @returns 
+ */
 export function getGalleryFolder(branchCode) {
     var str = process.argv[1]
     var index = str.lastIndexOf(path.sep)
@@ -208,34 +219,22 @@ export function getGalleryFolder(branchCode) {
     return p
 }
 
-export function deleteMapFiles(uid, branchCode) {
-    try {
-        var folder = getMapImagesFolder(branchCode)
-        var filename = `${uid}_red.png`
-        fs.unlinkSync(`${folder}${filename}`);
-        var filename = `${uid}_blue.png`
-        fs.unlinkSync(`${folder}${filename}`);
-        var filename = `${uid}_green.png`
-        fs.unlinkSync(`${folder}${filename}`);
-    }
-    catch(err) {
-        console.log("Failed to delete map folder",err)
-    }
+export function deleteMapFiles(uid, branchCode) {    
+    var keyList = {Objects: [{Key: `maps/${branchCode}/${uid}_red.png`},
+                            {Key: `maps/${branchCode}/${uid}_blue.png`},
+                            {Key: `maps/${branchCode}/${uid}_green.png`}]}
+    aws.deleteMultipleObjects(keyList, function(err, numDeleted) {
+
+    })
 }
 
 export function createMapFiles(uid, branchCode) {
-    var folder = getMapImagesFolder(branchCode)
-    try {
-        var filename = `${uid}_red.png`
-        fs.copyFileSync(`${folder}empty.png`,`${folder}${filename}`);
-        var filename = `${uid}_blue.png`
-        fs.copyFileSync(`${folder}empty.png`,`${folder}${filename}`);
-        var filename = `${uid}_green.png`
-        fs.copyFileSync(`${folder}empty.png`,`${folder}${filename}`);    
-    }
-    catch(err) {
-        console.log("Failed to create map files",err)
-    }
+    aws.copyEmptyToFolder(`maps/${branchCode}`,`${uid}_red.png`, function(err, success) {
+        aws.copyEmptyToFolder(`maps/${branchCode}`,`${uid}_blue.png`, function(err, success) {
+            aws.copyEmptyToFolder(`maps/${branchCode}`,`${uid}_green.png`, function(err, success) {
+            })
+        })
+    })
 }
 
 export function upFolder(folder) {

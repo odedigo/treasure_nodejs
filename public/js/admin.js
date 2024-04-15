@@ -890,7 +890,7 @@ function reloadImg(id) {
     if (index != -1) {
         src = src.substring(0, index + 4)
     }
-    el.src = src + "/" + new Date().getTime()
+    el.src = src + "?d=" + new Date().getTime()
 }
 
 /****************** BRANCHES *******************/

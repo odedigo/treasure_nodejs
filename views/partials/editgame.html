@@ -448,7 +448,7 @@
     var team = link.getAttribute('data-team')
 
     var img = document.querySelector(".modal-body .mapimage")
-    img.src = `/img/maps/{{game.branch}}/${imgName}.png`
+    img.src = `{{imgRoot}}/maps/{{game.branch}}/${imgName}.png`
     img = document.querySelector(".modal-body .newmap")
     img.src = ""
     var teamEl = document.querySelector('.modal-body .mapTeam')

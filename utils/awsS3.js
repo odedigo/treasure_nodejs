@@ -59,19 +59,17 @@ export function getS3Client() {
 export async function createFolder(folder, cb) {
     var command = new PutObjectCommand({
         Bucket: bucketName,
-        Key: `${folder}/`
+        Key: `${folder}/`,
+        ACL: 'public-read'
     });
 
     try {
-        var response = await getS3Client().send(command);
-        // copy empty.png
-        command = new CopyObjectCommand({
-            CopySource: `${bucketName}/empty.png`,
-            Bucket: bucketName,
-            Key: `${folder}/empty.png`,
-        });
-        response = await getS3Client().send(command);
-        cb(null, true)
+        var response = await getS3Client().send(command)
+        .then(res => {
+          copyEmptyToFolder(folder, "empty.png", function(err, success) {
+            cb(err, success)
+          })  
+        })
     } catch (err) {
         cb(err, false   )
         console.error(err);
@@ -91,7 +89,7 @@ export async function deleteFolder(folder, cb, options) {
             return
         }
         keyList.Objects = keyList.Objects.slice().reverse()
-        _deleteMultipleObjects(keyList, function (err, numDeleted) {
+        deleteMultipleObjects(keyList, function (err, numDeleted) {
             cb(err, numDeleted, options)
         })
     })
@@ -132,6 +130,43 @@ export async function deleteFile(file, cb) {
            cb(err, false)
          }
 }
+
+export async function copyEmptyToFolder(folder, targetName, cb) {
+    try {
+      // copy empty.png
+      var command = new CopyObjectCommand({
+          CopySource: `${bucketName}/empty.png`,
+          Bucket: bucketName,
+          Key: `${folder}/${targetName}`,
+        });
+        var response = await getS3Client().send(command);
+        cb(null, true)
+    } catch (err) {
+        cb(err, false)
+        console.error(err);
+    }
+}
+
+/**
+ *  deleting multiple files from a folder in one operation
+ * @param {*} keyList 
+ * @param {*} cb 
+ */
+export async function deleteMultipleObjects(keyList, cb) {
+      const command = new DeleteObjectsCommand({
+          Bucket: process.env.AWS_S3_BUCKET_NAME,
+          Delete: keyList
+      });
+      try {
+         const { Deleted } = await getS3Client().send(command);
+         cb(null, Deleted.length)
+       } catch (err) {
+         console.error(err);
+         cb(err, null)
+       }
+ }
+ 
+ 
    
 /************ INTERNAL ***************/
 
@@ -164,26 +199,6 @@ async function _listFolder(folder, cb, options) {
           command.input.ContinuationToken = NextContinuationToken;
         }
         cb(null, keyList)
-      } catch (err) {
-        console.error(err);
-        cb(err, null)
-      }
-}
-
-/**
- * INTERNAL - deleting multiple files from a folder in one operation
- * @param {*} keyList 
- * @param {*} cb 
- */
-async function _deleteMultipleObjects(keyList, cb) {
- const command = new DeleteObjectsCommand({
-        Bucket: process.env.AWS_S3_BUCKET_NAME,
-        Delete: keyList
-      });
-
-      try {
-        const { Deleted } = await getS3Client().send(command);
-        cb(null, Deleted.length)
       } catch (err) {
         console.error(err);
         cb(err, null)
