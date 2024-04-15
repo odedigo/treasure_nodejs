@@ -287,7 +287,8 @@ new Swiper('.portfolio-details-slider', {
   loop: true,
   autoplay: {
     delay: 5000,
-    disableOnInteraction: false
+    disableOnInteraction: true,
+    pauseOnMouseEnter : true
   },
   pagination: {
     el: '.swiper-pagination',
@@ -302,10 +303,11 @@ new Swiper('.portfolio-details-slider', {
 new Swiper('.testimonials-slider', {
   speed: 600,
   loop: true,
-  autoplay: {
+/*  autoplay: {
     delay: 5000,
-    disableOnInteraction: false
-  },
+    disableOnInteraction: true,
+    pauseOnMouseEnter : true
+  },*/
   slidesPerView: 'auto',
   pagination: {
     el: '.swiper-pagination',

@@ -12,10 +12,11 @@ export async function renderTeacher (req, res) {
     }
 
     // Find relevant document in DB that describes the game
-    var {gameName} = req.params
+    var {gameName, branchCode} = req.params
 
     var query = {
         gameName, 
+        branch: branchCode,
         active:true
     }
     
