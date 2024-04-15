@@ -1,6 +1,5 @@
 import crypto from "crypto"
 import emailValidator from "email-validator"
-import config from "../config/config.js"
 import jwt from 'jsonwebtoken'
 import fs from "fs"
 import path from "path"

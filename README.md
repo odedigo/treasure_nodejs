@@ -1,7 +1,6 @@
 # todo
-3. paging
-4. game status (start / stop)
-
+- Map images on s3
+- gallery with s3
 
 
 # run

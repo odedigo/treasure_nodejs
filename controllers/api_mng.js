@@ -81,14 +81,24 @@ export function handleGalleryDelete(req, res, jwt) {
             return
         }
     }
-    var folder = util.getGalleryFolder(branchCode)
     const {name, action} = req.body
     if (name === 'empty.png') {
         res.status(400).json({msg: "אי אפשר למחוק את התמונה הזאת"});    
         return
     }
-    fs.unlinkSync(folder+name)
-    res.status(200).json({msg: "הפעולה בוצעה בהצלחה"});
+    aws.deleteFile(`riddles/${branchCode}/${name}`, function(err, success) {
+        if (success)
+            res.status(200).json({msg: "הפעולה בוצעה בהצלחה"});
+        else
+            res.status(400).json({msg: "מחיקת התמונה נכשלה"});    
+    })
+
+    /*var folder = util.getGalleryFolder(branchCode)
+    if (name === 'empty.png') {
+        res.status(400).json({msg: "אי אפשר למחוק את התמונה הזאת"});    
+        return
+    }
+    fs.unlinkSync(folder+name)*/
 }
 
 /**

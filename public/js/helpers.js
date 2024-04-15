@@ -1,3 +1,11 @@
+/**
+ * helpers.js
+ * 
+ * Handelbars helper functins
+ * 
+ * Written by: Oded Cnaan
+ * Date: March 2024
+ */
 import * as util from "../../utils/util.js";
 
 
