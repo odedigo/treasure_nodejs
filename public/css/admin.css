@@ -183,7 +183,10 @@ p {
   margin-top:20px;
   display: block;
 }
-.tip {
+.tip, .tip-info {
   font-size: 11pt;
   color: gray;
+}
+.tip-info {
+  margin-right: 30px;
 }

@@ -13,18 +13,19 @@
             href="/admin"
             class="list-group-item list-group-item-action py-2 ripple {{#ifEquals section 'admin_main' }} active {{/ifEquals}}"
             aria-current="true"
-          ><span>איך משחקים</span></a>
+          ><span><i class="fa fa-info-circle" aria-hidden="true"></i> איך משחקים</span></a>
 
           
         <a
           href="/admin/gamelist"
           class="list-group-item list-group-item-action py-2 ripple {{#ifEquals section 'gamelist' }} active {{/ifEquals}}"
           aria-current="true" 
-        ><span>ניהול המשחקים</span></a>
+        ><span><i class="fa fa-compass" aria-hidden="true"></i> ניהול המשחקים</span></a>
 
         {{#compare jwtUser.role '!==' 'TEACHER'}}
           <a href="/admin/userlist" 
-            class="list-group-item list-group-item-action py-2 ripple {{#ifEquals section 'userlist' }} active {{else}} {{#ifEquals section 'register' }} active {{/ifEquals}}{{/ifEquals}}""><span>ניהול המשתמשים</span></a>
+            class="list-group-item list-group-item-action py-2 ripple {{#ifEquals section 'userlist' }} active {{else}} {{#ifEquals section 'register' }} active {{/ifEquals}}{{/ifEquals}}"">
+            <span><i class="fa fa-users" aria-hidden="true"></i> ניהול המשתמשים</span></a>
         {{/compare}}
 
         <a
@@ -40,11 +41,13 @@
       <ul class="list-group">
         <li class="list-group-item border-0 p-0">
           <a href="/admin/gallery/{{jwtUser.branchCode}}" 
-          class="list-group-item-action list-group-item border-0 pt-2 pb-2 {{#ifEquals section 'gallery' }} active {{/ifEquals}}""><span>תמונות חידות</span></a></li>
+          class="list-group-item-action list-group-item border-0 pt-2 pb-2 {{#ifEquals section 'gallery' }} active {{/ifEquals}}"">
+          <span><i class="fa fa-picture-o" aria-hidden="true"></i> תמונות חידות</span></a></li>
         {{#compare jwtUser.role '===' 'SUPER-ADMIN'}}
         <li class="list-group-item border-0 p-0">
             <a href="/admin/brnch" 
-            class="list-group-item-action list-group-item border-0 pt-2 pb-2 {{#ifEquals section 'brnch' }} active {{/ifEquals}}""><span>הגדרת סניפים</span></a>
+            class="list-group-item-action list-group-item border-0 pt-2 pb-2 {{#ifEquals section 'brnch' }} active {{/ifEquals}}"">
+            <span><i class="fa fa-home" aria-hidden="true"></i> הגדרת סניפים</span></a>
         </li>
         {{/compare}}
       </ul>        

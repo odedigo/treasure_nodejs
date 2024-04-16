@@ -4,7 +4,7 @@
     <!-- GAME EDIT SECTION -->
       <section id="contact" class="contact section-bg">
       <div class="container">
-        <h2>עריכת משחק {{data.gameName}}</h2>
+        <h2><i class="fa fa-compass" aria-hidden="true"></i> עריכת משחק {{data.gameName}}</h2>
         
         {{#compare data.error '!==' ''}}
         <div class="errMsg" id="errMsg">{{data.error}}</div>
@@ -46,11 +46,11 @@
                 <small id="readableNameError" class="form-text text-muted errMsg">&nbsp;</small>
               </div>
               <div class="mb-3">
-                <label for="gameName" class="form-label">קוד המשחק</label>
+                <label for="gameName" class="form-label">קוד המשחק <small class="tip-info">(לא ניתן לשינוי)</small></label>
                 <input type="input" class="form-control input-sm" id="gameName" placeholder="" value="{{game.gameName}}" readonly>
               </div>
               <div class="mb-3">
-                <label for="branch" class="form-label">סניף</label>
+                <label for="branch" class="form-label">סניף <small class="tip-info">(לא ניתן לשינוי)</small></label>
                 <input type="input" class="form-control input-sm" id="branch" value="{{branchName}}" placeholder="" readonly>
               </div>
               <div class="mb-3">
@@ -80,11 +80,11 @@
                   <small id="teamRedError" class="form-text text-muted errMsg">&nbsp;</small>
                 </div>
                 <div class="mb-3 col">
-                  <label for="coloRed" class="form-label">צבע הקבוצה</label>
+                  <label for="coloRed" class="form-label">צבע הקבוצה <small class="tip-info">(לא ניתן לשינוי)</small></label>
                   <input type="input" class="form-control input-sm text-center" id="colorRed" value="{{game.red.color}}" style="background-color:{{game.red.color}}" readonly>
                 </div>
                 <div class="mb-3 col">
-                  <label for="bgColorRed" class="form-label">צבע רקע</label>
+                  <label for="bgColorRed" class="form-label">צבע רקע <small class="tip-info">(לא ניתן לשינוי)</small></label>
                   <input type="input" class="form-control input-sm text-center" id="bgColorRed" value="{{game.red.bgColor}}" style="background-color:{{game.red.bgColor}}" readonly>
                 </div>
             </div>
@@ -155,11 +155,11 @@
                   <small id="teamBlueError" class="form-text text-muted errMsg">&nbsp;</small>
                 </div>
                 <div class="mb-3 col">
-                  <label for="colorBlue" class="form-label">צבע הקבוצה</label>
+                  <label for="colorBlue" class="form-label">צבע הקבוצה <small class="tip-info">(לא ניתן לשינוי)</small></label>
                   <input type="input" class="form-control input-sm text-center" id="colorBlue" value="{{game.blue.color}}" style="background-color:{{game.blue.color}}" readonly>
                 </div>
                 <div class="mb-3 col">
-                  <label for="bgColorBlue" class="form-label">צבע רקע</label>
+                  <label for="bgColorBlue" class="form-label">צבע רקע <small class="tip-info">(לא ניתן לשינוי)</small></label>
                   <input type="input" class="form-control input-sm text-center" id="bgColorBlue" value="{{game.blue.bgColor}}" style="background-color:{{game.blue.bgColor}}" readonly>
                 </div>
             </div>
@@ -229,11 +229,11 @@
                 <small id="teamGreenError" class="form-text text-muted errMsg">&nbsp;</small>
               </div>
               <div class="mb-3 col">
-                <label for="colorGreen" class="form-label">צבע הקבוצה</label>
+                <label for="colorGreen" class="form-label">צבע הקבוצה <small class="tip-info">(לא ניתן לשינוי)</small></label>
                 <input type="input" class="form-control input-sm text-center" id="colorGreen" value="{{game.green.color}}" style="background-color:{{game.green.color}}" readonly>
               </div>
               <div class="mb-3 col">
-                <label for="bgColorGreen" class="form-label">צבע רקע</label>
+                <label for="bgColorGreen" class="form-label">צבע רקע <small class="tip-info">(לא ניתן לשינוי)</small></label>
                 <input type="input" class="form-control input-sm text-center" id="bgColorGreen" value="{{game.green.bgColor}}" style="background-color:{{game.green.bgColor}}" readonly>
               </div>
           </div>
