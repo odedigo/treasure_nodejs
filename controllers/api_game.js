@@ -237,6 +237,10 @@ export function cloneGame(req, res, jwt) {
         game[0].date = util.getCurrentDateTime()
         game[0].uid = game[0].gameName
         game[0].readableName = newGame
+        if (jwt.role === Roles.SUPERADMIN) {
+            if (util.isValidValue(req.body.newBranch))
+                game[0].branch = req.body.newBranch
+        }
         
         game[0].isNew = true
         delete game[0]._id

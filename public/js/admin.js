@@ -423,8 +423,12 @@ function cloneGame(form) {
 
     var body = {
         origGame : form.origName.value.trim(),
-        newGame : form.newName.value.trim()
+        newGame : form.newName.value.trim(),
     }
+    if (form.newBranchClone.value !== undefined) {
+        body.newBranch = form.newBranchClone.value.trim()
+    }
+
 
     if (body.origGame === body.newGame || body.newGame === "") {
         errMsg.innerHTML = "שם המשחק חייב להיות ייחודי ולא ריק"

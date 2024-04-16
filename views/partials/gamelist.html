@@ -128,6 +128,17 @@
                   <input name="newName" type="input" id="newName-role" class="form-control" placeholder="" value=""/>
                   <label class="comment">שם בעברית או אנגלית בשפה חופשית</label>
                 </div>
+                {{#compare jwtUser.role '===' 'SUPER-ADMIN'}}
+                <div class="row" style="display:{{#compare jwtUser.role '===' 'SUPER-ADMIN'}}block{{else}}none{{/compare}}">
+                  <label for="newBranchClone">שם הסניף</label>
+                  <select name="newBranchClone" id="newBranchClone" class="form-control">
+                    {{#each branches as |brch|}}
+                    <option value="{{@key}}">{{brch.name}}</option>
+                    {{/each}}                    
+                  </select>
+                  <label class="comment">בחרו מתרשימת הסניפים</label>
+                </div>                
+                {{/compare}}
             </div>
             <div id="modalErrRoleMsg" class="errMsg">&nbsp;</div>
             <div class="modal-footer">
