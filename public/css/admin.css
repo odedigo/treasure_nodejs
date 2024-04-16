@@ -176,3 +176,14 @@ p {
 .gameStatusText {
   color: brown !important;
 }
+.game-started {
+  color: orange;
+  font-size: 12pt;
+  font-weight: bold;
+  margin-top:20px;
+  display: block;
+}
+.tip {
+  font-size: 11pt;
+  color: gray;
+}
