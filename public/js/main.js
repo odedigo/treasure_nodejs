@@ -7,7 +7,7 @@
  * Template Name: Scaffold
  */
 let debugMode = false 
-let msgDelay = 2500
+let msgDelay = 1000
 
 /**
  * Prints data only if in debug mode

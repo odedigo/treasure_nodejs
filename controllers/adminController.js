@@ -174,6 +174,7 @@ export async function renderAdminGameEdit(req, res, jwtUser, data) {
     }
     data.game = api_game.createGameObj(game)
     data.jsscript.push('/js/gvalid.js')
+    data.branchName = util.codeToBranch(game.branch)
     util.getRiddleImages(game.branch, function(list) {
         data.imgs = list
         // render

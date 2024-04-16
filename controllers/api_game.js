@@ -622,7 +622,8 @@ function _formatGameForSave( dbData , newData ) {
     dbData.version = String((parseFloat(newData.version) + 0.1).toPrecision(2))
     dbData.active = newData.active == 'true' ? true : false
     dbData.date = util.getCurrentDateTime()  
-    //dbData.branch = dbData.branch, // not changing branches
+    dbData.branch = dbData.branch,
+    
     dbData.readableName = newData.readableName
     
     dbData.red = newData.red

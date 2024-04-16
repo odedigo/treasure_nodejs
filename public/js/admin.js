@@ -10,7 +10,7 @@
 
 /**************** WINDOW ONLOAD ***********************/
 
-let reloadDelay = 2000
+let reloadDelay = 1000
 
 /**
  * Listens to the window loading event and subscribing to 
