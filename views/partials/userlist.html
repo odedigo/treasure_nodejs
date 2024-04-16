@@ -33,8 +33,8 @@
                 <tr>
                   <th scope="col">פעולות</th>
                   <th scope="col">שם</th>
-                  <th scope="col">סניף</th>
                   <th scope="col">שם משתמש</th>
+                  <th scope="col">סניף</th>
                   <th scope="col">תפקיד</th>
                   <th scope="col">תאריך הרשמה</th>
                 </tr>
@@ -77,12 +77,12 @@
                   <td >{{user.username}}</td>
                   <td >{{user.branch}}</td>
                   {{#compare user.role '===' 'ADMIN'}}
-                    <td>מנהל משחקים</td>
+                    <td><i class="fa fa-user-circle" aria-hidden="true"></i> מנהל משחקים</td>
                   {{else}}
                     {{#compare user.role '===' 'SUPER-ADMIN'}}
-                      <td>אדמין</td>
+                      <td><i class="fa fa-user-secret" aria-hidden="true"></i> אדמין</td>
                     {{else}}
-                      <td>מורה</td>
+                      <td><i class="fa fa-user" aria-hidden="true"></i> מורה</td>
                     {{/compare}}
                   {{/compare}}
                   <td >{{user.created}}</td>

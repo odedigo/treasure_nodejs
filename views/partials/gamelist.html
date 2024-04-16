@@ -17,7 +17,7 @@
                 {{/compare}}
               </div>
               <div class="col-lg mx-1 mt-4">
-                <span class="tip nowrap">שימו לב שלא ניתן למחוק משחק פעיל</span>
+                <span class="tip nowrap"><i class="fa fa-info-circle" aria-hidden="true"></i> שימו לב שלא ניתן למחוק משחק פעיל</span>
               </div>
 
             </div>
@@ -80,12 +80,18 @@
                   </td>
                   <td >{{game.readableName}}
                     {{#compare game.activeGame '===' true}}
-                    <br/><span class="game-started">המשחק התחיל</span>
+                    <br/><span class="game-started"><i class="fa fa-clock-o" aria-hidden="true"></i> המשחק התחיל</span>
                     {{/compare}}
                   </td>
                   <td >{{game.gameName}}</td>
                   <td >{{game.branch}}</td>
-                  <td >{{game.active}}</td>
+                  <td >
+                    {{#compare game.active '===' 'כן'}}
+                    <i class="fa fa-play" aria-hidden="true" style="color:green"></i>
+                    {{else}}
+                    <i class="fa fa-stop" aria-hidden="true"></i>
+                    {{/compare}}
+                    {{game.active}}</td>
                   <td >{{game.version}}</td>
                   <td >{{game.date}}</td>
                 </tr>
