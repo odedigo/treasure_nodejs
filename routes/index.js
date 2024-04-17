@@ -30,25 +30,6 @@ import { config } from 'dotenv'; //https://www.npmjs.com/package/dotenv
 
 config({ path: './config.env' });
 
-/*const storageMap = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, util.getMapImagesFolder(req.headers['x-branch-code']));
-    },
-    filename: (req, file, cb) => {
-        var fn = req.headers['x-path-name']
-        cb(null, fn);
-    },
-});
-const storageGal = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, util.getGalleryFolder(req.headers['x-branch-code']));
-    },
-    filename: (req, file, cb) => {
-        var fn = file.originalname
-        cb(null, fn);
-    },
-});*/
-
 const storageGalS3 = multer({
     storage: multerS3({
       s3: awsS3.getS3Client(),
@@ -62,7 +43,13 @@ const storageGalS3 = multer({
       key: function (req, file, cb) {
         cb(null, "riddles/"+req.headers['x-branch-code']+"/"+file.originalname)
       }
-    })
+    }),
+    fileFilter: function(req, file, cb) {
+        awsS3.keyExists("riddles/"+req.headers['x-branch-code'], file.originalname, function(err, exists) {
+            var err = exists ? {msg: "קובץ השם זה כבר קיים "+file.originalname} : null
+            cb( err , !exists)
+        })
+    }
   })
   const storageMapS3 = multer({
     storage: multerS3({
@@ -334,13 +321,15 @@ router.post('/api/mng/brnch', (req, res) => {
     api_mng.handleBranch(req,res, jwt.jwtUser)
 });
 
-router.post('/api/mng/gal', storageGalS3.single('file'), (req, res) => {
-    const jwt = util.validateAdminUser(req, true)
-    if (!jwt.valid || !validateRoleAllowed(req, [Roles.TEACHER, Roles.ADMIN])) {
-        res.status(400).json({msg: "הפעולה נכשלה"} )
-        return
-    }
-    api_mng.handleGallery(req,res, jwt.jwtUser)
+router.post('/api/mng/gal', function(req, res) { 
+        const jwt = util.validateAdminUser(req, true)
+        if (!jwt.valid || !validateRoleAllowed(req, [Roles.TEACHER, Roles.ADMIN])) {
+            res.status(400).json({msg: "הפעולה נכשלה"} )
+            return
+        }
+    storageGalS3.single('file')(req, res, function(err) { 
+            api_mng.handleGallery(req,res, jwt.jwtUser, err)
+    })
 });
 
 router.post('/api/mng/galdel', (req, res) => {

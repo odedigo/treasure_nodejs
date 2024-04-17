@@ -62,8 +62,12 @@ export async function handleBranch(req, res, jwt) {
  * @param {*} res 
  * @param {*} jwt 
  */
-export function handleGallery(req, res, jwt) {
-   res.status(200).json({msg: "הפעולה בוצעה בהצלחה"});
+export function handleGallery(req, res, jwt, err) {
+    if (err == null)
+        res.status(200).json({msg: "הפעולה בוצעה בהצלחה"});
+    else
+        res.status(400).json({msg: err.msg});
+
 }
 
 /**

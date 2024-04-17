@@ -105,8 +105,13 @@ let fileList = []
             window.location.reload()
           }, reloadDelay);
       }
-      else if (xhr.readyState == 4 && xhr.status != 200) {
-        intermediateMsg('msg',"העלאת הקבצים נכשלה")
+      else if (xhr.readyState == 4 && xhr.status != 200) {        
+        var resp = JSON.parse(xhr.response)
+        console.log(resp.msg )
+        if (resp.msg !== undefined)
+          intermediateMsg('msg',resp.msg)
+        else
+          intermediateMsg('msg',"העלאת הקבצים נכשלה")
       }
     })
   

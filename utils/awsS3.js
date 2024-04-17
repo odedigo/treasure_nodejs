@@ -166,7 +166,12 @@ export async function deleteMultipleObjects(keyList, cb) {
        }
  }
  
- 
+ export async function keyExists(folder, key, cb) {
+    _listFolder(folder, function(err, keyList) {
+        const exists = keyList.Objects.filter( k => (k.Key.lastIndexOf(key) != -1) )
+        cb(err, exists.length > 0)
+    })
+ } 
    
 /************ INTERNAL ***************/
 

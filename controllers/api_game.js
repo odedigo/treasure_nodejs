@@ -122,7 +122,11 @@ export async function getGameList(req, res, jwt) {
         .skip(numPerPage*(page-1))
         .sort({ branch:'desc', readableName:'asc', active:'desc'})
     var numGames = await GameModel.countDocuments(filter)
-    const status = await StatusModel.find({branchCode: filter.branch})
+    if (util.isValidValue(filter.branch)) {
+        filter.branchCode = filter.branch
+        delete filter.branch
+    }
+    const status = await StatusModel.find(filter)
     return {games,status, numGames}
 }
 
