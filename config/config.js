@@ -17,8 +17,8 @@
 
 const config = {
     version: {
-        v: "1.0.0",
-        date: "21.3.24"
+        v: "1.1.0",
+        date: "17.4.24"
     },
     mongodb: { // DB Atlas access
         "protocol": "mongodb+srv",

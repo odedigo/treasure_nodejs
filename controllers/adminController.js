@@ -92,6 +92,7 @@ export async function renderAdmin(req, res, partial, jwtUser) {
         return
     }
 
+    data.version = config.version.v
     // if none of the above, render 'admin' with 'main_admin' as partial
     res.render('admin' , data);
 }

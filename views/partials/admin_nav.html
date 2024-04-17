@@ -78,6 +78,10 @@
                 {{/compare}}
               </span></li>
               <li><hr class="dropdown-divider"></li>
+              {{#compare jwtUser.role '===' 'SUPER-ADMIN'}}
+              <li><span class="dropdown-item mid" >גרסה: {{version}}</span></li>
+              <li><hr class="dropdown-divider"></li>
+              {{/compare}}
               <li><a class="dropdown-item" href="/logout">יציאה <img src="/img/logout.png" title="יציאה" data-toggle="tooltip"/></a></li>
             </ul>
           </div>
