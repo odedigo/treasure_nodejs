@@ -77,10 +77,10 @@
                   <td >{{user.username}}</td>
                   <td >{{user.branch}}</td>
                   {{#compare user.role '===' 'ADMIN'}}
-                    <td><i class="fa fa-user-circle" aria-hidden="true"></i> מנהל משחקים</td>
+                    <td><i class="fa fa-user-circle" aria-hidden="true" style="color:rgb(26, 163, 187)"></i> אדמין סניף</td>
                   {{else}}
                     {{#compare user.role '===' 'SUPER-ADMIN'}}
-                      <td><i class="fa fa-user-secret" aria-hidden="true"></i> אדמין</td>
+                      <td><i class="fa fa-user-secret" aria-hidden="true" style="color:rgb(242, 169, 33)"></i> אדמין</td>
                     {{else}}
                       <td><i class="fa fa-user" aria-hidden="true"></i> מורה</td>
                     {{/compare}}
@@ -171,7 +171,7 @@
                   <label for="role">תפקיד</label>
                   <select id="role" class="form-control">
                     <option value="TEACHER">מורה</option>
-                    <option value="ADMIN">מנהל משחקים</option>
+                    <option value="ADMIN">אדמין סניף</option>
                     {{#compare ../jwtUser.role '===' 'SUPER-ADMIN'}} 
                     <option value="SUPER-ADMIN">אדמין</option>
                     {{/compare}}

@@ -67,7 +67,7 @@
                 <label for="role">תפקיד והרשאות</label>
                     <select name="role" id="role" class="form-control">
                       <option value="TEACHER">מורה</option>
-                      <option value="ADMIN">מנהל משחקים</option>
+                      <option value="ADMIN">אדמין סניף</option>
                     </select>
               </div>
               <div class="form-group col-md-6 mt-3 mt-md-0">
@@ -78,7 +78,8 @@
             <div class="my-3">
               <div class="errMsg" id="errMsg"></div>
             </div>
-            <div class="text-center"><button type="submit">רישום משתמש</button></div>
+            
+            <div class="text-center"><button type="button" class="btn btn-secondary ms-3" onclick="cancelChanges('/admin/userlist')">ביטול</button> <button class="btn btn-primary" type="submit">רישום משתמש</button></div>
           </form>
         </div>
 
