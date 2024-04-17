@@ -13,7 +13,8 @@
             <h2><i class="fa fa-picture-o" aria-hidden="true"></i> גלריית תמונות לחידות</h2>
             <h2>סניף: {{branch}}</h2>
             <p>אלו תמונות שאותן ניתן לשלב בחידות</p>
-            <p>הזהרו מלמחוק תמונות שיתכן נמצאות בשימוש באחד המשחקים</p>
+            <p>&nbsp;</p>
+            <p><i class="fas fa-info-circle"></i> הזהרו מלמחוק תמונות שיתכן ונמצאות בשימוש באחד המשחקים</p>
             <div id="msg" class="errMsg mt-4">
               {{#compare jwtUser.role '===' 'SUPER-ADMIN'}}
               <form id="galChangeBranch">
@@ -59,14 +60,18 @@
         <div class="col-md-4 col-6 portfolio-item filter-app align-content-center" style="border: 1px solid lightGray; width:202px; height:202px">
           <div class="portfolio-wrap">
             <img src="{{../imgRoot}}/riddles/{{../branchCode}}/{{img}}" class="img-fluid" alt="" style="max-height:180px" id="{{img}}">
-            <span>{{img}}</span>
+            <div class="portfolio-binfo">
+              <h4>{{img}}</h4>
+              <p></p>
+            </div>
+            
           </div>
           {{#compare img '!==' 'empty.png'}}
           {{#compare ../jwtUser.role '!==' 'TEACHER'}}
           <div >            
             <button type="button" class="btn-close" aria-label="Close" style="position:absolute;top:0px;right:0px" 
             onclick="deleteGalImg('{{img}}','{{../branchCode}}')"
-            ></button>            
+            data-toggle="tooltip" data-placement="top" title="מחיקת תמונה"></button>            
           </div>
           {{/compare}}
           {{/compare}}

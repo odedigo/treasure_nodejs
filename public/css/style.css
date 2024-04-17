@@ -763,7 +763,7 @@ section {
 
 .portfolio .portfolio-wrap {
   transition: 0.3s;
-  position: relative;
+  /*position: relative;*/
   overflow: hidden;
   z-index: 1;
 }
@@ -793,7 +793,7 @@ section {
 }
 
 .portfolio .portfolio-wrap .portfolio-info h4 {
-  font-size: 20px;
+  font-size: 18px;
   color: #364146;
   font-weight: 600;
 }
@@ -803,6 +803,60 @@ section {
   font-size: 14px;
   text-transform: uppercase;
 }
+
+/**/
+
+.portfolio-details .portfolio-binfo {
+  padding: 30px;
+  box-shadow: 0px 0 30px rgba(54, 65, 70, 0.08);
+}
+
+.portfolio-details .portfolio-binfo h3 {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.portfolio-details .portfolio-binfo ul {
+  list-style: none;
+  padding: 0;
+  font-size: 15px;
+}
+
+.portfolio-details .portfolio-binfo ul li+li {
+  margin-top: 10px;
+}
+
+.portfolio .portfolio-wrap .portfolio-binfo {
+  opacity: 60%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+  z-index: 3;
+  /*transition: all ease-in-out 0.3s;*/
+  height: 30px;
+  
+}
+
+.portfolio .portfolio-wrap .portfolio-binfo h4 {
+  font-size: 16px;
+  color: #364146;
+  font-weight: 600;
+  background-color: #dce1e3;
+  text-align: center;
+}
+
+.portfolio .portfolio-wrap .portfolio-binfo p {
+  color: #364146;
+  font-size: 14px;
+  text-transform: uppercase;
+}
+
+/**/
 
 .portfolio .portfolio-wrap .portfolio-links {
   opacity: 0;
