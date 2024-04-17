@@ -425,7 +425,7 @@ function cloneGame(form) {
         origGame : form.origName.value.trim(),
         newGame : form.newName.value.trim(),
     }
-    if (form.newBranchClone.value !== undefined) {
+    if (form.newBranchClone !== null && form.newBranchClone !== undefined && form.newBranchClone.value !== undefined) {
         body.newBranch = form.newBranchClone.value.trim()
     }
 

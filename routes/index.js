@@ -233,7 +233,7 @@ router.post('/api/game/list', (req, res) => {
  */
 router.post('/api/game/edit', (req, res) => {
     const jwt = util.validateAdminUser(req, true)
-    if (!jwt.valid || !validateRoleAllowed(req, [Roles.ADMIN])) {
+    if (!jwt.valid || !validateRoleAllowed(req, [Roles.ADMIN, Roles.TEACHER])) {
         res.status(400).json({msg: "הפעולה נכשלה"} )
         return
     }
@@ -293,7 +293,7 @@ router.post('/api/game/remove', (req, res) => {
  */
 router.post('/api/game/clone', (req, res) => {
     const jwt = util.validateAdminUser(req, true)
-    if (!jwt.valid || !validateRoleAllowed(req, [Roles.ADMIN])) {
+    if (!jwt.valid || !validateRoleAllowed(req, [Roles.ADMIN, Roles.TEACHER])) {
         res.status(400).json({msg: "הפעולה נכשלה"} )
         return
     }
@@ -305,7 +305,7 @@ router.post('/api/game/clone', (req, res) => {
  */
 router.post('/api/game/save', (req, res) => {
     const jwt = util.validateAdminUser(req, true)
-    if (!jwt.valid || !validateRoleAllowed(req, [Roles.ADMIN])) {
+    if (!jwt.valid || !validateRoleAllowed(req, [Roles.ADMIN, Roles.TEACHER])) {
         res.status(400).json({msg: "הפעולה נכשלה"} )
         return
     }
@@ -317,7 +317,7 @@ router.post('/api/game/save', (req, res) => {
  */
 router.post('/api/game/upmap' , storageMapS3.single('file'), (req, res) => {
     const jwt = util.validateAdminUser(req, true)
-    if (!jwt.valid || !validateRoleAllowed(req, [Roles.ADMIN])) {
+    if (!jwt.valid || !validateRoleAllowed(req, [Roles.ADMIN, Roles.TEACHER])) {
         res.status(400).json({msg: "הפעולה נכשלה"} )
         return
     }

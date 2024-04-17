@@ -253,3 +253,9 @@ export function getDateIL(dt) {
     return new Date(dt).toLocaleString('he-IL', { timeZone: 'Asia/Jerusalem' })
 }
 
+export function setImagesToEmpty(team) {
+    team.riddles.forEach(rdl => {
+        rdl.img = "empty.png"
+    })
+    return team
+}

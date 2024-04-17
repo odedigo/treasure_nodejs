@@ -11,10 +11,8 @@
             <div class="row my-3 mx-1">
 
               <div class="col-2 mx-3 mt-4 list-group">
-                {{#compare jwtUser.role '!==' 'TEACHER'}}
-                  <a href="#" class="action list-group list-group-item active text-center" data-bs-toggle="modal" data-bs-target="#newGameModal">
-                  <span>יצירת משחק חדש</span></a>
-                {{/compare}}
+                <a href="#" class="action list-group list-group-item active text-center" data-bs-toggle="modal" data-bs-target="#newGameModal">
+                <span>יצירת משחק חדש</span></a>
               </div>
               <div class="col-lg mx-1 mt-4">
                 <span class="tip nowrap"><i class="fa fa-info-circle" aria-hidden="true"></i> שימו לב שלא ניתן למחוק משחק פעיל</span>
@@ -46,13 +44,9 @@
                 {{#each data as |game|}}
                 <tr>
                   <td >
-                    {{#compare ../jwtUser.role '!==' 'TEACHER'}} 
-                      <a href="#" data-bs-toggle="modal" data-bs-target="#cloneGameModal" data-orig-game="{{game.uid}}">
-                        <img src="/img/ops/clone.png" class="ops-icon" data-toggle="tooltip" data-placement="top" title="שכפול משחק"/>
-                      </a>
-                    {{else}}
-                      <img src="/img/ops/clone-d.png" class="ops-icon" data-toggle="tooltip" data-placement="top" title="שכפול משחק"/>
-                    {{/compare}}
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#cloneGameModal" data-orig-game="{{game.uid}}" data-branch-code="{{game.branchCode}}">
+                      <img src="/img/ops/clone.png" class="ops-icon" data-toggle="tooltip" data-placement="top" title="שכפול משחק"/>
+                    </a>
                     
                     <img src="/img/ops/edit.png" class="ops-icon" onclick="editeGame('{{game.gameName}}')" data-toggle="tooltip" data-placement="top" title="עריכת משחק"/>
                     {{#compare ../jwtUser.role '!==' 'TEACHER'}} 
@@ -128,7 +122,7 @@
                   <input name="newName" type="input" id="newName-role" class="form-control" placeholder="" value=""/>
                   <label class="comment">שם בעברית או אנגלית בשפה חופשית</label>
                 </div>
-                <!-- {{#compare jwtUser.role '===' 'SUPER-ADMIN'}}
+                {{#compare jwtUser.role '===' 'SUPER-ADMIN'}}
                 <div class="row" style="display:{{#compare jwtUser.role '===' 'SUPER-ADMIN'}}block{{else}}none{{/compare}}">
                   <label for="newBranchClone">שם הסניף</label>
                   <select name="newBranchClone" id="newBranchClone" class="form-control">
@@ -136,9 +130,9 @@
                     <option value="{{@key}}">{{brch.name}}</option>
                     {{/each}}                    
                   </select>
-                  <label class="comment">בחרו מתרשימת הסניפים</label>
+                  <label class="comment tip"><i class="fa fa-info-circle" aria-hidden="true"></i> בבחירת סניף אחר מהמשחק המקורי, כל התמונות יתאפסו</label>
                 </div>                
-                {{/compare}} -->
+                {{/compare}}
             </div>
             <div id="modalErrRoleMsg" class="errMsg">&nbsp;</div>
             <div class="modal-footer">
@@ -198,6 +192,7 @@
     var link = event.relatedTarget
     // Extract info from data-bs-* attributes
     var origGame = link.getAttribute('data-orig-game')
+    var branchCode = link.getAttribute('data-branch-code')
     // If necessary, you could initiate an AJAX request here
     // and then do the updating in a callback.
     //
@@ -206,6 +201,8 @@
     var modalBodyInput = cloneModal.querySelectorAll('.modal-body input')
     var modalSelect = cloneModal.querySelector('.modal-body select')   
     modalBodyInput[0].value = origGame // username
+    if (modalSelect)
+      modalSelect.value = branchCode
   })  
 
 </script>

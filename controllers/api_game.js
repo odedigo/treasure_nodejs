@@ -122,7 +122,7 @@ export async function getGameList(req, res, jwt) {
         .skip(numPerPage*(page-1))
         .sort({ branch:'desc', readableName:'asc', active:'desc'})
     var numGames = await GameModel.countDocuments(filter)
-    const status = await StatusModel.find(filter)
+    const status = await StatusModel.find({branchCode: filter.branch})
     return {games,status, numGames}
 }
 
@@ -213,7 +213,7 @@ export function cloneGame(req, res, jwt) {
         return res.status(500);
     }
 
-    var {origGame,newGame} = req.body
+    var {origGame,newGame, newBranch} = req.body
     var filter = {
         gameName: origGame,        
     }       
@@ -237,10 +237,16 @@ export function cloneGame(req, res, jwt) {
         game[0].date = util.getCurrentDateTime()
         game[0].uid = game[0].gameName
         game[0].readableName = newGame
-        if (jwt.role === Roles.SUPERADMIN) {
-            if (util.isValidValue(req.body.newBranch))
-                game[0].branch = req.body.newBranch
-        }
+        if (jwt.role === Roles.SUPERADMIN && util.isValidValue(newBranch)) {
+            // super-admin can clone a game to another branch but in this case 
+            // we need to set all images to empty
+            if (game[0].branch !== newBranch) {
+                game[0].red = util.setImagesToEmpty(game[0].red)
+                game[0].blue = util.setImagesToEmpty(game[0].blue)
+                game[0].green = util.setImagesToEmpty(game[0].green)
+            }
+            game[0].branch = newBranch
+        }        
         
         game[0].isNew = true
         delete game[0]._id
