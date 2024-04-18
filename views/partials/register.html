@@ -68,6 +68,9 @@
                     <select name="role" id="role" class="form-control">
                       <option value="TEACHER">מורה</option>
                       <option value="ADMIN">אדמין סניף</option>
+                      {{#compare jwtUser.role '===' 'SUPER-ADMIN'}}
+                      <option value="SUPER-ADMIN">אדמין ראשי</option>
+                      {{/compare}}
                     </select>
               </div>
               <div class="form-group col-md-6 mt-3 mt-md-0">

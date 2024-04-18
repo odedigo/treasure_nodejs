@@ -22,35 +22,24 @@
           aria-current="true" 
         ><span><i class="fa fa-compass" aria-hidden="true"></i> ניהול המשחקים</span></a>
 
+        <a href="/admin/gallery/{{jwtUser.branchCode}}" 
+          class="list-group-item list-group-item-action py-2 ripple {{#ifEquals section 'gallery' }} active {{/ifEquals}}"">
+          <span><i class="fa fa-picture-o" aria-hidden="true"></i> העלאת תמונות</span></a>
+          
+
         {{#compare jwtUser.role '!==' 'TEACHER'}}
           <a href="/admin/userlist" 
             class="list-group-item list-group-item-action py-2 ripple {{#ifEquals section 'userlist' }} active {{else}} {{#ifEquals section 'register' }} active {{/ifEquals}}{{/ifEquals}}"">
             <span><i class="fa fa-users" aria-hidden="true"></i> ניהול המשתמשים</span></a>
         {{/compare}}
 
-        <a
-          href="#"
-          class="list-group-item list-group-item-action py-2 ripple"
-          aria-current="true" 
-        ><span>&nbsp;</span></a>
-
-        <a href="#" 
-          class="list-group-item list-group-item-action py-2 ripple {{#ifEquals section 'manage' }} active {{/ifEquals}}""><span>פעולות ניהול</span></a>
-      </div>   
-      
-      <ul class="list-group">
-        <li class="list-group-item border-0 p-0">
-          <a href="/admin/gallery/{{jwtUser.branchCode}}" 
-          class="list-group-item-action list-group-item border-0 pt-2 pb-2 {{#ifEquals section 'gallery' }} active {{/ifEquals}}"">
-          <span><i class="fa fa-picture-o" aria-hidden="true"></i> תמונות חידות</span></a></li>
         {{#compare jwtUser.role '===' 'SUPER-ADMIN'}}
-        <li class="list-group-item border-0 p-0">
             <a href="/admin/brnch" 
-            class="list-group-item-action list-group-item border-0 pt-2 pb-2 {{#ifEquals section 'brnch' }} active {{/ifEquals}}"">
+            class="list-group-item list-group-item-action py-2 ripple {{#ifEquals section 'brnch' }} active {{/ifEquals}}"">
             <span><i class="fa fa-home" aria-hidden="true"></i> הגדרת סניפים</span></a>
-        </li>
         {{/compare}}
-      </ul>        
+
+        
     </div>
   </nav>
   <!-- Sidebar -->
@@ -73,7 +62,7 @@
                   {{#compare jwtUser.role '===' 'ADMIN'}}
                   אדמין סניף
                   {{else}}
-                  אדמין
+                  אדמין ראשי
                   {{/compare}}
                 {{/compare}}
               </span></li>

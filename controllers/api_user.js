@@ -55,7 +55,7 @@ export async function loginUser(req, res) {
     })        
 }
 
-export async function registerUser(req, res) {
+export async function registerUser(req, res, jwt) {
     // check if DB properly connected
     if(!req.app.get("db_connected")) {
         return res.status(500);
@@ -64,10 +64,13 @@ export async function registerUser(req, res) {
     // Find relevant document in DB that describes the game
     var {username,password, name, branch, role} = req.body
     if (!util.isValidValue(username) || !util.isValidValue(password) || 
-        !util.isValidValue(name) || !util.isValidValue(branch) || !util.isValidValue(role)
-        || (role !== Roles.ADMIN && role !== Roles.TEACHER)) {
+        !util.isValidValue(name) || !util.isValidValue(branch) || !util.isValidValue(role)) {
             return res.status(400).json({msg: "יש למלא את כל הפרטים בטופס"})    
-        }
+    }
+
+    if (role === Roles.SUPERADMIN && jwt.role !== Roles.SUPERADMIN) {
+        return res.status(400).json({ msg: "פעולה לא חוקית" })
+    }
 
     if (!util.validateEmail(username)) {
         return res.status(400).json({ msg: "שם המשתמש אינו אימייל חוקי" })
