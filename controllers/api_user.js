@@ -17,11 +17,21 @@ import { UserModel, Roles } from "../db/models/UserModel.js";
 import bcrypt from 'bcrypt'
 import config from "../config/config.js"
 
+/**
+ * Logout
+ * @param {*} req 
+ * @param {*} res 
+ */
 export async function logoutUser(req, res) {
     res.cookie('cred', "", {maxAge: 9000000000, httpOnly: true, secure: true });
     res.redirect("/")
 }
 
+/**
+ * Login
+ * @param {*} req 
+ * @param {*} res 
+ */
 export async function loginUser(req, res) {
     // Find relevant document in DB that describes the game
     var {username,password} = req.body

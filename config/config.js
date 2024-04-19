@@ -21,10 +21,10 @@ const config = {
         date: "17.4.24"
     },
     mongodb: { // DB Atlas access
-        "protocol": "mongodb+srv",
-        "dbname": "Mashar",
-        "clusterURI": "masharcluster.qpsgps5.mongodb.net",
-        "path": "retryWrites=true&w=majority&appName=MasharCluster"
+        protocol: "mongodb+srv",
+        dbname: "Mashar",
+        clusterURI: "masharcluster.qpsgps5.mongodb.net",
+        path: "retryWrites=true&w=majority&appName=MasharCluster"
     },
     app: {
         name: "Treasure Hunt - Masha",

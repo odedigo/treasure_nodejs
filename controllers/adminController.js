@@ -59,6 +59,7 @@ export async function renderAdmin(req, res, partial, jwtUser) {
         branches: branches,         // the branches
         title: "אזור ניהול",
         imgRoot: config.s3.root,
+        version: config.version.v,
         helpers: {
             whichPartial: function() {  // used by handibars to render the sub-page
                 return partial  
@@ -92,7 +93,6 @@ export async function renderAdmin(req, res, partial, jwtUser) {
         return
     }
 
-    data.version = config.version.v
     // if none of the above, render 'admin' with 'main_admin' as partial
     res.render('admin' , data);
 }
