@@ -11,8 +11,8 @@
  */
 "use strict";
 //================ IMPORTS =================
-import express from 'express'; //https://expressjs.com/ 
-import { engine } from 'express-handlebars'; //engine MUST be called engine... https://www.npmjs.com/package/express-handlebars?activeTab=readme 
+import express from 'express'; 
+import { engine } from 'express-handlebars'; 
 import * as hbs_helpers from './public/js/helpers.js'
 //import http from 'http';
 import { connectDB } from './db/db.js';
@@ -20,8 +20,8 @@ import routing from './routes/index.js';
 import __dirname from 'fs'
 
 //Additional
-import { HTTPS } from 'express-sslify'; //https://www.npmjs.com/package/express-sslify 
-import { config } from 'dotenv'; //https://www.npmjs.com/package/dotenv
+import { HTTPS } from 'express-sslify'; 
+import { config } from 'dotenv'; 
 import bodyParser from 'body-parser';
 import {loadBranchesFromDB} from "./utils/util.js";
 
@@ -30,7 +30,7 @@ config({ path: './config.env' });
 //Start
 const app = express();
 if (process.env.ENVIROMENT != "local") {
-    app.use(HTTPS({ trustProtoHeader: true })); //http nach httpS rewriten
+    app.use(HTTPS({ trustProtoHeader: true })); 
 }
 
 //Middlewares

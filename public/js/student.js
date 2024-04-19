@@ -15,7 +15,10 @@ window.addEventListener('load', () => {
     });    
 });
 
-
+/**
+ * Check student responses (validation)
+ * @param {*} form 
+ */
 async function sendForm(form) {
     var errMsg = findElement('errorMsg')
     var infoMsg = findElement('instructions')
@@ -30,15 +33,15 @@ async function sendForm(form) {
         gameName: form.gameName.value
     }
     const response = await fetch('/api/vector', {
-        method: "POST", // *GET, POST, PUT, DELETE, etc.
-        cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+        method: "POST", 
+        cache: "no-cache", 
         headers: {
           "Content-Type": "application/json",
           // 'Content-Type': 'application/x-www-form-urlencoded',
         },
-        redirect: "follow", // manual, *follow, error
-        referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-        body: JSON.stringify(body), // body data type must match "Content-Type" header
+        redirect: "follow", 
+        referrerPolicy: "no-referrer", 
+        body: JSON.stringify(body), 
       })
     
       const resp = await response.json()

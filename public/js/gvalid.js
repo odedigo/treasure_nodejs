@@ -1,4 +1,19 @@
+/**
+ * gvalid.js
+ * 
+ * Helper functions to validate input data
+ * 
+ * Written by: Oded Cnaan
+ * Date: March 2024
+ */
 
+/**
+ * General validation
+ * @param {*} value 
+ * @param {*} fieldId 
+ * @param {*} fieldRules 
+ * @returns 
+ */
 function validate(value, fieldId, fieldRules) {
     const rules = {
         field : fieldRules
@@ -16,6 +31,13 @@ function validate(value, fieldId, fieldRules) {
     return v.valid
 }
 
+/**
+ * Vector validation
+ * @param {*} sizeId 
+ * @param {*} angleId 
+ * @param {*} errId 
+ * @returns 
+ */
 function validateVectors(sizeId, angleId, errId) {
     const size = document.getElementById(sizeId).value.trim()
     const angle = document.getElementById(angleId).value.trim()

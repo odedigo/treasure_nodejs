@@ -1,3 +1,9 @@
+/**
+ * @desc uploading images 
+ * 
+ * Written by: Oded Cnaan
+ * Date: March 2024
+ */
 let uploadProgress = []
 let progressBar = document.getElementById('progress-bar')
 let dropArea = document.getElementById('drop-area')
@@ -31,12 +37,20 @@ let fileList = []
 
   dropArea.addEventListener('drop', handleDrop, false)
 
+  /**
+   * Droping image files to upload
+   * @param {*} e 
+   */
   function handleDrop(e) {
     let dt = e.dataTransfer
     let files = dt.files
     handleFiles(files)
   }
 
+  /**
+   * Handle droped files
+   * @param {*} files 
+   */
   function handleFiles(files) {
     var f = [...files]
     fileList = fileList.concat(f)
@@ -51,6 +65,10 @@ let fileList = []
     })
   }
   
+  /**
+   * Show thumbnail
+   * @param {*} file 
+   */
   function previewFile(file) {
     let reader = new FileReader()
     reader.readAsDataURL(file)
@@ -77,13 +95,23 @@ let fileList = []
     progressBar.value = total
   }
   
-    function uploadAllFiles(branchCode) {
-        var i = 1
-        fileList.forEach(file => {
-            uploadFile(file,i++, branchCode)
-         })
-    }
+  /**
+   * Uplolad all files
+   * @param {*} branchCode 
+   */
+  function uploadAllFiles(branchCode) {
+      var i = 1
+      fileList.forEach(file => {
+          uploadFile(file,i++, branchCode)
+        })
+  }
 
+  /**
+   * Upload a single file
+   * @param {*} file 
+   * @param {*} i 
+   * @param {*} branchCode 
+   */
   function uploadFile(file, i, branchCode) { 
     var url = '/api/mng/gal'
     var xhr = new XMLHttpRequest()
@@ -119,6 +147,10 @@ let fileList = []
     xhr.send(formData)
   }
   
+  /**
+   * Remove an image from gallery
+   * @param {*} name 
+   */
   function removeFromGallery(name) {
     for (var i=0; i < gallery.children.length; i++) {
         var ch = gallery.children[i]

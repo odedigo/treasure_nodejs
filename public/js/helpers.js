@@ -8,7 +8,12 @@
  */
 import * as util from "../../utils/util.js";
 
-
+/**
+ * Generate the riddle in the student site
+ * @param {*} teamData 
+ * @param {*} index 
+ * @returns 
+ */
 export function student_generateRiddle(teamData, index) {
     const rdl = teamData.riddles.filter((rdl) => (rdl.index == index))[0];
     var i = 1;
@@ -42,6 +47,13 @@ export function student_generateRiddle(teamData, index) {
 
     return str;
 }
+
+/**
+ * Generate the riddle in the teacher site
+ * @param {*} gameData 
+ * @param {*} team 
+ * @returns 
+ */
 export function teacher_generateTeamRiddles(gameData, team) {
     var innerHtml = ""
     var html = `<div class="swiper-slide">
@@ -83,10 +95,25 @@ function calcVectors(vecSize, vecAngle) {
     return result
 }
 
+/**
+ * Check if equal
+ * @param {*} arg1 
+ * @param {*} arg2 
+ * @param {*} options 
+ * @returns 
+ */
 export function ifEquals(arg1, arg2, options) {
     return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
 }
 
+/**
+ * Compares 2 variables
+ * @param {*} v1 
+ * @param {*} operator 
+ * @param {*} v2 
+ * @param {*} options 
+ * @returns 
+ */
 export function compare (v1, operator, v2, options) {
     'use strict';
     var operators = {
@@ -110,6 +137,14 @@ export function compare (v1, operator, v2, options) {
     return console.error('Error: Expression "' + operator + '" not found');
   }
 
+/**
+ * Handle pagination bottom options
+ * @param {*} totalDocs 
+ * @param {*} numPerPage 
+ * @param {*} currPage 
+ * @param {*} url 
+ * @returns 
+ */
 export function pagination(totalDocs, numPerPage, currPage, url) {
     currPage = parseInt(currPage)
     if (totalDocs < numPerPage)
@@ -120,10 +155,10 @@ export function pagination(totalDocs, numPerPage, currPage, url) {
 
     var prev = `<nav aria-label="...">
                   <ul class="pagination">`
-    if (numBlocks > 1 && currPage > 1)
+    /*if (numBlocks > 1 && currPage > 1)
         prev = `${prev}<li class="page-item"><a class="page-link" href="${url}/1">ראשון</a></li>`
     else 
-        prev = `${prev}<li class="page-item disabled"><span class="page-link">ראשון</span></li>`
+        prev = `${prev}<li class="page-item disabled"><span class="page-link">ראשון</span></li>`*/
 
     if (currPage == 1) {
         prev = `${prev}<li class="page-item disabled"><span class="page-link">קודם</span></li>`
@@ -150,10 +185,10 @@ export function pagination(totalDocs, numPerPage, currPage, url) {
     }
     else {
         nextp = `${nextp}"><a class="page-link" href="${url}/${currPage+1}">הבא</a></li>`
-        if (numBlocks > 1)
+        /*if (numBlocks > 1)
           nextp = `${nextp}<a class="page-link" href="${url}/${numBlocks}">אחרון</a></li>`
         else
-          nextp = `${nextp}<li class="page-item disabled"><span class="page-link">אחרון</span></li>`
+          nextp = `${nextp}<li class="page-item disabled"><span class="page-link">אחרון</span></li>`*/
         nextp = `${nextp}</ul></nav>`
     }
 
