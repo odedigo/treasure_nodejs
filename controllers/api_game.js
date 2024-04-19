@@ -67,7 +67,7 @@ export function validateVector(req, res) {
             res.status(200).json({result: {errMsg, infoMsg}})
         }
         else {
-            res.status(500).json({result: {errMsg: "לא הצלחנו למצוא את נתוני המשחק", infoMsg:""}})
+            res.status(500).json({result: {errMsg: strings.err.nogame, infoMsg:""}})
         }                                           
     })
     .catch(err => {
@@ -101,7 +101,7 @@ export async function getGameList(req, res, jwt) {
     // only super-admins can get data on games not in their branch
     if (jwt.role === Roles.TEACHER || jwt.role === Roles.ADMIN) {
         if (util.isValidValue(branch) && branch !== jwt.branch) {
-            res.status(400).json({msg: "פעולה לא חוקית"})
+            res.status(400).json({msg: strings.err.invalidAction })
             return 
         }
         // force their branch if not specified
@@ -181,7 +181,7 @@ export function saveGame(req, res, jwt) {
     GameModel.find(filter)
     .then(game => {
         if (!game || game.length != 1) {
-            res.status(400).json({msg: "המשחק לא נמצא"})
+            res.status(400).json({msg: strings.err.gameNotFound})
             return
         }
         var saveData = _formatGameForSave( game[0], req.body)
@@ -189,18 +189,18 @@ export function saveGame(req, res, jwt) {
         theGame.save() // save it
         .then (ngame => {
             if (ngame)
-                res.status(200).json({msg: "המשחק נשמר בהצלחה", game: ngame, path: "/admin/gamelist"})
+                res.status(200).json({msg: strings.ok.gameSaved, game: ngame, path: "/admin/gamelist"})
             else
-                res.status(400).json({msg: "המשחק לא נשמר"})
+                res.status(400).json({msg: game.err.gameNotSaved})
         }) 
         .catch (error => {
             console.log(error)
-            res.status(400).json({msg: "המשחק לא נמצא"})
+            res.status(400).json({msg: strings.err.gameNotFound})
         })
     })
     .catch(err => {
         console.log(err)
-        res.status(400).json({msg: "המשחק לא נמצא"})
+        res.status(400).json({msg: strings.err.gameNotFound})
     })
 }
 
@@ -231,7 +231,7 @@ export function cloneGame(req, res, jwt) {
     GameModel.find(filter)
     .then(game => {
         if (!game || game.length != 1) {
-            res.status(400).json({msg: "המשחק לא נמצא"})
+            res.status(400).json({msg: strings.err.gameNotFound})
             return
         }
         game[0].gameName = util.getUniqueGameUID()
@@ -259,19 +259,19 @@ export function cloneGame(req, res, jwt) {
         .then (ngame => {
             if (ngame) {
                 util.createMapFiles(game[0].uid,game[0].branch)
-                res.status(200).json({msg: "המשחק שוכפל בהצלחה", game: ngame})
+                res.status(200).json({msg: strings.ok.gameCloned, game: ngame})
             }
             else
-                res.status(400).json({msg: "המשחק לא שוכפל"})
+                res.status(400).json({msg: strings.err.gameNotCloned})
         }) 
         .catch (error => {
             console.log(error)
-            res.status(400).json({msg: "המשחק לא נמצא"})
+            res.status(400).json({msg: strings.err.gameNotFound})
         })
     })
     .catch(err => {
         console.log(err)
-        res.status(400).json({msg: "המשחק לא נמצא"})
+        res.status(400).json({msg: strings.err.gameNotFound})
     })
 }
 
@@ -302,14 +302,14 @@ export function editGame(req, res, jwt) {
     GameModel.findOne(filter)
     .then(game => {
         if (!game) {
-            res.status(400).json({msg: "המשחק לא נמצא"})
+            res.status(400).json({msg: strings.err.gameNotFound})
             return
         }
         res.status(200).json({path:`/admin/editgame/${encodeURI(gameName)}`})
     }) 
     .catch (error => {
         console.log(error)
-        res.status(400).json({msg: "המשחק לא נמצא"})
+        res.status(400).json({msg: strings.err.gameNotFound})
     })
 }
 
@@ -328,7 +328,7 @@ export function startGame(req, res, jwt) {
 
     var {gameCode, branch} = req.body
     if (!util.isValidValue(gameCode) || !util.isValidValue(branch)) {
-        res.status(400).json({result: {sucess:false, msg: "חסרים נתונים"}})
+        res.status(400).json({result: {sucess:false, msg: strings.err.noData}})
         return
     }
 
@@ -357,14 +357,14 @@ export function startGame(req, res, jwt) {
     .then(doc => {
         if(!doc) {
             logger.error("Failed to update team statusReport")
-            res.status(400).json({Error: "התחלת המשחק נכשלה"})
+            res.status(400).json({Error: strings.err.startGameErr})
         }
         else
-            res.status(200).json({msg: "המשחק התחיל בהצלחה"})
+            res.status(200).json({msg: strings.ok.startGameOK})
     })
     .catch(err => {
         logger.errorM("catch in statusReport",err)
-        res.status(400).json({Error: "התחלת המשחק נכשלה"})
+        res.status(400).json({Error: strings.err.startGameErr})
     })
 }
 
@@ -383,7 +383,7 @@ export function stopGame(req, res, jwt) {
 
     var {gameCode, branch} = req.body
     if (!util.isValidValue(gameCode) || !util.isValidValue(branch)) {
-        res.status(400).json({result: {sucess:false, msg: "חסרים נתונים"}})
+        res.status(400).json({result: {sucess:false, msg: strings.err.noData}})
         return
     }
 
@@ -411,14 +411,14 @@ export function stopGame(req, res, jwt) {
     .then(doc => {
         if(!doc) {
             logger.error("Failed to update team statusReport")
-            res.status(400).json({msg: "עצירת המשחק נכשלה"})
+            res.status(400).json({msg: strings.err.stopGameErr})
         }
         else
-            res.status(200).json({msg: "המשחק נעצר בהצלחה"})
+            res.status(200).json({msg: strings.ok.stoptGameOK})
     })
     .catch(err => {
         logger.errorM("catch in statusReport",err)
-        res.status(400).json({Error: "עצירת המשחק נכשלה"})
+        res.status(400).json({Error: strings.err.stopGameErr})
     })
 }
 
@@ -437,7 +437,7 @@ export async function createGame(req, res, jwt) {
 
     var {name, branch} = req.body
     if (!util.isValidValue(name)) {
-        res.status(200).json({result: {sucess:false, msg: "חסרים נתונים"}})
+        res.status(200).json({result: {sucess:false, msg: strings.err.noData}})
         return
     }  
 
@@ -450,13 +450,13 @@ export async function createGame(req, res, jwt) {
     .then (ngame => {
         if (ngame) {
             util.createMapFiles(ngame.uid, branch)
-            res.status(200).json({msg: "המשחק נוצר בהצלחה", game: ngame})
+            res.status(200).json({msg: strings.ok.gameCreated, game: ngame})
         }
         else
-            res.status(400).json({msg: "המשחק לא נשמר"})
+            res.status(400).json({msg: strings.err.gameNotCreated})
     }) 
     .catch (error => {
-        res.status(400).json({msg: "המשחק לא נוצר. ייתכן והשם כבר תפוס."})
+        res.status(400).json({msg: strings.err.gameNameTaken})
     })
 }
 
@@ -475,7 +475,7 @@ export async function deleteGame(req, res, jwt) {
 
     var {gameName, uid, branch} = req.body
     if (!util.isValidValue(gameName)) {
-        res.status(200).json({result: {sucess:false, msg: "חסרים נתונים"}})
+        res.status(200).json({result: {sucess:false, msg: strings.err.noData}})
         return
     }  
 
@@ -496,18 +496,18 @@ export async function deleteGame(req, res, jwt) {
     )
     .then(doc => {
         if(!doc) {         
-            res.status(400).json({msg: "מחיקת המשחק נכשלה"})   
+            res.status(400).json({msg: strings.err.gameDeleteErr})   
         }
         else {
             util.deleteMapFiles(uid, util.branchToCode(branch))
             StatusModel.deleteOne({gameCode: gameName})
             .then(d => {
-                res.status(200).json({msg: "מחיקת המשחק הצליחה"})
+                res.status(200).json({msg: strings.ok.gameDeleteOK})
             })            
         }
     })
     .catch(err => {
-        res.status(400).json({msg: "מחיקת המשחק נכשלה"})   
+        res.status(400).json({msg: strings.err.gameDeleteErr})   
     })
 }
 
@@ -536,7 +536,7 @@ export function createGameList(games, status) {
         return res
     games.forEach(game => {
         var branch = util.codeToBranch(game.branch)
-        var active = game.active ? "כן" : "לא"
+        var active = game.active ? strings.gen.yes : strings.gen.no
         var activeGame = false
         const gameStatus = status.filter(st => st.gameCode === game.uid)
         if (gameStatus.length == 1 && gameStatus[0].active)
@@ -682,17 +682,17 @@ function _createTeam(color) {
     if (color == 'red') {
         team['color'] = "#c0514d"
         team['bgColor'] = "#ff8f9a"
-        team['team'] = "הקבוצה האדומה"
+        team['team'] = redTeam
     }
     else if (color == 'blue') {
         team['color'] = "#4f81bd"
         team['bgColor'] = "#94c4ff"
-        team['team'] = "הקבוצה הכחולה"
+        team['team'] = blueTeam
     }
     else if (color == 'green') {
         team['color'] = "#9bba59"
         team['bgColor'] = "#96dd89"
-        team['team'] = "הקבוצה הירוקה"
+        team['team'] = greenTeam
     }
     return team
 }
@@ -709,7 +709,7 @@ function _createEmptyRiddles() {
             img: "empty.png",
             vecSize: [100],
             vecAngle: [30],
-            riddle: ["שורה ראשונה","כיתבו את החידה","המשך החידה","שורה אחרונה"]
+            riddle: [strings.riddle.firstLine,strings.riddle.sample1, strings.riddle.sample2, strings.riddle.LastLine] 
         }
         r.push(rdl)
     }

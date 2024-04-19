@@ -11,7 +11,7 @@
  */
 "use strict";
 //================ IMPORTS =================
-import * as logger from "../utils/logger.js"
+import strings from "../public/lang/strings.js"
 import * as util from "../utils/util.js";
 import { UserModel, Roles } from "../db/models/UserModel.js";
 import bcrypt from 'bcrypt'
@@ -51,17 +51,17 @@ export async function loginUser(req, res) {
                     res.status(200).json({msg: "", redirect:"/admin"})
                 }
                 else {
-                    res.status(400).json({msg: "שם משתמש או סיסמה לא תקינים", redirect:"/login", name: user.name, branch: user.branch})
+                    res.status(400).json({msg: strings.err.invalidUserPass, redirect:"/login", name: user.name, branch: user.branch})
                 }
             })
         }
         else {
-            res.status(400).json({msg: "שם משתמש או סיסמה לא תקינים", redirect:"/login"})
+            res.status(400).json({msg: strings.err.invalidUserPass, redirect:"/login"})
         }
     })
     .catch(err => {
         console.log(err)
-        res.status(500).json({success: false, msg: "תקלה במציאת המשתמש", redirect:"/login"})
+        res.status(500).json({success: false, msg: strings.err.userNotFound, redirect:"/login"})
     })        
 }
 
@@ -75,26 +75,26 @@ export async function registerUser(req, res, jwt) {
     var {username,password, name, branch, role} = req.body
     if (!util.isValidValue(username) || !util.isValidValue(password) || 
         !util.isValidValue(name) || !util.isValidValue(branch) || !util.isValidValue(role)) {
-            return res.status(400).json({msg: "יש למלא את כל הפרטים בטופס"})    
+            return res.status(400).json({msg: strings.err.formFillAll})    
     }
 
     if (role === Roles.SUPERADMIN && jwt.role !== Roles.SUPERADMIN) {
-        return res.status(400).json({ msg: "פעולה לא חוקית" })
+        return res.status(400).json({ msg: strings.err.actionErr })
     }
 
     if (!util.validateEmail(username)) {
-        return res.status(400).json({ msg: "שם המשתמש אינו אימייל חוקי" })
+        return res.status(400).json({ msg: strings.err.usernameNotEmail })
     }
 
     if (password.length < 6) {
-        return res.status(400).json({ msg: "סיסמה צריכה להכיל לפחות 6 תווים" })
+        return res.status(400).json({ msg: strings.err.passNotLong })
     }
 
     await UserModel.findOne({
         username
     }).then(user => {
         if (user) {
-            res.status(400).json({ msg: "שם המשתמש כבר תפוס" })
+            res.status(400).json({ msg: strings.err.usernameTaken })
             return
         }
         bcrypt.hash(password, 10).then(async (hash) => {
@@ -108,16 +108,16 @@ export async function registerUser(req, res, jwt) {
                 created: util.getCurrentDateTime()
             })
             .then((user) =>
-                res.status(200).json({ msg: "משתמש חדש נרשם בהצלחה" })
+                res.status(200).json({ msg: strings.ok.userRegOK })
             )
             .catch((error) =>
-                res.status(400).json({ msg: "רישום המשתמש נכשל" })
+                res.status(400).json({ msg: strings.err.userRegErr })
             );
         })
     })
     .catch (err =>  {
         console.log(err)
-        res.status(400).json({ msg: "רישום המשתמש נכשל" })
+        res.status(400).json({ msg: strings.err.userRegErr })
     })
 }
 
@@ -153,12 +153,12 @@ export function createUserList(users) {
 export function deleteUser(req, res) {
     var {username} = req.body
     if (username === undefined) {
-        res.status(400).json({msg: "שם משתמש לא חוקי"} )
+        res.status(400).json({msg: strings.err.usernameInvalid} )
         return
     }
     UserModel.deleteOne({ username })
     .then(resp => {
-            res.status(200).json({msg: "משתמש נמחק"})
+            res.status(200).json({msg: strings.ok.userDeleteOK})
     })
     .catch(err => {
         console.log(err)
@@ -169,15 +169,15 @@ export function deleteUser(req, res) {
 export async function changePassword(req, res) {
     var {username, password} = req.body
     if (username === undefined || password === undefined) {
-        res.status(400).json({msg: "נתונים לא חוקיים"} )
+        res.status(400).json({msg: strings.err.invalidData} )
         return
     }
     if (!util.validateEmail(username)) {
-        return res.status(400).json({ msg: "שם המשתמש אינו אימייל חוקי" })
+        return res.status(400).json({ msg: strings.err.usernameNotEmail })
     }
 
     if (password.length < 6) {
-        return res.status(400).json({ msg: "סיסמה צריכה להכיל לפחות 6 תווים" })
+        return res.status(400).json({ msg: strings.err.passNotLong })
     }
 
     var filter = {
@@ -196,14 +196,14 @@ export async function changePassword(req, res) {
             options
         ).then(user => {
             if (!user) {
-                res.status(400).json({ msg: "שגיאה בעדכון המשתמש" })
+                res.status(400).json({ msg: strings.err.failedUpdatingUser })
                 return
             }
-            res.status(200).json({ msg: "הסיסמה עודכנה בהצלחה" })
+            res.status(200).json({ msg: strings.ok.passUpdatedOK })
         })
         .catch (err =>  {
             console.log(err)
-            res.status(400).json({ msg: "עדכון הסיסמה נכשל" })
+            res.status(400).json({ msg: strings.err.passUpdateErr })
         })   
     })    
 }
@@ -211,11 +211,11 @@ export async function changePassword(req, res) {
 export function changeRole(req, res) {
     var {username, role} = req.body
     if (username === undefined || role === undefined) {
-        res.status(400).json({msg: "נתונים לא חוקיים"} )
+        res.status(400).json({msg: strings.err.invalidData} )
         return
     }
     if (!util.validateEmail(username)) {
-        return res.status(400).json({ msg: "שם המשתמש אינו אימייל חוקי" })
+        return res.status(400).json({ msg: strings.err.usernameInvalid })
     }
 
     var filter = {
@@ -233,13 +233,13 @@ export function changeRole(req, res) {
         options
     ).then(user => {
         if (!user) {
-            res.status(400).json({ msg: "שגיאה בעדכון המשתמש" })
+            res.status(400).json({ msg: strings.err.failedUpdatingUser })
             return
         }
-        res.status(200).json({ msg: "התפקיד עודכן בהצלחה" })
+        res.status(200).json({ msg: strings.ok.roleUpdateOK })
     })
     .catch (err =>  {
         console.log(err)
-        res.status(400).json({ msg: "עדכון התפקיד נכשל" })
+        res.status(400).json({ msg: strings.err.roleUpdateErr })
     })   
 }

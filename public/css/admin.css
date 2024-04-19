@@ -190,3 +190,6 @@ p {
 .tip-info {
   margin-right: 30px;
 }
+.readonly {
+  background-color: #e6e8ef;
+}

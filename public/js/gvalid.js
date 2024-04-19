@@ -23,14 +23,14 @@ function validateVectors(sizeId, angleId, errId) {
     if (size === '' && angle === '')
         return true
     if (size === '' && angle !== '') {
-        intermediateMsg(errId,"גודל הוקטור לא יכול להיות ריק")
+        intermediateMsg(errId,fstrings.game.blankVecSize)
         return false
     }
     if (size !== '' && angle === '') {
-        intermediateMsg(errId,"כיוון הוקטור לא יכול להיות ריק")
+        intermediateMsg(errId,fstrings.game.blankVecAngle)
         return false
     }
     if (angle < 0 || angle > 360) {
-        intermediateMsg(errId,"כיוון הוקטור בין 0 ל 360 מעלות")
+        intermediateMsg(errId,fstrings.game.invalidVecAngle)
     }
 }

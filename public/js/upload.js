@@ -46,7 +46,7 @@ let fileList = []
         if (file.name !== 'empty.png')
             previewFile(file)
         else {
-            document.getElementById('msg').innerHTML = "לא ניתן להעלות קובץ ששמו empty.png"
+            document.getElementById('msg').innerHTML = fstrings.err.uploadEmptyErr
         }
     })
   }
@@ -100,7 +100,7 @@ let fileList = []
   
     xhr.addEventListener('readystatechange', function(e) {
       if (xhr.readyState == 4 && xhr.status == 200) {
-        document.getElementById('msg').innerHTML = "הקבצים הועלו בהצלחה"
+        document.getElementById('msg').innerHTML = fstrings.ok.allUploadOK
         setTimeout(() => {
             window.location.reload()
           }, reloadDelay);
@@ -111,7 +111,7 @@ let fileList = []
         if (resp.msg !== undefined)
           intermediateMsg('msg',resp.msg)
         else
-          intermediateMsg('msg',"העלאת הקבצים נכשלה")
+          intermediateMsg('msg',fstrings.err.allUploadErr)
       }
     })
   

@@ -13,6 +13,7 @@
 //================ IMPORTS =================
 import {GameModel} from "../db/models/GameModel.js";
 import config from "../config/config.js";
+import strings from "../public/lang/strings.js"
 
 export function renderHome(req, res) {
     res.render('home' , { 
@@ -64,7 +65,7 @@ export function renderGame(req, res, obj) {
                 branch: gameJson["branch"],
                 errMsg,
                 infoMsg,
-                title: "אזור תלמידים",
+                title: strings.gen.studentArea,
                 imgRoot: config.s3.root
             });
         }

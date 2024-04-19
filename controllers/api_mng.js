@@ -11,7 +11,7 @@
  */
 "use strict";
 //================ IMPORTS =================
-import fs from 'fs'
+import strings from "../public/lang/strings.js"
 import * as util from "../utils/util.js";
 import {Roles} from "../db/models/UserModel.js";
 import * as aws from "../utils/awsS3.js"
@@ -29,26 +29,26 @@ export async function handleBranch(req, res, jwt) {
     const branches = await util.getBranchesForUser(jwt)
     if (action === 'new') {
         if (!util.isValidValue(name) || !util.isValidValue(nick)) {
-            res.status(400).json({msg: "שם או כינוי סניף לא חוקיים"})
+            res.status(400).json({msg: strings.err.branchNameInvalid})
             return
         }
         if (branches[nick] === undefined) 
             util.addBranch(nick,name)
         else {
-            res.status(400).json({msg: "סניף זה כבר מוגדר"})
+            res.status(400).json({msg: strings.err.branchAlreadyDefined})
             return
         }
         createBranchFolders(res, nick)
     }
     else if (action === 'del') {
         if (!util.isValidValue(nick)) {
-            res.status(400).json({msg: "כינוי הסניף לא חוקי"})
+            res.status(400).json({msg: strings.err.branchNameInvalid})
             return
         }
         if (branches[nick] !== undefined)
             util.deleteBranch(nick)
         else {
-            res.status(400).json({msg: "כינוי הסניף כבר קיים"})
+            res.status(400).json({msg: strings.err.branchAlreadyDefined})
             return
         }
         deleteBranchFolders(res, nick)
@@ -64,7 +64,7 @@ export async function handleBranch(req, res, jwt) {
  */
 export function handleGallery(req, res, jwt, err) {
     if (err == null)
-        res.status(200).json({msg: "הפעולה בוצעה בהצלחה"});
+        res.status(200).json({msg: strings.ok.actionOK});
     else
         res.status(400).json({msg: err.msg});
 
@@ -87,14 +87,14 @@ export function handleGalleryDelete(req, res, jwt) {
     }
     const {name, action} = req.body
     if (name === 'empty.png') {
-        res.status(400).json({msg: "אי אפשר למחוק את התמונה הזאת"});    
+        res.status(400).json({msg: strings.err.cannotDeleteThisImage});    
         return
     }
     aws.deleteFile(`riddles/${branchCode}/${name}`, function(err, success) {
         if (success)
-            res.status(200).json({msg: "הפעולה בוצעה בהצלחה"});
+            res.status(200).json({msg: strings.ok.actionOK});
         else
-            res.status(400).json({msg: "מחיקת התמונה נכשלה"});    
+            res.status(400).json({msg: strings.err.imageDeleteErr});    
     })
 
     /*var folder = util.getGalleryFolder(branchCode)
@@ -147,13 +147,13 @@ function createBranchFolders(res, branchCode) {
         if (success) {
             aws.createFolder("maps/"+branchCode, function(err, success){
                 if (success)
-                    res.status(200).json({msg: "הפעולה בוצעה בהצלחה"});
+                    res.status(200).json({msg: strings.ok.actionOK});
                 else
-                    res.status(200).json({msg: "יצירת הסניף נכשלה"});
+                    res.status(200).json({msg: strings.err.branchCreateErr});
             })   
         }
         else
-            res.status(200).json({msg: "יצירת הסניף נכשלה"});
+            res.status(200).json({msg: strings.err.branchCreateErr});
     })
 
 }
@@ -165,7 +165,7 @@ function createBranchFolders(res, branchCode) {
 function deleteBranchFolders(res, branchCode) {
     aws.deleteFolder("riddles/"+branchCode, function(err, numDeleted, options){
         aws.deleteFolder("maps/"+branchCode, function(err, numDeleted, options){
-            res.status(200).json({msg: "הפעולה בוצעה בהצלחה"});
+            res.status(200).json({msg: strings.ok.actionOK});
         }, null)
     }, null)
 }

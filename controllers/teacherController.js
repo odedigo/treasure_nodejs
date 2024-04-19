@@ -2,8 +2,8 @@
 import config from "../config/config.js";
 import {GameModel} from "../db/models/GameModel.js";
 import {StatusModel} from "../db/models/StatusModel.js";
-import * as logger from "../utils/logger.js"
 import * as util from "../utils/util.js";
+import strings from "../public/lang/strings.js"
 
 export async function renderTeacher (req, res) {
     // check if DB properly connected
@@ -20,7 +20,6 @@ export async function renderTeacher (req, res) {
         active:true
     }
     
-    logger.debugM("Get game data query:", query)
     var gameStatus = await _calcGameStatus(gameName)
 
     // Async Query
@@ -41,7 +40,7 @@ export async function renderTeacher (req, res) {
                 date: util.getDateIL(gameData.date),
                 readableName: gameData.readableName,
                 uid: gameData.uid,
-                title: "אזור המורה",
+                title: strings.gen.teacherArea,
                 imgRoot: config.s3.root
             });            
         }

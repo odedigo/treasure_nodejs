@@ -137,39 +137,3 @@ export function _reportStatus( data, team, gameCode, branchCode) {
         logger.errorM("catch in statusReport",err)
     })
 }
-
-/**
- * 
- * @param {*} teamName 
- * @param {*} team 
- */
-export async function _createTeamDoc(gameName, team) {
-    var filter = {
-        gameName,
-        team
-    }       
-
-    var update = {
-        $setOnInsert: {"gameName": gameName, "team": team, "stage": 0, startTime: 0, "events": []}
-    }
-
-    const options = { 
-        upsert: true,
-        returnOriginal: false
-    };
-
-    // send query
-    await StatusModel.updateMany(
-        filter, 
-        update,
-        options
-    )
-    .then(doc => {
-        if(!doc) {
-            logger.error("Failed to update team statusReport")
-        }
-    })
-    .catch(err => {
-        logger.errorM("catch in statusReport",err)
-    })
-}

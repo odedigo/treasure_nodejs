@@ -30,17 +30,17 @@ window.addEventListener('load', () => {
         return value !== value.toUpperCase() &&
             value !== value.toLowerCase();
     });
-    window.Iodine.setErrorMessage('someUppercase', "השדה חייב להכיל לפחות אות אחת גדולה באנגלית");
+    window.Iodine.setErrorMessage('someUppercase', fstrings.err.userEnChar);
     window.Iodine.rule('specialChars', (value) => {
         var format = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
         return format.test(value)
     });
-    window.Iodine.setErrorMessage('specialChars', "השדה חייב להכיל לפחות תו אחד מיוחד");
+    window.Iodine.setErrorMessage('specialChars', fstrings.err.userSpecialChar);
     window.Iodine.rule('english', (value) => {
         var english = /^[A-Za-z]*$/;
         return english.test(value)
     })
-    window.Iodine.setErrorMessage('english', "השדה חייב להכיל רק אותיות אנגליות, ללא רווחים");
+    window.Iodine.setErrorMessage('english', fstrings.err.userOnlyEnglish);
     /******** END IODINE **************/
 
     let el = findElement("login")
@@ -137,15 +137,15 @@ async function sendLoginForm(form) {
         password: form.password.value.trim()
     }
     const response = await fetch('/api/login', {
-        method: "POST", // *GET, POST, PUT, DELETE, etc.
-        cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+        method: "POST", 
+        cache: "no-cache", 
         headers: {
           "Content-Type": "application/json",
           // 'Content-Type': 'application/x-www-form-urlencoded',
         },
-        redirect: "follow", // manual, *follow, error
-        referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-        body: JSON.stringify(body), // body data type must match "Content-Type" header
+        redirect: "follow", 
+        referrerPolicy: "no-referrer", 
+        body: JSON.stringify(body), 
       })
     
     const resp = await response.json()
@@ -199,15 +199,15 @@ async function sendRegisterForm(form) {
         branch: form.branch.value,
     }
     const response = await fetch('/api/register', {
-        method: "POST", // *GET, POST, PUT, DELETE, etc.
-        cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+        method: "POST", 
+        cache: "no-cache", 
         headers: {
           "Content-Type": "application/json",
           // 'Content-Type': 'application/x-www-form-urlencoded',
         },
-        redirect: "follow", // manual, *follow, error
-        referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-        body: JSON.stringify(body), // body data type must match "Content-Type" header
+        redirect: "follow", 
+        referrerPolicy: "no-referrer", 
+        body: JSON.stringify(body), 
     })
 
     const resp = await response.json()
@@ -260,15 +260,15 @@ async function sendChangePassForm(form) {
         username: form.usernameChg.value.trim()
     }
     const response = await fetch('/api/user/chgpass', {
-        method: "POST", // *GET, POST, PUT, DELETE, etc.
-        cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+        method: "POST", 
+        cache: "no-cache", 
         headers: {
           "Content-Type": "application/json",
           // 'Content-Type': 'application/x-www-form-urlencoded',
         },
-        redirect: "follow", // manual, *follow, error
-        referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-        body: JSON.stringify(body), // body data type must match "Content-Type" header
+        redirect: "follow", 
+        referrerPolicy: "no-referrer", 
+        body: JSON.stringify(body), 
     })
 
     const resp = await response.json()
@@ -296,15 +296,15 @@ async function sendChangeRoleForm(form) {
     }
     
     const response = await fetch('/api/user/role', {
-        method: "POST", // *GET, POST, PUT, DELETE, etc.
-        cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+        method: "POST", 
+        cache: "no-cache", 
         headers: {
           "Content-Type": "application/json",
           // 'Content-Type': 'application/x-www-form-urlencoded',
         },
-        redirect: "follow", // manual, *follow, error
-        referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-        body: JSON.stringify(body), // body data type must match "Content-Type" header
+        redirect: "follow", 
+        referrerPolicy: "no-referrer", 
+        body: JSON.stringify(body), 
     })
 
     const resp = await response.json()
@@ -337,14 +337,14 @@ function delUser(username) {
     }
     
     const response = fetch('/api/user/del', {
-        method: "POST", // *GET, POST, PUT, DELETE, etc.
-        cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+        method: "POST", 
+        cache: "no-cache", 
         headers: {
           "Content-Type": "application/json",
         },
-        redirect: "follow", // manual, *follow, error
-        referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-        body: JSON.stringify(body), // body data type must match "Content-Type" header
+        redirect: "follow", 
+        referrerPolicy: "no-referrer", 
+        body: JSON.stringify(body), 
     })
     .then (response => {
         response.json()
@@ -376,7 +376,7 @@ function createNewGame(nameId, branchId, msgId) {
         branch = branchEl.value
     }
     if (nameEl.value.trim() === '') {
-        intermediateMsgElem(findElement(msgId), "שם המשחק לא יכול להיות ריק")
+        intermediateMsgElem(findElement(msgId), fstrings.err.blankGameName)
         return
     }
 
@@ -390,14 +390,14 @@ function createNewGame(nameId, branchId, msgId) {
     }
 
     const response = fetch('/api/game/create', {
-        method: "POST", // *GET, POST, PUT, DELETE, etc.
-        cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+        method: "POST", 
+        cache: "no-cache", 
         headers: {
           "Content-Type": "application/json",
         },
-        redirect: "follow", // manual, *follow, error
-        referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-        body: JSON.stringify(body), // body data type must match "Content-Type" header
+        redirect: "follow", 
+        referrerPolicy: "no-referrer", 
+        body: JSON.stringify(body), 
     })
     .then (response => {
         response.json()
@@ -431,19 +431,19 @@ function cloneGame(form) {
 
 
     if (body.origGame === body.newGame || body.newGame === "") {
-        errMsg.innerHTML = "שם המשחק חייב להיות ייחודי ולא ריק"
+        errMsg.innerHTML = fstrings.err.uniqueGameName
         return
     }    
 
     const response = fetch('/api/game/clone', {
-        method: "POST", // *GET, POST, PUT, DELETE, etc.
-        cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+        method: "POST", 
+        cache: "no-cache", 
         headers: {
           "Content-Type": "application/json",
         },
-        redirect: "follow", // manual, *follow, error
-        referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-        body: JSON.stringify(body), // body data type must match "Content-Type" header
+        redirect: "follow", 
+        referrerPolicy: "no-referrer", 
+        body: JSON.stringify(body), 
     })
     .then (response => {
         response.json()
@@ -474,22 +474,22 @@ function deleteGame(gameName, uid, branch) {
     }
 
     if (body.gameName === "") {
-        errMsg.innerHTML = "שם המשחק חייב לא יכול להיות ריק"
+        errMsg.innerHTML = fstrings.err.blankGameName
         return
     }    
 
-    if (!confirm(`${gameName} למחוק את המשחק?`)) 
+    if (!confirm(`${fstrings.q.deleteGame} "${gameName}" (${uid})?`)) 
         return
 
     const response = fetch('/api/game/remove', {
-        method: "POST", // *GET, POST, PUT, DELETE, etc.
-        cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+        method: "POST", 
+        cache: "no-cache", 
         headers: {
           "Content-Type": "application/json",
         },
-        redirect: "follow", // manual, *follow, error
-        referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-        body: JSON.stringify(body), // body data type must match "Content-Type" header
+        redirect: "follow", 
+        referrerPolicy: "no-referrer", 
+        body: JSON.stringify(body), 
     })
     .then (response => {
         response.json()
@@ -518,19 +518,19 @@ function editeGame(name) {
     }
 
     if (body.gameName === "") {
-        errMsg.innerHTML = "שם המשחק חייב לא יכול להיות ריק"
+        errMsg.innerHTML = fstrings.err.blankGameName
         return
     }    
 
     const response = fetch('/api/game/edit', {
-        method: "POST", // *GET, POST, PUT, DELETE, etc.
-        cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+        method: "POST", 
+        cache: "no-cache", 
         headers: {
           "Content-Type": "application/json",
         },
-        redirect: "follow", // manual, *follow, error
-        referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-        body: JSON.stringify(body), // body data type must match "Content-Type" header
+        redirect: "follow", 
+        referrerPolicy: "no-referrer", 
+        body: JSON.stringify(body), 
     })
     .then (response => {
         response.json()
@@ -550,7 +550,7 @@ function editeGame(name) {
 
 function saveGame(form) {
 
-    if (!confirm("לשמור את השינויים?"))
+    if (!confirm(fstrings.q.saveChanges))
         return
 
     var errMsg = findElement('errMsg')
@@ -585,14 +585,14 @@ function saveGame(form) {
     }
 
     const response = fetch('/api/game/save', {
-        method: "POST", // *GET, POST, PUT, DELETE, etc.
-        cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+        method: "POST", 
+        cache: "no-cache", 
         headers: {
           "Content-Type": "application/json",
         },
-        redirect: "follow", // manual, *follow, error
-        referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-        body: JSON.stringify(body), // body data type must match "Content-Type" header
+        redirect: "follow", 
+        referrerPolicy: "no-referrer", 
+        body: JSON.stringify(body), 
     })
     .then (response => {
         response.json()
@@ -618,7 +618,7 @@ function uploadMap(form) {
 
     var mapFiles = findElement('mapfile').files
     if (mapFiles.length === 0) {
-        mapMsg.innerHTML = "יש לבחור קובץ תמונה מסוג PNG"
+        mapMsg.innerHTML = fstrings.err.imageType
         return
     }    
     var formData = new FormData();
@@ -627,16 +627,16 @@ function uploadMap(form) {
     formData.append("file", mapFiles[0])
     formData.append("info",data)
     const response = fetch('/api/game/upmap', {
-        method: "POST", // *GET, POST, PUT, DELETE, etc.
-        cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+        method: "POST", 
+        cache: "no-cache", 
         headers: {
           //"Content-Type": "multipart/form-data",
           'Content-Length': mapFiles[0].length,
           'x-path-name': `${data.uid}_${data.team}.png`,
           'x-branch-code': form.branchCode.value
         },
-        redirect: "follow", // manual, *follow, error
-        referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+        redirect: "follow", 
+        referrerPolicy: "no-referrer", 
         body: formData
     })
     .then (response => {
@@ -646,7 +646,7 @@ function uploadMap(form) {
                 intermediateMsgElem(errMsg,resp.msg)
             }
             else {
-                intermediateMsgElem(mapMsg,"הקובץ עלה בהצלחה")
+                intermediateMsgElem(mapMsg,fstrings.ok.uploadedOK)
                 findElement('newmap').src = ""
                 reloadImg('curMap')
                 //findElement('curMap').src = findElement('curMap').src + "/" + new Date().getTime();
@@ -672,15 +672,15 @@ async function startGame(gameCode, branch) {
         branch
     }
     const response = await fetch('/api/game/start', {
-        method: "POST", // *GET, POST, PUT, DELETE, etc.
-        cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+        method: "POST", 
+        cache: "no-cache", 
         headers: {
           "Content-Type": "application/json",
           // 'Content-Type': 'application/x-www-form-urlencoded',
         },
-        redirect: "follow", // manual, *follow, error
-        referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-        body: JSON.stringify(body), // body data type must match "Content-Type" header
+        redirect: "follow", 
+        referrerPolicy: "no-referrer", 
+        body: JSON.stringify(body), 
       })
     
     const resp = await response.json()
@@ -708,15 +708,15 @@ async function stopGame(gameCode, branch) {
         branch
     }
     const response = await fetch('/api/game/stop', {
-        method: "POST", // *GET, POST, PUT, DELETE, etc.
-        cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+        method: "POST", 
+        cache: "no-cache", 
         headers: {
           "Content-Type": "application/json",
           // 'Content-Type': 'application/x-www-form-urlencoded',
         },
-        redirect: "follow", // manual, *follow, error
-        referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-        body: JSON.stringify(body), // body data type must match "Content-Type" header
+        redirect: "follow", 
+        referrerPolicy: "no-referrer", 
+        body: JSON.stringify(body), 
       })
     
     const resp = await response.json()
@@ -933,21 +933,21 @@ function actionBranch(data) {
     else if (data.action === 'del') {
         body['nick'] = data.nick
         if (body.nick === "") {
-            errMsg.innerHTML = "כינוי הסניף לא יכול להיות ריק"
+            errMsg.innerHTML = fstrings.err.blankBranch
             return
         }    
     }
 
 
     const response = fetch('/api/mng/brnch', {
-        method: "POST", // *GET, POST, PUT, DELETE, etc.
-        cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+        method: "POST", 
+        cache: "no-cache", 
         headers: {
           "Content-Type": "application/json",
         },
-        redirect: "follow", // manual, *follow, error
-        referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-        body: JSON.stringify(body), // body data type must match "Content-Type" header
+        redirect: "follow", 
+        referrerPolicy: "no-referrer", 
+        body: JSON.stringify(body), 
     })
     .then (response => {
         response.json()
@@ -971,7 +971,7 @@ function createBranch(newNameId, newNickId, msgId) {
 }
 
 function deleteBranch(nick, msgId) {
-    if (!confirm("למחוק את הסניף "+nick+" ?"))
+    if (!confirm(fstrings.q.deleteBranch+" "+nick+" ?"))
         return
     actionBranch({nick, msgId, action:'del'})
 }
@@ -982,7 +982,7 @@ function deleteGalImg(id, branchCode) {
     if (!img)
         return
 
-    if (!confirm("בטוח שאתם רוצים למחוק את התמונה?"))
+    if (!confirm(fstrings.q.deleteImage))
         return
 
     var body = {        
@@ -992,14 +992,14 @@ function deleteGalImg(id, branchCode) {
     }
 
     const response = fetch('/api/mng/galdel', {
-        method: "POST", // *GET, POST, PUT, DELETE, etc.
-        cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+        method: "POST", 
+        cache: "no-cache", 
         headers: {
             "Content-Type": "application/json",
         },
-        redirect: "follow", // manual, *follow, error
-        referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-        body: JSON.stringify(body), // body data type must match "Content-Type" header
+        redirect: "follow", 
+        referrerPolicy: "no-referrer", 
+        body: JSON.stringify(body), 
     })
     .then (response => {
         response.json()
@@ -1025,7 +1025,7 @@ function changeBranchGal(root, sel) {
 }
 
 function cancelChanges(url) {
-    if (confirm("בטוחים שרוצים לצאת בלי לשמור את השינויים?"))
+    if (confirm(fstrings.q.exitNoSave))
         window.location = url
 }
 

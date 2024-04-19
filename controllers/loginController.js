@@ -11,11 +11,8 @@
  */
 "use strict";
 //================ IMPORTS =================
-import {UserModel} from "../db/models/UserModel.js";
-import * as logger from "../utils/logger.js"
-import * as util from "../utils/util.js";
 import strings from "../public/lang/strings.js"
-import bcrypt from "bcrypt"
+
 
 /**
  * Main rendering function
@@ -32,7 +29,7 @@ export function renderLogin(req, res, obj) {
 
     res.render('login' , { 
         jsscript: ['/js/admin.js'],
-        title: "כניסה"
+        title: strings.gen.homepage
     });
 }
 
