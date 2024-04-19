@@ -35,6 +35,7 @@ export async function logoutUser(req, res) {
 export async function loginUser(req, res) {
     // Find relevant document in DB that describes the game
     var {username,password} = req.body
+    username = username.toLowerCase()
 
     var query = {
         username
@@ -73,10 +74,12 @@ export async function registerUser(req, res, jwt) {
 
     // Find relevant document in DB that describes the game
     var {username,password, name, branch, role} = req.body
+
     if (!util.isValidValue(username) || !util.isValidValue(password) || 
         !util.isValidValue(name) || !util.isValidValue(branch) || !util.isValidValue(role)) {
             return res.status(400).json({msg: strings.err.formFillAll})    
     }
+    username = username.toLowerCase()
 
     if (role === Roles.SUPERADMIN && jwt.role !== Roles.SUPERADMIN) {
         return res.status(400).json({ msg: strings.err.actionErr })
@@ -145,17 +148,20 @@ export function createUserList(users) {
     return res
     users.forEach(user => {
         var dt = util.getDateIL(user.created)
-        res.push({name:user.name, branch: user.branch, username: user.username, role: user.role, created: dt})
+        res.push({name:user.name, branch: user.branch, username: user.username.toLowerCase(), role: user.role, created: dt})
     });
     return res;
 }
 
 export function deleteUser(req, res) {
     var {username} = req.body
+    
     if (username === undefined) {
         res.status(400).json({msg: strings.err.usernameInvalid} )
         return
     }
+    username = username.toLowerCase()
+
     UserModel.deleteOne({ username })
     .then(resp => {
             res.status(200).json({msg: strings.ok.userDeleteOK})
@@ -175,6 +181,7 @@ export async function changePassword(req, res) {
     if (!util.validateEmail(username)) {
         return res.status(400).json({ msg: strings.err.usernameNotEmail })
     }
+    username = username.toLowerCase()
 
     if (password.length < 6) {
         return res.status(400).json({ msg: strings.err.passNotLong })
@@ -210,6 +217,7 @@ export async function changePassword(req, res) {
 
 export function changeRole(req, res) {
     var {username, role} = req.body
+
     if (username === undefined || role === undefined) {
         res.status(400).json({msg: strings.err.invalidData} )
         return
@@ -219,7 +227,7 @@ export function changeRole(req, res) {
     }
 
     var filter = {
-        username
+        username: username.toLowerCase()
     }       
 
     const options = { 

@@ -31,7 +31,7 @@ export function getUniqueGameUID() {
  * @returns 
  */
 export function validateEmail(email) {
-    return emailValidator.validate(email)
+    return emailValidator.validate(email.toLowerCase())
 }
 
 /**
@@ -41,7 +41,7 @@ export function validateEmail(email) {
  */
 export async function getOneTimeToken(user) {
     var branchCode = branchToCode(user.branch)
-    const token = jwt.sign({ username: user.username, role: user.role, branch: user.branch, branchCode, name: user.name }, process.env.JWTSECRET, {
+    const token = jwt.sign({ username: user.username.toLowerCase(), role: user.role, branch: user.branch, branchCode, name: user.name }, process.env.JWTSECRET, {
         expiresIn: '10h',
     });    
     return {token, expires: getTokenExpiration({hour: 10})}
