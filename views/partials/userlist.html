@@ -46,10 +46,10 @@
                       {{#compare ../jwtUser.role '===' 'SUPER-ADMIN'}} 
                         {{#compare ../jwtUser.username '!==' user.username}} <!-- user cannot delete himself -->
                           <img src="/img/ops/del.png" class="ops-icon" onclick="delUser('{{user.username}}')" data-toggle="tooltip" data-placement="top" title="מחיקת משתמש"/>
-                          <a href="#" data-bs-toggle="modal" data-bs-target="#changeRoleModal" data-user-id="{{user.username}}" data-role="{{user.role}}"><img src="/img/ops/role.png" class="ops-icon" data-toggle="tooltip" data-placement="top" title="שינוי תפקיד"/></a>
+                          <a href="#" data-bs-toggle="modal" data-bs-target="#editUserModal" data-user-id="{{user.username}}" data-user-email="{{user.email}}" data-role="{{user.role}}"><img src="/img/ops/edit.png" class="ops-icon" data-toggle="tooltip" data-placement="top" title="עריכה"/></a>
                         {{else}}
                           <img src="/img/ops/del-d.png" class="ops-icon" />
-                          <img src="/img/ops/role-d.png" class="ops-icon" />
+                          <img src="/img/ops/edit-d.png" class="ops-icon" />
                         {{/compare}}
                         <a href="#" data-bs-toggle="modal" data-bs-target="#changePassModal" data-user-id="{{user.username}}"><img src="/img/ops/pass.png" class="ops-icon" data-toggle="tooltip" data-placement="top" title="שינוי סיסמה"/></a>
                       {{else}} 
@@ -67,7 +67,7 @@
 
                           <a href="#" data-bs-toggle="modal" data-bs-target="#changePassModal" data-user-id="{{user.username}}"><img src="/img/ops/pass.png" class="ops-icon" data-toggle="tooltip" data-placement="top" title="שינוי סיסמה"/></a>
                           {{#compare ../jwtUser.username '!==' user.username}} 
-                            <a href="#" data-bs-toggle="modal" data-bs-target="#changeRoleModal" data-user-id="{{user.username}}" data-role="{{user.role}}"><img src="/img/ops/role.png" class="ops-icon" data-toggle="tooltip" data-placement="top" title="שינוי תפקיד"/></a>
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#editUserModal" data-user-id="{{user.username}}" data-role="{{user.role}}"><img src="/img/ops/role.png" class="ops-icon" data-toggle="tooltip" data-placement="top" title="שינוי תפקיד"/></a>
                           {{else}}
                             <img src="/img/ops/role-d.png" class="ops-icon" />
                           {{/compare}}
@@ -153,15 +153,15 @@
         </div>
       </div>
 
-      <!-- Modal Change Role -->
-      <div class="modal fade" id="changeRoleModal" tabindex="-1" aria-labelledby="changeRoleModalLabel" aria-hidden="true">
+      <!-- Modal Edit User -->
+      <div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="editUserModalLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="changeRoleModalLabel">שינוי תפקיד</h5>              
+              <h5 class="modal-title" id="editUserModalLabel">עריכת נתוני משתמש</h5>              
             </div>
             <div class="modal-body">
-              <form action="#" method="post" role="form" class=""  id="cngRole" > 
+              <form action="#" method="post" role="form" class=""  id="editUser" > 
                 <div class="form-group">
                   <label for="username">שם משתמש (אימייל)</label>
                   <input name="username" type="input" id="username-role" class="form-control username readonly" placeholder="אימייל" class="en" value="" readonly/>
@@ -176,6 +176,11 @@
                     <option value="SUPER-ADMIN">אדמין ראשי</option>
                     {{/compare}}
                   </select>
+                </div>
+                <div class="form-group">
+                  <label for="username">אימייל</label>
+                  <input name="uemail" type="input" id="uemail-role" class="form-control" placeholder="אימייל" class="en" value=""/>
+                  <small id="uemailError" class="form-text text-muted errMsg">&nbsp;</small>
                 </div>
             </div>
             <div id="modalErrRoleMsg" class="errMsg">&nbsp;</div>
@@ -209,24 +214,26 @@
     modalBodyInput[0].value = user_id // username
     modalBodyInput[1].value = "" // password
   })  
-  var changeRoleModal = document.getElementById('changeRoleModal')
-  changeRoleModal.addEventListener('show.bs.modal', function (event) {
+  var editUserModal = document.getElementById('editUserModal')
+  editUserModal.addEventListener('show.bs.modal', function (event) {
     // Button that triggered the modal
     var link = event.relatedTarget
     // Extract info from data-bs-* attributes
     var user_id = link.getAttribute('data-user-id')
     var user_role = link.getAttribute('data-role')
+    var user_email = link.getAttribute('data-user-email')
     // If necessary, you could initiate an AJAX request here
     // and then do the updating in a callback.
     //
     // Update the modal's content.
-    var modalTitle = changeRoleModal.querySelector('.modal-title')
-    var modalBodyInput = changeRoleModal.querySelectorAll('.modal-body input')
-    var modalSelect = changeRoleModal.querySelector('.modal-body select')
+    var modalTitle = editUserModal.querySelector('.modal-title')
+    var modalBodyInput = editUserModal.querySelectorAll('.modal-body input')
+    var modalSelect = editUserModal.querySelector('.modal-body select')
     
     //querySelector('.modal-body input')
     //modalTitle.textContent = 'New message to ' + recipient
     modalBodyInput[0].value = user_id // username
+    modalBodyInput[1].value = user_email // email
     modalSelect.value = user_role
   })  
 </script>

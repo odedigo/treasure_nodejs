@@ -258,3 +258,43 @@ export function changeRole(req, res) {
         res.status(400).json({ msg: strings.err.roleUpdateErr })
     })   
 }
+
+export function editUser(req, res, jwt) {
+    var {username, role, email} = req.body
+
+    if (!util.isValidValue(username) || !util.isValidValue(role) || !util.isValidValue(email)) {
+        res.status(400).json({msg: strings.err.invalidData} )
+        return
+    }
+    if (!util.validateEmail(username)) {
+        return res.status(400).json({ msg: strings.err.usernameInvalid })
+    }
+    if (!util.validateEmail(email)) {
+        return res.status(400).json({ msg: strings.err.emailNotEmail })
+    }
+
+    var filter = {
+        username: username.trim().toLowerCase()
+    }       
+
+    const options = { 
+        upsert: true,
+        returnOriginal: false
+    };
+
+    UserModel.findOneAndUpdate(
+        filter, 
+        {$set: {"role": role, "email": email.trim().toLowerCase()}},
+        options
+    ).then(user => {
+        if (!user) {
+            res.status(400).json({ msg: strings.err.failedUpdatingUser })
+            return
+        }
+        res.status(200).json({ msg: strings.ok.roleUpdateOK })
+    })
+    .catch (err =>  {
+        console.log(err)
+        res.status(400).json({ msg: strings.err.roleUpdateErr })
+    })   
+}

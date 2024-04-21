@@ -194,6 +194,15 @@ router.post('/api/user/role', (req, res) => {
     api_user.changeRole(req, res, jwt.jwtUser)
 });
 
+router.post('/api/user/edit', (req, res) => {
+    const jwt = util.validateAdminUser(req, true)
+    if (!jwt.valid || !validateRoleAllowed(req, [Roles.ADMIN])) {
+        res.redirect("/err")
+        return
+    }
+    api_user.editUser(req, res, jwt.jwtUser)
+});
+
 /********* API ********** GAME ACTIONS ****************************************/
 
 /** 

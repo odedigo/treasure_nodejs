@@ -72,6 +72,13 @@ window.addEventListener('load', () => {
             e.preventDefault();    //stop form from submitting
         });    
     }
+    el = findElement("editUser")
+    if (el != null) {
+        el.addEventListener("submit", function(e){
+            sendEditUserForm(this)
+            e.preventDefault();    //stop form from submitting
+        });    
+    }
     el = findElement("cloneGameForm")
     if (el != null) {
         el.addEventListener("submit", function(e){
@@ -301,6 +308,60 @@ async function sendChangeRoleForm(form) {
     }
     
     const response = await fetch('/api/user/role', {
+        method: "POST", 
+        cache: "no-cache", 
+        headers: {
+          "Content-Type": "application/json",
+          // 'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        redirect: "follow", 
+        referrerPolicy: "no-referrer", 
+        body: JSON.stringify(body), 
+    })
+
+    const resp = await response.json()
+    var modalErrMsg = findElement('modalErrRoleMsg')
+    if (response.status != 200) { // failed        
+        intermediateMsgElem(modalErrMsg,resp.msg)   
+    }
+    else {
+        intermediateMsgElem(errMsg,resp.msg)
+        showModal(false,'changeRoleModal')
+        setTimeout(() => {window.location.reload()}, reloadDelay)
+    }
+}
+
+/**
+ * Edit User submission
+ * @param {*} form 
+ * @returns 
+ */
+async function sendEditUserForm(form) {
+    var errMsg = findElement('errMsg')
+    errMsg.innerHTML = ""
+
+    // validations
+    const items = {
+        email    : form.uemail.value.trim().toLowerCase()
+    };
+    const rules = {
+        email    : ['required', 'email']
+    };
+    const v = window.Iodine.assert(items, rules)
+    if (!v.valid) {
+        if (!v.fields.email.valid)
+            intermediateMsg("uemailError",v.fields.email.error)
+        return
+    }
+    // End Validations
+
+    var body = {
+        role: form.role.value,
+        username: form.username.value,
+        email: form.uemail.value.trim().toLowerCase()
+    }
+    
+    const response = await fetch('/api/user/edit', {
         method: "POST", 
         cache: "no-cache", 
         headers: {
