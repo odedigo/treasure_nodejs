@@ -193,3 +193,7 @@ p {
 .readonly {
   background-color: #e6e8ef;
 }
+.dropright .dropdown-menu{
+  left:auto!important;
+  right:0!important;
+}
