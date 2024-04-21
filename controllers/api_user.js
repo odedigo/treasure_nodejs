@@ -73,7 +73,7 @@ export async function registerUser(req, res, jwt) {
     }
 
     // Find relevant document in DB that describes the game
-    var {username,password, name, branch, role} = req.body
+    var {username,password, name, branch, role, email} = req.body
 
     if (!util.isValidValue(username) || !util.isValidValue(password) || 
         !util.isValidValue(name) || !util.isValidValue(branch) || !util.isValidValue(role)) {
@@ -87,6 +87,12 @@ export async function registerUser(req, res, jwt) {
 
     if (!util.validateEmail(username)) {
         return res.status(400).json({ msg: strings.err.usernameNotEmail })
+    }
+    if (!util.isValidValue(email)) {
+        email = username
+    } 
+    else if (!util.validateEmail(email)) {
+        return res.status(400).json({ msg: strings.err.emailNotEmail })
     }
 
     if (password.length < 6) {
@@ -105,6 +111,7 @@ export async function registerUser(req, res, jwt) {
                 username,
                 password: hash,
                 name,
+                email: email.toLowerCase(),
                 branch,
                 role,
                 token: '',
@@ -148,7 +155,7 @@ export function createUserList(users) {
     return res
     users.forEach(user => {
         var dt = util.getDateIL(user.created)
-        res.push({name:user.name, branch: user.branch, username: user.username.toLowerCase(), role: user.role, created: dt})
+        res.push({name:user.name, branch: user.branch, email: user.email, username: user.username.toLowerCase(), role: user.role, created: dt})
     });
     return res;
 }

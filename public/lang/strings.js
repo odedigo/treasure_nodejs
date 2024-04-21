@@ -53,6 +53,7 @@ const strings = {
       userNotFound: "תקלה במציאת המשתמש",
       formFillAll: "יש למלא את כל הפרטים בטופס",
       usernameNotEmail: "שם המשתמש אינו אימייל חוקי",
+      emailNotEmail: "כתובת האימייל לא חוקית",
       usernameInvalid: "שם המשתמש אינו חוקי",
       passNotLong: "סיסמה צריכה להכיל לפחות 6 תווים",
       usernameTaken: "שם המשתמש כבר תפוס",

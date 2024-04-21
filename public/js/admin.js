@@ -169,20 +169,24 @@ async function sendRegisterForm(form) {
 
     // validations
     const items = {
-        email    : form.username.value.trim(),
+        username    : form.username.value.trim(),
         password : form.password.value.trim(),
-        name     : form.name.value.trim()
+        name     : form.name.value.trim(),
+        uemail    : form.uemail.value.trim()
     };
     const rules = {
-        email    : ['required', 'email'],
+        username    : ['required', 'email'],
         password : ['required', 'minLength:6','someUppercase','specialChars'],
-        name     : ['required', 'minLength:3', 'string']
+        name     : ['required', 'minLength:3', 'string'],
+        uemail       : ['required', 'email']
     };
-
+    console.log("email",items)
     const v = window.Iodine.assert(items, rules)    
     if (!v.valid) {
-        if (!v.fields.email.valid)
-            intermediateMsg("usernameError",v.fields.email.error)
+        if (!v.fields.username.valid)
+            intermediateMsg("usernameError",v.fields.username.error)
+        if (!v.fields.uemail.valid)
+            intermediateMsg("uemailError",v.fields.uemail.error)
         if (!v.fields.password.valid)
             intermediateMsg("passwordError",v.fields.password.error)
         if (!v.fields.name.valid)
@@ -197,6 +201,7 @@ async function sendRegisterForm(form) {
         role: form.role.value,
         name: form.name.value.trim(),
         branch: form.branch.value,
+        email: form.uemail.value.trim().toLowerCase(),
     }
     const response = await fetch('/api/register', {
         method: "POST", 
