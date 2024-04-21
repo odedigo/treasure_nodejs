@@ -116,8 +116,8 @@ export async function renderAdminGallery(req, res, jwtUser, data) {
     // Others can view only from their branch so we redirect
     // them to their section
     if (jwtUser.role !== Roles.SUPERADMIN) {
-        if (branchCode != jwtUser.branchCode) {
-            res.redirect("/admin/gallery/"+jwtUser.branchCode)
+        if (branchCode != jwtUser.branch) {
+            res.redirect("/admin/gallery/"+jwtUser.branch)
             return
         }
     }

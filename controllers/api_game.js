@@ -106,7 +106,7 @@ export async function getGameList(req, res, jwt) {
         }
         // force their branch if not specified
         if (!util.isValidValue(branch))
-            filter["branch"] = util.branchToCode(jwt.branch)
+            filter["branch"] = jwt.branch
     }
     else { // super admins can search for other branches
         if (util.isValidValue(branch))
@@ -146,7 +146,7 @@ export async function getGame(gameName, jwt) {
 
     // only super-admins can get games outside their branch
     if (jwt.role !== Roles.SUPERADMIN) {
-        filter["branch"] = util.branchToCode(jwt.branch)
+        filter["branch"] = jwt.branch
     } 
 
     // send query
@@ -174,7 +174,7 @@ export function saveGame(req, res, jwt) {
 
     // only super-admins can save games outside their branch
     if (jwt.role !== Roles.SUPERADMIN) {
-        filter["branch"] = util.branchToCode(jwt.branch)
+        filter["branch"] = jwt.branch
     } 
 
     // send query
@@ -224,7 +224,7 @@ export function cloneGame(req, res, jwt) {
 
     // only super-admins can clone games outside their branch
     if (jwt.role !== Roles.SUPERADMIN) {
-        filter["branch"] = util.branchToCode(jwt.branch)
+        filter["branch"] = jwt.branch
     } 
 
     // send query
@@ -295,7 +295,7 @@ export function editGame(req, res, jwt) {
 
     // only super-admins can edit games outside their branch
     if (jwt.role !== Roles.SUPERADMIN) {
-        filter["branch"] = util.branchToCode(jwt.branch)
+        filter["branch"] = jwt.branch
     } 
 
     // send query
@@ -442,7 +442,7 @@ export async function createGame(req, res, jwt) {
     }  
 
     if (jwt.role !== Roles.SUPERADMIN || !util.isValidValue(branch))
-        branch = util.branchToCode(jwt.branch)
+        branch = jwt.branch
 
     var game = _createNewGame(name, branch)
     var model = GameModel(game)
@@ -484,7 +484,7 @@ export async function deleteGame(req, res, jwt) {
     }       
 
     if (jwt.role !== Roles.SUPERADMIN)    
-        filter["branch"] = util.branchToCode(jwt.branch)
+        filter["branch"] = jwt.branch
 
     const options = {         
     };

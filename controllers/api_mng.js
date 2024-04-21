@@ -80,7 +80,7 @@ export function handleGallery(req, res, jwt, err) {
 export function handleGalleryDelete(req, res, jwt) {
     const branchCode = req.body.branchCode
     if (jwt.role !== Roles.SUPERADMIN) {
-        if (branchCode !== util.branchToCode(jwt.branch)) {
+        if (branchCode !== jwt.branch) {
             res.redirect("/err")
             return
         }

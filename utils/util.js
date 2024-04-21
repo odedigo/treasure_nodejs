@@ -40,8 +40,7 @@ export function validateEmail(email) {
  * @returns 
  */
 export async function getOneTimeToken(user) {
-    var branchCode = branchToCode(user.branch)
-    const token = jwt.sign({ username: user.username.toLowerCase(), role: user.role, branch: user.branch, branchCode, name: user.name }, process.env.JWTSECRET, {
+    const token = jwt.sign({ username: user.username.toLowerCase(), role: user.role, branch: user.branch, name: user.name }, process.env.JWTSECRET, {
         expiresIn: '10h',
     });    
     return {token, expires: getTokenExpiration({hour: 10})}
@@ -204,7 +203,7 @@ export function deleteBranch(code) {
 export function getBranchesForUser(jwt) {    
     if (jwt.role === Roles.SUPERADMIN)
         return global.huntBranches
-    var code = branchToCode(jwt.branch)
+    var code = jwt.branch
     return {code : global.huntBranches[code]}
 }
     

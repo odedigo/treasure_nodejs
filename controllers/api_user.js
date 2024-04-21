@@ -112,7 +112,7 @@ export async function registerUser(req, res, jwt) {
                 password: hash,
                 name,
                 email: email.toLowerCase(),
-                branch,
+                branch: util.branchToCode(branch),
                 role,
                 token: '',
                 created: util.getCurrentDateTime()
@@ -155,7 +155,7 @@ export function createUserList(users) {
     return res
     users.forEach(user => {
         var dt = util.getDateIL(user.created)
-        res.push({name:user.name, branch: user.branch, email: user.email, username: user.username.toLowerCase(), role: user.role, created: dt})
+        res.push({name:user.name, branchName: util.codeToBranch(user.branch), branch: user.branch, email: user.email, username: user.username.toLowerCase(), role: user.role, created: dt})
     });
     return res;
 }

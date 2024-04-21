@@ -65,17 +65,17 @@
                           <img src="/img/ops/del-d.png" class="ops-icon" />
                         {{/compare}} <!-- not himself -->
 
-                          <a href="#" data-bs-toggle="modal" data-bs-target="#changePassModal" data-user-id="{{user.username}}"><img src="/img/ops/pass.png" class="ops-icon" data-toggle="tooltip" data-placement="top" title="שינוי סיסמה"/></a>
                           {{#compare ../jwtUser.username '!==' user.username}} 
-                            <a href="#" data-bs-toggle="modal" data-bs-target="#editUserModal" data-user-id="{{user.username}}" data-role="{{user.role}}"><img src="/img/ops/role.png" class="ops-icon" data-toggle="tooltip" data-placement="top" title="שינוי תפקיד"/></a>
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#editUserModal" data-user-id="{{user.username}}" data-user-email="{{user.email}}" data-role="{{user.role}}"><img src="/img/ops/edit.png" class="ops-icon" data-toggle="tooltip" data-placement="top" title="עריכה"/></a>
                           {{else}}
-                            <img src="/img/ops/role-d.png" class="ops-icon" />
+                            <img src="/img/ops/edit-d.png" class="ops-icon" />
                           {{/compare}}
+                          <a href="#" data-bs-toggle="modal" data-bs-target="#changePassModal" data-user-id="{{user.username}}"><img src="/img/ops/pass.png" class="ops-icon" data-toggle="tooltip" data-placement="top" title="שינוי סיסמה"/></a>
                       {{/compare}}
                   </td>
                   <td >{{user.name}}</td>
                   <td >{{user.username}}</td>
-                  <td >{{user.branch}}</td>
+                  <td >{{user.branchName}}</td>
                   {{#compare user.role '===' 'ADMIN'}}
                     <td><i class="fa fa-user-circle" aria-hidden="true" style="color:rgb(26, 163, 187)"></i> אדמין סניף</td>
                   {{else}}
