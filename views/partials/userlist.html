@@ -46,7 +46,7 @@
                       {{#compare ../jwtUser.role '===' 'SUPER-ADMIN'}} 
                         {{#compare ../jwtUser.username '!==' user.username}} <!-- user cannot delete himself -->
                           <img src="/img/ops/del.png" class="ops-icon" onclick="delUser('{{user.username}}')" data-toggle="tooltip" data-placement="top" title="מחיקת משתמש"/>
-                          <a href="#" data-bs-toggle="modal" data-bs-target="#editUserModal" data-user-id="{{user.username}}" data-user-email="{{user.email}}" data-role="{{user.role}}"><img src="/img/ops/edit.png" class="ops-icon" data-toggle="tooltip" data-placement="top" title="עריכה"/></a>
+                          <a href="#" data-bs-toggle="modal" data-bs-target="#editUserModal" data-user-id="{{user.username}}"  data-user-br="{{user.branchName}}"  data-user-name="{{user.name}}" data-user-email="{{user.email}}" data-role="{{user.role}}"><img src="/img/ops/edit.png" class="ops-icon" data-toggle="tooltip" data-placement="top" title="עריכה"/></a>
                         {{else}}
                           <img src="/img/ops/del-d.png" class="ops-icon" />
                           <img src="/img/ops/edit-d.png" class="ops-icon" />
@@ -66,7 +66,7 @@
                         {{/compare}} <!-- not himself -->
 
                           {{#compare ../jwtUser.username '!==' user.username}} 
-                            <a href="#" data-bs-toggle="modal" data-bs-target="#editUserModal" data-user-id="{{user.username}}" data-user-email="{{user.email}}" data-role="{{user.role}}"><img src="/img/ops/edit.png" class="ops-icon" data-toggle="tooltip" data-placement="top" title="עריכה"/></a>
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#editUserModal" data-user-id="{{user.username}}" data-user-br="{{user.branchName}}"  data-user-email="{{user.email}}"  data-user-name="{{user.name}}" data-role="{{user.role}}"><img src="/img/ops/edit.png" class="ops-icon" data-toggle="tooltip" data-placement="top" title="עריכה"/></a>
                           {{else}}
                             <img src="/img/ops/edit-d.png" class="ops-icon" />
                           {{/compare}}
@@ -163,7 +163,15 @@
             <div class="modal-body">
               <form action="#" method="post" role="form" class=""  id="editUser" > 
                 <div class="form-group">
-                  <label for="username">שם משתמש (אימייל)</label>
+                  <label for="name">שם</label>
+                  <input name="name" type="input" id="name-role" class="form-control readonly" placeholder="" class="" value="" readonly/>
+                </div>
+                <div class="form-group">
+                  <label for="br">סניף</label>
+                  <input name="br" type="input" id="br-role" class="form-control readonly" placeholder="" class="" value="" readonly/>
+                </div>
+                <div class="form-group">
+                  <label for="username">שם משתמש</label>
                   <input name="username" type="input" id="username-role" class="form-control username readonly" placeholder="אימייל" class="en" value="" readonly/>
                   <small id="usernameError" class="form-text text-muted errMsg">&nbsp;</small>
                 </div>
@@ -222,6 +230,8 @@
     var user_id = link.getAttribute('data-user-id')
     var user_role = link.getAttribute('data-role')
     var user_email = link.getAttribute('data-user-email')
+    var user_name = link.getAttribute('data-user-name')
+    var user_br = link.getAttribute('data-user-br')
     // If necessary, you could initiate an AJAX request here
     // and then do the updating in a callback.
     //
@@ -232,8 +242,10 @@
     
     //querySelector('.modal-body input')
     //modalTitle.textContent = 'New message to ' + recipient
-    modalBodyInput[0].value = user_id // username
-    modalBodyInput[1].value = user_email // email
+    modalBodyInput[0].value = user_name // name
+    modalBodyInput[1].value = user_br // branch
+    modalBodyInput[2].value = user_id // username
+    modalBodyInput[3].value = user_email // email
     modalSelect.value = user_role
   })  
 </script>
