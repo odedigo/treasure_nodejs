@@ -149,6 +149,22 @@ export async function getUserList(param, jwt) {
     return {users, numUsers}
 }
 
+export async function countUsers(branch) {
+    var filter = {}
+    if (util.isValidValue(branch)) {
+        filter["branch"] = branch
+    }
+    const users = await UserModel.find(filter)
+    var branchUsers = []
+    users.forEach(user => {
+        if (branchUsers[user.branch] !== undefined)
+            branchUsers[user.branch]++
+        else
+            branchUsers[user.branch] = 1
+    })
+    return branchUsers
+}
+
 export function createUserList(users) {
     var res = []
     if (users == null)

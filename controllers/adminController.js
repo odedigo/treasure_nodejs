@@ -151,9 +151,14 @@ export async function renderAdminBranches(req, res, jwtUser, data) {
     // Get all the games to check if branches are associated with games.
     // If so, you cannot delete them
     const {games,status, numGames} = await api_game.getGameList(req, res, jwtUser)
+    const branchUsers = await api_user.countUsers()
     games.forEach(game => {
-        data.branches[game.branch].used = true // mark if used
+        data.branches[game.branch].used = true // mark if used        
     });
+    Object.keys(branchUsers).forEach(key => {
+        if (data.branches[key] !== undefined)
+            data.branches[key].used = true
+    })
     data.jsscript.push('/js/gvalid.js') // form validation script
     // render
     res.render('admin' , data);        

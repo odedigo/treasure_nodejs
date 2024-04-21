@@ -28,7 +28,6 @@ var UserSchema = new Schema({
     created: Date,
     name: String,
     branch: String,
-    token: String,
     email: String,
     role: { // teacher, admin
         type:String,
