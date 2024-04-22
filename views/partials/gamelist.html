@@ -67,7 +67,7 @@
                       <img src="/img/ops/end-d.png" class="ops-icon" data-toggle="tooltip" data-placement="top" title="סיום משחק"/>                    
                     {{/compare}}
                     
-                    <a href="/admin/qr/{{game.branchCode}}/{{game.gameName}}" target="game">
+                    <a href="/admin/th/qr/{{game.branchCode}}/{{game.gameName}}" target="game">
                       <img src="/img/ops/qr.png" class="ops-icon" data-toggle="tooltip" data-placement="top" title="לינקים למשחק"/>
                      </a>                 
                     {{/compare}} <!-- Game Active -->
@@ -97,7 +97,7 @@
               <div class="errMsg" id="errMsg"></div>
             </div>
             <div class="h-100 d-flex align-items-center justify-content-center">
-              {{#pagination numGames numPerPage page '/admin/gamelist'}}{{/pagination}}
+              {{#pagination numGames numPerPage page '/admin/th/gamelist'}}{{/pagination}}
             </div>            
           <!--  -->
           </div>

@@ -49,7 +49,7 @@ export async function loginUser(req, res) {
                 if (result) {
                     var jwt = await util.getOneTimeToken(user)
                     res.cookie('cred', jwt.token , {maxAge: 9000000000, httpOnly: true, secure: true });
-                    res.status(200).json({msg: "", redirect:"/admin"})
+                    res.status(200).json({msg: "", redirect:"/admin/apps"})
                 }
                 else {
                     res.status(400).json({msg: strings.err.invalidUserPass, redirect:"/login", name: user.name, branch: user.branch})
@@ -307,10 +307,10 @@ export function editUser(req, res, jwt) {
             res.status(400).json({ msg: strings.err.failedUpdatingUser })
             return
         }
-        res.status(200).json({ msg: strings.ok.roleUpdateOK })
+        res.status(200).json({ msg: strings.ok.userUpdateOK })
     })
     .catch (err =>  {
         console.log(err)
-        res.status(400).json({ msg: strings.err.roleUpdateErr })
+        res.status(400).json({ msg: strings.err.userUpdateErr })
     })   
 }

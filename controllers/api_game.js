@@ -189,7 +189,7 @@ export function saveGame(req, res, jwt) {
         theGame.save() // save it
         .then (ngame => {
             if (ngame)
-                res.status(200).json({msg: strings.ok.gameSaved, game: ngame, path: "/admin/gamelist"})
+                res.status(200).json({msg: strings.ok.gameSaved, game: ngame, path: "/admin/th/gamelist"})
             else
                 res.status(400).json({msg: game.err.gameNotSaved})
         }) 
@@ -305,7 +305,7 @@ export function editGame(req, res, jwt) {
             res.status(400).json({msg: strings.err.gameNotFound})
             return
         }
-        res.status(200).json({path:`/admin/editgame/${encodeURI(gameName)}`})
+        res.status(200).json({path:`/admin/th/editgame/${encodeURI(gameName)}`})
     }) 
     .catch (error => {
         console.log(error)
@@ -474,13 +474,13 @@ export async function deleteGame(req, res, jwt) {
     }
 
     var {gameName, uid, branch} = req.body
-    if (!util.isValidValue(gameName)) {
+    if (!util.isValidValue(uid)) {
         res.status(200).json({result: {sucess:false, msg: strings.err.noData}})
         return
     }  
 
     var filter = {
-        gameName        
+        uid        
     }       
 
     if (jwt.role !== Roles.SUPERADMIN)    
@@ -682,17 +682,17 @@ function _createTeam(color) {
     if (color == 'red') {
         team['color'] = "#c0514d"
         team['bgColor'] = "#ff8f9a"
-        team['team'] = redTeam
+        team['team'] = strings.gen.redTeam
     }
     else if (color == 'blue') {
         team['color'] = "#4f81bd"
         team['bgColor'] = "#94c4ff"
-        team['team'] = blueTeam
+        team['team'] = strings.gen.blueTeam
     }
     else if (color == 'green') {
         team['color'] = "#9bba59"
         team['bgColor'] = "#96dd89"
-        team['team'] = greenTeam
+        team['team'] = strings.gen.greenTeam
     }
     return team
 }

@@ -25,7 +25,7 @@ import config from "../config/config.js"
  * @param {*} next 
  * @returns 
  */
-export async function renderAdmin(req, res, partial, jwtUser) {
+export async function renderAdmin(req, res, app, partial, jwtUser) {
     
     // check if DB properly connected
     if(!req.app.get("db_connected")) {
@@ -68,31 +68,38 @@ export async function renderAdmin(req, res, partial, jwtUser) {
         }
     }
 
-    /**
-     * based on the requested admin page, we render 
-     * differently
-     */
+    if (app === "th") {
 
-    if (partial === 'userlist') {
-        renderAdminUserlist(req, res, jwtUser, data)
-        return
+        /**
+         * based on the requested admin page, we render 
+         * differently
+         */
+
+        if (partial === 'userlist') {
+            renderAdminUserlist(req, res, jwtUser, data)
+            return
+        }
+        if (partial === 'gamelist') {
+            renderAdminGamelist(req, res, jwtUser, data)
+            return
+        }
+        if (partial === 'editgame') {
+            renderAdminGameEdit(req, res, jwtUser, data)
+            return
+        }
+        if (partial === 'brnch') {
+            renderAdminBranches(req, res, jwtUser, data)
+            return
+        }
+        if (partial === 'gallery') {
+            renderAdminGallery(req, res, jwtUser, data)
+            return
+        }
     }
-    if (partial === 'gamelist') {
-        renderAdminGamelist(req, res, jwtUser, data)
-        return
+    else if (app === "apps") {
+        partial = "applist"
     }
-    if (partial === 'editgame') {
-        renderAdminGameEdit(req, res, jwtUser, data)
-        return
-    }
-    if (partial === 'brnch') {
-        renderAdminBranches(req, res, jwtUser, data)
-        return
-    }
-    if (partial === 'gallery') {
-        renderAdminGallery(req, res, jwtUser, data)
-        return
-    }
+
 
     // if none of the above, render 'admin' with 'main_admin' as partial
     res.render('admin' , data);
@@ -118,7 +125,7 @@ export async function renderAdminGallery(req, res, jwtUser, data) {
     // them to their section
     if (jwtUser.role !== Roles.SUPERADMIN) {
         if (branchCode != jwtUser.branch) {
-            res.redirect("/admin/gallery/"+jwtUser.branch)
+            res.redirect("/admin/th/gallery/"+jwtUser.branch)
             return
         }
     }
@@ -146,7 +153,7 @@ export async function renderAdminGallery(req, res, jwtUser, data) {
 export async function renderAdminBranches(req, res, jwtUser, data) {    
     // only SUPER-ADMINs are allowed on this page
     if (jwtUser.role !== Roles.SUPERADMIN) {
-        res.redirect("/admin")
+        res.redirect("/admin/th")
         return
     }
     // Get all the games to check if branches are associated with games.
@@ -176,7 +183,7 @@ export async function renderAdminGameEdit(req, res, jwtUser, data) {
     const game = await api_game.getGame(req.params.param,jwtUser)
     // check that the game exists
     if (game == null) {
-        res.redirect('/admin/gamelist')
+        res.redirect('/admin/th/gamelist')
         return
     }
     data.game = api_game.createGameObj(game)
@@ -240,7 +247,7 @@ export async function renderAdminGamelist(req, res, jwtUser, data) {
 export async function renderAdminQR(req, res, jwt) {
     const {gameName, branch} = req.params
     if (!util.isValidValue(branch) || !util.isValidValue(gameName)) {
-        res.redirect("/admin")
+        res.redirect("/admin/th")
         return
     }
 

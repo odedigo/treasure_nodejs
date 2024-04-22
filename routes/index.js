@@ -114,17 +114,17 @@ router.get('/teacher/:branchCode/:gameName', (req, res) => { //Teacher Site
 
 
 // Admin pages
-router.get('/admin/:page?/:param?', (req, res) => { 
+router.get('/admin/:app/:page?/:param?', (req, res) => { 
     const jwt = util.validateAdminUser(req, true)
     if (!jwt.valid || !validateRoleAllowed(req, [Roles.ADMIN, Roles.TEACHER])) {
         res.redirect("/login")
         return
     }
-    renderAdmin(req, res, req.params.page, jwt.jwtUser);
+    renderAdmin(req, res, req.params.app, req.params.page, jwt.jwtUser);
 });
 
 // Admin pages
-router.get('/admin/qr/:branch/:gameName', (req, res) => { //QR
+router.get('/admin/th/qr/:branch/:gameName', (req, res) => { //QR
     const jwt = util.validateAdminUser(req, true)
     if (!jwt.valid || !validateRoleAllowed(req, [Roles.ADMIN, Roles.TEACHER])) {
         res.redirect("/login")

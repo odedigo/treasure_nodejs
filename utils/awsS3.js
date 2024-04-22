@@ -59,8 +59,7 @@ export function getS3Client() {
 export async function createFolder(folder, cb) {
     var command = new PutObjectCommand({
         Bucket: bucketName,
-        Key: `${folder}/`,
-        ACL: 'public-read'
+        Key: `${folder}/`
     });
 
     try {

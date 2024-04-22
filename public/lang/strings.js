@@ -28,7 +28,8 @@ const strings = {
       userRegOK: "משתמש חדש נרשם בהצלחה",
       userDeleteOK: "משתמש נמחק",
       passUpdatedOK: "הסיסמה עודכנה בהצלחה",
-      roleUpdateOK: "התפקיד עודכן בהצלחה"
+      roleUpdateOK: "התפקיד עודכן בהצלחה",
+      userUpdateOK: "עדכון משתמש הצליח"
    },
    err: {
       actionErr: "פעולה לא חוקית",
@@ -61,7 +62,8 @@ const strings = {
       usernameInvalid: "שם משתמש לא חוקי",
       failedUpdatingUser: "שגיאה בעדכון המשתמש",
       passUpdateErr: "עדכון הסיסמה נכשל",
-      roleUpdateErr: "עדכון התפקיד נכשל"
+      roleUpdateErr: "עדכון התפקיד נכשל",
+      userUpdateErr: "עדכון משתמש נכשל"
    },
    gen: {
       yes: "כן",

@@ -1111,7 +1111,7 @@ function deleteGalImg(id, branchCode) {
 function changeBranchGal(root, sel) {
     var newBranchCode = (sel.options[sel.selectedIndex].value)
     
-    window.location = `/admin/gallery/${newBranchCode}`
+    window.location = `/admin/th/gallery/${newBranchCode}`
 }
 
 function cancelChanges(url) {

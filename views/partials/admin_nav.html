@@ -3,7 +3,7 @@
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample02" aria-controls="navbarsExample02" aria-expanded="false" aria-label="Toggle navigation"> 
   <span class="navbar-toggler-icon"></span> </button>
       <ul class="nav navbar-nav navbar-right">
-          <li class="nav-item"> <a href="/admin"><img src="/img/th/header.png" class="" /></a></li>
+          <li class="nav-item"> <a href="/admin/apps"><img src="/img/th/header.png" class="" /></a></li>
           <li>      
             
           </li>
@@ -22,10 +22,10 @@
         <img src="/img/apps.png" height="30px" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
       
         <ul class="dropdown-menu dropright" style="width: fit-content;">
-          <li><span class="dropdown-item mid" ><span class="fw-bold">אפליקציות מש"ר</span></span></li>
+          <li><a class="" href="/admin/apps"><span class="dropdown-item mid" ><span class="fw-bold fs-5">אפליקציות מש"ר</span></span></a></li>
           <li><hr class="dropdown-divider"></li>
-          <li><a class="dropdown-item" href="/admin">מחפשים את המטמון <img src="/img/th.png" /></a></li>
-          <li><a class="dropdown-item" href="#">שיעורי תגבור <img src="/img/online.png" /></a></li>
+          <li><a class="dropdown-item" href="/admin/th">מחפשים את המטמון <img src="/img/th.png" /></a></li>
+          <li><a class="dropdown-item" href="/admin/lsn">שיעורי תגבור <img src="/img/online.png" /></a></li>
         </ul>
       </div>
 
@@ -60,23 +60,23 @@
 <div id="wrapper" class="toggled">
   <!-- Sidebar -->
   <div id="sidebar-wrapper" class="shadow" style="margin-top:80px">
-      <div><a href="/admin"><img src="/img/th/treasurehunt.jpg" class="img-fluid p-3" alt=""></a></div>
+      <div><a href="/admin/apps"><img src="/img/th/treasurehunt.jpg" class="img-fluid p-3" alt=""></a></div>
       
       <ul class="sidebar-nav">
           <li class="sidebar-brand"> <a href="#"> מחפשים את המטמון </a> </li>
             <li> <a
-                href="/admin"
+                href="/admin/th"
                 class="list-group-item list-group-item-action py-2 ripple {{#ifEquals section 'admin_main' }} active {{/ifEquals}}"
                 aria-current="true"
             ><span><i class="fa fa-info-circle" aria-hidden="true"></i> איך משחקים</span></a>
           </li>
           <li> <a
-            href="/admin/gamelist"
+            href="/admin/th/gamelist"
             class="list-group-item list-group-item-action py-2 ripple {{#ifEquals section 'gamelist' }} active {{/ifEquals}}"
             aria-current="true" 
           ><span><i class="fa fa-compass" aria-hidden="true"></i> ניהול המשחקים</span></a>
           </li>
-          <li> <a href="/admin/gallery/{{jwtUser.branch}}" 
+          <li> <a href="/admin/th/gallery/{{jwtUser.branch}}" 
             class="list-group-item list-group-item-action py-2 ripple {{#ifEquals section 'gallery' }} active {{/ifEquals}}"">
             <span><i class="fa fa-picture-o" aria-hidden="true"></i> העלאת תמונות</span></a>
           </li>
@@ -87,13 +87,13 @@
       <ul class="sidebar-nav">
         <li class="sidebar-brand"> <a href="#"> פעולות ניהול </a> </li>
         {{#compare jwtUser.role '!==' 'TEACHER'}}
-        <li><a href="/admin/userlist" 
+        <li><a href="/admin/th/userlist" 
           class="list-group-item list-group-item-action py-2 ripple {{#ifEquals section 'userlist' }} active {{else}} {{#ifEquals section 'register' }} active {{/ifEquals}}{{/ifEquals}}"">
           <span><i class="fa fa-users" aria-hidden="true"></i> הגדרת המשתמשים</span></a></li>
         {{/compare}}
 
         {{#compare jwtUser.role '===' 'SUPER-ADMIN'}}
-          <li><a href="/admin/brnch" 
+          <li><a href="/admin/th/brnch" 
           class="list-group-item list-group-item-action py-2 ripple {{#ifEquals section 'brnch' }} active {{/ifEquals}}"">
           <span><i class="fa fa-home" aria-hidden="true"></i> הגדרת סניפים</span></a></li>
         {{/compare}}
