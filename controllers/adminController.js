@@ -50,6 +50,7 @@ export async function renderAdmin(req, res, partial, jwtUser) {
      */
     var data = { 
         jsscript: ['/js/admin.js'], // the JS files to be added to the page
+        css: ['/css/admin.css','/css/sidebar.css'], // the CSS files to be added to the page
         jwtUser,                    // JWT token data
         section: partial,           // the sub page
         data: {},                   // each page has additional data based on its context
