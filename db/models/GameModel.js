@@ -91,7 +91,7 @@ var GameSchema = new Schema({
         riddles: [RiddleSchema]
     }
 });
-GameSchema.set('collection', 'treasure');
+GameSchema.set('collection', 'th_treasure');
 
 // Compile model from schema
 const GameModel = model('gameModel', GameSchema );

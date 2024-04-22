@@ -32,7 +32,7 @@ var StatusSchema = new Schema({
     green: [StatusEvent],
     blue: [StatusEvent]
 });
-StatusSchema.set('collection', 'status');
+StatusSchema.set('collection', 'th_status');
 
 // Compile model from schema
 const StatusModel = model('StatusModel', StatusSchema);
