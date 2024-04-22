@@ -24,7 +24,31 @@ window.addEventListener('load', () => {
             spinner.children[i].style.display = "none"
         spinner.style.display = "none"
     }
+    
+    window.addEventListener('resize', function(event) {
+        var el = findElement("wrapper")
+        if (el === undefined || el == null)
+            return
+        if (window.innerWidth <= 768)
+            el.classList.remove("toggled")
+        else
+            el.classList.add("toggled")
+    }, true);
 
+    var togg = findElement("menu-toggle");
+    if (togg !== null) {
+        togg.addEventListener("click", (event) => {
+            event.preventDefault();
+            var el = findElement("wrapper")
+            if (el === undefined || el == null)
+                return
+            if(el.classList[0] === undefined)
+                el.classList.add("toggled")
+            else
+            el.classList.remove("toggled")
+        });
+    }
+    
     // Add rules to Iodine
     window.Iodine.rule('someUppercase', (value) => {
         return value !== value.toUpperCase() &&

@@ -1,0 +1,93 @@
+<!-- ======= Header ======= -->
+<header id="header" class="fixed-top d-flex align-items-center">
+  <div class="container d-flex align-items-center">
+
+       <!-- Sidebar -->
+  <nav id="sidebarMenu" class="collapse d-lg-block sidebar collapse bg-white">
+    <div class="position-sticky">
+      <div class="list-group list-group-flush mx-3 mt-4">
+        <div><a href="/admin"><img src="/img/th/treasurehunt.jpg" class="img-fluid" alt=""></a></div>
+        <div style="height:20px"></div>
+
+          <a
+            href="/admin"
+            class="list-group-item list-group-item-action py-2 ripple {{#ifEquals section 'admin_main' }} active {{/ifEquals}}"
+            aria-current="true"
+          ><span><i class="fa fa-info-circle" aria-hidden="true"></i> איך משחקים</span></a>
+
+          
+        <a
+          href="/admin/gamelist"
+          class="list-group-item list-group-item-action py-2 ripple {{#ifEquals section 'gamelist' }} active {{/ifEquals}}"
+          aria-current="true" 
+        ><span><i class="fa fa-compass" aria-hidden="true"></i> ניהול המשחקים</span></a>
+
+        <a href="/admin/gallery/{{jwtUser.branch}}" 
+          class="list-group-item list-group-item-action py-2 ripple {{#ifEquals section 'gallery' }} active {{/ifEquals}}"">
+          <span><i class="fa fa-picture-o" aria-hidden="true"></i> העלאת תמונות</span></a>
+          
+
+        {{#compare jwtUser.role '!==' 'TEACHER'}}
+          <a href="/admin/userlist" 
+            class="list-group-item list-group-item-action py-2 ripple {{#ifEquals section 'userlist' }} active {{else}} {{#ifEquals section 'register' }} active {{/ifEquals}}{{/ifEquals}}"">
+            <span><i class="fa fa-users" aria-hidden="true"></i> ניהול המשתמשים</span></a>
+        {{/compare}}
+
+        {{#compare jwtUser.role '===' 'SUPER-ADMIN'}}
+            <a href="/admin/brnch" 
+            class="list-group-item list-group-item-action py-2 ripple {{#ifEquals section 'brnch' }} active {{/ifEquals}}"">
+            <span><i class="fa fa-home" aria-hidden="true"></i> הגדרת סניפים</span></a>
+        {{/compare}}
+
+        
+    </div>
+  </nav>
+  <!-- Sidebar -->
+
+  
+    <nav id="navbar" class="navbar order-last fixed-top order-lg-0 navbar-light bg-white">
+     
+      <a href="/admin"><img src="/img/th/header.png" class=" me-3" /></a>
+      <ul>
+        <li>
+          <div class="dropdown scrollto nav-link px-2 ps-3">
+            
+            <img src="/img/usernav.png" height="30px" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+          
+            <ul class="dropdown-menu">
+              <li><span class="dropdown-item mid" ><span class="fw-bold">שם:</span> {{jwtUser.name}}</span></li>
+              <li><span class="dropdown-item mid" ><span class="fw-bold">שם משתמש:</span> {{jwtUser.username}}</span></li>
+              <li><span class="dropdown-item mid" ><span class="fw-bold">תפקיד:</span>&nbsp;
+                {{#compare jwtUser.role '===' 'TEACHER'}}
+                מורה
+                {{else}}
+                  {{#compare jwtUser.role '===' 'ADMIN'}}
+                  אדמין סניף
+                  {{else}}
+                  אדמין ראשי
+                  {{/compare}}
+                {{/compare}}
+              </span></li>
+              <li><hr class="dropdown-divider"></li>
+              {{#compare jwtUser.role '===' 'SUPER-ADMIN'}}
+              <li><span class="dropdown-item mid" ><span class="fw-bold">גרסה:</span> {{version}}</span></li>
+              <li><hr class="dropdown-divider"></li>
+              {{/compare}}
+              <li><a class="dropdown-item" href="/logout">יציאה <img src="/img/logout.png" title="יציאה" data-toggle="tooltip"/></a></li>
+            </ul>            
+          </div>
+        </li>
+        
+      </ul>
+    </nav>
+    <!-- .navbar -->
+
+    <!-- <div class="header-social-links d-flex align-items-center">
+      <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
+      <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+      <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
+      <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></i></a>
+    </div> -->
+
+  </div>
+</header><!-- End Header -->

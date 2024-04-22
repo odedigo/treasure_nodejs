@@ -152,6 +152,8 @@ onscroll(document, navbarlinksActive)
  */
 const scrollto = (el) => {
   let header = select('#header')
+  if (header === undefined || header == null)
+    return
   let offset = header.offsetHeight
 
   let elementPos = select(el).offsetTop
