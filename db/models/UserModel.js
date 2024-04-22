@@ -18,6 +18,11 @@ let Roles = {
     ADMIN: 'ADMIN',
     TEACHER: 'TEACHER'
 }
+var LessonSchema = new Schema({
+    weekday: String,
+    time: String,
+    duration: String
+})
 
 var UserSchema = new Schema({
     username: {
@@ -29,6 +34,10 @@ var UserSchema = new Schema({
     name: String,
     branch: String,
     email: String,
+    lessons: {
+        type: [LessonSchema],
+        default: []
+    },
     role: { // teacher, admin
         type:String,
         required: true,
