@@ -9,18 +9,9 @@
           </li>
       </ul>
       <div class="row" style="position:absolute; left:0">
-      <!-- <div class="dropdown col">
-        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-          מחפשים את המטמון
-        </button>
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-          <li><a class="dropdown-item" href="#">מחפשים את המטמון</a></li>
-          <li><a class="dropdown-item" href="#">רישום לשיעורי תיגבור</a></li>
-        </ul>
-      </div>      -->
       <div class="dropdown col scrollto nav-link px-2 ps-4">
         <img src="/img/apps.png" height="30px" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-      
+
         <ul class="dropdown-menu dropright" style="width: fit-content;">
           <li><a class="" href="/admin/apps"><span class="dropdown-item mid" ><span class="fw-bold fs-5">אפליקציות מש"ר</span></span></a></li>
           <li><hr class="dropdown-divider"></li>
@@ -62,6 +53,8 @@
   <div id="sidebar-wrapper" class="shadow" style="margin-top:80px">
       <div><a href="/admin/apps"><img src="/img/th/treasurehunt.jpg" class="img-fluid p-3" alt=""></a></div>
       
+      {{#compare app '===' 'th'}}
+
       <ul class="sidebar-nav">
           <li class="sidebar-brand"> <a href="#"> מחפשים את המטמון </a> </li>
             <li> <a
@@ -81,6 +74,8 @@
             <span><i class="fa fa-picture-o" aria-hidden="true"></i> העלאת תמונות</span></a>
           </li>
       </ul>
+
+      {{/compare}}
       
       {{#compare jwtUser.role '!==' 'TEACHER'}}
       <hr>

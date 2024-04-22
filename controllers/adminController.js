@@ -61,6 +61,7 @@ export async function renderAdmin(req, res, app, partial, jwtUser) {
         title: "אזור ניהול",
         imgRoot: config.s3.root,
         version: config.version.v,
+        app,
         helpers: {
             whichPartial: function() {  // used by handibars to render the sub-page
                 return partial  
