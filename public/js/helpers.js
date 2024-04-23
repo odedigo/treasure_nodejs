@@ -115,6 +115,8 @@ export function ifEquals(arg1, arg2, options) {
  * @returns 
  */
 export function compare (v1, operator, v2, options) {
+    if (v1 === undefined || v2 === undefined)
+        return options.fn(this);
     'use strict';
     var operators = {
       '==': v1 == v2 ? true : false,
@@ -137,6 +139,9 @@ export function compare (v1, operator, v2, options) {
     return console.error('Error: Expression "' + operator + '" not found');
   }
 
+  export function isdef(v1) {
+    return (v1 !== undefined)
+  }
 /**
  * Checks if a value is in the given array
  * @param {*} value 

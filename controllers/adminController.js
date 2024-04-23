@@ -72,6 +72,7 @@ export async function renderAdmin(req, res, app, partial, jwtUser) {
 
     if (app === "th") {
 
+        data.title = strings.title.treasureAdmin
         /**
          * based on the requested admin page, we render 
          * differently
