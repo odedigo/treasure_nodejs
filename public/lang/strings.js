@@ -71,15 +71,20 @@ const strings = {
       redTeam: "הקבוצה האדומה",
       blueTeam: "הקבוצה הכחולה",
       greenTeam: "הקבוצה הירוקה",
-      studentArea: "אזור התלמידים",
-      teacherArea: "אזור המורה",
-      homepage: "כניסה"
    },
    riddle: {
       firstLine: "השורה הראשונה",
       LastLine: "השורה האחרונה",
       sample1: "כיתבו את החידה",
       sample2: "המשך החידה"
+   },
+   title: {
+      home: "מרכז אפליקציות",
+      error: "שגיאה",
+      admin: "אזור ניהול",
+      login: "כניסה",
+      studentArea: "מחפשים את המטמון - אזור התלמידים",
+      teacherArea: "מחפשים את המטמון - אזור המורה",
    }
 }
 export default strings

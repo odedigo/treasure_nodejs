@@ -29,7 +29,7 @@ export function renderLogin(req, res, obj) {
 
     res.render('login' , { 
         jsscript: ['/js/admin.js'],
-        title: strings.gen.homepage
+        title: strings.title.login
     });
 }
 

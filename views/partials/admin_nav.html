@@ -51,7 +51,7 @@
 <div id="wrapper" class="toggled">
   <!-- Sidebar -->
   <div id="sidebar-wrapper" class="shadow" style="margin-top:80px">
-      <div><a href="/admin/apps"><img src="/img/th/treasurehunt.jpg" class="img-fluid p-3" alt=""></a></div>
+      <div><a href="/admin/apps"><img src="/img/physics.jpg" class="img-fluid p-3" alt=""></a></div>
       
       {{#compare app '===' 'th'}}
 
@@ -77,23 +77,27 @@
 
       {{/compare}}
       
+      {{#includes app (toArray "apps" "mng")}}
+
       {{#compare jwtUser.role '!==' 'TEACHER'}}
       <hr>
       <ul class="sidebar-nav">
         <li class="sidebar-brand"> <a href="#"> פעולות ניהול </a> </li>
         {{#compare jwtUser.role '!==' 'TEACHER'}}
-        <li><a href="/admin/th/userlist" 
+        <li><a href="/admin/mng/userlist" 
           class="list-group-item list-group-item-action py-2 ripple {{#ifEquals section 'userlist' }} active {{else}} {{#ifEquals section 'register' }} active {{/ifEquals}}{{/ifEquals}}"">
           <span><i class="fa fa-users" aria-hidden="true"></i> הגדרת המשתמשים</span></a></li>
         {{/compare}}
 
         {{#compare jwtUser.role '===' 'SUPER-ADMIN'}}
-          <li><a href="/admin/th/brnch" 
+          <li><a href="/admin/mng/brnch" 
           class="list-group-item list-group-item-action py-2 ripple {{#ifEquals section 'brnch' }} active {{/ifEquals}}"">
           <span><i class="fa fa-home" aria-hidden="true"></i> הגדרת סניפים</span></a></li>
         {{/compare}}
       </ul>
       {{/compare}}
+
+      {{/includes}}
           
   </div> <!-- /#sidebar-wrapper -->
 

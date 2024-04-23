@@ -16,6 +16,7 @@ import * as api_game from '../controllers/api_game.js';
 import * as util from "../utils/util.js";
 import { Roles } from '../db/models/UserModel.js';
 import config from "../config/config.js"
+import strings from "../public/lang/strings.js"
 
 /**
  * Main rendering function.
@@ -58,7 +59,7 @@ export async function renderAdmin(req, res, app, partial, jwtUser) {
         root: `${req.protocol}://${req.get('host')}`,   // root of the site
         url: req.url,               // the page URL
         branches: branches,         // the branches
-        title: "אזור ניהול",
+        title: strings.title.admin,
         imgRoot: config.s3.root,
         version: config.version.v,
         app,
@@ -76,20 +77,12 @@ export async function renderAdmin(req, res, app, partial, jwtUser) {
          * differently
          */
 
-        if (partial === 'userlist') {
-            renderAdminUserlist(req, res, jwtUser, data)
-            return
-        }
         if (partial === 'gamelist') {
             renderAdminGamelist(req, res, jwtUser, data)
             return
         }
         if (partial === 'editgame') {
             renderAdminGameEdit(req, res, jwtUser, data)
-            return
-        }
-        if (partial === 'brnch') {
-            renderAdminBranches(req, res, jwtUser, data)
             return
         }
         if (partial === 'gallery') {
@@ -99,6 +92,24 @@ export async function renderAdmin(req, res, app, partial, jwtUser) {
     }
     else if (app === "apps") {
         partial = "applist"
+        data.title = strings.title.home
+    }
+    else if (app === "mng") {
+        data.title = strings.title.admin
+
+        if (partial === 'userlist') {
+            renderAdminUserlist(req, res, jwtUser, data)
+            return
+        }
+        if (partial === 'brnch') {
+            renderAdminBranches(req, res, jwtUser, data)
+            return
+        }
+
+    }
+    else {
+        res.redirect("/err")
+        return
     }
 
 

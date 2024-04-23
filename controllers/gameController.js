@@ -17,7 +17,7 @@ import strings from "../public/lang/strings.js"
 
 export function renderHome(req, res) {
     res.render('home' , { 
-        title: "אזור ניהול"
+        title: strings.title.home
     });
 }
 
@@ -65,7 +65,7 @@ export function renderGame(req, res, obj) {
                 branch: gameJson["branch"],
                 errMsg,
                 infoMsg,
-                title: strings.gen.studentArea,
+                title: strings.title.studentArea,
                 imgRoot: config.s3.root
             });
         }

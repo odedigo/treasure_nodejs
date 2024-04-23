@@ -40,7 +40,7 @@ export async function renderTeacher (req, res) {
                 date: util.getDateIL(gameData.date),
                 readableName: gameData.readableName,
                 uid: gameData.uid,
-                title: strings.gen.teacherArea,
+                title: strings.title.teacherArea,
                 imgRoot: config.s3.root
             });            
         }

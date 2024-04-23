@@ -138,6 +138,32 @@ export function compare (v1, operator, v2, options) {
   }
 
 /**
+ * Checks if a value is in the given array
+ * @param {*} value 
+ * @param {*} arr 
+ * @param {*} options 
+ * @returns 
+ */  
+export function includes(value, arr, options) {
+    if (!Array.isArray(arr)) {
+        return options.fn(this);
+    }
+
+    if(arr.includes(value))    
+        return options.inverse(this);
+    return options.fn(this);
+} 
+
+/**
+ * Converts a list to an array
+ * (toArray "apps" "mng") will become ["apps","mng"]
+ * @param  {...any} values 
+ * @returns 
+ */
+export function toArray (...values) {
+    return Object.entries(values.slice(0,-1))
+}
+/**
  * Handle pagination bottom options
  * @param {*} totalDocs 
  * @param {*} numPerPage 
