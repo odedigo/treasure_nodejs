@@ -85,7 +85,8 @@ const strings = {
       login: "כניסה",
       studentArea: "מחפשים את המטמון - אזור התלמידים",
       teacherArea: "מחפשים את המטמון - אזור המורה",
-      treasureAdmin: "מחפשים את המטמון - אזור ניהול"
+      treasureAdmin: "מחפשים את המטמון - אזור ניהול",
+      lessons: "שיעורי תגבור"
    }
 }
 export default strings

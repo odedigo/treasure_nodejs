@@ -38,7 +38,7 @@ export async function renderAdmin(req, res, app, partial, jwtUser) {
      * within the admin framework
      */
     if (partial === undefined) {
-        partial = 'admin_main' // default - main entrance page
+        partial = 'admin_th' // default - main entrance page
     }
 
     // Read all branches from DB
@@ -96,8 +96,8 @@ export async function renderAdmin(req, res, app, partial, jwtUser) {
         data.title = strings.title.home
     }
     else if (app === "mng") {
-        data.title = strings.title.admin
-
+        data.title = strings.title.admin       
+        
         if (partial === 'userlist') {
             renderAdminUserlist(req, res, jwtUser, data)
             return
@@ -107,6 +107,10 @@ export async function renderAdmin(req, res, app, partial, jwtUser) {
             return
         }
 
+    }
+    else if (app === "lsn") {
+        data.title = strings.title.lessons
+        partial = 'admin_lsn' 
     }
     else {
         res.redirect("/err")

@@ -59,7 +59,7 @@
           <li class="sidebar-brand"> <a href="#"> מחפשים את המטמון </a> </li>
             <li> <a
                 href="/admin/th"
-                class="list-group-item list-group-item-action py-2 ripple {{#ifEquals section 'admin_main' }} active {{/ifEquals}}"
+                class="list-group-item list-group-item-action py-2 ripple {{#ifEquals section 'admin_th' }} active {{/ifEquals}}"
                 aria-current="true"
             ><span><i class="fa fa-info-circle" aria-hidden="true"></i> איך משחקים</span></a>
           </li>
@@ -72,6 +72,34 @@
           <li> <a href="/admin/th/gallery/{{jwtUser.branch}}" 
             class="list-group-item list-group-item-action py-2 ripple {{#ifEquals section 'gallery' }} active {{/ifEquals}}"">
             <span><i class="fa fa-picture-o" aria-hidden="true"></i> העלאת תמונות</span></a>
+          </li>
+      </ul>
+
+      {{/compare}}
+
+      {{#compare app '===' 'lsn'}}
+
+      <ul class="sidebar-nav">
+          <li class="sidebar-brand"> <a href="#"> שיעורי תגבור </a> </li>
+            <li> <a
+                href="/admin/lsn"
+                class="list-group-item list-group-item-action py-2 ripple {{#ifEquals section 'admin_th' }} active {{/ifEquals}}"
+                aria-current="true"
+            ><span><i class="fa fa-info-circle" aria-hidden="true"></i> איך מתגברים</span></a>
+          </li>
+          <li> <a
+            href="/admin/lsn/lsnlist/{{jwtUser.branch}}"
+            class="list-group-item list-group-item-action py-2 ripple {{#ifEquals section 'gamelist' }} active {{/ifEquals}}"
+            aria-current="true" 
+          ><span><i class="fa fa-graduation-cap" aria-hidden="true"></i> ניהול שיעורים</span></a>
+          </li>
+          <li> <a href="/admin/lsn/formlist/{{jwtUser.branch}}" 
+            class="list-group-item list-group-item-action py-2 ripple {{#ifEquals section 'gallery' }} active {{/ifEquals}}"">
+            <span><i class="fa fa-check" aria-hidden="true"></i> טופס הרשמה</span></a>
+          </li>
+          <li> <a href="/admin/lsn/reglist/{{jwtUser.branch}}" 
+            class="list-group-item list-group-item-action py-2 ripple {{#ifEquals section 'gallery' }} active {{/ifEquals}}"">
+            <span><i class="fa fa-list-ol" aria-hidden="true"></i> נרשמים</span></a>
           </li>
       </ul>
 
