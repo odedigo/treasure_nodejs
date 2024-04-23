@@ -5,6 +5,22 @@
  * Date: March 2024
  */
 
+.mprimary {
+  color: #B89F5F;
+}
+
+.mprimary-border {
+  color: #70613a;
+}
+
+.text-primary {
+  color: #B89F5F !important;
+}
+
+.btn-primary {  
+  border-color: #B89F5F !important;
+  background-color: #70613a !important;
+}
 /*--------------------------------------------------------------
 # General
 --------------------------------------------------------------*/
@@ -697,7 +713,7 @@ section {
 }
 
 .services .icon-box-pink:hover {
-  border-color: #0D6EFD;
+  border-color: #B89F5F;
 }
 
 .services .icon-box-cyan .icon i {

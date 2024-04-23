@@ -1281,7 +1281,7 @@
   .sidebar-nav li a:hover {
   text-decoration: none;
   color: white;
-  background: gray; /* #0D6EFD;*/
+  background: #d0c2a0; /* #0D6EFD;*/
   }
   
   .sidebar-nav li a:active, .sidebar-nav li a:focus {
@@ -1289,15 +1289,15 @@
   }
   
   .list-group-item.active  {
-  background-color: #0D6EFD;
+  background-color: #B89F5F;
   color: white;
+  border-color: #937a3c;
 }
-
-  .sidebar-nav>.sidebar-brand {
+.sidebar-nav>.sidebar-brand {
   height: 65px;
   font-size: 22px;
   line-height: 60px;
-  }
+}
   
   .sidebar-nav>.sidebar-brand a {
   color: rgb(47, 47, 47);
