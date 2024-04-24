@@ -131,14 +131,17 @@ export async function registerUser(req, res, jwt) {
     })
 }
 
-export async function getUserList(param, jwt) {
-    const numPerPage = config.app.userListPerPage
+export async function getUserList(param, jwt, perPage, forceBranch = null) {
+    const numPerPage = perPage
     var page = param
     if (!util.isValidValue(page))
         page = 1
     var filter = {}
     if (jwt.role !== Roles.SUPERADMIN)
         filter['branch'] = jwt.branch
+    else if (util.isValidValue(forceBranch)) {
+        filter['branch'] = forceBranch
+    }
     const users = await UserModel.find(filter)
         .limit(numPerPage)
         .skip(numPerPage*(page-1))
@@ -170,8 +173,19 @@ export function createUserList(users) {
     if (users == null)
     return res
     users.forEach(user => {
-        var dt = util.getDateIL(user.created)
-        res.push({name:user.name, branchName: util.codeToBranch(user.branch), branch: user.branch, email: user.email, username: user.username.toLowerCase(), role: user.role, created: dt})
+        var dt = util.getDateIL(user.created)    
+        var lsns = []
+        user.lessons.forEach(group => {
+            var grp = {}
+            grp.group = group.group
+            grp.timing = []
+            group.timing.forEach(ls => {
+                grp.timing.push({weekday: ls.weekday, time: ls.time, duration:ls.duration})
+            })
+            lsns.push(grp)
+        })
+        res.push({name:user.name, branchName: util.codeToBranch(user.branch), branch: user.branch, email: user.email, 
+            username: user.username.toLowerCase(), role: user.role, created: dt, lessons: lsns})
     });
     return res;
 }

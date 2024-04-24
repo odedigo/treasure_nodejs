@@ -28,12 +28,14 @@ const config = {
     },
     app: {
         name: "Treasure Hunt - Masha",
+        allowLessons: true,
         isProduction: process.env.NODE_ENV === 'production',
         logger_show_info: true,
         report_status: true,
         expiration: 1, // # of days
         gameListPerPage: 20,
-        userListPerPage: 20
+        userListPerPage: 20,
+        lessonLisrPerPage: 5
     },
     s3: {
         root: `https://mashar.s3.eu-north-1.amazonaws.com`  //https://mashar.s3.eu-north-1.amazonaws.com/riddles/aco/cat.png

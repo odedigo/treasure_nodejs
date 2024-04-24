@@ -18,7 +18,7 @@
             <div id="msg" class="errMsg mt-4">
               {{#compare jwtUser.role '===' 'SUPER-ADMIN'}}
               <form id="galChangeBranch">
-                <h5 class="mprimary">שינוי סניף</h5><select id="newBranchCode" onchange="changeBranchGal('{{../root}}',this)">
+                <h5 class="mprimary">שינוי סניף</h5><select id="newBranchCode" onchange="changeBranchReload('{{../root}}',this, '/admin/th/gallery/')">
                   {{#each branches as |brch| }}
                   <option value="{{@key}}" {{#compare @key '===' ../branchCode}} selected {{/compare}}>{{brch.name}}</option>
                   {{/each}}

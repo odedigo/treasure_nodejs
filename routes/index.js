@@ -17,6 +17,7 @@ import { renderGame, renderHome } from '../controllers/gameController.js';
 import * as api_user from '../controllers/api_user.js';
 import * as api_game from '../controllers/api_game.js';
 import * as api_mng from '../controllers/api_mng.js';
+import * as api_lesson from '../controllers/api_lesson.js';
 import { renderTeacher } from '../controllers/teacherController.js';
 import { renderErr } from '../controllers/errController.js';
 import { renderLogin } from '../controllers/loginController.js'
@@ -27,6 +28,7 @@ import multer from 'multer'
 import multerS3 from 'multer-s3'
 import * as awsS3 from '../utils/awsS3.js'
 import { config } from 'dotenv'; //https://www.npmjs.com/package/dotenv
+import strings from "../public/lang/strings.js"
 
 config({ path: './config.env' });
 
@@ -165,7 +167,7 @@ router.post('/api/user/del', (req, res) => {
         return
     }
     if (req.body.username === undefined) {
-        res.status(400).json({msg: "שם משתמש לא חוקי"} )
+        res.status(400).json({msg: strings.err.usernameNotEmail} )
         return
     }
     api_user.deleteUser(req, res, jwt.jwtUser)
@@ -188,7 +190,7 @@ router.post('/api/user/role', (req, res) => {
     }
     const {username, role} = req.body
     if (username === undefined || role === undefined) {
-        res.status(400).json({msg: "הפעולה נכשלה"} )
+        res.status(400).json({msg: strings.err.actionFailed} )
         return
     }
     api_user.changeRole(req, res, jwt.jwtUser)
@@ -218,7 +220,7 @@ router.post('/api/vector', (req, res) => {
 router.post('/api/game/list', (req, res) => {
     const jwt = util.validateAdminUser(req, true)
     if (!jwt.valid || !validateRoleAllowed(req, [Roles.ADMIN, Roles.TEACHER])) {
-        res.status(400).json({msg: "הפעולה נכשלה"} )
+        res.status(400).json({msg: strings.err.actionFailed} )
         return
     }
     api_game.getGameList(req,res, jwt.jwtUser)
@@ -230,7 +232,7 @@ router.post('/api/game/list', (req, res) => {
 router.post('/api/game/edit', (req, res) => {
     const jwt = util.validateAdminUser(req, true)
     if (!jwt.valid || !validateRoleAllowed(req, [Roles.ADMIN, Roles.TEACHER])) {
-        res.status(400).json({msg: "הפעולה נכשלה"} )
+        res.status(400).json({msg: strings.err.actionFailed} )
         return
     }
     api_game.editGame(req,res, jwt.jwtUser)
@@ -242,7 +244,7 @@ router.post('/api/game/edit', (req, res) => {
 router.post('/api/game/start', (req, res) => {
     const jwt = util.validateAdminUser(req, true)
     if (!jwt.valid || !validateRoleAllowed(req, [Roles.ADMIN, Roles.TEACHER])) {
-        res.status(400).json({msg: "הפעולה נכשלה"} )
+        res.status(400).json({msg: strings.err.actionFailed} )
         return
     }
     api_game.startGame(req,res, jwt.jwtUser)
@@ -254,7 +256,7 @@ router.post('/api/game/start', (req, res) => {
 router.post('/api/game/stop', (req, res) => {
     const jwt = util.validateAdminUser(req, true)
     if (!jwt.valid || !validateRoleAllowed(req, [Roles.ADMIN, Roles.TEACHER])) {
-        res.status(400).json({msg: "הפעולה נכשלה"} )
+        res.status(400).json({msg: strings.err.actionFailed} )
         return
     }
     api_game.stopGame(req,res, jwt.jwtUser)
@@ -266,7 +268,7 @@ router.post('/api/game/stop', (req, res) => {
 router.post('/api/game/create', (req, res) => {
     const jwt = util.validateAdminUser(req, true)
     if (!jwt.valid || !validateRoleAllowed(req, [Roles.ADMIN, Roles.TEACHER])) {
-        res.status(400).json({msg: "הפעולה נכשלה"} )
+        res.status(400).json({msg: strings.err.actionFailed} )
         return
     }
     api_game.createGame(req,res, jwt.jwtUser)
@@ -278,7 +280,7 @@ router.post('/api/game/create', (req, res) => {
 router.post('/api/game/remove', (req, res) => {
     const jwt = util.validateAdminUser(req, true)
     if (!jwt.valid || !validateRoleAllowed(req, [Roles.ADMIN])) {
-        res.status(400).json({msg: "הפעולה נכשלה"} )
+        res.status(400).json({msg: strings.err.actionFailed} )
         return
     }
     api_game.deleteGame(req,res, jwt.jwtUser)
@@ -290,7 +292,7 @@ router.post('/api/game/remove', (req, res) => {
 router.post('/api/game/clone', (req, res) => {
     const jwt = util.validateAdminUser(req, true)
     if (!jwt.valid || !validateRoleAllowed(req, [Roles.ADMIN, Roles.TEACHER])) {
-        res.status(400).json({msg: "הפעולה נכשלה"} )
+        res.status(400).json({msg: strings.err.actionFailed} )
         return
     }
     api_game.cloneGame(req,res, jwt.jwtUser)
@@ -302,7 +304,7 @@ router.post('/api/game/clone', (req, res) => {
 router.post('/api/game/save', (req, res) => {
     const jwt = util.validateAdminUser(req, true)
     if (!jwt.valid || !validateRoleAllowed(req, [Roles.ADMIN, Roles.TEACHER])) {
-        res.status(400).json({msg: "הפעולה נכשלה"} )
+        res.status(400).json({msg: strings.err.actionFailed} )
         return
     }
     api_game.saveGame(req,res, jwt.jwtUser)
@@ -314,7 +316,7 @@ router.post('/api/game/save', (req, res) => {
 router.post('/api/game/upmap' , storageMapS3.single('file'), (req, res) => {
     const jwt = util.validateAdminUser(req, true)
     if (!jwt.valid || !validateRoleAllowed(req, [Roles.ADMIN, Roles.TEACHER])) {
-        res.status(400).json({msg: "הפעולה נכשלה"} )
+        res.status(400).json({msg: strings.err.actionFailed} )
         return
     }
     api_game.uploadMap(req,res, jwt.jwtUser)
@@ -324,7 +326,7 @@ router.post('/api/game/upmap' , storageMapS3.single('file'), (req, res) => {
 router.post('/api/mng/brnch', (req, res) => {
     const jwt = util.validateAdminUser(req, true)
     if (!jwt.valid || !validateRoleAllowed(req, [Roles.SUPERADMIN])) {
-        res.status(400).json({msg: "הפעולה נכשלה"} )
+        res.status(400).json({msg: strings.err.actionFailed} )
         return
     }
     api_mng.handleBranch(req,res, jwt.jwtUser)
@@ -333,7 +335,7 @@ router.post('/api/mng/brnch', (req, res) => {
 router.post('/api/mng/gal', function(req, res) { 
         const jwt = util.validateAdminUser(req, true)
         if (!jwt.valid || !validateRoleAllowed(req, [Roles.TEACHER, Roles.ADMIN])) {
-            res.status(400).json({msg: "הפעולה נכשלה"} )
+            res.status(400).json({msg: strings.err.actionFailed} )
             return
         }
     storageGalS3.single('file')(req, res, function(err) { 
@@ -344,11 +346,31 @@ router.post('/api/mng/gal', function(req, res) {
 router.post('/api/mng/galdel', (req, res) => {
     const jwt = util.validateAdminUser(req, true)
     if (!jwt.valid || !validateRoleAllowed(req, [Roles.ADMIN])) {
-        res.status(400).json({msg: "הפעולה נכשלה"} )
+        res.status(400).json({msg: strings.err.actionFailed} )
         return
     }
     api_mng.handleGalleryDelete(req,res, jwt.jwtUser)
 });
+
+/********* API ********** LESSONS ACTIONS ****************************************/
+router.post('/api/lsn/savelist', (req, res) => {
+    const jwt = util.validateAdminUser(req, true)
+    if (!jwt.valid || !validateRoleAllowed(req, [Roles.ADMIN, Roles.TEACHER])) {
+        res.status(400).json({msg: strings.err.actionFailed} )
+        return
+    }
+    api_lesson.saveLessonList(req,res, jwt.jwtUser)
+});
+
+router.post('/api/lsn/savegroups', (req, res) => {
+    const jwt = util.validateAdminUser(req, true)
+    if (!jwt.valid || !validateRoleAllowed(req, [Roles.ADMIN, Roles.TEACHER])) {
+        res.status(400).json({msg: strings.err.actionFailed} )
+        return
+    }
+    api_lesson.saveLessonGroups(req,res, jwt.jwtUser)
+});
+
 /********************** TOOLS ****************************************/
 
 /**

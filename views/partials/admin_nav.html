@@ -89,17 +89,21 @@
           </li>
           <li> <a
             href="/admin/lsn/lsnlist/{{jwtUser.branch}}"
-            class="list-group-item list-group-item-action py-2 ripple {{#ifEquals section 'gamelist' }} active {{/ifEquals}}"
+            class="list-group-item list-group-item-action py-2 ripple {{#ifEquals section 'lsnlist' }} active {{/ifEquals}}"
             aria-current="true" 
           ><span><i class="fa fa-graduation-cap" aria-hidden="true"></i> ניהול שיעורים</span></a>
           </li>
           <li> <a href="/admin/lsn/formlist/{{jwtUser.branch}}" 
-            class="list-group-item list-group-item-action py-2 ripple {{#ifEquals section 'gallery' }} active {{/ifEquals}}"">
+            class="list-group-item list-group-item-action py-2 ripple {{#ifEquals section 'formlist' }} active {{/ifEquals}}"">
             <span><i class="fa fa-check" aria-hidden="true"></i> טופס הרשמה</span></a>
           </li>
           <li> <a href="/admin/lsn/reglist/{{jwtUser.branch}}" 
-            class="list-group-item list-group-item-action py-2 ripple {{#ifEquals section 'gallery' }} active {{/ifEquals}}"">
+            class="list-group-item list-group-item-action py-2 ripple {{#ifEquals section 'reglist' }} active {{/ifEquals}}"">
             <span><i class="fa fa-list-ol" aria-hidden="true"></i> נרשמים</span></a>
+          </li>
+          <li> <a href="/admin/lsn/grplist/{{jwtUser.branch}}" 
+            class="list-group-item list-group-item-action py-2 ripple {{#ifEquals section 'grplist' }} active {{/ifEquals}}"">
+            <span><i class="fa fa-users" aria-hidden="true"></i> הגדרת קבוצות</span></a>
           </li>
       </ul>
 

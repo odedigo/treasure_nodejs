@@ -1,0 +1,111 @@
+<main id="main">
+  <form id="lessonEditor">
+  <!-- ======= User List Section ======= -->
+  <section id="contact" class="contact section-bg">
+    <div class="container">
+      <h2><i class="fa fa-user-circle" aria-hidden="true"></i> רשימת מורים ושעות תגבור</h2>
+      <div id="msg" class="errMsg mt-4">
+        {{#compare jwtUser.role '===' 'SUPER-ADMIN'}}
+        <form id="lsnChangeBranch">
+          <h5 class="mprimary">שינוי סניף</h5><select id="newBranchCode" onchange="changeBranchReload('{{../root}}',this,'/admin/lsn/lsnlist/')">
+            {{#each branches as |brch| }}
+            <option value="{{@key}}" {{#compare @key '===' ../data.branch}} selected {{/compare}}>{{brch.name}}</option>
+            {{/each}}
+          </select>
+        </form>
+        {{/compare}}
+      </div>  
+      <div class="errMsg" id="errMsg"></div>
+      
+      <div class="modal-footer" style="width:80%; padding-bottom:20px">
+        <button type="button" class="btn btn-secondary ms-3" onclick="cancelChanges('/admin/lsn/lsnlist/{{data.branch}}')">ביטול</button>
+        <button type="submit" class="btn btn-primary">שמירה</button>
+      </div>
+      
+      <div class="row">
+        
+      <div class="col-lg-10 mt-5 mt-lg-0 d-flex align-items-stretch" data-aos="fade-left">
+        <table class="table table-striped">
+          <thead>
+          <tr>
+            <th scope="col">פעולות</th>
+            <th scope="col">שם</th>
+            <th scope="col">סניף</th>
+            <th scope="col">שעות תגבור</th>
+          </tr>
+          </thead>
+          <tbody>
+          {{#each data.users as |user userIndex|}}
+          <tr>
+            <td>
+              {{log ../data.groups}}
+              <img src="/img/ops/plus2.png" class="ops-icon" onclick="addLessonGroup('{{user.username}}','{{userIndex}}','{{../data.groups}}')" data-toggle="tooltip" data-placement="top" title="הוספת קבוצה"/>                         
+            </td>
+            <td >{{user.name}}</td>
+            <td >{{user.branchName}}</td>
+            <td>
+              <div id="groups-{{user.username}}">
+                {{#each user.lessons as |group groupIndex|}}
+                <div id="gindex-{{userIndex}}-{{groupIndex}}">
+                <div class="input-group mb-3" style="align-items:safe center">
+                  <img src="/img/ops/del.png" class="ops-icon" onclick="deleteLessonGroup('{{userIndex}}-{{groupIndex}}')" data-toggle="tooltip" data-placement="top" title="מחיקת קבוצה"/>   
+                  <span class="pe-2 ps-2" id="basic-addon2">שם קבוצת התגבור</span>
+                  <select class="form-select form-select-sm" id="grp-{{userIndex}}-{{groupIndex}}" >
+                    {{#each ../../data.groups as |bgroups|}}
+                    <option value="{{bgroups}}" {{#compare group.group '===' bgroups}} selected {{/compare}}>{{bgroups}}</option>
+                    {{/each}}
+                  </select>
+                </div>
+                
+                <table id="lessons-{{userIndex}}-{{groupIndex}}" class="table table-striped table-success">
+                  <thead>
+                    <tr>
+                      <th>פעולות</th>
+                      <th>יום</th>
+                      <th>שעה</th>
+                      <th>משך בדקות</th>
+                    </tr>
+                  </thead>
+                  <tbody>                  
+                    {{#each group.timing as |lsn lsnIndex|}}
+                    <tr id="{{@index}}">
+                    <td>
+                      <img src="/img/ops/del.png" class="ops-icon" onclick="deleteLesson('lessons-{{userIndex}}-{{groupIndex}}','{{@index}}')" data-toggle="tooltip" data-placement="top" title="מחיקת תגבור"/>
+                    </td>
+                    <td><select id="wd-{{@index}}" class="form-select form-select-sm">
+                      <option value="1" {{#compare lsn.weekday '===' '1'}}selected{{/compare}}>ראשון</option>
+                      <option value="2" {{#compare lsn.weekday '===' '2'}}selected{{/compare}}>שני</option>
+                      <option value="3" {{#compare lsn.weekday '===' '3'}}selected{{/compare}}>שלישי</option>
+                      <option value="4" {{#compare lsn.weekday '===' '4'}}selected{{/compare}}>רביעי</option>
+                      <option value="5" {{#compare lsn.weekday '===' '5'}}selected{{/compare}}>חמישי</option>
+                      <option value="6" {{#compare lsn.weekday '===' '6'}}selected{{/compare}}>שישי</option>
+                      <option value="7" {{#compare lsn.weekday '===' '7'}}selected{{/compare}}>שבת</option>
+                      </select>
+                    </td>
+                    <td><input id="tm-{{@index}}" type="time" value="{{lsn.time}}" class="form-control form-control-sm"/></td>
+                    <td><input id="du-{{@index}}" type="number" min="07:00" value="{{lsn.duration}}" class="form-control form-control-sm" style="max-width:60px"/></td>
+                    </tr>
+                    {{/each}} <!-- timing/lesson -->
+
+                  </tbody>
+                </table>   
+                <img src="/img/ops/plus.png" class="ops-icon" style="margin-top:-20px" onclick="addLesson('lessons-{{userIndex}}-{{groupIndex}}')" data-toggle="tooltip" data-placement="top" title="הוספת תגבור"/><span style="vertical-align:super"> הוספת שעת תגבור</span>
+                <hr>
+                </div>
+              {{/each}} <!-- Group -->
+            </div>
+        </td>
+
+          </tr>
+          {{/each}} <!-- USER -->
+          </tbody>
+        </table>
+      </div>
+      <div class="h-100 d-flex align-items-center justify-content-center">
+        {{#pagination numUsers numPerPage page '/admin/mng/userlist'}}{{/pagination}}
+      </div>    
+    </div>
+
+  </div>
+  </form>
+</section><!-- End User List Section -->

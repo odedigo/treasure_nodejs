@@ -1,0 +1,214 @@
+<main id="main">
+
+        <!-- ======= Game List Section ======= -->
+        <section id="contact" class="contact section-bg">
+          <div class="container">
+    
+            <div class="section-title" data-aos="fade-up">
+              <h2><i class="fa fa-compass" aria-hidden="true"></i> רשימת משחקים</h2>
+            </div>
+            
+            <div class="row my-3 mx-1">
+
+              <div class="col-2 mx-3 mt-4 list-group">
+                <a href="#" class="action list-group list-group-item active text-center" data-bs-toggle="modal" data-bs-target="#newGameModal">
+                <span>יצירת משחק חדש</span></a>
+              </div>
+              <div class="col-lg mx-1 mt-4">
+                <span class="tip nowrap"><i class="fa fa-info-circle" aria-hidden="true"></i> שימו לב שלא ניתן למחוק משחק פעיל</span>
+              </div>
+
+            </div>
+
+            <div class="row">
+    
+              <div class="col-lg-2 d-flex align-items-stretch" data-aos="fade-right">
+              <img src="/img/compass.png" />
+    
+            </div>
+            <div class="col-lg-10 mt-5 mt-lg-0 d-flex align-items-stretch" data-aos="fade-left">
+              
+              <table class="table table-striped">
+                <thead>
+                <tr>
+                  <th scope="col">פעולות</th>
+                  <th scope="col">שם המשחק</th>
+                  <th scope="col">קוד המשחק</th>
+                  <th scope="col">סניף</th>
+                  <th scope="col">פעיל</th>
+                  <th scope="col">גרסה</th>
+                  <th scope="col">תאריך עדכון</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{#each data as |game|}}
+                <tr>
+                  <td >
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#cloneGameModal" data-orig-game="{{game.uid}}" data-branch-code="{{game.branchCode}}" data-orig-name="{{game.readableName}}">
+                      <img src="/img/ops/clone.png" class="ops-icon" data-toggle="tooltip" data-placement="top" title="שכפול משחק"/>
+                    </a>
+                    
+                    <img src="/img/ops/edit.png" class="ops-icon" onclick="editeGame('{{game.gameName}}')" data-toggle="tooltip" data-placement="top" title="עריכת משחק"/>
+                    {{#compare ../jwtUser.role '!==' 'TEACHER'}} 
+                      {{#compare game.active '===' 'כן'}}
+                        <img src="/img/ops/del-d.png" class="ops-icon" data-toggle="tooltip" data-placement="top" title="אי אפשר למחוק משחק פעיל  "/>
+                      {{else}}
+                        <img src="/img/ops/del.png" class="ops-icon" onclick="deleteGame('{{game.readableName}}','{{game.uid}}','{{game.branch}}')" data-toggle="tooltip" data-placement="top" title="מחיקת משחק"/>
+                      {{/compare}}
+                    {{/compare}}
+                    
+                    <br/><br/>
+                    {{#compare game.active '===' 'כן'}}
+                    
+                    <img src="/img/ops/start.png" class="ops-icon" onclick="startGame('{{game.gameName}}','{{game.branch}}')" data-toggle="tooltip" data-placement="top" title="התחלת משחק"/>
+                    {{#compare game.activeGame '===' true}}
+                      <img src="/img/ops/end.png" class="ops-icon" onclick="stopGame('{{game.gameName}}','{{game.branch}}')" data-toggle="tooltip" data-placement="top" title="סיום משחק"/>                    
+                    {{else}}
+                      <img src="/img/ops/end-d.png" class="ops-icon" data-toggle="tooltip" data-placement="top" title="סיום משחק"/>                    
+                    {{/compare}}
+                    
+                    <a href="/admin/th/qr/{{game.branchCode}}/{{game.gameName}}" target="game">
+                      <img src="/img/ops/qr.png" class="ops-icon" data-toggle="tooltip" data-placement="top" title="לינקים למשחק"/>
+                     </a>                 
+                    {{/compare}} <!-- Game Active -->
+                  </td>
+                  <td >{{game.readableName}}
+                    {{#compare game.activeGame '===' true}}
+                    <br/><span class="game-started"><i class="fa fa-clock-o" aria-hidden="true"></i> המשחק התחיל</span>
+                    {{/compare}}
+                  </td>
+                  <td >{{game.gameName}}</td>
+                  <td >{{game.branch}}</td>
+                  <td >
+                    {{#compare game.active '===' 'כן'}}
+                    <i class="fa fa-play" aria-hidden="true" style="color:green"></i>
+                    {{else}}
+                    <i class="fa fa-stop" aria-hidden="true"></i>
+                    {{/compare}}
+                    {{game.active}}</td>
+                  <td >{{game.version}}</td>
+                  <td >{{game.date}}</td>
+                </tr>
+                {{/each}}
+                </tbody>
+              </table>
+            </div>
+            <div class="my-3">
+              <div class="errMsg" id="errMsg"></div>
+            </div>
+            <div class="h-100 d-flex align-items-center justify-content-center">
+              {{#pagination numGames numPerPage page '/admin/th/gamelist'}}{{/pagination}}
+            </div>            
+          <!--  -->
+          </div>
+        </div>
+      </section><!-- End User List Section -->
+
+      <!-- Modal Clone Game -->
+      <div class="modal fade" id="cloneGameModal" tabindex="-1" aria-labelledby="cloneGameModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="cloneGameModalLabel">שיכפול משחק</h5>              
+            </div>
+            <div class="modal-body">
+              <form action="#" method="" role="form" class=""  id="cloneGameForm" > 
+                <div class="row">
+                  <label for="origName">קוד המשחק המקורי</label>
+                  <input name="origName" type="input" id="origName-role" class="form-control readonly" placeholder=""  value="" readonly/>
+                </div>
+                <div class="row">
+                  <label for="origGName">שם המשחק המקורי</label>
+                  <input name="origGName" type="input" id="origGName-role" class="form-control readonly" placeholder="" value="" readonly/>
+                </div>
+                <div class="row mt-5" >
+                  <label for="newName">שם המשחק החדש</label>
+                  <input name="newName" type="input" id="newName-role" class="form-control" placeholder="" value=""/>
+                  <label class="comment">שם בעברית או אנגלית בשפה חופשית</label>
+                </div>
+                {{#compare jwtUser.role '===' 'SUPER-ADMIN'}}
+                <div class="row" style="display:{{#compare jwtUser.role '===' 'SUPER-ADMIN'}}block{{else}}none{{/compare}}">
+                  <label for="newBranchClone">שם הסניף</label>
+                  <select name="newBranchClone" id="newBranchClone" class="form-control">
+                    {{#each branches as |brch|}}
+                    <option value="{{@key}}">{{brch.name}}</option>
+                    {{/each}}                    
+                  </select>
+                  <label class="comment tip"><i class="fa fa-info-circle" aria-hidden="true"></i> בבחירת סניף אחר מהמשחק המקורי, כל התמונות יתאפסו</label>
+                </div>                
+                {{/compare}}
+            </div>
+            <div id="modalErrRoleMsg" class="errMsg">&nbsp;</div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ביטול</button>
+              <button type="submit" class="btn btn-primary">שיכפול</button>
+            </div>
+          </form> 
+        </div>
+        </div>
+      </div>
+
+      <!-- Modal New Game -->
+      <div class="modal fade" id="newGameModal" tabindex="-1" aria-labelledby="newGameModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="newGameModalLabel">יצירת משחק חדש</h5>              
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                  <label for="newName">שם המשחק</label>
+                  <input name="newName" type="input" id="newName" class="form-control" placeholder="" class="" value="" />
+                  <label class="comment">שם בעברית או אנגלית בשפה חופשית</label>
+                </div>                
+                {{#compare jwtUser.role '===' 'SUPER-ADMIN'}}
+                <div class="row" style="display:{{#compare jwtUser.role '===' 'SUPER-ADMIN'}}block{{else}}none{{/compare}}">
+                  <label for="origName">שם הסניף</label>
+                  <select name="newBranch" id="newBranch" class="form-control">
+                    {{#each branches as |brch|}}
+                    <option value="{{@key}}">{{brch.name}}</option>
+                    {{/each}}                    
+                  </select>
+                  <label class="comment">בחרו מתרשימת הסניפים</label>
+                </div>                
+                {{/compare}}
+            </div>
+            <div id="newGameMsg" class="errMsg">&nbsp;</div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ביטול</button>
+              <button type="submit" class="btn btn-primary" onclick="createNewGame('newName','newBranch','newGameMsg')">יצירת משחק חדש</button>
+            </div>
+        </div>
+        </div>
+      </div>
+
+      
+    </main><!-- End #main -->
+
+
+<script>
+  /**
+  * CLONE MODAL
+  */
+  var cloneModal = document.getElementById('cloneGameModal')
+  cloneModal.addEventListener('show.bs.modal', function (event) {
+    // Button that triggered the modal
+    var link = event.relatedTarget
+    // Extract info from data-bs-* attributes
+    var origUID = link.getAttribute('data-orig-game')
+    var origName = link.getAttribute('data-orig-name')
+    var branchCode = link.getAttribute('data-branch-code')
+    // If necessary, you could initiate an AJAX request here
+    // and then do the updating in a callback.
+    //
+    // Update the modal's content.
+    var modalTitle = cloneModal.querySelector('.modal-title')
+    var modalBodyInput = cloneModal.querySelectorAll('.modal-body input')
+    var modalSelect = cloneModal.querySelector('.modal-body select')   
+    modalBodyInput[0].value = origUID // game UID
+    modalBodyInput[1].value = origName // game name
+    if (modalSelect)
+      modalSelect.value = branchCode
+  })  
+
+</script>

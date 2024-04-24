@@ -13,6 +13,7 @@
 //================ IMPORTS =================
 import * as api_user from '../controllers/api_user.js';
 import * as api_game from '../controllers/api_game.js';
+import * as lessonController from '../controllers/lessonController.js';
 import * as util from "../utils/util.js";
 import { Roles } from '../db/models/UserModel.js';
 import config from "../config/config.js"
@@ -31,14 +32,6 @@ export async function renderAdmin(req, res, app, partial, jwtUser) {
     // check if DB properly connected
     if(!req.app.get("db_connected")) {
         return res.status(500);
-    }
-
-    /**
-     * partial is the sub-page to be presented
-     * within the admin framework
-     */
-    if (partial === undefined) {
-        partial = 'admin_th' // default - main entrance page
     }
 
     // Read all branches from DB
@@ -71,7 +64,13 @@ export async function renderAdmin(req, res, app, partial, jwtUser) {
     }
 
     if (app === "th") {
-
+        /**
+         * partial is the sub-page to be presented
+         * within the admin framework
+         */
+        if (partial === undefined) {
+            partial = 'admin_th' // default - main entrance page
+        }
         data.title = strings.title.treasureAdmin
         /**
          * based on the requested admin page, we render 
@@ -108,9 +107,29 @@ export async function renderAdmin(req, res, app, partial, jwtUser) {
         }
 
     }
-    else if (app === "lsn") {
+    else if (app === "lsn" && config.app.allowLessons) {
         data.title = strings.title.lessons
-        partial = 'admin_lsn' 
+        if (partial === undefined) {
+            partial = 'admin_lsn' // default - main entrance page
+        }
+
+        if (partial === 'lsnlist') {
+            lessonController.renderAdminLessonlist(req, res, jwtUser, data)
+            return
+        }
+        if (partial === 'grplist') {
+            lessonController.renderLessonGroupList(req, res, jwtUser, data)
+            return
+        }
+        if (partial === 'formlist') {
+            /*renderAdminUserlist(req, res, jwtUser, data)
+            return*/
+        }
+        if (partial === 'reglist') {
+            /*renderAdminUserlist(req, res, jwtUser, data)
+            return*/
+        }
+        
     }
     else {
         res.redirect("/err")
@@ -121,6 +140,9 @@ export async function renderAdmin(req, res, app, partial, jwtUser) {
     // if none of the above, render 'admin' with 'main_admin' as partial
     res.render('admin' , data);
 }
+
+
+/**************** Treasure Hunt *********************/
 
 /**
  * Renders the gallery, where images can managed for the riddles
@@ -221,7 +243,7 @@ export async function renderAdminGameEdit(req, res, jwtUser, data) {
  * @param {*} data 
  */
 export async function renderAdminUserlist(req, res, jwtUser, data) {
-    const {users, numUsers} = await api_user.getUserList(req.params.param, jwtUser)
+    const {users, numUsers} = await api_user.getUserList(req.params.param, jwtUser, config.app.userListPerPage)
     data.data = api_user.createUserList(users)
     data.jsscript.push('/js/gvalid.js')
     // pagination

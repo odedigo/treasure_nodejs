@@ -198,3 +198,6 @@ p {
   right:auto!important;
   left:10px!important;
 }
+.errInput {
+  border-color: red
+}

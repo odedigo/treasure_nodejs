@@ -116,7 +116,7 @@ export function validateAdminUser(req, validatePage = false) {
  * @returns 
  */
 export function validateAdminPage(req) {
-    var pages = ['gamelist','register','userlist','editgame','brnch','gallery']
+    var pages = ['gamelist','register','userlist','editgame','brnch','gallery','lsnlist','formlist','reglist','grplist']
     if (req.params.page == undefined)
         return true
     return pages.includes(req.params.page)
@@ -267,6 +267,32 @@ export function setImagesToEmpty(team) {
 
 /************************** General Utilities ***************************/
 
+export function getWeekday(num) {
+    switch(num) {
+        case '1': return "ראשון"
+        case '2': return "שני"
+        case '3': return "שלישי"
+        case '4': return "רביעי"
+        case '5': return "חמישי"
+        case '6': return "שישי"
+        case '7': return "שבת"
+        default: return "N/A"
+    }
+}
+
+export function getWeekdayNum(day) {
+    switch(num) {
+        case 'ראשון': return "1"
+        case 'שני': return "2"
+        case 'שלישי': return "3"
+        case 'רביעי': return "4"
+        case 'חמישי': return "5"
+        case 'שישי': return "6"
+        case 'שבת': return "7"
+        default: return "N/A"
+    }
+}
+
 /**
  * Gets the date in IL timezone and without milliseconds
  * @param {*} dt 
@@ -314,6 +340,6 @@ export function formatString() {
  * @returns 
  */
 export function isValidValue(val) {
-    return (val !== undefined && val !== "")
+    return (val !== undefined && val !== "" && val !== null)
 }
 

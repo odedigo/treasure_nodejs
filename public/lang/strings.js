@@ -29,10 +29,12 @@ const strings = {
       userDeleteOK: "משתמש נמחק",
       passUpdatedOK: "הסיסמה עודכנה בהצלחה",
       roleUpdateOK: "התפקיד עודכן בהצלחה",
-      userUpdateOK: "עדכון משתמש הצליח"
+      userUpdateOK: "עדכון משתמש הצליח",
+      lsnListSavedOK: "רשימת השיעורים נשמרה בהצלחה"
    },
    err: {
       actionErr: "פעולה לא חוקית",
+      actionFailed: "הפעולה נכשךה",
       nogame: "לא הצלחנו למצוא את נתוני המשחק",
       invalidAction:  "פעולה לא חוקית",
       gameNotFound: "המשחק לא נמצא",
@@ -63,7 +65,7 @@ const strings = {
       failedUpdatingUser: "שגיאה בעדכון המשתמש",
       passUpdateErr: "עדכון הסיסמה נכשל",
       roleUpdateErr: "עדכון התפקיד נכשל",
-      userUpdateErr: "עדכון משתמש נכשל"
+      userUpdateErr: "עדכון משתמש נכשל",
    },
    gen: {
       yes: "כן",

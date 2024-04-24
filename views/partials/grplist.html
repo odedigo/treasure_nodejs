@@ -1,0 +1,57 @@
+<main id="main">
+  <form id="lsnGroups">
+  <!-- ======= User List Section ======= -->
+  <section id="contact" class="contact section-bg">
+    <div class="container">
+
+      <h2><i class="fa fa-users" aria-hidden="true"></i> הגדרת קבוצות תגבור</h2>
+      <h3>סניף {{data.branch}}</h3>
+      
+      <div>
+        <p>רשמו את קבוצות התגבור של הסניף, אחת בכל שורה</p>
+        <p><i class="fa fa-info-circle" aria-hidden="true"></i> שימו לב - מחיקת קבוצה שנעשה בה שימוש עלולה להוביל לטעות ברישום לשיעורים</p>
+        <div id="msg" class="errMsg mt-4">
+          {{#compare jwtUser.role '===' 'SUPER-ADMIN'}}
+          <form id="lsnChangeBranch">
+            <h5 class="mprimary">שינוי סניף</h5><select id="newBranchCode" onchange="changeBranchReload('{{../root}}',this,'/admin/lsn/grplist/')">
+              {{#each branches as |brch| }}
+              <option value="{{@key}}" {{#compare @key '===' ../branch}} selected {{/compare}}>{{brch.name}}</option>
+              {{/each}}
+            </select>
+          </form>
+          {{/compare}}
+        </div>
+      </div>
+
+      <div class="errMsg" id="errMsg"></div>
+      
+      <div class="modal-footer" style="width:80%; padding-bottom:20px">
+        <button type="button" class="btn btn-secondary ms-3" onclick="cancelChanges('/admin/lsn/grplist/{{data.branch}}')">ביטול</button>
+        <button type="submit" class="btn btn-primary">שמירה</button>
+      </div>
+            
+      
+      <div class="col-lg-10 mt-5 mt-lg-0 d-flex align-items-stretch" data-aos="fade-left">
+
+        <div class="container">
+          <div class="form-floating">
+            <textarea class="form-control" placeholder="" id="groups" style="height:300px">{{data.groups}}</textarea>
+          </div>
+        </div>
+        <input type="hidden" value="{{data.branchCode}}" id="branch" name="branch" />
+      </div>
+      
+    </div>
+
+  </div>
+  </form>
+</section><!-- End User List Section -->
+
+<script>
+  window.addEventListener('load', () => {
+    var elms = document.getElementsByTagName('textarea');
+      for(let i = 0;i < elms.length; i++) {
+        elms[i].value = elms[i].value.replaceAll("          ","")
+      }
+  })
+</script>

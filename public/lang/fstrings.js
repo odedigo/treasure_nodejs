@@ -24,6 +24,7 @@ const fstrings = {
         blankBranch: "כינוי הסניף לא יכול להיות ריק",
         uploadEmptyErr: "לא ניתן להעלות קובץ ששמו empty.png",
         allUploadErr: "העלאת הקבצים נכשלה",
+        formError: "חלק מהשדות לא מולאו כראוי"
 
     },
     q: {

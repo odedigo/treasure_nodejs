@@ -23,6 +23,10 @@ var LessonSchema = new Schema({
     time: String,
     duration: String
 })
+var GroupSchema = new Schema({
+    group: String,
+    timing: [LessonSchema]
+})
 
 var UserSchema = new Schema({
     username: {
@@ -35,7 +39,7 @@ var UserSchema = new Schema({
     branch: String,
     email: String,
     lessons: {
-        type: [LessonSchema],
+        type: [GroupSchema],
         default: []
     },
     role: { // teacher, admin
