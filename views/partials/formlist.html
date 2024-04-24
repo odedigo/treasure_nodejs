@@ -5,17 +5,17 @@
           <div class="container">
     
             <div class="section-title" data-aos="fade-up">
-              <h2><i class="fa fa-compass" aria-hidden="true"></i> רשימת משחקים</h2>
+              <h2><i class="fa fa-compass" aria-hidden="true"></i> טפסי הרשמה לתגבור</h2>
             </div>
             
             <div class="row my-3 mx-1">
 
               <div class="col-2 mx-3 mt-4 list-group">
                 <a href="#" class="action list-group list-group-item active text-center" data-bs-toggle="modal" data-bs-target="#newGameModal">
-                <span>יצירת משחק חדש</span></a>
+                <span>יצירת טופס חדש</span></a>
               </div>
               <div class="col-lg mx-1 mt-4">
-                <span class="tip nowrap"><i class="fa fa-info-circle" aria-hidden="true"></i> שימו לב שלא ניתן למחוק משחק פעיל</span>
+                <span class="tip nowrap"><i class="fa fa-info-circle" aria-hidden="true"></i> שימו לב שלא ניתן למחוק טופס פעיל</span>
               </div>
 
             </div>
@@ -32,16 +32,15 @@
                 <thead>
                 <tr>
                   <th scope="col">פעולות</th>
-                  <th scope="col">שם המשחק</th>
-                  <th scope="col">קוד המשחק</th>
+                  <th scope="col">שם הטופס</th>
+                  <th scope="col">קבוצה</th>
                   <th scope="col">סניף</th>
                   <th scope="col">פעיל</th>
-                  <th scope="col">גרסה</th>
                   <th scope="col">תאריך עדכון</th>
                 </tr>
                 </thead>
                 <tbody>
-                {{#each data as |game|}}
+                {{#each data as |form|}}
                 <tr>
                   <td >
                     <a href="#" data-bs-toggle="modal" data-bs-target="#cloneGameModal" data-orig-game="{{game.uid}}" data-branch-code="{{game.branchCode}}" data-orig-name="{{game.readableName}}">
@@ -60,34 +59,22 @@
                     <br/><br/>
                     {{#compare game.active '===' 'כן'}}
                     
-                    <img src="/img/ops/start.png" class="ops-icon" onclick="startGame('{{game.gameName}}','{{game.branch}}')" data-toggle="tooltip" data-placement="top" title="התחלת משחק"/>
-                    {{#compare game.activeGame '===' true}}
-                      <img src="/img/ops/end.png" class="ops-icon" onclick="stopGame('{{game.gameName}}','{{game.branch}}')" data-toggle="tooltip" data-placement="top" title="סיום משחק"/>                    
-                    {{else}}
-                      <img src="/img/ops/end-d.png" class="ops-icon" data-toggle="tooltip" data-placement="top" title="סיום משחק"/>                    
-                    {{/compare}}
-                    
                     <a href="/admin/th/qr/{{game.branchCode}}/{{game.gameName}}" target="game">
                       <img src="/img/ops/qr.png" class="ops-icon" data-toggle="tooltip" data-placement="top" title="לינקים למשחק"/>
                      </a>                 
                     {{/compare}} <!-- Game Active -->
                   </td>
-                  <td >{{game.readableName}}
-                    {{#compare game.activeGame '===' true}}
-                    <br/><span class="game-started"><i class="fa fa-clock-o" aria-hidden="true"></i> המשחק התחיל</span>
-                    {{/compare}}
-                  </td>
-                  <td >{{game.gameName}}</td>
-                  <td >{{game.branch}}</td>
+                  <td >{{form.name}}</td>
+                  <td >{{form.group}}</td>
+                  <td >{{form.branch}}</td>
                   <td >
-                    {{#compare game.active '===' 'כן'}}
-                    <i class="fa fa-play" aria-hidden="true" style="color:green"></i>
+                    {{#compare form.active '===' true}}
+                    <i class="fa fa-play" aria-hidden="true" style="color:green"></i> כן
                     {{else}}
-                    <i class="fa fa-stop" aria-hidden="true"></i>
+                    <i class="fa fa-stop" aria-hidden="true"></i> לא
                     {{/compare}}
-                    {{game.active}}</td>
-                  <td >{{game.version}}</td>
-                  <td >{{game.date}}</td>
+                    </td>
+                  <td >{{form.date}}</td>
                 </tr>
                 {{/each}}
                 </tbody>

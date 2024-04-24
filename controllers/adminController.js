@@ -122,8 +122,8 @@ export async function renderAdmin(req, res, app, partial, jwtUser) {
             return
         }
         if (partial === 'formlist') {
-            /*renderAdminUserlist(req, res, jwtUser, data)
-            return*/
+            lessonController.renderAdminFormlist(req, res, jwtUser, data)
+            return
         }
         if (partial === 'reglist') {
             /*renderAdminUserlist(req, res, jwtUser, data)

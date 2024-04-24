@@ -74,3 +74,24 @@ export async function renderLessonGroupList(req, res, jwtUser, data) {
     data.data = api_lesson.createLsnGroupList(groups, branch)
     res.render('admin' , data);
 }
+
+export async function renderAdminFormlist(req, res, jwtUser, data) {
+    var branchCode = req.params.param
+    if (!util.isValidValue(branchCode)) {
+        res.redirect("/err")
+        return
+    }
+    // SUPER-ADMIN can see all images.
+    // Others can view only from their branch so we redirect
+    // them to their section
+    if (jwtUser.role !== Roles.SUPERADMIN) {
+        if (branchCode != jwtUser.branch) {
+            res.redirect("/admin/lsn/grplist/"+jwtUser.branch)
+            return
+        }
+    }
+    const {forms, branch} = await api_lesson.getFormList(req, res, jwtUser, branchCode)
+    data.branch = branch
+    data.data = api_lesson.createLsnFormList(forms, branch)
+    res.render('admin' , data);
+}

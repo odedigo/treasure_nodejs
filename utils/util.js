@@ -343,3 +343,24 @@ export function isValidValue(val) {
     return (val !== undefined && val !== "" && val !== null)
 }
 
+export function getQAFromForm(qaArray) {
+    if (qaArray == null)
+      return []
+
+    var list = []
+    qaArray.forEach( item => {
+        var qa = { type: item.type, q: item.q }
+        switch(item.type) {
+            case 'select':
+            case 'checkbox':
+            case 'radio':
+                qa.options = item.options
+                break
+            case 'text':
+            default:
+                break;
+        }
+        list.push(qa)
+    })  
+    return list
+}

@@ -12,7 +12,8 @@
 "use strict";
 //================ IMPORTS =================
 import {Roles, UserModel} from "../db/models/UserModel.js";
-import {LsnGroupModel} from "../db/models/LsnGroup.js";
+import {LsnGroupModel} from "../db/models/LsnGroupModel.js";
+import {LsnFormModel} from "../db/models/LsnFormModel.js"
 import strings from "../public/lang/strings.js"
 import config from "../config/config.js"
 import * as util from "../utils/util.js";
@@ -127,4 +128,29 @@ export function createLsnGroupArray(groups) {
         });    
     }
     return list
+}
+
+export async function getFormList(req, res, jwt, branchCode) {
+    // check if DB properly connected
+    if(!req.app.get("db_connected")) {
+        return res.status(500);
+    }
+
+    var filter = {branch: branchCode}           
+    // send query with pagination
+    var forms = await LsnFormModel.find(filter)
+        .sort({ branch:'desc'})
+    return {forms, branch:filter["branch"]}
+}
+
+export function createLsnFormList(forms, branchCode) {
+    if (forms == null)
+        return {}
+    var frms = []
+    for (var i=0; i < forms.length; i++) {
+        var f = {name: forms[i].name, active: forms[i].active, branch: util.codeToBranch(forms[i].branch), date: util.getDateIL(forms[i].date),
+                group: forms[i].group, name: forms[i].name, qa: util.getQAFromForm(forms[i].qa) }
+        frms.push(f)
+    }
+    return frms
 }
