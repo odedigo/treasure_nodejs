@@ -1397,16 +1397,10 @@ function saveLessonsGroups(form) {
     if (!confirm(fstrings.q.saveChanges))
         return
 
-    var grps = el.value.split("\n")
-    var groups = []
-    for (var i=0; i<grps.length; i++) {
-        var v = grps[i].trim()
-        if (v !== "")
-            groups.push(v)
-    }
+    var groups = [...el.options].map(o => o.value)
     
     var body = {branch: br.value, groups}
-
+console.log(body, br)
     const response = fetch('/api/lsn/savegroups', {
         method: "POST", 
         cache: "no-cache", 

@@ -71,7 +71,8 @@ export async function renderLessonGroupList(req, res, jwtUser, data) {
     }
     const {groups, branch} = await api_lesson.getLessonGroupList(req, res, jwtUser, branchCode)
     data.branch = branch
-    data.data = api_lesson.createLsnGroupList(groups, branch)
+    data.branchName = util.codeToBranch(branch)
+    data.groups = api_lesson.createLsnGroupArray(groups, branch)
     res.render('admin' , data);
 }
 

@@ -355,7 +355,7 @@ router.post('/api/mng/galdel', (req, res) => {
 /********* API ********** LESSONS ACTIONS ****************************************/
 router.post('/api/lsn/savelist', (req, res) => {
     const jwt = util.validateAdminUser(req, true)
-    if (!jwt.valid || !validateRoleAllowed(req, [Roles.ADMIN, Roles.TEACHER])) {
+    if (!jwt.valid || !validateRoleAllowed(req, [Roles.ADMIN])) {
         res.status(400).json({msg: strings.err.actionFailed} )
         return
     }
@@ -364,7 +364,7 @@ router.post('/api/lsn/savelist', (req, res) => {
 
 router.post('/api/lsn/savegroups', (req, res) => {
     const jwt = util.validateAdminUser(req, true)
-    if (!jwt.valid || !validateRoleAllowed(req, [Roles.ADMIN, Roles.TEACHER])) {
+    if (!jwt.valid || !validateRoleAllowed(req, [Roles.ADMIN])) {
         res.status(400).json({msg: strings.err.actionFailed} )
         return
     }

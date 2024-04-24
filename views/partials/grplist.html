@@ -5,7 +5,7 @@
     <div class="container">
 
       <h2><i class="fa fa-users" aria-hidden="true"></i> הגדרת קבוצות תגבור</h2>
-      <h3>סניף {{data.branch}}</h3>
+      <h3>סניף {{branchName}}</h3>
       
       <div>
         <p>רשמו את קבוצות התגבור של הסניף, אחת בכל שורה</p>
@@ -26,7 +26,7 @@
       <div class="errMsg" id="errMsg"></div>
       
       <div class="modal-footer" style="width:80%; padding-bottom:20px">
-        <button type="button" class="btn btn-secondary ms-3" onclick="cancelChanges('/admin/lsn/grplist/{{data.branch}}')">ביטול</button>
+        <button type="button" class="btn btn-secondary ms-3" onclick="cancelChanges('/admin/lsn/grplist/{{branch}}')">ביטול</button>
         <button type="submit" class="btn btn-primary">שמירה</button>
       </div>
             
@@ -34,11 +34,34 @@
       <div class="col-lg-10 mt-5 mt-lg-0 d-flex align-items-stretch" data-aos="fade-left">
 
         <div class="container">
-          <div class="form-floating">
-            <textarea class="form-control" placeholder="" id="groups" style="height:300px">{{data.groups}}</textarea>
+          <div class="form-floating">            
+            <select class="form-select form-select-lg mb-3 Disabled multiple" multiple aria-label=".form-select-lg example" id="groups" style="height:350px">
+              {{log groups}}
+              {{#each groups as |grp|}}
+              <option value="{{grp}}">&diams; {{grp}}</option>
+              {{/each}}
+            </select>            
+          </div>
+          <div class="row">
+            <div class="col">
+              <div class="input-group mb-3">
+                <span class="input-group-text" >קבוצה חדשה:</span>
+                <input type="text" id="newGroup" class="form-control" placeholder="שם הקבוצה" aria-label="שם הקבוצה" aria-describedby="newGroup">
+                <button type="button" class="me-3 btn btn-outline-secondary" onclick="addOptionToSelect('groups','newGroup')">הוספה</button>
+              </div>              
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <div class="input-group mb-3">
+                <span class="input-group-text">מחיקת קבוצה מסומנת:</span>
+                <button type="button" class="me-3 btn btn-outline-secondary" onclick="delOptionFromSelect('groups')">מחיקה</button>
+              </div>
+            </div>
           </div>
         </div>
-        <input type="hidden" value="{{data.branchCode}}" id="branch" name="branch" />
+        {{log data}}
+        <input type="hidden" value="{{branch}}" id="branch" name="branch" />
       </div>
       
     </div>
@@ -48,10 +71,24 @@
 </section><!-- End User List Section -->
 
 <script>
-  window.addEventListener('load', () => {
-    var elms = document.getElementsByTagName('textarea');
-      for(let i = 0;i < elms.length; i++) {
-        elms[i].value = elms[i].value.replaceAll("          ","")
-      }
-  })
+  function addOptionToSelect(selectId, inputId) {
+    var select = document.getElementById(selectId);
+    var inp = document.getElementById(inputId)
+    var value = inp.value.trim()
+    if (value == "")
+      return
+    var opt = document.createElement('option')
+    opt.value = value
+    opt.innerHTML = `&diams; ${value}`
+    opt.style='color:green'
+    inp.value = ""
+    select.appendChild(opt);
+  }
+
+  function delOptionFromSelect(selectId) {
+    var select = document.getElementById(selectId);
+    if (select.selectedIndex == -1)
+      return
+    select.remove(select.selectedIndex)
+  }
 </script>
