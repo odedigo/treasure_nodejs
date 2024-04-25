@@ -35,21 +35,24 @@
 
         <div class="container">
           <div class="form-floating">            
-            <select class="form-select form-select-lg mb-3 Disabled multiple" multiple aria-label=".form-select-lg example" id="groups" style="height:350px">
-              {{log groups}}
+            <select class="form-select form-select-lg mb-3 Disabled multiple" multiple aria-label=".form-select-lg example" id="groups" style="height:350px">              
               {{#each groups as |grp|}}
               <option value="{{grp}}">&diams; {{grp}}</option>
               {{/each}}
             </select>            
           </div>
           <div class="row">
-            <div class="col">
-              <div class="input-group mb-3">
-                <span class="input-group-text" >קבוצה חדשה:</span>
-                <input type="text" id="newGroup" class="form-control" placeholder="שם הקבוצה" aria-label="שם הקבוצה" aria-describedby="newGroup">
-                <button type="button" class="me-3 btn btn-outline-secondary" onclick="addOptionToSelect('groups','newGroup')">הוספה</button>
+             <div class="col">
+                <div class="input-group">
+                  <span class="input-group-text" >קבוצה חדשה:</span>
+                  <input type="text" id="newGroup" class="form-control" placeholder="שם הקבוצה" aria-label="שם הקבוצה" aria-describedby="newGroup"
+                    onchange="validate(this.value,'newGroup',['required','string','minLength:3','validchars'])">
+                  <button type="button" class="me-3 btn btn-outline-secondary" onclick="addOptionToSelect('groups','newGroup')">הוספה</button>
+                </div>
+                <div class="input-group mb-3">
+                  <small id="newGroupError" class="form-text text-muted errMsg">&nbsp;</small>
+                </div>
               </div>              
-            </div>
           </div>
           <div class="row">
             <div class="col">
@@ -77,6 +80,12 @@
     var value = inp.value.trim()
     if (value == "")
       return
+
+      /* validate */
+    if (!validate(value,'newGroup',['required','string','minLength:3','validchars'])) {      
+      return
+    }
+
     var opt = document.createElement('option')
     opt.value = value
     opt.innerHTML = `&diams; ${value}`

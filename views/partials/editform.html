@@ -1,0 +1,102 @@
+<main id="main">
+
+    
+    <!-- ======= Registration Section ======= -->
+    <section id="contact" class="contact section-bg">
+      <div class="container">
+
+        <div class="section-title" data-aos="fade-up">
+          <h2>עריכת טופס תגבור</h2>
+          <h3>סניף: {{form.branch}}</h3>
+        </div>
+        {{log groups}}
+
+        <div class="row">
+
+          <div class="col-lg-5 d-flex align-items-stretch" data-aos="fade-right">
+          <img src="/img/teacher.jpg" />
+
+        </div>
+        <!-- FORM -->
+        <div class="col-lg-7 mt-5 mt-lg-0 d-flex align-items-stretch" data-aos="fade-left">
+          <form action="#" method="post" role="form" class="php-email-form"  id="editForm" > 
+            <div class="row">
+              <div class="form-group col-md-6">
+                <label for="name">שם הטופס</label>
+                <input name="name" type="input" id="name" placeholder="שם הטופס" value="" class="form-control" >
+                <small id="nameError" class="form-text text-muted errMsg">&nbsp;</small>
+              </div>
+              <div class="form-group col-md-6 mt-3 mt-md-0">
+                <label for="branch">קבוצה</label>
+                  <select name="branch" id="branch" class="form-control">
+                    {{#each branches as |brch|}}
+                    <option value="{{brch.name}}">{{brch.name}}</option>
+                    {{/each}}
+                    
+                  </select>
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-md-6">
+                <label for="username">שם משתמש (אימייל)</label>
+                <div class="input-group mb-3 en">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon2" style="padding: .75rem .75rem;"><i class="fas fa-user"></i></span>
+                  </div>
+                  <input name="username" type="input" id="username" placeholder="אימייל" class="form-control en"  value="" aria-label="username" aria-describedby="basic-addon2"/>
+                </div>
+                <small id="usernameError" class="form-text text-muted errMsg">&nbsp;</small>
+              </div>
+              <div class="form-group col-md-6 mt-3 mt-md-0">
+                <label for="password">סיסמה</label>
+                <div class="input-group mb-3 en">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1" style="padding: .75rem .75rem;"><i class="fas fa-lock"></i></span>
+                  </div>
+                  <input name="password" type="password" id="password" placeholder="סיסמה" class="input form-control en" aria-label="password" aria-describedby="basic-addon1" />
+                  <div class="input-group-append">
+                    <span class="input-group-text" onclick="password_show_hide('password');" style="padding: .75rem .75rem;">
+                      <i class="fas fa-eye" id="show_eye"></i>
+                      <i class="fas fa-eye-slash d-none" id="hide_eye"></i>
+                    </span>
+                  </div>
+                </div>
+                <small id="passwordError" class="form-text text-muted errMsg">&nbsp;</small>
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-md-6">
+                <label for="role">תפקיד והרשאות</label>
+                    <select name="role" id="role" class="form-control">
+                      <option value="TEACHER">מורה</option>
+                      <option value="ADMIN">אדמין סניף</option>
+                      {{#compare jwtUser.role '===' 'SUPER-ADMIN'}}
+                      <option value="SUPER-ADMIN">אדמין ראשי</option>
+                      {{/compare}}
+                    </select>
+              </div>
+              <div class="form-group col-md-6 mt-3 mt-md-0">
+                <label for="uemail">כתובת אימייל</label>
+                <div class="input-group mb-3 en">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon3" style="padding: .75rem .75rem;"><i class="fa fa-envelope" aria-hidden="true"></i></span>
+                  </div>
+                  <input name="uemail" type="input" id="uemail" placeholder="אימייל" class="form-control en"  value="" aria-label="uemail " aria-describedby="basic-addon3"/>
+                </div>
+                <small id="uemailError" class="form-text text-muted errMsg">&nbsp;</small>
+              </div>
+            </div>
+            
+            <div class="my-3">
+              <div class="errMsg" id="errMsg"></div>
+            </div>
+            
+            <div class="text-center"><button type="button" class="btn btn-secondary ms-3" onclick="cancelChanges('/admin/mng/userlist')">ביטול</button> <button class="btn btn-primary" type="submit">רישום משתמש</button></div>
+          </form>
+        </div>
+
+      </div>
+
+    </div>
+  </section><!-- End Registration Section -->
+</main><!-- End #main -->

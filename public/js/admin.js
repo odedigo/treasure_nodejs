@@ -65,6 +65,12 @@ window.addEventListener('load', () => {
         return english.test(value)
     })
     window.Iodine.setErrorMessage('english', fstrings.err.userOnlyEnglish);
+    window.Iodine.rule('validchars', (value) => {
+        var notallowed = /[\'\"\,-]+/;
+        return !notallowed.test(value)
+    })
+    window.Iodine.setErrorMessage('validchars', fstrings.err.specialChars);
+    
     /******** END IODINE **************/
 
     let el = findElement("login")
@@ -138,6 +144,13 @@ window.addEventListener('load', () => {
             saveLessonsGroups(this)
         });    
     }    
+    el = findElement("formEditor")
+    if (el != null) {
+        el.addEventListener("submit", function(e){
+            e.preventDefault();    //stop form from submitting
+            saveForm(this)
+        });    
+    }
 });
 
 /**************** USER ACTIONS ***********************/
@@ -1400,7 +1413,7 @@ function saveLessonsGroups(form) {
     var groups = [...el.options].map(o => o.value)
     
     var body = {branch: br.value, groups}
-console.log(body, br)
+
     const response = fetch('/api/lsn/savegroups', {
         method: "POST", 
         cache: "no-cache", 
@@ -1453,3 +1466,43 @@ console.log(body, br)
     element.classList.remove("errInput")
   }
   
+
+  function editeForm(uid) {
+    var errMsg = findElement('errMsg')
+    if (errMsg)
+        errMsg.innerHTML = ""
+
+    var body = {
+        uid
+    }
+
+    if (body.gameName === "") {
+        errMsg.innerHTML = fstrings.err.invalidData
+        return
+    }    
+
+    const response = fetch('/api/lsn/formedit', {
+        method: "POST", 
+        cache: "no-cache", 
+        headers: {
+          "Content-Type": "application/json",
+        },
+        redirect: "follow", 
+        referrerPolicy: "no-referrer", 
+        body: JSON.stringify(body), 
+    })
+    .then (response => {
+        response.json()
+        .then (resp => {
+            if (response.status != 200) { // failed        
+                intermediateMsgElem(errMsg,resp.msg)
+            }
+            else {
+                window.location = resp.path
+            }    
+        })
+    })
+    .catch(err => {
+        console.log(err)
+    })
+}

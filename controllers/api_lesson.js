@@ -148,9 +148,54 @@ export function createLsnFormList(forms, branchCode) {
         return {}
     var frms = []
     for (var i=0; i < forms.length; i++) {
-        var f = {name: forms[i].name, active: forms[i].active, branch: util.codeToBranch(forms[i].branch), date: util.getDateIL(forms[i].date),
+        var f = {uid: forms[i].uid, name: forms[i].name, active: forms[i].active, branch: util.codeToBranch(forms[i].branch), date: util.getDateIL(forms[i].date),
                 group: forms[i].group, name: forms[i].name, qa: util.getQAFromForm(forms[i].qa) }
         frms.push(f)
     }
     return frms
+}
+
+export async function getForm(uid) {
+    var filter = {uid}           
+    // send query with pagination
+    var form = await LsnFormModel.find(filter)
+    return form
+}
+
+/**
+ * Edit a game
+ * 
+ * @param {*} req 
+ * @param {*} res 
+ * @returns 
+ */
+export function editForm(req, res, jwt) {
+    // check if DB properly connected
+    if(!req.app.get("db_connected")) {
+        return res.status(500);
+    }
+
+    var {uid} = req.body
+    var filter = {
+        uid
+    }       
+
+    // only super-admins can edit games outside their branch
+    if (jwt.role !== Roles.SUPERADMIN) {
+        filter["branch"] = jwt.branch
+    } 
+
+    // send query
+    LsnFormModel.findOne(filter)
+    .then(form => {
+        if (!form) {
+            res.status(400).json({msg: strings.err.formNotFound})
+            return
+        }
+        res.status(200).json({path:`/admin/lsn/editform/${encodeURI(uid)}`})
+    }) 
+    .catch (error => {
+        console.log(error)
+        res.status(400).json({msg: strings.err.formNotFound})
+    })
 }

@@ -38,6 +38,7 @@ var LsnFormSchema = new Schema({
     active: Boolean,
     date: Date,
     name: String,
+    uid: String,
     qa: [QASchema]
 });
 LsnFormSchema.set('collection', 'lesson_form');

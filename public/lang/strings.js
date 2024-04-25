@@ -66,6 +66,7 @@ const strings = {
       passUpdateErr: "עדכון הסיסמה נכשל",
       roleUpdateErr: "עדכון התפקיד נכשל",
       userUpdateErr: "עדכון משתמש נכשל",
+      formNotFound: "הטופס לא נמצא"
    },
    gen: {
       yes: "כן",

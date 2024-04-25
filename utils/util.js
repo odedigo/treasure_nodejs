@@ -116,7 +116,7 @@ export function validateAdminUser(req, validatePage = false) {
  * @returns 
  */
 export function validateAdminPage(req) {
-    var pages = ['gamelist','register','userlist','editgame','brnch','gallery','lsnlist','formlist','reglist','grplist']
+    var pages = ['gamelist','register','userlist','editgame','brnch','gallery','lsnlist','formlist','reglist','grplist','editform']
     if (req.params.page == undefined)
         return true
     return pages.includes(req.params.page)

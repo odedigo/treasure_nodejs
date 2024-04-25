@@ -125,6 +125,10 @@ export async function renderAdmin(req, res, app, partial, jwtUser) {
             lessonController.renderAdminFormlist(req, res, jwtUser, data)
             return
         }
+        if (partial === 'editform') {
+            lessonController.renderAdminEditForm(req, res, jwtUser, data)
+            return
+        }
         if (partial === 'reglist') {
             /*renderAdminUserlist(req, res, jwtUser, data)
             return*/

@@ -73,6 +73,7 @@ export async function renderLessonGroupList(req, res, jwtUser, data) {
     data.branch = branch
     data.branchName = util.codeToBranch(branch)
     data.groups = api_lesson.createLsnGroupArray(groups, branch)
+    data.jsscript.push('/js/gvalid.js')
     res.render('admin' , data);
 }
 
@@ -94,5 +95,24 @@ export async function renderAdminFormlist(req, res, jwtUser, data) {
     const {forms, branch} = await api_lesson.getFormList(req, res, jwtUser, branchCode)
     data.branch = branch
     data.data = api_lesson.createLsnFormList(forms, branch)
+    res.render('admin' , data);
+}
+
+export async function renderAdminEditForm(req, res, jwtUser, data) {
+    var uid = req.params.param
+    if (!util.isValidValue(uid)) {
+        return res.status(400).json({msg: strings.err.invalidData})
+    }
+    
+    const theForm = await api_lesson.getForm(uid)
+    var form = api_lesson.createLsnFormList(theForm)
+    data.form = form[0]
+    var groups = await api_lesson.getLessonGroupList(req, res, jwtUser, util.branchToCode(data.form.branch))
+    groups = api_lesson.createLsnGroupArray(groups.groups, groups.branch)
+    if (util.isValidValue(groups))
+        data.groups = groups
+    else
+        data.groups = []
+    data.jsscript.push('/js/gvalid.js')
     res.render('admin' , data);
 }

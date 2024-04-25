@@ -371,6 +371,18 @@ router.post('/api/lsn/savegroups', (req, res) => {
     api_lesson.saveLessonGroups(req,res, jwt.jwtUser)
 });
 
+/**
+ * reset a game
+ */
+router.post('/api/lsn/formedit', (req, res) => {
+    const jwt = util.validateAdminUser(req, true)
+    if (!jwt.valid || !validateRoleAllowed(req, [Roles.ADMIN])) {
+        res.status(400).json({msg: strings.err.actionFailed} )
+        return
+    }
+    api_lesson.editForm(req,res, jwt.jwtUser)
+});
+
 /********************** TOOLS ****************************************/
 
 /**
