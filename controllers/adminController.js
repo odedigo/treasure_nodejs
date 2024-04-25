@@ -109,6 +109,8 @@ export async function renderAdmin(req, res, app, partial, jwtUser) {
     }
     else if (app === "lsn" && config.app.allowLessons) {
         data.title = strings.title.lessons
+        data.jsscript.push('/js/lesson.js')
+
         if (partial === undefined) {
             partial = 'admin_lsn' // default - main entrance page
         }

@@ -29,6 +29,13 @@ export function saveLessonGroups(req, res, jwt) {
         return res.status(400).json({msg: strings.err.invalidData})
     }
 
+    groups.forEach(grp => {
+        grp.name = grp.name.slice(2)
+        if (grp.gid === "-1") {
+            grp.gid = util.getUniqueGameUID();
+        }
+    })
+
     var filter = {
         branch
     }       
@@ -110,21 +117,18 @@ export async function getLessonGroupList(req, res, jwt, branchCode) {
     return {groups, branch:filter["branch"]}
 }
 
-export function createLsnGroupList(groups, branchCode) {
-    var list = ""    
-    if (groups.length === 1) {            
-        groups[0].groups.forEach(element => {
-            list = `${list}\n${element}`
-        });    
-    }
-    return {branchCode: branchCode,branch: util.codeToBranch(branchCode), groups: list}
-}
-
 export function createLsnGroupArray(groups) {
     var list = []   
-    if (groups.length === 1) {       
-        groups[0].groups.forEach(element => {
-            list.push(element)
+    if (Array.isArray(groups)) {
+        if (groups.length === 1) {       
+            groups[0].groups.forEach(element => {
+                list.push({gid: element.gid, name: element.name})
+            });    
+        }
+    }
+    else {
+        groups.groups.forEach(element => {
+            list.push({gid: element.gid, name: element.name})
         });    
     }
     return list
@@ -140,16 +144,40 @@ export async function getFormList(req, res, jwt, branchCode) {
     // send query with pagination
     var forms = await LsnFormModel.find(filter)
         .sort({ branch:'desc'})
-    return {forms, branch:filter["branch"]}
+    var group = await getGroupByBranch(branchCode)
+    return {forms, group, branch:filter["branch"]}
 }
 
-export function createLsnFormList(forms, branchCode) {
+export async function getGroupByBranch(branch, gid) {
+    var group = await LsnGroupModel.findOne({branch})    
+    var arr = createLsnGroupArray(group)
+    if (util.isValidValue(gid)) {
+        var single = arr.filter(item => item.gid == gid)
+        if (single.length === 1)
+            return {gid: single[0].gid, name: single[0].name}
+    }
+    return arr;
+}
+
+function getGroupFromArray(groups, gid) {
+    var single = groups.filter(item => item.gid == gid)
+    if (single.length === 1)
+        return {gid: single[0].gid, name: single[0].name}
+    return null
+}
+
+export function createLsnFormList(forms, group) {
     if (forms == null)
         return {}
     var frms = []
     for (var i=0; i < forms.length; i++) {
-        var f = {uid: forms[i].uid, name: forms[i].name, active: forms[i].active, branch: util.codeToBranch(forms[i].branch), date: util.getDateIL(forms[i].date),
-                group: forms[i].group, name: forms[i].name, qa: util.getQAFromForm(forms[i].qa) }
+        var f = {uid: forms[i].uid, name: forms[i].name, active: forms[i].active, branchCode: forms[i].branch, branch: util.codeToBranch(forms[i].branch), date: util.getDateIL(forms[i].date),
+                group: forms[i].group, name: forms[i].name, qa: util.getQAFromForm(forms[i].qa), title: forms[i].title}
+        if (group != null) {
+            var g = getGroupFromArray(group,forms[i].group)
+            if (g !== null)
+                f.groupName = g.name
+        }
         frms.push(f)
     }
     return frms
@@ -193,6 +221,53 @@ export function editForm(req, res, jwt) {
             return
         }
         res.status(200).json({path:`/admin/lsn/editform/${encodeURI(uid)}`})
+    }) 
+    .catch (error => {
+        console.log(error)
+        res.status(400).json({msg: strings.err.formNotFound})
+    })
+}
+
+export function saveForm(req,res, jwt) {
+    // check if DB properly connected
+    if(!req.app.get("db_connected")) {
+        return res.status(500);
+    }
+
+    var {uid, form, name, group, active, title} = req.body
+    active = (active == "true")
+
+    if (form.length == 0) {
+        return res.status(400).json({msg: strings.err.formFillAll})
+    }
+
+    var filter = {
+        uid
+    }       
+
+    var update = {
+        $set: {qa:form, name, group, active, title}
+    }
+
+    const options = { 
+        upsert: true,
+        returnOriginal: false,
+        new: true
+    };
+
+    // only super-admins can edit games outside their branch
+    if (jwt.role !== Roles.SUPERADMIN) {
+        filter["branch"] = jwt.branch
+    } 
+
+    // send query
+    LsnFormModel.findOneAndUpdate(filter, update, options)
+    .then(form => {
+        if (!form) {
+            res.status(400).json({msg: strings.err.formNotFound})
+            return
+        }
+        res.status(200).json({path:`/admin/lsn/editform/${encodeURI(uid)}`, msg: strings.ok.actionOK})
     }) 
     .catch (error => {
         console.log(error)

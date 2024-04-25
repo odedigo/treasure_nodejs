@@ -372,7 +372,7 @@ router.post('/api/lsn/savegroups', (req, res) => {
 });
 
 /**
- * reset a game
+ * edit form
  */
 router.post('/api/lsn/formedit', (req, res) => {
     const jwt = util.validateAdminUser(req, true)
@@ -381,6 +381,18 @@ router.post('/api/lsn/formedit', (req, res) => {
         return
     }
     api_lesson.editForm(req,res, jwt.jwtUser)
+});
+
+/**
+ * save form
+ */
+router.post('/api/lsn/saveform', (req, res) => {
+    const jwt = util.validateAdminUser(req, true)
+    if (!jwt.valid || !validateRoleAllowed(req, [Roles.ADMIN])) {
+        res.status(400).json({msg: strings.err.actionFailed} )
+        return
+    }
+    api_lesson.saveForm(req,res, jwt.jwtUser)
 });
 
 /********************** TOOLS ****************************************/

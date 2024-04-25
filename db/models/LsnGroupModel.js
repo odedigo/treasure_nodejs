@@ -13,9 +13,14 @@
 //================ IMPORTS =================
 import { Schema, model } from 'mongoose';
 
+var GroupSchema = new Schema({
+    gid: String,
+    name: String
+}, { _id : false })
+
 var LsnGroupSchema = new Schema({
     branch: String,
-    groups: [String]
+    groups: [GroupSchema]
 });
 LsnGroupSchema.set('collection', 'lesson_groups');
 

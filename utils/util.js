@@ -349,18 +349,36 @@ export function getQAFromForm(qaArray) {
 
     var list = []
     qaArray.forEach( item => {
-        var qa = { type: item.type, q: item.q }
+        var qa = { type: item.type,q: item.q }
         switch(item.type) {
             case 'select':
             case 'checkbox':
             case 'radio':
                 qa.options = item.options
+                qa.optionsText = ""
+                item.options.forEach( opt => {
+                    qa.optionsText += opt.value + "\n"
+                })
                 break
             case 'text':
             default:
                 break;
         }
+        qa.typeText = getFormItemType(item.type)
         list.push(qa)
     })  
     return list
+}
+
+function getFormItemType(type) {
+    switch (type) {
+        case 'text':
+            return "שורת טקסט"
+        case 'checkbox':
+            return "צ'ק בוקס"
+        case 'raio':
+            return "בחירה בודדת - Radio"
+        case 'select':
+            return "בחירה מרשימה"
+    }
 }

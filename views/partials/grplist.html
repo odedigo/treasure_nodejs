@@ -32,12 +32,11 @@
             
       
       <div class="col-lg-10 mt-5 mt-lg-0 d-flex align-items-stretch" data-aos="fade-left">
-
         <div class="container">
           <div class="form-floating">            
             <select class="form-select form-select-lg mb-3 Disabled multiple" multiple aria-label=".form-select-lg example" id="groups" style="height:350px">              
               {{#each groups as |grp|}}
-              <option value="{{grp}}">&diams; {{grp}}</option>
+              <option value="{{grp.gid}}">&diams; {{grp.name}}</option>
               {{/each}}
             </select>            
           </div>
@@ -87,7 +86,7 @@
     }
 
     var opt = document.createElement('option')
-    opt.value = value
+    opt.value = "-1"
     opt.innerHTML = `&diams; ${value}`
     opt.style='color:green'
     inp.value = ""

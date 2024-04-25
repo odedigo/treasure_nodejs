@@ -201,3 +201,6 @@ p {
 .errInput {
   border-color: red
 }
+.over {
+  border: 3px dotted #666;
+}

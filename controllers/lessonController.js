@@ -21,6 +21,14 @@ import strings from "../public/lang/strings.js"
 
 /**************** Lessons *********************/
 
+/**
+ * Lesson list
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} jwtUser 
+ * @param {*} data 
+ * @returns 
+ */
 export async function renderAdminLessonlist(req, res, jwtUser, data) {
     var branchCode = req.params.param
     if (!util.isValidValue(branchCode)) {
@@ -54,6 +62,14 @@ export async function renderAdminLessonlist(req, res, jwtUser, data) {
     res.render('admin' , data);
 }
 
+/**
+ * Group list
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} jwtUser 
+ * @param {*} data 
+ * @returns 
+ */
 export async function renderLessonGroupList(req, res, jwtUser, data) {
     var branchCode = req.params.param
     if (!util.isValidValue(branchCode)) {
@@ -77,6 +93,14 @@ export async function renderLessonGroupList(req, res, jwtUser, data) {
     res.render('admin' , data);
 }
 
+/**
+ * Form list
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} jwtUser 
+ * @param {*} data 
+ * @returns 
+ */
 export async function renderAdminFormlist(req, res, jwtUser, data) {
     var branchCode = req.params.param
     if (!util.isValidValue(branchCode)) {
@@ -92,12 +116,20 @@ export async function renderAdminFormlist(req, res, jwtUser, data) {
             return
         }
     }
-    const {forms, branch} = await api_lesson.getFormList(req, res, jwtUser, branchCode)
+    const {forms, group, branch} = await api_lesson.getFormList(req, res, jwtUser, branchCode)
     data.branch = branch
-    data.data = api_lesson.createLsnFormList(forms, branch)
+    data.data = api_lesson.createLsnFormList(forms, group)
     res.render('admin' , data);
 }
 
+/**
+ * Edit form
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} jwtUser 
+ * @param {*} data 
+ * @returns 
+ */
 export async function renderAdminEditForm(req, res, jwtUser, data) {
     var uid = req.params.param
     if (!util.isValidValue(uid)) {
@@ -109,8 +141,9 @@ export async function renderAdminEditForm(req, res, jwtUser, data) {
     data.form = form[0]
     var groups = await api_lesson.getLessonGroupList(req, res, jwtUser, util.branchToCode(data.form.branch))
     groups = api_lesson.createLsnGroupArray(groups.groups, groups.branch)
-    if (util.isValidValue(groups))
+    if (util.isValidValue(groups)) {
         data.groups = groups
+    }
     else
         data.groups = []
     data.jsscript.push('/js/gvalid.js')

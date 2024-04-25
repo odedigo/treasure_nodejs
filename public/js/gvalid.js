@@ -15,7 +15,6 @@
  * @returns 
  */
 function validate(value, fieldId, fieldRules) {
-    console.log("validate")
     const rules = {
         field : fieldRules
     };

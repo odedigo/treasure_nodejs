@@ -35,7 +35,7 @@ const fstrings = {
         deleteBranch: "למחוק את הסניף ",
         deleteImage: "בטוח שאתם רוצים למחוק את התמונה?",
         exitNoSave: "בטוחים שרוצים לצאת בלי לשמור את השינויים?",
-        
+        removeQuestion: "למחוק את השאלה?"
     },
     game: {
         blankVecSize: "גודל הוקטור לא יכול להיות ריק",

@@ -99,7 +99,7 @@
           ><span><i class="fa fa-graduation-cap" aria-hidden="true"></i> ניהול שיעורים</span></a>
           </li>
           <li> <a href="/admin/lsn/formlist/{{jwtUser.branch}}" 
-            class="list-group-item list-group-item-action py-2 ripple {{#ifEquals section 'formlist' }} active {{/ifEquals}}"">
+            class="list-group-item list-group-item-action py-2 ripple {{#includes section ['formlist','formedit'] }} active {{/includes}}"">
             <span><i class="fa fa-check" aria-hidden="true"></i> טופס הרשמה</span></a>
           </li>
           <li> <a href="/admin/lsn/grplist/{{jwtUser.branch}}" 

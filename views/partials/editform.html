@@ -1,102 +1,144 @@
 <main id="main">
-
+  <form id="formEditor">
+  
     
     <!-- ======= Registration Section ======= -->
-    <section id="contact" class="contact section-bg">
-      <div class="container">
+    <section id="contact" class="contact section-bg">      
+      <div class="container  align-items-right ">
 
         <div class="section-title" data-aos="fade-up">
           <h2>עריכת טופס תגבור</h2>
           <h3>סניף: {{form.branch}}</h3>
         </div>
-        {{log groups}}
 
-        <div class="row">
-
-          <div class="col-lg-5 d-flex align-items-stretch" data-aos="fade-right">
-          <img src="/img/teacher.jpg" />
-
+        <div class="my-3">
+          <div class="errMsg" id="errMsg"></div>
         </div>
-        <!-- FORM -->
-        <div class="col-lg-7 mt-5 mt-lg-0 d-flex align-items-stretch" data-aos="fade-left">
-          <form action="#" method="post" role="form" class="php-email-form"  id="editForm" > 
-            <div class="row">
-              <div class="form-group col-md-6">
-                <label for="name">שם הטופס</label>
-                <input name="name" type="input" id="name" placeholder="שם הטופס" value="" class="form-control" >
-                <small id="nameError" class="form-text text-muted errMsg">&nbsp;</small>
-              </div>
-              <div class="form-group col-md-6 mt-3 mt-md-0">
-                <label for="branch">קבוצה</label>
-                  <select name="branch" id="branch" class="form-control">
-                    {{#each branches as |brch|}}
-                    <option value="{{brch.name}}">{{brch.name}}</option>
-                    {{/each}}
-                    
-                  </select>
-              </div>
-            </div>
-            <div class="row">
-              <div class="form-group col-md-6">
-                <label for="username">שם משתמש (אימייל)</label>
-                <div class="input-group mb-3 en">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text" id="basic-addon2" style="padding: .75rem .75rem;"><i class="fas fa-user"></i></span>
-                  </div>
-                  <input name="username" type="input" id="username" placeholder="אימייל" class="form-control en"  value="" aria-label="username" aria-describedby="basic-addon2"/>
-                </div>
-                <small id="usernameError" class="form-text text-muted errMsg">&nbsp;</small>
-              </div>
-              <div class="form-group col-md-6 mt-3 mt-md-0">
-                <label for="password">סיסמה</label>
-                <div class="input-group mb-3 en">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text" id="basic-addon1" style="padding: .75rem .75rem;"><i class="fas fa-lock"></i></span>
-                  </div>
-                  <input name="password" type="password" id="password" placeholder="סיסמה" class="input form-control en" aria-label="password" aria-describedby="basic-addon1" />
-                  <div class="input-group-append">
-                    <span class="input-group-text" onclick="password_show_hide('password');" style="padding: .75rem .75rem;">
-                      <i class="fas fa-eye" id="show_eye"></i>
-                      <i class="fas fa-eye-slash d-none" id="hide_eye"></i>
-                    </span>
-                  </div>
-                </div>
-                <small id="passwordError" class="form-text text-muted errMsg">&nbsp;</small>
-              </div>
-            </div>
-            <div class="row">
-              <div class="form-group col-md-6">
-                <label for="role">תפקיד והרשאות</label>
-                    <select name="role" id="role" class="form-control">
-                      <option value="TEACHER">מורה</option>
-                      <option value="ADMIN">אדמין סניף</option>
-                      {{#compare jwtUser.role '===' 'SUPER-ADMIN'}}
-                      <option value="SUPER-ADMIN">אדמין ראשי</option>
-                      {{/compare}}
-                    </select>
-              </div>
-              <div class="form-group col-md-6 mt-3 mt-md-0">
-                <label for="uemail">כתובת אימייל</label>
-                <div class="input-group mb-3 en">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text" id="basic-addon3" style="padding: .75rem .75rem;"><i class="fa fa-envelope" aria-hidden="true"></i></span>
-                  </div>
-                  <input name="uemail" type="input" id="uemail" placeholder="אימייל" class="form-control en"  value="" aria-label="uemail " aria-describedby="basic-addon3"/>
-                </div>
-                <small id="uemailError" class="form-text text-muted errMsg">&nbsp;</small>
-              </div>
-            </div>
-            
-            <div class="my-3">
-              <div class="errMsg" id="errMsg"></div>
-            </div>
-            
-            <div class="text-center"><button type="button" class="btn btn-secondary ms-3" onclick="cancelChanges('/admin/mng/userlist')">ביטול</button> <button class="btn btn-primary" type="submit">רישום משתמש</button></div>
-          </form>
+        
+        <div class="text-center mb-5">
+          <button type="button" class="btn btn-secondary ms-3" 
+            onclick="cancelChanges('/admin/lsn/formlist/{{form.branchCode}}')">ביטול</button> 
+          <button class="btn btn-primary" type="submit">שמירת טופס</button>
         </div>
 
-      </div>
+        <input type="hidden" value="{{form.uid}}" id="uid"/>
+        
+        <div class="container w-75 shadow me-0 mt-4 p-3 bg-white" >
+          <div class="form-group col-md-6 mt-3 mt-md-0">
+              <label for="name">שם הטופס</label>
+              <input name="name" type="input" id="name" placeholder="שם הטופס" value="{{form.name}}" class="form-control" >
+              <small id="nameError" class="form-text text-muted errMsg">&nbsp;</small>
+          </div>
+          <div class="form-group col-md-6 mt-3 mt-md-0">
+            <label for="title">כותרת</label>
+            <input name="title" type="input" id="title" placeholder="כותרת הטופס" value="{{form.title}}" class="form-control" >
+            <small id="nameError" class="form-text text-muted errMsg">&nbsp;</small>
+        </div>
+          <div class="form-group col-md-6 mt-3 mt-md-0">
+            <label for="group">קבוצה</label>
+              <select name="group" id="group" class="form-control">
+                {{#each groups as |grp|}}
+                <option value="{{grp.gid}}"  {{#compare grp.gid '===' ../form.group}} selected {{/compare}}>{{grp.name}}</option>
+                {{/each}}                    
+              </select>
+          </div>
+          <div class="form-group col-md-6 mt-4">
+            <label for="active" class="form-label">פעיל</label>
+            <select id="active" name="active">
+              <option value="true" {{#compare form.active '===' true}}selected{{/compare}}>כן</option>
+              <option value="false" {{#compare form.active '===' false}}selected{{/compare}}>לא</option>
+            </select>
+          </div> 
+        </div> <!-- row -->
 
-    </div>
-  </section><!-- End Registration Section -->
+        
+          <!-- Q&A -->
+          <div class="container w-75 shadow me-0 mt-4 p-3" style="background-color:white">
+              <div class="row">              
+              <h3 class="">שאלה חדשה</h3>
+            </div>
+            <div class="row mt-4">
+              <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon3">סוג התשובה</span>
+                <select class="form-select" id="new_qtype" aria-label="" onchange="typeSelected(this.value)">
+                  <option value="text">שורת טקסט</option>
+                  <option value="select">בחירה מרשימה</option>
+                  <!--<option value="select-mult">בחירה מרובה</option>-->
+                  <option value="checkbox">צ'ק בוקס</option>
+                  <option value="radio">בחירה בודדת - Radio</option>
+                </select>                
+              </div>
+              <div class="row">
+                <div class="input-group mb-3">
+                  <span class="input-group-text" id="basic-addon3">השאלה</span>
+                  <input name="new_question" type="input" id="new_question" value="" class="form-control w-75" aria-describedby="basic-addon3"
+                    onchange="validate(this.value,'new_question',['required','string','minLength:5'])"
+                    onfocus="validate(this.value,'new_question',['required','string','minLength:5'])">
+                     
+                </div>
+                <small id="new_questionError" class="form-text text-muted errMsg">&nbsp;</small>   
+              </div> 
+            </div> 
+            <div class="row" id="response" style="display:none">
+              <label id="usernameError" class="form-text text-muted">רשימה של אפשרויות לבחירה, אחת בכל שורה</label>
+              <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon3">אפשרויות</span>
+                <textarea id="new_options" class="form-control" style="min-height:200px" 
+                  onchange="validate(this.value,'new_options',['required','string','minLength:3'])"
+                  onfocus="validate(this.value,'new_options',['required','string','minLength:3'])"></textarea>
+                  
+              </div>
+              <small id="new_optionsError" class="form-text text-muted errMsg">&nbsp;</small>
+            </div>              
+            <div class="row mt-4">
+              <button class="btn btn-primary form-control" type="button" onclick="addFormQuestion(); return false;">הוספה</button>
+            </div>
+            
+          </div> <!-- end Q&A -->
+
+          <div id="qa">
+            {{#each form.qa as |qa|}}
+            <div class="qa container w-75 shadow me-0 mt-4 p-3 border-end border-primary border-3" style="background-color:white"
+                draggable="true" ondragleave="editForm_dragLeave(event)" ondragenter="editForm_dragEnter(event)" ondragend="editForm_dragEnd(event)" 
+                ondragover="editForm_dragOver(event)" ondragstart="editForm_dragStart(event)" ondrop="editForm_drop(event)">
+                <button type="button" class="btn-close" aria-label="Close" onclick="editForm_deleteQA(this)"></button>
+                <div class="row mt-4">
+                  <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon3">סוג התשובה</span>
+                    <select draggable="true" class="form-select" id="qatype" aria-label="" disabled>
+                        <option value="{{qa.type}}">{{qa.typeText}}</option>
+                    </select>     
+                  </div>
+                </div> 
+                <div class="row">
+                  <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon3">השאלה</span>
+                    <input draggable="true" name="qaquestion" type="input" id="qaquestion" value="{{qa.q}}" class="form-control w-75" aria-describedby="basic-addon3">              
+                  </div>
+                </div> 
+                <div class="row" id="response" style="display:{{#ifEquals qa.type 'text'}} none; {{else}} block; {{/ifEquals}}">
+                  <label id="usernameError" class="form-text text-muted">רשימה של אפשרויות לבחירה, אחת בכל שורה</label>
+                  <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon3">אפשרויות</span>
+                    <textarea draggable="true" id="qaoptions" class="form-control" style="min-height:200px">{{qa.optionsText}}</textarea>
+                  </div>
+                </div>
+              </div>
+              {{/each}}
+
+          </div>
+      </div> <!-- container -->
+    </form>
+    </section><!-- End Registration Section -->
+
 </main><!-- End #main -->
+<script>
+  let dragSrcEl = null
+  window.addEventListener('load', () => {
+    var elms = document.getElementsByTagName('textarea');
+      for(let i = 0;i < elms.length; i++) {
+        elms[i].value = elms[i].value.replaceAll("          ","")
+      }
+  })
+  
+</script>

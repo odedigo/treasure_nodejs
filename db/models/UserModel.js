@@ -22,11 +22,11 @@ var LessonSchema = new Schema({
     weekday: String,
     time: String,
     duration: String
-})
+}, { _id : false })
 var GroupSchema = new Schema({
     group: String,
     timing: [LessonSchema]
-})
+}, { _id : false })
 
 var UserSchema = new Schema({
     username: {

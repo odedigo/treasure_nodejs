@@ -16,7 +16,7 @@ import { Schema, model } from 'mongoose';
 var OptionsSchema = new Schema({
     value: String,
     option: String
-})
+}, { _id : false })
 
 var QASchema = new Schema({
     q: String,
@@ -30,7 +30,7 @@ var QASchema = new Schema({
         required: false,
         type: [OptionsSchema]
     }
-})
+}, { _id : false })
 
 var LsnFormSchema = new Schema({
     branch: String,
@@ -39,6 +39,7 @@ var LsnFormSchema = new Schema({
     date: Date,
     name: String,
     uid: String,
+    title: String,
     qa: [QASchema]
 });
 LsnFormSchema.set('collection', 'lesson_form');

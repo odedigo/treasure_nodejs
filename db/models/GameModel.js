@@ -21,7 +21,7 @@ var RiddleSchema = new Schema({
     vecSize: [Number],
     vecAngle: [Number],
     riddle: [String]
-});
+}, { _id : false });
 
 var GameSchema = new Schema({
     version: {

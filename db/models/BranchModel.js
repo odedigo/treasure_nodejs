@@ -16,7 +16,7 @@ import { Schema, model } from 'mongoose';
 var BranchSchema = new Schema({
     name: String,
     code: String
-});
+}, { _id : false });
 BranchSchema.set('collection', 'branches');
 
 // Compile model from schema
