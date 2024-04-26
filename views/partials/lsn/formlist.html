@@ -11,7 +11,7 @@
             <div class="row my-3 mx-1">
 
               <div class="col-2 mx-3 mt-4 list-group">
-                <a href="#" class="action list-group list-group-item active text-center" data-bs-toggle="modal" data-bs-target="#newGameModal">
+                <a href="#" class="action list-group list-group-item active text-center" data-bs-toggle="modal" data-bs-target="#FormQRModal">
                 <span>יצירת טופס תגבור חדש</span></a>
               </div>
               <div class="col-lg mx-1 mt-4">
@@ -56,7 +56,8 @@
                     
                     <br/><br/>
                     {{#compare form.active '===' true}}                    
-                    <a href="/admin/lsn/qr/{{form.uid}}" target="game">
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#FormQRModal" data-name="{{form.name}}" data-branch="{{form.branchCode}}" data-uid="{{form.uid}}" 
+                      data-group="{{form.groupName}}" data-branch-name="{{form.branch}}">
                       <img src="/img/ops/qr.png" class="ops-icon" data-toggle="tooltip" data-placement="top" title="לינקים לטופס"/>
                      </a>                 
                     {{/compare}} <!-- Form Active -->
@@ -84,5 +85,83 @@
         </div>
       </section><!-- End User List Section -->      
       
+      <!-- Modal Form QR -->
+      <div class="modal fade" id="FormQRModal" tabindex="-1" aria-labelledby="FormQRModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="FormQRModalLabel">לינק לטופס</h5>              
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                  <label for="fname">שם הטופס</label>
+                  <input name="fname" type="input" id="fname" class="form-control readonly" placeholder="" class="" value="" readonly/>
+                </div>                
+                <div class="row">
+                  <label for="fgroup">שם הקבוצה</label>
+                  <input name="fgroup" type="input" id="fgroup" class="form-control readonly" placeholder="" class="" value="" readonly/>
+                </div>                
+                <div class="row">
+                  <label for="fbranch">שם הסניף</label>
+                  <input name="fbranch" type="input" id="fbranch" class="form-control readonly" placeholder="" class="" value="" readonly/>
+                </div>                
+                <div class="row mt-5">
+                  <a href="/lsn/form/" target="_new" id="qrlink">
+                    <figure class="figure thin-border">
+                      <img src="" class="img-fluid" alt="" >
+                      <figcaption class="figure-caption middle">טופס</figcaption>
+                  </figure>
+                  </a>
+                </div>                
+                <div class="row mt-5">
+                  <div class="input-group">
+                    <button class="btn btn-secondary" onclick="copyToClipboardEx('qrLink','msg')">העתק</button>
+                    <input id="qrLink" class="form-control en readonly" readonly /><br>                    
+                  </div> 
+                </div>
+                <div class="row">
+                  <small id="msg" class="form-text text-muted">&nbsp;</small>
+                </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">סגירה</button>
+            </div>
+        </div>
+        </div>
+      </div>
+
     </main><!-- End #main -->
 
+    <script>
+      /**
+      * CLONE MODAL
+      */
+      var qrModal = document.getElementById('FormQRModal')
+      qrModal.addEventListener('show.bs.modal', function (event) {
+        // Button that triggered the modal
+        var link = event.relatedTarget
+        // Extract info from data-bs-* attributes
+        var uid = link.getAttribute('data-uid')
+        var name = link.getAttribute('data-name')
+        var group = link.getAttribute('data-group')
+        var branch = link.getAttribute('data-branch')
+        var branchName = link.getAttribute('data-branch-name')
+        // If necessary, you could initiate an AJAX request here
+        // and then do the updating in a callback.
+        //
+        // Update the modal's content.
+        var modalTitle = qrModal.querySelector('.modal-title')
+        var modalBodyInput = qrModal.querySelectorAll('.modal-body input')
+        modalBodyInput[0].value = name
+        modalBodyInput[1].value = group
+        modalBodyInput[2].value = branchName
+        var modalBodyImg = qrModal.querySelectorAll('.modal-body img')
+        modalBodyImg[0].src = `https://api.qrserver.com/v1/create-qr-code/?data={{rootEncoded}}%2Flsn%2Fform%2F${branch}%2F${uid}&size={{qr.imgSize}}&color={{qr.color}}&qzone=1&format=png`
+        var modalBodyA = qrModal.querySelector('.modal-body a')
+        modalBodyA.href = `{{root}}/lsn/form/${branch}/${uid}`
+        
+        modalBodyInput[3].value = `{{root}}/lsn/form/${branch}/${uid}`
+      })  
+      qrModal.addEventListener('hide.bs.modal', function (event) {
+      })
+    </script>

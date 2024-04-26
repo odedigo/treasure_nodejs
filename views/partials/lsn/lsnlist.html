@@ -38,8 +38,7 @@
           {{#each data.users as |user userIndex|}}
           <tr>
             <td>
-
-              <img src="/img/ops/plus2.png" class="ops-icon" onclick="addLessonGroup('{{user.username}}','{{userIndex}}','{{../data.groups}}')" data-toggle="tooltip" data-placement="top" title="הוספת קבוצה"/>                         
+              <img src="/img/ops/plus2.png" class="ops-icon" onclick="addLessonGroup('{{user.username}}','{{userIndex}}','{{json ../data.groups}}')" data-toggle="tooltip" data-placement="top" title="הוספת קבוצה"/>                         
             </td>
             <td >{{user.name}}</td>
             <td >{{user.branchName}}</td>
@@ -52,7 +51,7 @@
                   <span class="pe-2 ps-2" id="basic-addon2">שם קבוצת התגבור</span>
                   <select class="form-select form-select-sm" id="grp-{{userIndex}}-{{groupIndex}}" >
                     {{#each ../../data.groups as |bgroups|}}
-                    <option value="{{bgroups}}" {{#compare group.group '===' bgroups}} selected {{/compare}}>{{bgroups}}</option>
+                    <option value="{{bgroups.gid}}" {{#compare group.group '===' bgroups}} selected {{/compare}}>{{bgroups.name}}</option>
                     {{/each}}
                   </select>
                 </div>

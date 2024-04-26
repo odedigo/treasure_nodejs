@@ -78,6 +78,13 @@ window.addEventListener('load', () => {
     }
   }
 
+  // encode(decode) html text into html entity
+function decodeHtmlEntity(str) {
+    return str.replace(/&#(\d+);/g, function(match, dec) {
+      return String.fromCharCode(dec);
+    });
+  };
+
   /**
    * Add a lesson group to a specific user
    * @param {*} userId 
@@ -86,7 +93,9 @@ window.addEventListener('load', () => {
   function addLessonGroup(username, userId, groups) {
     if (groups === null || groups == undefined)
         return
-    groups = groups.split(",")
+    console.log(typeof groups)
+    groups = JSON.parse(decodeHtmlEntity(groups))
+    console.log(groups)    
     var section = findElement("groups-"+username)
     if (section === null)
         return
@@ -109,7 +118,7 @@ window.addEventListener('load', () => {
             <select class="form-select form-select-sm" id="grp-${userId}-${id}" >`
     var sel = ""            
     for (var i=0; i < groups.length; i++) {
-        sel = sel + `<option value="${groups[i]}">${groups[i]}</option>`
+        sel = sel + `<option value="${groups[i].gid}">${groups[i].name}</option>`
     }
     e = `${e}${sel}</select>
             </div>

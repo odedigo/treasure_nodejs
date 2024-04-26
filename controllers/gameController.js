@@ -55,7 +55,7 @@ export function renderGame(req, res, obj) {
             var rdl = gameJson[team].riddles.filter((rdl) => (rdl.index == index) )[0]
 
             // render game page with received content
-            res.render('game' , { 
+            res.render('th/game' , { 
                 jsscript: ['/js/student.js'], 
                 teamData: gameJson[team],   
                 rdl,

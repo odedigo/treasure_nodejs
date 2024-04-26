@@ -976,6 +976,16 @@ function copyToClipboard(text, id) {
     }
 }
 
+function copyToClipboardEx(id, msgId) {
+    var copyText = document.getElementById(id);
+    copyText.select();
+    copyText.setSelectionRange(0, 99999); // For mobile devices
+    navigator.clipboard.writeText(copyText.value);
+    if (msgId) {
+        var el = findElement(msgId)
+        intermediateMsgElem(el, "הועתק לזכרון")
+    }
+}
 function showInTab(url) {
     window.open(url,"game")
 }

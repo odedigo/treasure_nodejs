@@ -30,7 +30,7 @@ export async function renderTeacher (req, res) {
             var gameJson = JSON.parse(JSON.stringify(gameData))                           
 
             // render teacher page with received content
-            res.render('teacher' , { 
+            res.render('th/teacher' , { 
                 jsscript: ['/js/teacher.js'], 
                 gameData,
                 gameName,

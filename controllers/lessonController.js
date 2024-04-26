@@ -119,6 +119,11 @@ export async function renderAdminFormlist(req, res, jwtUser, data) {
     const {forms, group, branch} = await api_lesson.getFormList(req, res, jwtUser, branchCode)
     data.branch = branch
     data.data = api_lesson.createLsnFormList(forms, group)
+    data.qr = {imgSize:"200x200", color: "black"}
+    data.rootEncoded = encodeURIComponent (`${req.protocol}://${req.get('host')}`)
+    data.root = `${req.protocol}://${req.get('host')}`
+    data.url = req.url
+
     res.render('admin' , data);
 }
 

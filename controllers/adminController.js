@@ -329,5 +329,5 @@ export async function renderAdminQR(req, res, jwt) {
         root: `${req.protocol}://${req.get('host')}`,
         url: req.url
     }
-    res.render('qr', data)
+    res.render('th/qr', data)
 }

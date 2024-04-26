@@ -151,11 +151,9 @@ export function compare (v1, operator, v2, options) {
  */  
 export function includes(value, arr, options) {
     if (!Array.isArray(arr)) {
-        console.log("not array")
         return options.inverse(this);
     }
     if(arr.includes(value)) {   
-        console.log("includes")
         return options.fn(this);
     }    
     return options.inverse(this);
@@ -170,6 +168,15 @@ export function includes(value, arr, options) {
 export function toArray (...values) {
     return values
 }
+
+export function json(value) {
+    return JSON.stringify(value)
+}
+
+export function arr(value) {
+    return Array.from(value)
+}
+
 /**
  * Handle pagination bottom options
  * @param {*} totalDocs 
