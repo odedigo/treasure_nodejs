@@ -141,16 +141,29 @@ export async function renderAdminEditForm(req, res, jwtUser, data) {
         return res.status(400).json({msg: strings.err.invalidData})
     }
     
-    const theForm = await api_lesson.getForm(uid)
-    var form = api_lesson.createLsnFormList(theForm)
-    data.form = form[0]
-    var groups = await api_lesson.getLessonGroupList(req, res, jwtUser, util.branchToCode(data.form.branch))
+    var branch = ""
+    // new form
+    if (uid === "-1") {
+        branch = req.query.branch
+        data.form = api_lesson.createEmptyForm(branch)
+    }
+    else {
+        const theForm = await api_lesson.getForm(uid)    
+        var form = api_lesson.createLsnFormList(theForm)
+        if (form.length !== 1) {
+            return res.status(400).json({msg: strings.err.invalidData})
+        }
+        data.form = form[0]
+        branch = data.form.branchCode
+    }
+    var groups = await api_lesson.getLessonGroupList(req, res, jwtUser, branch)
     groups = api_lesson.createLsnGroupArray(groups.groups, groups.branch)
     if (util.isValidValue(groups)) {
         data.groups = groups
     }
     else
         data.groups = []
+    
     data.jsscript.push('/js/gvalid.js')
     res.render('admin' , data);
 }

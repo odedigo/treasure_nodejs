@@ -569,12 +569,11 @@ function saveForm(uid) {
         })
         form.push(obj)
     })
-
     var name = findElement("name").value.trim()
     var group = findElement("group").value
-    console.log(findElement("group"), findElement("group").value)
     var active = findElement("active").value
     var title = findElement("title").value.trim()
+    var branch = findElement("branch").value.trim()
 
     if (name === "" || title === "")
         foundErrors = true
@@ -586,7 +585,7 @@ function saveForm(uid) {
 
 
     var uid = findElement("uid").value
-    var body = {uid, form, name, group, active, title}
+    var body = {uid, form, name, group, active, title, branch}
 
     const response = fetch('/api/lsn/saveform', {
         method: "POST", 
@@ -606,7 +605,7 @@ function saveForm(uid) {
             }
             else {
                 intermediateMsgElem(errMsg,resp.msg)
-                setTimeout(() => {window.location.reload()}, 1000)
+                setTimeout(() => {window.location = resp.path}, 1000)
             }    
         })
     })

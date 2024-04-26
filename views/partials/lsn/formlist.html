@@ -11,7 +11,7 @@
             <div class="row my-3 mx-1">
 
               <div class="col-2 mx-3 mt-4 list-group">
-                <a href="#" class="action list-group list-group-item active text-center" data-bs-toggle="modal" data-bs-target="#FormQRModal">
+                <a href="/admin/lsn/editform/-1?branch={{branch}}" class="action list-group list-group-item active text-center">
                 <span>יצירת טופס תגבור חדש</span></a>
               </div>
               <div class="col-lg mx-1 mt-4">
@@ -47,7 +47,7 @@
                   <td >                       
                     <img src="/img/ops/edit.png" class="ops-icon" onclick="editeForm('{{form.uid}}')" data-toggle="tooltip" data-placement="top" title="עריכת טופס"/>
                     {{#compare ../jwtUser.role '!==' 'TEACHER'}} 
-                      {{#compare form.active '!==' true}}
+                      {{#compare form.active '===' true}}
                         <img src="/img/ops/del-d.png" class="ops-icon" data-toggle="tooltip" data-placement="top" title="אי אפשר למחוק טופס פעיל  "/>
                       {{else}}
                         <img src="/img/ops/del.png" class="ops-icon" onclick="deleteForm('{{form.uid}}')" data-toggle="tooltip" data-placement="top" title="מחיקת טופס"/>

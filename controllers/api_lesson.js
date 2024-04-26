@@ -171,8 +171,9 @@ export function createLsnFormList(forms, group) {
         return {}
     var frms = []
     for (var i=0; i < forms.length; i++) {
-        var f = {uid: forms[i].uid, name: forms[i].name, active: forms[i].active, branchCode: forms[i].branch, branch: util.codeToBranch(forms[i].branch), date: util.getDateIL(forms[i].date),
-                group: forms[i].group, name: forms[i].name, qa: util.getQAFromForm(forms[i].qa), title: forms[i].title}
+        var dt = util.isValidValue(forms[i].date) ? util.getDateIL(forms[i].date) : ''
+        var f = {uid: forms[i].uid, name: forms[i].name, active: forms[i].active, branchCode: forms[i].branch, branch: util.codeToBranch(forms[i].branch), date: dt,
+                group: forms[i].group,qa: util.getQAFromForm(forms[i].qa), title: forms[i].title}
         if (group != null) {
             var g = getGroupFromArray(group,forms[i].group)
             if (g !== null)
@@ -181,6 +182,12 @@ export function createLsnFormList(forms, group) {
         frms.push(f)
     }
     return frms
+}
+
+export function createEmptyForm(branch) {
+    var f = {uid: "-1", name: "שם הטופס", active: false, branchCode: branch, branch: util.codeToBranch(branch), date: util.getDateIL(new Date()),
+        group: "", qa: [], title: "כותרת הטופס"}
+    return f
 }
 
 export async function getForm(uid) {
@@ -234,19 +241,30 @@ export function saveForm(req,res, jwt) {
         return res.status(500);
     }
 
-    var {uid, form, name, group, active, title} = req.body
+    var {uid, form, name, group, active, title, branch} = req.body
     active = (active == "true")
+    if (uid === "-1") { // new form
+        uid = util.getUniqueGameUID()
+    }
 
     if (form.length == 0) {
         return res.status(400).json({msg: strings.err.formFillAll})
+    }
+
+    if (jwt.role !== Roles.SUPERADMIN) {
+        if (branch !== jwt.branch) {
+            return res.status(400).json({msg: strings.err.formFillAll})
+        }
     }
 
     var filter = {
         uid
     }       
 
+    var date = new Date()
+
     var update = {
-        $set: {qa:form, name, group, active, title}
+        $set: {qa:form, name, group, active, title, branch, date}
     }
 
     const options = { 
