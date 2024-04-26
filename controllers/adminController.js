@@ -69,23 +69,27 @@ export async function renderAdmin(req, res, app, partial, jwtUser) {
          * within the admin framework
          */
         if (partial === undefined) {
-            partial = 'admin_th' // default - main entrance page
+            partial = 'th/admin_th' // default - main entrance page
+            data.section = "admin_th"
         }
+        else
+            partial = "th/" + partial
+
         data.title = strings.title.treasureAdmin
         /**
          * based on the requested admin page, we render 
          * differently
          */
 
-        if (partial === 'gamelist') {
+        if (partial === 'th/gamelist') {
             renderAdminGamelist(req, res, jwtUser, data)
             return
         }
-        if (partial === 'editgame') {
+        if (partial === 'th/editgame') {
             renderAdminGameEdit(req, res, jwtUser, data)
             return
         }
-        if (partial === 'gallery') {
+        if (partial === 'th/gallery') {
             renderAdminGallery(req, res, jwtUser, data)
             return
         }
@@ -96,12 +100,13 @@ export async function renderAdmin(req, res, app, partial, jwtUser) {
     }
     else if (app === "mng") {
         data.title = strings.title.admin       
+        partial = "mng/" + partial
         
-        if (partial === 'userlist') {
+        if (partial === 'mng/userlist') {
             renderAdminUserlist(req, res, jwtUser, data)
             return
         }
-        if (partial === 'brnch') {
+        if (partial === 'mng/brnch') {
             renderAdminBranches(req, res, jwtUser, data)
             return
         }
@@ -109,29 +114,34 @@ export async function renderAdmin(req, res, app, partial, jwtUser) {
     }
     else if (app === "lsn" && config.app.allowLessons) {
         data.title = strings.title.lessons
+        
         data.jsscript.push('/js/lesson.js')
 
         if (partial === undefined) {
-            partial = 'admin_lsn' // default - main entrance page
+            data.section = "lsn"
+            partial = 'lsn/admin_lsn' // default - main entrance page
+        }
+        else {
+            partial = "lsn/" + partial
         }
 
-        if (partial === 'lsnlist') {
+        if (partial === 'lsn/lsnlist') {
             lessonController.renderAdminLessonlist(req, res, jwtUser, data)
             return
         }
-        if (partial === 'grplist') {
+        if (partial === 'lsn/grplist') {
             lessonController.renderLessonGroupList(req, res, jwtUser, data)
             return
         }
-        if (partial === 'formlist') {
+        if (partial === 'lsn/formlist') {
             lessonController.renderAdminFormlist(req, res, jwtUser, data)
             return
         }
-        if (partial === 'editform') {
+        if (partial === 'lsn/editform') {
             lessonController.renderAdminEditForm(req, res, jwtUser, data)
             return
         }
-        if (partial === 'reglist') {
+        if (partial === 'lsn/reglist') {
             /*renderAdminUserlist(req, res, jwtUser, data)
             return*/
         }

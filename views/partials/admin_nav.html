@@ -70,7 +70,7 @@
           ><span><i class="fa fa-compass" aria-hidden="true"></i> ניהול המשחקים</span></a>
           </li>
           <li> <a href="/admin/th/gallery/{{jwtUser.branch}}" 
-            class="list-group-item list-group-item-action py-2 ripple {{#ifEquals section 'gallery' }} active {{/ifEquals}}"">
+            class="list-group-item list-group-item-action py-2 ripple {{#ifEquals section 'gallery' }} active {{/ifEquals}}">
             <span><i class="fa fa-picture-o" aria-hidden="true"></i> העלאת תמונות</span></a>
           </li>
       </ul>
@@ -78,17 +78,17 @@
       {{/compare}}
 
       {{#compare app '===' 'lsn'}}
-
+{{log section}}
       <ul class="sidebar-nav">
           <li class="sidebar-brand"> <a href="#"> שיעורי תגבור </a> </li>
             <li> <a
                 href="/admin/lsn"
-                class="list-group-item list-group-item-action py-2 ripple {{#ifEquals section 'admin_th' }} active {{/ifEquals}}"
+                class="list-group-item list-group-item-action py-2 ripple {{#ifEquals section 'lsn' }} active {{/ifEquals}}"
                 aria-current="true"
             ><span><i class="fa fa-info-circle" aria-hidden="true"></i> איך מתגברים</span></a>
           </li>
           <li> <a href="/admin/lsn/reglist/{{jwtUser.branch}}" 
-            class="list-group-item list-group-item-action py-2 ripple {{#ifEquals section 'reglist' }} active {{/ifEquals}}"">
+            class="list-group-item list-group-item-action py-2 ripple {{#ifEquals section 'reglist' }} active {{/ifEquals}}">
             <span><i class="fa fa-list-ol" aria-hidden="true"></i> רשומים לתגבור</span></a>
           </li>
           {{#compare jwtUser.role '!==' 'TEACHER'}}
@@ -99,11 +99,11 @@
           ><span><i class="fa fa-graduation-cap" aria-hidden="true"></i> ניהול שיעורים</span></a>
           </li>
           <li> <a href="/admin/lsn/formlist/{{jwtUser.branch}}" 
-            class="list-group-item list-group-item-action py-2 ripple {{#includes section ['formlist','formedit'] }} active {{/includes}}"">
+            class="list-group-item list-group-item-action py-2 ripple {{#includes section (toArray 'formlist' 'editform') }} active {{/includes}}">
             <span><i class="fa fa-check" aria-hidden="true"></i> טופס הרשמה</span></a>
           </li>
           <li> <a href="/admin/lsn/grplist/{{jwtUser.branch}}" 
-            class="list-group-item list-group-item-action py-2 ripple {{#ifEquals section 'grplist' }} active {{/ifEquals}}"">
+            class="list-group-item list-group-item-action py-2 ripple {{#ifEquals section 'grplist' }} active {{/ifEquals}}">
             <span><i class="fa fa-users" aria-hidden="true"></i> הגדרת קבוצות</span></a>
           </li>
           {{/compare}}
@@ -111,27 +111,24 @@
 
       {{/compare}}
       
-      {{#includes app (toArray "apps" "mng")}}
-
       {{#compare jwtUser.role '!==' 'TEACHER'}}
       <hr>
       <ul class="sidebar-nav">
         <li class="sidebar-brand"> <a href="#"> פעולות ניהול </a> </li>
         {{#compare jwtUser.role '!==' 'TEACHER'}}
         <li><a href="/admin/mng/userlist" 
-          class="list-group-item list-group-item-action py-2 ripple {{#ifEquals section 'userlist' }} active {{else}} {{#ifEquals section 'register' }} active {{/ifEquals}}{{/ifEquals}}"">
+          class="list-group-item list-group-item-action py-2 ripple {{#ifEquals section 'userlist' }} active {{else}} {{#ifEquals section 'register' }} active {{/ifEquals}}{{/ifEquals}}">
           <span><i class="fa fa-users" aria-hidden="true"></i> הגדרת המשתמשים</span></a></li>
         {{/compare}}
 
         {{#compare jwtUser.role '===' 'SUPER-ADMIN'}}
           <li><a href="/admin/mng/brnch" 
-          class="list-group-item list-group-item-action py-2 ripple {{#ifEquals section 'brnch' }} active {{/ifEquals}}"">
+          class="list-group-item list-group-item-action py-2 ripple {{#ifEquals section 'brnch' }} active {{/ifEquals}}">
           <span><i class="fa fa-home" aria-hidden="true"></i> הגדרת סניפים</span></a></li>
         {{/compare}}
       </ul>
       {{/compare}}
 
-      {{/includes}}
           
   </div> <!-- /#sidebar-wrapper -->
 

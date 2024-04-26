@@ -38,7 +38,7 @@
           {{#each data.users as |user userIndex|}}
           <tr>
             <td>
-              {{log ../data.groups}}
+
               <img src="/img/ops/plus2.png" class="ops-icon" onclick="addLessonGroup('{{user.username}}','{{userIndex}}','{{../data.groups}}')" data-toggle="tooltip" data-placement="top" title="הוספת קבוצה"/>                         
             </td>
             <td >{{user.name}}</td>
